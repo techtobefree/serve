@@ -1,3 +1,12 @@
+### Shipping
+`pnpm build`
+`pnpm sync`
+
+### Testing
+`pnpm dev`
+`pnpm dev:android`
+`pnpm dev:ios`
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
