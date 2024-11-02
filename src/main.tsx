@@ -1,7 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import { Routes } from '@generouted/react-router'
+import './index.css'
+import '@ionic/react/css/core.css';
+import { setupIonicReact } from '@ionic/react';
+
+setupIonicReact();
 
 const root = document.getElementById('root')
 if (!root) {

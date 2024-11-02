@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { IonButton } from '@ionic/react'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,9 +18,7 @@ function App() {
       </div>
       <h1>This is stuff</h1>
       <div className="card">
-        <button onClick={() => { setCount((count) => count + 1) }}>
-          count is {count}
-        </button>
+        <IonButton color="success" fill="solid" onClick={() => { setCount((count) => count + 1) }}>count is {count}</IonButton>
         <p>
           Edit <code>src/pages/index.tsx</code> and save to test HMR
         </p>
