@@ -9,11 +9,11 @@
     "dev:ios": "npx cap run ios",
     "open:android": "npx cap open android",
     "open:ios": "npx cap open ios",
-    "sync": "npx cap sync",
+    "sync": "pnpm build && npx cap sync",
     "build": "tsc -b && vite build",
     "build:android": "npx cap build android",
     "build:ios": "npx cap build ios",
-    "build:all": "pnpm build && pnpm sync && pnpm build:android && pnpm build:ios",
+    "build:all": "pnpm sync && pnpm build:android && pnpm build:ios",
     "lint": "eslint .",
     "preview": "vite preview"
   },
