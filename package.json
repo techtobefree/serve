@@ -7,6 +7,8 @@
     "dev": "vite",
     "dev:android": "npx cap run android",
     "dev:ios": "npx cap run ios",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios",
     "sync": "npx cap sync",
     "build": "tsc -b && vite build",
     "build:android": "npx cap build android",
