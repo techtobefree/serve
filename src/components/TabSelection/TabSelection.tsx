@@ -1,5 +1,5 @@
 import { home, people, add, search } from "ionicons/icons";
-import { TAB_SELECTION_HEIGHT } from "../../constants/Tabs";
+import { TAB_SELECTION_HEIGHT } from "../../constants/tabs";
 import TabButton from "./TabButton";
 import { useNavigate } from "react-router-dom";
 
