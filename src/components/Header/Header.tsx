@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useVisibleRef } from "../../hooks/useVisibleRef";
+import { HEADER_HEIGHT } from "../../constants/header";
 
-const HEADER_HEIGHT_CLASS = 'h-16';
+type Props = {
+  isVisible: boolean;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-export default function Header() {
-  const [isVisible, setIsVisible] = useState(true);
+export default function Header({ isVisible, setIsVisible }: Props) {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [ref, refIsVisible] = useVisibleRef();
 
@@ -27,14 +30,14 @@ export default function Header() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [lastScrollTop, refIsVisible]);
+  }, [lastScrollTop, refIsVisible, setIsVisible]);
 
   return (
     <>
-      <div className={`${HEADER_HEIGHT_CLASS} fixed top-0 left-0 right-0 bg-gray-800 text-white p-4 transition-transform duration-300 ease-in-out z-10 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <div className={`h-${HEADER_HEIGHT} fixed top-0 left-0 right-0 bg-gray-800 text-white p-4 transition-transform duration-300 ease-in-out z-10 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         Header
       </div>
-      <div className={HEADER_HEIGHT_CLASS} ref={ref}></div>
+      <div className={`h-${HEADER_HEIGHT}`} ref={ref}></div>
     </>
   )
 }
