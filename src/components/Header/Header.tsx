@@ -37,7 +37,7 @@ export default function Header({ isVisible, setIsVisible }: Props) {
       <div className={`h-${HEADER_HEIGHT} fixed top-0 left-0 right-0 bg-gray-800 text-white p-4 transition-transform duration-300 ease-in-out z-10 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         Header
       </div>
-      <div className={`h-${HEADER_HEIGHT}`} ref={ref}></div>
+      <div className={`h-${HEADER_HEIGHT}`} ref={ref}></div>{/* Use the space for the header at the top */}
     </>
   )
 }

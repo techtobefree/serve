@@ -10,10 +10,10 @@ export default function Layout() {
   return (
     <>
       <Header isVisible={headerIsVisible} setIsVisible={setHeaderIsVisible} />
-      <div className={`h-${TAB_SELECTION_HEIGHT} hidden md:block`}></div>
+      <div className={`h-${TAB_SELECTION_HEIGHT} hidden md:block`}></div>{/* Use the space for tabs at the top for md+ */}
       <Outlet />
       <TabSelection headerIsVisible={headerIsVisible} />
-      <div className={`${TAB_SELECTION_HEIGHT} md:hidden`}></div>
+      <div className={`h-${TAB_SELECTION_HEIGHT} md:hidden`}></div>{/* Use the space for tabs at the bottom for <md */}
     </>
   )
 }
