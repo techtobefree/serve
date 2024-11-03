@@ -11,6 +11,53 @@ function App() {
         <IonButton color="success" fill="solid" onClick={() => { setCount((count) => count + 1) }}>count is {count}</IonButton>
         <p>
           Edit <code>src/pages/index.tsx</code> and save to test HMR
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          More stuff
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          More stuff
+          <br />
+          <br />
+          <br />
+          <br />
+          More stuff
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          More stuff
         </p>
       </div>
       <p className="read-the-docs">
