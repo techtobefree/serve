@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IonButton, IonIcon } from "@ionic/react";
+import { IonIcon } from "@ionic/react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -19,11 +19,11 @@ export default function TabButton({ path, icon, activeIcon, onClick }: Props) {
   const isActive = checkIfActive(location, path)
 
   return (
-    <IonButton
-      className={`flex-1 ${isActive ? 'text-blue-500' : 'black'}`}
+    <div
+      className={`flex flex-1 ${isActive ? 'text-white' : 'text-blue-500'} p-4 cursor-pointer`}
       onClick={onClick ? onClick : () => { navigate(path, { replace: true }) }}
     >
-      <IonIcon icon={isActive ? activeIcon : icon} />
-    </IonButton>
+      <IonIcon className="w-full h-full" icon={isActive ? activeIcon : icon} />
+    </div>
   )
 }
