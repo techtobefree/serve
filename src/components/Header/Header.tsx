@@ -4,6 +4,7 @@ import { useVisibleRef } from "../../hooks/useVisibleRef";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { IonIcon } from "@ionic/react";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
+import { useModals } from '../../router'
 
 type Props = {
   isVisible: boolean;
@@ -13,6 +14,7 @@ type Props = {
 export default function Header({ isVisible, setIsVisible }: Props) {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [ref, refIsVisible] = useVisibleRef();
+  const modals = useModals()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,19 +39,19 @@ export default function Header({ isVisible, setIsVisible }: Props) {
 
   return (
     <>
-      <div className={`h-${HEADER_HEIGHT} fixed ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? 'top-16' : 'top-0'} left-0 right-0 bg-gray-800 text-white transition-transform duration-300 ease-in-out z-10 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <div className={`h-${HEADER_HEIGHT} fixed inset-0 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? 'top-16' : 'top-0'} left-0 right-0 bg-gray-800 text-white transition-transform duration-300 ease-in-out z-10 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className='flex justify-between items-center'>
-          <div className={`h-${HEADER_HEIGHT} flex w-20 justify-center items-center cursor-pointer text-blue-500`}>
+          <div className={`h-${HEADER_HEIGHT} flex w-20 justify-center items-center cursor-pointer text-blue-500`} onClick={() => { modals.open('/profile') }}>
             <IonIcon icon={personOutline} className='text-2xl' />
           </div>
           <div>Serve 2 Free {DEVICE.PLATFORM}</div>
-          <div className={`h-${HEADER_HEIGHT} flex w-${HEADER_HEIGHT} justify-center items-center cursor-pointer text-blue-500`}>
+          <div className={`h-${HEADER_HEIGHT} flex w-${HEADER_HEIGHT} justify-center items-center cursor-pointer text-blue-500`} onClick={() => { modals.open('/menu') }}>
             <IonIcon icon={menuOutline} className='text-2xl' />
           </div>
         </div>
       </div>
-      <div className={`h-${HEADER_HEIGHT} bg-gray-800`} ref={ref}></div>{/* Use the space for the header at the top */}
-      <div className={`h-${HEADER_HEIGHT} bg-gray-800 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? '' : 'hidden'}`}></div>{/* Use the space for the header at the top */}
+      <div className={`h-${HEADER_HEIGHT} w-fit bg-gray-800`} ref={ref}></div>{/* Use the space for the header at the top */}
+      <div className={`h-${HEADER_HEIGHT} w-fit bg-gray-800 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? '' : 'hidden'}`}></div>{/* Use the space for the header at the top */}
     </>
   )
 }

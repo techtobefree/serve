@@ -13,7 +13,7 @@ export type Params = {
   
 }
 
-export type ModalPath = never
+export type ModalPath = `/menu` | `/profile`
 
 export const { Link, Navigate } = components<Path, Params>()
 export const { useModals, useNavigate, useParams } = hooks<Path, Params, ModalPath>()
