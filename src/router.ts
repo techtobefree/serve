@@ -8,9 +8,14 @@ export type Path =
   | `/Groups`
   | `/Messages`
   | `/Projects`
+  | `/group/:groupId/detail`
+  | `/project/:projectId/detail`
+  | `/user/:userId/detail`
 
 export type Params = {
-  
+  '/group/:groupId/detail': { groupId: string }
+  '/project/:projectId/detail': { projectId: string }
+  '/user/:userId/detail': { userId: string }
 }
 
 export type ModalPath = `/menu` | `/profile`

@@ -5,7 +5,7 @@ export const DEVICE: {
 } = {};
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-Device.getInfo().then((deviceInfo) => {
+void Device.getInfo().then((deviceInfo) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   DEVICE.PLATFORM = deviceInfo.platform as DEVICE_TYPE;
 });

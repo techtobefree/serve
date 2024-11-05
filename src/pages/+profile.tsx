@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "../router"
 import { IonIcon } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
+import ProfileModalContent from "../components/ProfileModalContent/ProfileModalContent";
 
-export default function Self() {
+export default function Profile() {
   const navigate = useNavigate();
   const [isOpen, setOpen] = useState(false)
 
@@ -36,11 +37,7 @@ export default function Self() {
           <IonIcon className="text-4xl" icon={closeOutline} />
         </button>
 
-        {/* Modal Header */}
-        <h2 className="text-lg font-semibold p-6 border-b border-gray-200">Profile</h2>
-
-        {/* Modal Body */}
-        <div className="p-6 text-gray-700">Other stuff</div>
+        <ProfileModalContent />
       </div>
     </div>
   )

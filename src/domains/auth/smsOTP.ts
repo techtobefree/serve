@@ -1,4 +1,5 @@
 import { supabase } from "../db/supabaseClient";
+import { onLogin } from "./currentUser";
 
 export async function requestOTP(phoneNumber: string) {
   const { error } = await supabase.auth.signInWithOtp({ phone: phoneNumber });
@@ -18,7 +19,9 @@ export async function verifyOTP(phoneNumber: string, otp: string) {
 
   if (error) {
     console.error("Error verifying OTP:", error.message);
+    onLogin()
   } else {
     console.log("Logged in successfully!", data);
+    onLogin(data.session)
   }
 }
