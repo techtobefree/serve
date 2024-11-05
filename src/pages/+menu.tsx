@@ -27,7 +27,7 @@ export default function Menu() {
 
       {/* Modal Content */}
       <div
-        className={`fixed overflow-auto right-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed overflow-auto right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Close Button */}
         <button

@@ -6,7 +6,7 @@ import { IonIcon } from "@ionic/react";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { useModals } from '../../router'
 import { observer } from "mobx-react-lite";
-import { currentUserStore } from "../../domains/auth/currentUser";
+import { sessionStore } from "../../domains/auth/sessionStore";
 
 type Props = {
   handle?: string;
@@ -61,7 +61,7 @@ export function HeaderComponent({ avatarUrl, handle, isVisible, setIsVisible }: 
 }
 
 const Header = observer((props: Omit<Props, 'handle' | 'avatarUrl'>) => {
-  return <HeaderComponent {...props} handle={currentUserStore.handle} avatarUrl={currentUserStore.avatarUrl} />
+  return <HeaderComponent {...props} handle={sessionStore.current?.user.id} avatarUrl={sessionStore.current?.user.id} />
 });
 
 export default Header;

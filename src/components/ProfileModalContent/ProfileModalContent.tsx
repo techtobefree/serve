@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
-import { currentUserStore } from "../../domains/auth/currentUser";
+import { sessionStore } from "../../domains/auth/sessionStore";
 import Login from "./Login";
+import LoggedIn from "./LoggedIn";
 
 type Props = {
   isLoggedIn: boolean;
@@ -16,14 +17,15 @@ export function ProfileModalContentComponent({ isLoggedIn, handle }: Props) {
 
       {/* Modal Body */}
       {!isLoggedIn && <Login />}
-      {isLoggedIn && <div className="p-6 text-gray-700">Other stuff</div>}
+      {isLoggedIn && <LoggedIn />}
     </>
   )
 }
 
 const ProfileModalContent = observer(() => {
-  const { handle, loggedIn } = currentUserStore;
-  return <ProfileModalContentComponent isLoggedIn={loggedIn} handle={handle} />
+  const { current } = sessionStore;
+
+  return <ProfileModalContentComponent isLoggedIn={!!current} handle={current?.user.id} />
 });
 
 export default ProfileModalContent;
