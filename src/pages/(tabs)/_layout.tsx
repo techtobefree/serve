@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Header from '../../components/Header/Header'
 import TabSelection from '../../components/TabSelection/TabSelection'
-import { TAB_SELECTION_HEIGHT } from '../../constants/tabs'
+import { TAB_SELECTION_HEIGHT } from '../../domains/ui/tabs'
 import { useState } from 'react';
 
 export default function Layout() {

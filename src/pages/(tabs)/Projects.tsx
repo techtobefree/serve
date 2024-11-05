@@ -5,6 +5,8 @@ export default function Projects() {
   const [count, setCount] = useState(0)
 
   return (
-    <IonButton color="success" fill="solid" onClick={() => { setCount((count) => count + 1) }}>count is {count}</IonButton>
+    <div style={{ backgroundColor: 'red' }}>
+      <IonButton color="success" fill="solid" onClick={() => { setCount((count) => count + 1) }}>count is {count}</IonButton>
+    </div>
   )
 }

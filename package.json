@@ -16,14 +16,20 @@
     "build:all": "pnpm sync && pnpm build:android && pnpm build:ios",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:pwa": "pwa-assets-generator --preset minimal-2023 public/logo.svg"
+    "generate:pwa-assets": "pwa-assets-generator --preset minimal-2023 public/logo.svg",
+    "db:new": "npx supabase migration new",
+    "db:start": "npx supabase start",
+    "db:push": "npx supabase db push",
+    "db:reset": "npx supabase db reset"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",
     "@capacitor/core": "^6.1.2",
+    "@capacitor/device": "^6.0.1",
     "@capacitor/ios": "^6.1.2",
     "@generouted/react-router": "^1.19.8",
     "@ionic/react": "^8.3.4",
+    "@supabase/supabase-js": "^2.46.1",
     "ionicons": "^7.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
