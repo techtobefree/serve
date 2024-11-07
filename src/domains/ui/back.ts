@@ -15,8 +15,8 @@ export function back(navigate: ReturnType<typeof useNavigate>) {
     navigate(destination)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  if (navigationEntries.length > 1 && navigationEntries[navigationEntries.length - 1].url.contains('serve')) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+  if (navigationEntries.length > 1 && /serve/.test(navigationEntries[navigationEntries.length - 1].url)) {
     // TODO enhance check to use ENV variable
     destination = '/projects'
   }

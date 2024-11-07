@@ -17,7 +17,7 @@ export default function ProjectCard({ project }: Props) {
 
       <div className="p-4 flex-1 items-end flex">
         <div className="flex-col h-full flex-1 flex">
-          <h2 className="text-xl font-semibold text-gray-800 whitespace-nowrap text-ellipsis">{project.name}</h2>
+          <h2 className="max-w-[150px] text-xl font-semibold text-gray-800 whitespace-nowrap text-ellipsis">{project.name}</h2>
           <p className="text-gray-600 mt-2 overflow-hidden text-ellipsis line-clamp-3">{project.description}</p>
         </div>
         <button className="px-4 py-2 bg-blue-500 text-white rounded-md"

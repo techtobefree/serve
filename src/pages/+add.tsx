@@ -25,9 +25,9 @@ export default function Add() {
 
       {/* Modal Content */}
       <div
-        className={`fixed flex justify-center overflow-auto left-0 bottom-16 w-full shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
+        className={`pointer-events-none fixed flex justify-center overflow-auto left-0 bottom-16 w-full shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
-        <div className='rounded bg-white flex flex-col gap-4 p-4'>
+        <div className='rounded bg-white flex flex-col gap-4 p-4 pointer-events-auto'>
           <IonButton onClick={() => { navigate(-1) }}>Give Service</IonButton>
           <IonButton>Create a Project</IonButton>
         </div>
