@@ -5,21 +5,22 @@ import { components, hooks, utils } from "@generouted/react-router/client";
 
 export type Path =
   | `/`
-  | `/group/:groupId/detail`
+  | `/group/:groupId/view`
   | `/groups`
   | `/messages`
-  | `/project/:projectId/detail`
   | `/project/:projectId/edit`
   | `/project/:projectId/join`
+  | `/project/:projectId/view`
+  | `/project/new`
   | `/projects`
-  | `/user/:userId/detail`;
+  | `/user/:userId/view`;
 
 export type Params = {
-  "/group/:groupId/detail": { groupId: string };
-  "/project/:projectId/detail": { projectId: string };
+  "/group/:groupId/view": { groupId: string };
   "/project/:projectId/edit": { projectId: string };
   "/project/:projectId/join": { projectId: string };
-  "/user/:userId/detail": { userId: string };
+  "/project/:projectId/view": { projectId: string };
+  "/user/:userId/view": { userId: string };
 };
 
 export type ModalPath = `/add` | `/menu` | `/profile`;

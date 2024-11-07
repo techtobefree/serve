@@ -10,7 +10,7 @@ export default function ProjectCard({ project }: Props) {
 
   return (
     <div className="h-32 w-full bg-white rounded-2xl shadow-lg overflow-hidden flex justify-center cursor-pointer"
-      onClick={() => { navigate('/project/:projectId/detail', { params: { projectId: project.id } }) }}>
+      onClick={() => { navigate('/project/:projectId/view', { params: { projectId: project.id } }) }}>
       <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}
         alt="Placeholder"
         className="w-1/3 object-cover" />
