@@ -1,7 +1,7 @@
 import { IonIcon } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "../../router";
 
 export function MenuModalContentComponent() {
   const navigate = useNavigate();

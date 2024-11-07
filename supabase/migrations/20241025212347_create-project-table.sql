@@ -4,6 +4,7 @@ CREATE TABLE public.project (
   admin_id uuid NOT NULL,
   name text NOT NULL,
   description text,
+  image_url text,
   unlisted boolean DEFAULT false,
   lead_by uuid,
   created_at timestamp with time zone DEFAULT now(),

@@ -4,8 +4,11 @@ import { Routes } from '@generouted/react-router'
 import './index.css'
 import '@ionic/react/css/core.css';
 import { setupIonicReact } from '@ionic/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 setupIonicReact();
+
+const queryClient = new QueryClient();
 
 const root = document.getElementById('root')
 if (!root) {
@@ -13,6 +16,8 @@ if (!root) {
 }
 createRoot(root).render(
   <StrictMode>
-    <Routes />
+    <QueryClientProvider client={queryClient}>
+      <Routes />
+    </QueryClientProvider>
   </StrictMode>,
 )

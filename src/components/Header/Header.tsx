@@ -43,19 +43,27 @@ export function HeaderComponent({ isVisible, setIsVisible }: Props) {
 
   return (
     <>
-      <div className={`h-${HEADER_HEIGHT} fixed inset-0 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? 'top-16' : 'top-0'} left-0 right-0 bg-gray-800 text-white transition-transform duration-300 ease-in-out z-10 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <div className={
+        `h-${HEADER_HEIGHT} fixed inset-0 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? 'top-16' : 'top-0'}
+        left-0 right-0 bg-gray-800 text-white transition-transform duration-300 ease-in-out z-10
+        ${isVisible ? 'translate-y-0' : '-translate-y-full'}`
+      }>
         <div className='flex justify-between items-center'>
-          <div className={`h-${HEADER_HEIGHT} flex w-20 justify-center items-center cursor-pointer text-blue-500`} onClick={() => { modals.open('/profile') }}>
+          <div className={`h-${HEADER_HEIGHT} flex w-20 justify-center items-center cursor-pointer text-blue-500`}
+            onClick={() => { modals.open('/profile') }}>
             <IonIcon icon={personCircle} className='text-3xl' />
           </div>
           <div>Serve 2 Free</div>
-          <div className={`h-${HEADER_HEIGHT} flex w-${HEADER_HEIGHT} justify-center items-center cursor-pointer text-blue-500`} onClick={() => { modals.open('/menu') }}>
+          <div className={`h-${HEADER_HEIGHT} flex w-${HEADER_HEIGHT} justify-center items-center cursor-pointer text-blue-500`}
+            onClick={() => { modals.open('/menu') }}>
             <IonIcon icon={menuOutline} className='text-3xl' />
           </div>
         </div>
       </div>
-      <div className={`h-${HEADER_HEIGHT} w-fit bg-gray-800`} ref={ref}></div>{/* Use the space for the header at the top */}
-      <div className={`h-${HEADER_HEIGHT} w-fit bg-gray-800 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? '' : 'hidden'}`}></div>{/* Use the space for the header at the top */}
+      {/* Use the space for the header at the top */}
+      <div className={`h-${HEADER_HEIGHT} w-fit bg-gray-800`} ref={ref}></div>
+      {/* Use the space for the header at the top */}
+      <div className={`h-${HEADER_HEIGHT} w-fit bg-gray-800 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? '' : 'hidden'}`}></div>
     </>
   )
 }

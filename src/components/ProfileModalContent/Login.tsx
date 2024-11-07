@@ -3,7 +3,7 @@ import { useState } from "react";
 import { requestOTP, verifyOTP } from "../../domains/auth/smsOTP";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useCountdown } from "../../hooks/useCountdown";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "../../router";
 import { closeOutline } from "ionicons/icons";
 
 const LOCAL_STORAGE_PHONE_KEY = 'login-phone';

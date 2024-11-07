@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import react from 'eslint-plugin-react'
 
 export default tseslint.config(
-  { ignores: ['dist', 'capacitor.config.ts', 'android', 'ios'] },
+  { ignores: ['dist', 'capacitor.config.ts', 'android', 'ios', 'src/domains/db/supabaseTypes.ts'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.strictTypeChecked],
     files: ['**/*.{ts,tsx}'],

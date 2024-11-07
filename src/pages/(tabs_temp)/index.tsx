@@ -1,12 +1,10 @@
-import { IonButton } from "@ionic/react"
-import { useState } from "react"
+import DebugAuth from "../../components/DebugAuth";
 
-export default function Projects() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <div>
-      <IonButton color="success" fill="solid" onClick={() => { setCount((count) => count + 1) }}>count is {count}</IonButton>
+    <>
+      <h1>This is stuff</h1>
+      <DebugAuth />
       <div className="card">
         <p>
           Edit <code>src/pages/index.tsx</code> and save to test HMR
@@ -59,6 +57,9 @@ export default function Projects() {
           More stuff
         </p>
       </div>
-    </div>
+      <p>
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
   )
 }
