@@ -5,19 +5,15 @@ import LoggedIn from "./LoggedIn";
 
 type Props = {
   isLoggedIn: boolean;
-  handle?: string;
+  handle: string;
 }
 
 export function ProfileModalContentComponent({ isLoggedIn, handle }: Props) {
+
   return (
     <>
-      {/* Modal Header */}
-      {!isLoggedIn && <h2 className="text-lg font-semibold p-6 border-b border-gray-200">Not logged in</h2>}
-      {isLoggedIn && <h2 className="text-lg font-semibold p-6 border-b border-gray-200">{handle}</h2>}
-
-      {/* Modal Body */}
       {!isLoggedIn && <Login />}
-      {isLoggedIn && <LoggedIn />}
+      {isLoggedIn && <LoggedIn handle={handle} />}
     </>
   )
 }
@@ -25,7 +21,7 @@ export function ProfileModalContentComponent({ isLoggedIn, handle }: Props) {
 const ProfileModalContent = observer(() => {
   const { current } = sessionStore;
 
-  return <ProfileModalContentComponent isLoggedIn={!!current} handle={current?.user.id} />
+  return <ProfileModalContentComponent isLoggedIn={!!current} handle={'No handle'} />
 });
 
 export default ProfileModalContent;

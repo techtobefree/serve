@@ -9,7 +9,7 @@ export async function requestOTP(phoneNumber: string) {
   }
 }
 
-export async function verifyOTP(phoneNumber: string, otp: string) {
+export async function verifyOTP(phoneNumber: string, otp: string, onError: () => void) {
   const { data, error } = await supabase.auth.verifyOtp({
     phone: phoneNumber,
     token: otp,
@@ -18,7 +18,18 @@ export async function verifyOTP(phoneNumber: string, otp: string) {
 
   if (error) {
     console.error("Error verifying OTP:", error.message);
+    onError();
   } else {
     console.log("Logged in successfully!", data);
+  }
+}
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut()
+
+  if (error) {
+    console.error("Error logging out:", error.message);
+  } else {
+    console.log("Logged out successfully!");
   }
 }

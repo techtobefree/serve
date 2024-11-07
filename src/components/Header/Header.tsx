@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { menuOutline, personOutline } from "ionicons/icons";
+import { menuOutline, personCircle } from "ionicons/icons";
 import { useVisibleRef } from "../../hooks/useVisibleRef";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { IonIcon } from "@ionic/react";
@@ -15,7 +15,7 @@ type Props = {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function HeaderComponent({ avatarUrl, handle, isVisible, setIsVisible }: Props) {
+export function HeaderComponent({ isVisible, setIsVisible }: Props) {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [ref, refIsVisible] = useVisibleRef();
   const modals = useModals()
@@ -46,11 +46,11 @@ export function HeaderComponent({ avatarUrl, handle, isVisible, setIsVisible }: 
       <div className={`h-${HEADER_HEIGHT} fixed inset-0 ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? 'top-16' : 'top-0'} left-0 right-0 bg-gray-800 text-white transition-transform duration-300 ease-in-out z-10 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className='flex justify-between items-center'>
           <div className={`h-${HEADER_HEIGHT} flex w-20 justify-center items-center cursor-pointer text-blue-500`} onClick={() => { modals.open('/profile') }}>
-            {avatarUrl}{handle}<IonIcon icon={personOutline} className='text-2xl' />
+            <IonIcon icon={personCircle} className='text-3xl' />
           </div>
           <div>Serve 2 Free</div>
           <div className={`h-${HEADER_HEIGHT} flex w-${HEADER_HEIGHT} justify-center items-center cursor-pointer text-blue-500`} onClick={() => { modals.open('/menu') }}>
-            <IonIcon icon={menuOutline} className='text-2xl' />
+            <IonIcon icon={menuOutline} className='text-3xl' />
           </div>
         </div>
       </div>
