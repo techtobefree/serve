@@ -25,9 +25,11 @@ export default function Add() {
 
       {/* Modal Content */}
       <div
-        className={`pointer-events-none fixed flex justify-center overflow-auto left-0 bottom-16 w-full shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
+        className={`pointer-events-none fixed flex justify-center items-end md:items-start overflow-auto
+          left-0 top-0 h-full w-full transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-y-0' : 'translate-y-full md:-translate-y-full'}`}
       >
-        <div className='rounded bg-white flex flex-col gap-4 p-4 pointer-events-auto'>
+        <div className='rounded bg-white flex flex-col gap-4 p-4 pointer-events-auto h-fit m-16'>
           <IonButton onClick={() => { navigate(-1) }}>Give Service</IonButton>
           <IonButton onClick={() => { navigate('/project/new') }}>Create a Project</IonButton>
         </div>

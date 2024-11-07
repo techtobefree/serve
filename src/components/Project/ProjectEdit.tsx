@@ -1,38 +1,97 @@
-import { IonButton, IonIcon } from "@ionic/react"
-import { saveOutline } from "ionicons/icons"
-import { TableInsert } from "../../domains/db/tables"
-import { useNavigate } from "../../router"
+import { useForm } from '@tanstack/react-form';
+import { IonButton, IonInput, IonItem, IonTextarea } from '@ionic/react';
+import { supabase } from '../../domains/db/supabaseClient';
+import { TableInsert } from '../../domains/db/tables';
 
 type Props = {
   project: TableInsert['project']
 }
 
-export default function ProjectEdit({ project }: Props) {
-  const navigate = useNavigate();
-  const goBack = () => {
-    if (project.id) {
-      navigate('/project/:projectId/view', { params: { projectId: project.id }, replace: true })
-    } else {
-      navigate(-1)
+const ProjectForm = ({ project }: Props) => {
+  const form = useForm({
+    defaultValues: {
+      name: project.name,
+      description: project.description || '',
+      image_url: project.image_url || '',
+      admin_id: project.admin_id || '',
+    },
+    onSubmit: async ({ value }) => {
+      if (!value.name || !value.description) {
+        alert('Name and Description are required');
+        return;
+      }
+
+      let res;
+      if (project.id) {
+        res = await supabase
+          .from('project')
+          .update({ ...value });
+      } else {
+        res = await supabase
+          .from('project')
+          .insert({ created_by: project.created_by, ...value });
+      }
+
+      if (res.error) {
+        console.error(res.error);
+        alert('Failed to save project');
+      } else {
+        alert('Project created successfully');
+        // Reset the form after successful submission
+        form.reset();
+      }
+
     }
-  }
+  });
 
   return (
-    <div>
-      <div className="flex justify-between m-2">
-        <div className="text-3xl">{project.name}</div>
-      </div>
-
-      <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}
-        alt="Placeholder"
-        className="w-1/3 object-cover" />
-
-      <div>{project.description}</div>
-
-      {/* TODO floating action button */}
-      <IonButton>
-        <IonIcon className='cursor-pointer text-2xl' icon={saveOutline} onClick={() => { goBack() }} />
+    <form onSubmit={() => { void form.handleSubmit() }}>
+      <form.Field name='name'>
+        {(field) => (
+          <IonItem>
+            <IonInput label='Name'
+              value={field.state.value}
+              onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
+            />
+          </IonItem>
+        )}
+      </form.Field>
+      <form.Field name='image_url'>
+        {(field) => (
+          <IonItem>
+            <IonInput label='Image URL'
+              value={field.state.value}
+              onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
+            />
+          </IonItem>
+        )}
+      </form.Field>
+      <form.Field name='admin_id'>
+        {(field) => (
+          <IonItem>
+            <IonInput label='Admin'
+              value={field.state.value}
+              onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
+            />
+          </IonItem>
+        )}
+      </form.Field>
+      <form.Field name='description'>
+        {(field) => (
+          <IonItem>
+            <IonTextarea label='Description'
+              value={field.state.value}
+              onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
+              rows={4}
+            />
+          </IonItem>
+        )}
+      </form.Field>
+      <IonButton type="submit" expand="block" color="primary">
+        Save
       </IonButton>
-    </div>
-  )
-}
+    </form>
+  );
+};
+
+export default ProjectForm;

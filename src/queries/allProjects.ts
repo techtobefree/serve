@@ -6,14 +6,15 @@ export function useAllProjectsQuery() {
     queryKey: ['all-projects'],
     queryFn: async () => {
       const { data, error } = await supabase
-      .from('project')
-      .select('*');
+        .from('project')
+        .select('*')
+        .eq('unlisted', false);
 
-    if (error) {
-      throw new Error(error.message);
-    }
+      if (error) {
+        throw new Error(error.message);
+      }
 
-    return data;
+      return data;
     }
   })
 }
