@@ -1,7 +1,7 @@
 import { IonButton, IonIcon } from "@ionic/react";
 import { useProjectByIdQuery } from "../../../../queries/projectById"
 import { useNavigate, useParams } from "../../../../router"
-import { saveOutline } from "ionicons/icons";
+import { arrowBack, saveOutline } from "ionicons/icons";
 
 export default function ProjectDetail() {
   const { projectId } = useParams('/project/:projectId/detail');
@@ -14,7 +14,9 @@ export default function ProjectDetail() {
 
   return (
     <div>
-      <div></div>
+      <div>
+        <IonIcon className='cursor-pointer text-4xl' icon={arrowBack} onClick={() => { navigate('/project/:projectId/detail', { params: { projectId }, replace: true }) }} />
+      </div>
       <div className="flex justify-between m-2">
         <div className="text-3xl">{project.name}</div>
       </div>

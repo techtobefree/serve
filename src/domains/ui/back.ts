@@ -11,7 +11,8 @@ export function back(navigate: ReturnType<typeof useNavigate>) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const navigationEntries = navigation.entries();
 
-  if (!navigationEntries) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (!navigationEntries || !navigationEntries[navigationEntries.length - 1].url) {
     navigate(destination)
   }
 
