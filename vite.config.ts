@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), generouted(), VitePWA({
     registerType: 'prompt',
     manifest: {
-      name: 'Serve2Free',
+      name: 'Serve2free',
       short_name: 'Serve2F',
       description: 'Celebrating service',
       theme_color: '#3f6788',

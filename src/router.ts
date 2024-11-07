@@ -1,7 +1,7 @@
 // Generouted, changes to this file will be overriden
 /* eslint-disable */
 
-import { components, hooks, utils } from '@generouted/react-router/client'
+import { components, hooks, utils } from "@generouted/react-router/client";
 
 export type Path =
   | `/`
@@ -12,18 +12,22 @@ export type Path =
   | `/project/:projectId/edit`
   | `/project/:projectId/join`
   | `/projects`
-  | `/user/:userId/detail`
+  | `/user/:userId/detail`;
 
 export type Params = {
-  '/group/:groupId/detail': { groupId: string }
-  '/project/:projectId/detail': { projectId: string }
-  '/project/:projectId/edit': { projectId: string }
-  '/project/:projectId/join': { projectId: string }
-  '/user/:userId/detail': { userId: string }
-}
+  "/group/:groupId/detail": { groupId: string };
+  "/project/:projectId/detail": { projectId: string };
+  "/project/:projectId/edit": { projectId: string };
+  "/project/:projectId/join": { projectId: string };
+  "/user/:userId/detail": { userId: string };
+};
 
-export type ModalPath = `/add` | `/menu` | `/profile`
+export type ModalPath = `/add` | `/menu` | `/profile`;
 
-export const { Link, Navigate } = components<Path, Params>()
-export const { useModals, useNavigate, useParams } = hooks<Path, Params, ModalPath>()
-export const { redirect } = utils<Path, Params>()
+export const { Link, Navigate } = components<Path, Params>();
+export const { useModals, useNavigate, useParams } = hooks<
+  Path,
+  Params,
+  ModalPath
+>();
+export const { redirect } = utils<Path, Params>();

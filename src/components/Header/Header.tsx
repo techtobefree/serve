@@ -53,7 +53,7 @@ export function HeaderComponent({ isVisible, setIsVisible }: Props) {
             onClick={() => { modals.open('/profile') }}>
             <IonIcon icon={personCircle} className='text-3xl' />
           </div>
-          <div>Serve 2 Free</div>
+          <div>Serve 2 free</div>
           <div className={`h-${HEADER_HEIGHT} flex w-${HEADER_HEIGHT} justify-center items-center cursor-pointer text-blue-500`}
             onClick={() => { modals.open('/menu') }}>
             <IonIcon icon={menuOutline} className='text-3xl' />

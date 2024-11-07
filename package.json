@@ -21,7 +21,8 @@
     "db:start": "npx supabase start",
     "db:push": "npx supabase db push",
     "db:reset": "npx supabase db reset && pnpm db:types",
-    "db:types": "npx supabase gen types typescript --schema public > src/domains/db/supabaseTypes.ts --local"
+    "db:types": "npx supabase gen types typescript --schema public > src/domains/db/supabaseTypes.ts --local",
+    "icon:gen": "npx @capacitor/assets generate --iconBackgroundColor '#eeeeee' --iconBackgroundColorDark '#222222' --splashBackgroundColor '#eeeeee' --splashBackgroundColorDark '#111111'"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",
@@ -42,6 +43,7 @@
     "uuid": "^11.0.2"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^6.1.2",
     "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.12",
