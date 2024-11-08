@@ -24,24 +24,27 @@ export default function Login() {
 
   const [remainder] = useCountdown(nextCodeAvailableTimeMS);
   const [phoneInfo, setPhoneInfo] = useState("");
-  const isError = phone.length < 10;
+  const isError = phone.length < 10 || phone.length > 11;
 
   const [otpCode, setCode] = useState("");
   const [otpVerifyWait, waitToReverify] = useCountdown();
   const [otpError, setOtpError] = useState("");
 
   const handlePhoneInputChange = (input: string) => {
+    const newValue = input.replace(/[^\d]/g, '').slice(0, 12)
     // Allow only digits and restrict length to 11 characters
-    if (/^\d{0,11}$/.test(input)) {
-      setPhone(input);
-      localStorage.setItem(LOCAL_STORAGE_PHONE_KEY, input)
+    if (newValue !== phone) {
+      setPhone(newValue);
+      localStorage.setItem(LOCAL_STORAGE_PHONE_KEY, newValue)
       let info = '';
-      if (input.length < 10) {
+      if (newValue.length < 10) {
         info = "Phone number must be 10 digits"
-      } else if (input.length === 11) {
-        info = `Using country code (${input.slice(0, 1)})`
-      } else {
+      } else if (newValue.length === 10) {
         info = `Using country code (1)`
+      } else if (newValue.length === 11) {
+        info = `Using country code (${newValue.slice(0, 1)})`
+      } else {
+        info = "Phone number is at most 11 digits"
       }
       setPhoneInfo(info);
     }
@@ -52,7 +55,7 @@ export default function Login() {
     if (/^\d{0,6}$/.test(input)) {
       setCode(input);
       if (input.length === 6) {
-        verifyAndDelayReverifyOTP(phone, otpCode)
+        verifyAndDelayReverifyOTP(phone, input)
       }
     }
   };

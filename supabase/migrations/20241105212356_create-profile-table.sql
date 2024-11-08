@@ -21,25 +21,19 @@ CREATE POLICY "read_profile" ON public.profile
 CREATE POLICY "insert_own_or_admin_profile" ON public.profile
   FOR INSERT
   WITH CHECK (
-    (select auth.jwt()) ->> 'profile_id' = id::text
-    OR
-    (select auth.jwt()) ->> 'role' = 'admin'
+    auth.uid() = user_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "update_own_or_admin_profile" ON public.profile
   FOR UPDATE
   USING (
-    (select auth.jwt()) ->> 'profile_id' = id::text
-    OR
-    (select auth.jwt()) ->> 'role' = 'admin'
+    auth.uid() = user_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "delete_own_or_admin_profile" ON public.profile
   FOR DELETE
   USING (
-    (select auth.jwt()) ->> 'profile_id' = id::text
-    OR
-    (select auth.jwt()) ->> 'role' = 'admin'
+    auth.uid() = user_id OR (auth.role() = 'admin')
   );
 
 -- Create an index on the handle column for better performance

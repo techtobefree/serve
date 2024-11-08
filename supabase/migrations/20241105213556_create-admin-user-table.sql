@@ -16,7 +16,7 @@ ALTER TABLE public.admin_user ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "read_own_admin_user" ON public.admin_user
   FOR SELECT
   USING (
-    (select auth.jwt()) ->> 'user_id' = user_id::text
+    auth.uid() = user_id
   );
 
 -- Create an index on the user_id column for better performance

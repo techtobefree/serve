@@ -24,32 +24,26 @@ CREATE POLICY "read_non_unlisted_project" ON public.project
     -- TODO: should only be able to see if you are in the project, or it is not unlisted
     -- unlisted = false
     -- OR
-    -- (select auth.jwt()) ->> 'user_id' = admin_id::text
+    -- auth.uid() = admin_id
   );
 
 -- Create a policy that allows insert, update, and delete for the admin
 CREATE POLICY "insert_own_or_admin_project" ON public.project
   FOR INSERT
   WITH CHECK (
-    (select auth.jwt()) ->> 'user_id' = admin_id::text
-    OR
-    (select auth.jwt()) ->> 'role' = 'admin'
+    auth.uid() = admin_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "update_own_or_admin_project" ON public.project
   FOR UPDATE
   USING (
-    (select auth.jwt()) ->> 'user_id' = admin_id::text
-    OR
-    (select auth.jwt()) ->> 'role' = 'admin'
+    auth.uid() = admin_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "delete_own_or_admin_project" ON public.project
   FOR DELETE
   USING (
-    (select auth.jwt()) ->> 'user_id' = admin_id::text
-    OR
-    (select auth.jwt()) ->> 'role' = 'admin'
+    auth.uid() = admin_id OR (auth.role() = 'admin')
   );
 
 -- Create an index on the admin column for better performance

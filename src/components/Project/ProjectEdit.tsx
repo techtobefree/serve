@@ -16,8 +16,8 @@ const ProjectForm = ({ project }: Props) => {
       admin_id: project.admin_id || '',
     },
     onSubmit: async ({ value }) => {
-      if (!value.name || !value.description) {
-        alert('Name and Description are required');
+      if (!value.name || !value.admin_id) {
+        alert('Name and Admin are required');
         return;
       }
 
@@ -45,7 +45,11 @@ const ProjectForm = ({ project }: Props) => {
   });
 
   return (
-    <form onSubmit={() => { void form.handleSubmit() }}>
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      void form.handleSubmit()
+    }}>
       <form.Field name='name'>
         {(field) => (
           <IonItem>

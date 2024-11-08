@@ -18,21 +18,27 @@ ALTER TABLE public.sensitive_profile ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "read_own_sensitive_profile" ON public.sensitive_profile
   FOR SELECT
   USING (
-    (select auth.jwt()) ->> 'user_id' = user_id::text
+   auth.uid() = user_id
   );
 
 -- Create a policy that allows profiles manage their own data
 CREATE POLICY "insert_own_sensitive_profile" ON public.sensitive_profile
   FOR INSERT
-  WITH CHECK ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  WITH CHECK (
+    auth.uid() = user_id
+  );
 
 CREATE POLICY "update_own_sensitive_profile" ON public.sensitive_profile
   FOR UPDATE
-  USING ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  USING (
+    auth.uid() = user_id
+  );
 
 CREATE POLICY "delete_own_sensitive_profile" ON public.sensitive_profile
   FOR DELETE
-  USING ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  USING (
+    auth.uid() = user_id
+  );
 
 -- Create an index on the user_id column for better performance
 CREATE INDEX sensitive_profile_user_id_idx ON public.sensitive_profile(user_id);

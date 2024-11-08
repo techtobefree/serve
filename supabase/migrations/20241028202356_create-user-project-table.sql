@@ -24,16 +24,22 @@ CREATE POLICY "read_user_project" ON public.user_project
 -- Create a policy that allows users manage their own data
 CREATE POLICY "insert_own_user_project" ON public.user_project
   FOR INSERT
-  WITH CHECK ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  WITH CHECK (
+    auth.uid() = user_id
+  );
   -- TODO: or admin of project
 
 CREATE POLICY "update_own_user_project" ON public.user_project
   FOR UPDATE
-  USING ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  USING (
+    auth.uid() = user_id
+  );
 
 CREATE POLICY "delete_own_user_project" ON public.user_project
   FOR DELETE
-  USING ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  USING (
+    auth.uid() = user_id
+  );
 
 
 -- Create a trigger to call the update_modified_columns function

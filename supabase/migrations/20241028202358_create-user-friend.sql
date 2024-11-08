@@ -17,23 +17,29 @@ ALTER TABLE public.user_friend ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "read_own_or_friend_user_friend" ON public.user_friend
   FOR SELECT
   USING (
-    (select auth.jwt()) ->> 'user_id' = user_id::text
+    auth.uid() = user_id
     OR
-    (select auth.jwt()) ->> 'friend_id' = friend_id::text
+    auth.uid() = friend_id
   );
 
 -- Create a policy that allows users manage their own data
 CREATE POLICY "insert_own_user_friend" ON public.user_friend
   FOR INSERT
-  WITH CHECK ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  WITH CHECK (
+    auth.uid() = user_id
+  );
 
 CREATE POLICY "update_own_user_friend" ON public.user_friend
   FOR UPDATE
-  USING ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  USING (
+    auth.uid() = user_id
+  );
 
 CREATE POLICY "delete_own_user_friend" ON public.user_friend
   FOR DELETE
-  USING ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  USING (
+    auth.uid() = user_id
+  );
 
 
 -- Create a trigger to call the update_modified_columns function

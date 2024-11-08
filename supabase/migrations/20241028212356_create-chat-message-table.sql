@@ -20,14 +20,14 @@ CREATE POLICY "read_chat_message" ON public.chat_message
   USING (
     true
     -- TODO: should only allow self, and admin of project (and friends of user) to see
-    -- (select auth.jwt()) ->> 'user_id' = user_id::text
+    -- auth.uid() = user_id
   );
 
 -- Create a policy that allows users manage their own data
 CREATE POLICY "insert_enforce_single_category_chat_message" ON public.chat_message
 FOR INSERT
 WITH CHECK (
-    (select auth.jwt()) ->> 'user_id' = user_id::text
+    auth.uid() = user_id
     AND
     (project_id IS NOT NULL)::int +
     (team_id IS NOT NULL)::int +
@@ -37,7 +37,7 @@ WITH CHECK (
 CREATE POLICY "update_enforce_single_category_chat_message" ON public.chat_message
 FOR UPDATE
 USING (
-    (select auth.jwt()) ->> 'user_id' = user_id::text
+    auth.uid() = user_id
     AND
     (project_id IS NOT NULL)::int +
     (team_id IS NOT NULL)::int +
@@ -46,7 +46,9 @@ USING (
 
 CREATE POLICY "delete_own_chat_message" ON public.chat_message
   FOR DELETE
-  USING ((select auth.jwt()) ->> 'user_id' = user_id::text);
+  USING (
+    auth.uid() = user_id
+  );
 
 -- Create an index on the project_id column for better performance
 CREATE INDEX chat_message_project_id_idx ON public.chat_message(project_id);

@@ -1,6 +1,9 @@
 import { observer } from "mobx-react-lite";
 import ProjectEdit from "../../../components/Project/ProjectEdit";
 import { sessionStore } from "../../../domains/auth/sessionStore";
+import { IonIcon } from "@ionic/react";
+import { arrowBack } from "ionicons/icons";
+import { useNavigate } from "../../../router";
 
 type Props = {
   userId: string;
@@ -15,13 +18,26 @@ export function NewProjectComponent({ userId }: Props) {
 }
 
 const NewProject = observer(() => {
+  const navigate = useNavigate();
   const currentUser = sessionStore.current?.user.id;
 
   if (!currentUser) {
-    return <div>You must login to create projects.</div>
+    return <>
+      <div>
+        <IonIcon className='cursor-pointer text-4xl' icon={arrowBack} onClick={() => { navigate(-1) }} />
+      </div>
+      <div>You must login to create projects.</div>
+    </>
   }
 
-  return <NewProjectComponent userId={currentUser} />
+  return (
+    <>
+      <div>
+        <IonIcon className='cursor-pointer text-4xl' icon={arrowBack} onClick={() => { navigate(-1) }} />
+      </div>
+      <NewProjectComponent userId={currentUser} />
+    </>
+  )
 })
 
 export default NewProject;
