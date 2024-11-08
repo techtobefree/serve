@@ -17,7 +17,7 @@ ALTER TABLE public.team ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows read access to all users for non-unlisted teams
 CREATE POLICY "read_non_unlisted_team" ON public.team
-  FOR SELECT
+  FOR SELECT TO authenticated, anon
   USING (
     true
     -- TODO: should only be able to see if you are in the team, or it is not unlisted
@@ -28,19 +28,19 @@ CREATE POLICY "read_non_unlisted_team" ON public.team
 
 -- Create a policy that allows insert, update, and delete for the admin
 CREATE POLICY "insert_own_or_admin_team" ON public.team
-  FOR INSERT
+  FOR INSERT TO authenticated
   WITH CHECK (
     auth.uid() = admin_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "update_own_or_admin_team" ON public.team
-  FOR UPDATE
+  FOR UPDATE TO authenticated
   USING (
     auth.uid() = admin_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "delete_own_or_admin_team" ON public.team
-  FOR DELETE
+  FOR DELETE TO authenticated
   USING (
     auth.uid() = admin_id OR (auth.role() = 'admin')
   );

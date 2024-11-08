@@ -2,12 +2,14 @@ import { useForm } from '@tanstack/react-form';
 import { IonButton, IonInput, IonItem, IonTextarea } from '@ionic/react';
 import { supabase } from '../../domains/db/supabaseClient';
 import { TableInsert } from '../../domains/db/tables';
+import { useNavigate } from '../../router';
 
 type Props = {
   project: TableInsert['project']
 }
 
 const ProjectForm = ({ project }: Props) => {
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       name: project.name,
@@ -25,22 +27,24 @@ const ProjectForm = ({ project }: Props) => {
       if (project.id) {
         res = await supabase
           .from('project')
-          .update({ ...value });
+          .update({ ...value })
+          .eq('id', project.id)
+          .select('id')
+          .single();
       } else {
         res = await supabase
           .from('project')
-          .insert({ created_by: project.created_by, ...value });
+          .insert({ created_by: project.created_by, ...value })
+          .select('id')
+          .single();
       }
 
       if (res.error) {
         console.error(res.error);
         alert('Failed to save project');
       } else {
-        alert('Project created successfully');
-        // Reset the form after successful submission
-        form.reset();
+        navigate('/project/:projectId/view', { params: { projectId: res.data.id }, replace: true })
       }
-
     }
   });
 

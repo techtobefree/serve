@@ -14,7 +14,7 @@ ALTER TABLE public.user_team ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows anyone to read the user table
 CREATE POLICY "read_user_team" ON public.user_team
-  FOR SELECT
+  FOR SELECT TO authenticated, anon
   USING (
     true
     -- TODO: should only allow self, and admin of project (and friends of user) to see
@@ -23,20 +23,20 @@ CREATE POLICY "read_user_team" ON public.user_team
 
 -- Create a policy that allows users manage their own data
 CREATE POLICY "insert_own_user_team" ON public.user_team
-  FOR INSERT
+  FOR INSERT TO authenticated
   WITH CHECK (
     auth.uid() = user_id
   );
   -- TODO: or admin of project
 
 CREATE POLICY "update_own_user_team" ON public.user_team
-  FOR UPDATE
+  FOR UPDATE TO authenticated
   USING (
     auth.uid() = user_id
   );
 
 CREATE POLICY "delete_own_user_team" ON public.user_team
-  FOR DELETE
+  FOR DELETE TO authenticated
   USING (
     auth.uid() = user_id
   );

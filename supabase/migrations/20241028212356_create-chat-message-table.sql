@@ -16,7 +16,7 @@ ALTER TABLE public.chat_message ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows anyone to read the user table
 CREATE POLICY "read_chat_message" ON public.chat_message
-  FOR SELECT
+  FOR SELECT TO authenticated, anon
   USING (
     true
     -- TODO: should only allow self, and admin of project (and friends of user) to see
@@ -25,7 +25,7 @@ CREATE POLICY "read_chat_message" ON public.chat_message
 
 -- Create a policy that allows users manage their own data
 CREATE POLICY "insert_enforce_single_category_chat_message" ON public.chat_message
-FOR INSERT
+FOR INSERT TO authenticated
 WITH CHECK (
     auth.uid() = user_id
     AND
@@ -35,7 +35,7 @@ WITH CHECK (
 );
 
 CREATE POLICY "update_enforce_single_category_chat_message" ON public.chat_message
-FOR UPDATE
+FOR UPDATE TO authenticated
 USING (
     auth.uid() = user_id
     AND
@@ -45,7 +45,7 @@ USING (
 );
 
 CREATE POLICY "delete_own_chat_message" ON public.chat_message
-  FOR DELETE
+  FOR DELETE TO authenticated
   USING (
     auth.uid() = user_id
   );

@@ -14,7 +14,7 @@ ALTER TABLE public.admin_user ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows profiles to read their own data
 CREATE POLICY "read_own_admin_user" ON public.admin_user
-  FOR SELECT
+  FOR SELECT TO authenticated
   USING (
     auth.uid() = user_id
   );

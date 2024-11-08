@@ -14,24 +14,24 @@ ALTER TABLE public.profile ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows anyone to read the profile table
 CREATE POLICY "read_profile" ON public.profile
-  FOR SELECT
+  FOR SELECT TO authenticated, anon
   USING (true);
 
 -- Create a policy that allows insert, update, and delete for the admin
 CREATE POLICY "insert_own_or_admin_profile" ON public.profile
-  FOR INSERT
+  FOR INSERT TO authenticated
   WITH CHECK (
     auth.uid() = user_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "update_own_or_admin_profile" ON public.profile
-  FOR UPDATE
+  FOR UPDATE TO authenticated
   USING (
     auth.uid() = user_id OR (auth.role() = 'admin')
   );
 
 CREATE POLICY "delete_own_or_admin_profile" ON public.profile
-  FOR DELETE
+  FOR DELETE TO authenticated
   USING (
     auth.uid() = user_id OR (auth.role() = 'admin')
   );
@@ -57,3 +57,4 @@ as $$
     return claims;
   end;
 $$;
+SET search_path = public;

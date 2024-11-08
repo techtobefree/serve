@@ -31,7 +31,9 @@ export default function Add() {
       >
         <div className='rounded bg-white flex flex-col gap-4 p-4 pointer-events-auto h-fit m-16'>
           <IonButton onClick={() => { navigate(-1) }}>Give Service</IonButton>
-          <IonButton onClick={() => { navigate('/project/new') }}>Create a Project</IonButton>
+          <IonButton onClick={() => {
+            navigate('/project/new', { replace: true });
+          }}>Create a Project</IonButton>
         </div>
       </div>
     </div>
