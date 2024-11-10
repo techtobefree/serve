@@ -1,13 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../domains/db/supabaseClient";
 
-export function useMyProjectsQuery() {
+export function useMyAttendingProjectsQuery(userId?: string) {
   return useQuery({
-    queryKey: ['all-projects'],
+    queryKey: ['my-attending-projects', userId],
+    enabled: !!userId,
     queryFn: async () => {
+      if (!userId) {
+        return
+      }
       const { data, error } = await supabase
         .from('project')
-        .select('*');
+        .select(`
+        *,
+        user_project!inner (
+          user_id
+        )
+      `)
+        .eq('user_project.user_id', userId);
 
       if (error) {
         throw new Error(error.message);

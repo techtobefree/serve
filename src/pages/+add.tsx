@@ -29,7 +29,7 @@ export default function Add() {
           left-0 top-0 h-full w-full transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-y-0' : 'translate-y-full md:-translate-y-full'}`}
       >
-        <div className='rounded bg-white flex flex-col gap-4 p-4 pointer-events-auto h-fit m-16'>
+        <div className='rounded-2xl bg-white flex flex-col gap-4 p-4 pointer-events-auto h-fit m-16'>
           <IonButton onClick={() => { navigate(-1) }}>Give Service</IonButton>
           <IonButton onClick={() => {
             navigate('/project/new', { replace: true });

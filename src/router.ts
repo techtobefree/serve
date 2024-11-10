@@ -7,6 +7,7 @@ export type Path =
   | `/`
   | `/group/:groupId/view`
   | `/groups`
+  | `/local`
   | `/messages`
   | `/project/:projectId/edit`
   | `/project/:projectId/join`

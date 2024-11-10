@@ -1,15 +1,19 @@
 import { IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
-import { TableRows } from "../../domains/db/tables"
 import { useNavigate } from "../../router"
+import { useProjectByIdQuery } from "../../queries/projectById"
 
 type Props = {
-  project: TableRows['project'];
+  project: ReturnType<typeof useProjectByIdQuery>['data'];
   canEdit: boolean;
 }
 
 export default function ProjectView({ project, canEdit }: Props) {
   const navigate = useNavigate();
+
+  if (!project) {
+    return
+  }
 
   return (
     <>
@@ -24,6 +28,7 @@ export default function ProjectView({ project, canEdit }: Props) {
           alt="Placeholder"
           className="w-1/3 object-cover" />
       </div>
+      <div>Members: {project.user_project.length}</div>
       <div>{project.description}</div>
     </>
   )

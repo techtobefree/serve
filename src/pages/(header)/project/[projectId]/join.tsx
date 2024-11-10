@@ -1,11 +1,40 @@
 import { IonIcon } from "@ionic/react"
 import { arrowBack } from "ionicons/icons"
 import { back } from "../../../../domains/ui/back"
-import { useNavigate, useParams } from "../../../../router"
+import { useModals, useNavigate, useParams } from "../../../../router"
+import { sessionStore } from "../../../../domains/auth/sessionStore"
+import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
+import { observer } from "mobx-react-lite"
+import { useEffect } from "react"
 
-export default function ProjectJoinPage() {
+type Props = {
+  userId?: string
+}
+
+export function ProjectJoinPageComponent({ userId }: Props) {
   const { projectId } = useParams('/project/:projectId/join')
   const navigate = useNavigate();
+  const { data, isError, isLoading } = useJoinProjectByIdQuery(projectId, userId)
+  const modals = useModals();
+
+  useEffect(() => {
+    if (!userId) {
+      modals.open('/profile')
+    }
+  }, [userId, modals])
+
+  useEffect(() => {
+    console.log('data', data)
+    if (data) {
+      navigate('/project/:projectId/view', { params: { projectId }, replace: true })
+    }
+  }, [data, projectId, navigate])
+
+  if (!userId) {
+    return (
+      <div>You must login to join a project.</div>
+    )
+  }
 
   return (
     <>
@@ -14,9 +43,21 @@ export default function ProjectJoinPage() {
       </div>
       <div className="flex justify-center">
         <div className="max-w-[800px] w-full">
-          Should prompt login, if not logged in, join the project, then reroute to the Detail Page {projectId}
+          {isLoading && <div>Joining project ...</div>}
+          {isError && <div>Error joining project</div>}
+          {!isError && !isLoading &&
+            <div>You should be redirected to view {projectId}</div>
+          }
         </div>
       </div>
     </>
   )
 }
+
+const ProjectJoinPage = observer(() => {
+  return (
+    <ProjectJoinPageComponent userId={sessionStore.current?.user.id} />
+  )
+})
+
+export default ProjectJoinPage;

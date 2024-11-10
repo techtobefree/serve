@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { IonButton, IonInput, IonItem, IonTextarea } from '@ionic/react';
+import { IonButton, IonCheckbox, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
 import { supabase } from '../../domains/db/supabaseClient';
 import { TableInsert } from '../../domains/db/tables';
 import { useNavigate } from '../../router';
@@ -13,6 +13,7 @@ const ProjectForm = ({ project }: Props) => {
   const form = useForm({
     defaultValues: {
       name: project.name,
+      unlisted: project.unlisted,
       description: project.description || '',
       image_url: project.image_url || '',
       admin_id: project.admin_id || '',
@@ -54,6 +55,17 @@ const ProjectForm = ({ project }: Props) => {
       e.stopPropagation()
       void form.handleSubmit()
     }}>
+      <form.Field name='unlisted'>
+        {(field) => (
+          <IonItem onClick={() => { field.handleChange(!field.state.value) }}>
+            <IonLabel>List on catalog</IonLabel>
+            <IonCheckbox
+              checked={!field.state.value} // `checked` is preferred over `value` for checkboxes
+              onIonChange={(e) => { field.handleChange(e.detail.checked) }}
+            />
+          </IonItem>
+        )}
+      </form.Field>
       <form.Field name='name'>
         {(field) => (
           <IonItem>

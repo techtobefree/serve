@@ -25,3 +25,6 @@ dist-ssr
 
 # ENV
 .env
+
+# Local login
+/src/pages/local.tsx
