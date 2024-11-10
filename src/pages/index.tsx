@@ -5,7 +5,9 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate('/home')
+    setTimeout(() => {
+      navigate('/home')
+    }, 1)
   }, [navigate])
 
   return (
