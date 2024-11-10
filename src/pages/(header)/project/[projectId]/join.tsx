@@ -5,7 +5,7 @@ import { useModals, useNavigate, useParams } from "../../../../router"
 import { sessionStore } from "../../../../domains/auth/sessionStore"
 import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
 import { observer } from "mobx-react-lite"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 type Props = {
   userId?: string
@@ -16,15 +16,16 @@ export function ProjectJoinPageComponent({ userId }: Props) {
   const navigate = useNavigate();
   const { data, isError, isLoading } = useJoinProjectByIdQuery(projectId, userId)
   const modals = useModals();
+  const modalOpened = useRef(false);
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId && !modalOpened.current) {
+      modalOpened.current = true;
       modals.open('/profile')
     }
   }, [userId, modals])
 
   useEffect(() => {
-    console.log('data', data)
     if (data) {
       navigate('/project/:projectId/view', { params: { projectId }, replace: true })
     }
