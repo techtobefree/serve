@@ -1,4 +1,4 @@
-import { IonIcon } from "@ionic/react"
+import { IonButton, IonIcon } from "@ionic/react"
 import { arrowBack } from "ionicons/icons"
 import { back } from "../../../../domains/ui/back"
 import { useModals, useNavigate, useParams } from "../../../../router"
@@ -33,7 +33,12 @@ export function ProjectJoinPageComponent({ userId }: Props) {
 
   if (!userId) {
     return (
-      <div>You must login to join a project.</div>
+      <div>
+        <div>
+          You must login to join a project.
+        </div>
+        <IonButton onClick={() => { navigate('/project/:projectId/view', { params: { projectId }, replace: true }) }}>View project</IonButton>
+      </div>
     )
   }
 
@@ -49,6 +54,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
           {!isError && !isLoading &&
             <div>You should be redirected to view {projectId}</div>
           }
+          <IonButton onClick={() => { navigate('/project/:projectId/view', { params: { projectId }, replace: true }) }}>View project</IonButton>
         </div>
       </div>
     </>
