@@ -9,7 +9,7 @@ export default defineConfig({
     registerType: 'prompt',
     manifest: {
       name: 'Serve2free',
-      short_name: 'Serve2F',
+      short_name: 'Serve2free',
       description: 'Celebrating service',
       theme_color: '#3f6788',
       icons: [
