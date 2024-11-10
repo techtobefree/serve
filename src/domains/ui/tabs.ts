@@ -6,7 +6,7 @@ export const uses = [
 ]
 
 export const TAB_PATH = {
-  home: '/',
+  home: '/home',
   projects: '/projects',
   groups: '/groups',
   messages: '/messages',

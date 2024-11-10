@@ -11,7 +11,7 @@ type Props = {
   userId?: string;
 }
 
-export function AppComponent({ userId }: Props) {
+export function HomeComponent({ userId }: Props) {
   const { data: adminProjects, isLoading: isAdminLoading, isError: isAdminError } = useMyAdminProjectsQuery(userId);
   const { data: attendingProjects, isLoading: isAttendingLoading, isError: isAttendingError } = useMyAttendingProjectsQuery(userId);
   const navigate = useNavigate();
@@ -51,10 +51,10 @@ export function AppComponent({ userId }: Props) {
   )
 }
 
-export const App = observer(() => {
+export const Home = observer(() => {
   return (
-    <AppComponent userId={sessionStore.current?.user.id} />
+    <HomeComponent userId={sessionStore.current?.user.id} />
   )
 })
 
-export default App;
+export default Home;
