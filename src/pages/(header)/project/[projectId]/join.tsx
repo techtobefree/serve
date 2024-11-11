@@ -6,6 +6,7 @@ import { sessionStore } from "../../../../domains/auth/sessionStore"
 import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
 import { observer } from "mobx-react-lite"
 import { useEffect, useRef } from "react"
+import { mayReplace } from "../../../../domains/ui/navigation"
 
 type Props = {
   userId?: string
@@ -27,7 +28,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
 
   useEffect(() => {
     if (data) {
-      navigate('/project/:projectId/view', { params: { projectId }, replace: true })
+      navigate('/project/:projectId/view', { params: { projectId }, replace: mayReplace() })
     }
   }, [data, projectId, navigate])
 

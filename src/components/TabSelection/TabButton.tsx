@@ -2,9 +2,10 @@
 import { IonIcon } from "@ionic/react";
 import { Path, useNavigate } from "../../router";
 import { useLocation } from "react-router-dom";
+import { mayReplace } from "../../domains/ui/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-const checkIfActive = (location: any, path?: Path) => location.pathname === path;
+const checkIfActive = (location: any, path?: Path) => location.pathname === path || path === '/home' && location.pathname == '/';
 
 type Props = {
   path?: Path,
@@ -22,7 +23,7 @@ export default function TabButton({ path, icon, activeIcon, onClick }: Props) {
   return (
     <div
       className={`flex flex-1 ${isActive ? 'text-white' : 'text-blue-500'} p-4 cursor-pointer`}
-      onClick={onClick ? onClick : () => { if (path) { navigate(path, { replace: true }) } }}
+      onClick={onClick ? onClick : () => { if (path) { navigate(path, { replace: mayReplace() }) } }}
     >
       <IonIcon className="w-full h-full" icon={isActive ? activeIcon : icon} />
     </div>

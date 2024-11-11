@@ -2,6 +2,7 @@ import { IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 import { useNavigate } from "../../router"
 import { useProjectByIdQuery } from "../../queries/projectById"
+import { mayReplace } from "../../domains/ui/navigation"
 
 type Props = {
   project: ReturnType<typeof useProjectByIdQuery>['data'];
@@ -21,7 +22,7 @@ export default function ProjectView({ project, canEdit }: Props) {
         <div className="text-3xl">{project.name}</div>
         {canEdit && <IonIcon className='cursor-pointer text-2xl'
           icon={createOutline}
-          onClick={() => { navigate('/project/:projectId/edit', { params: { projectId: project.id }, replace: true }) }} />}
+          onClick={() => { navigate('/project/:projectId/edit', { params: { projectId: project.id }, replace: mayReplace() }) }} />}
       </div>
       <div>
         <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}

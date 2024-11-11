@@ -8,6 +8,7 @@ export type Path =
   | `/group/:groupId/view`
   | `/groups`
   | `/home`
+  | `/local`
   | `/messages`
   | `/project/:projectId/edit`
   | `/project/:projectId/join`

@@ -3,6 +3,7 @@ import { TAB_SELECTION_HEIGHT } from "../../domains/ui/tabs";
 import TabButton from "./TabButton";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { useModals, useNavigate } from "../../router";
+import { mayReplace } from "../../domains/ui/navigation";
 
 type Props = {
   headerIsVisible: boolean;
@@ -17,7 +18,7 @@ export default function TabSelection({ headerIsVisible }: Props) {
       <TabButton icon={homeOutline} activeIcon={home} path="/home" />
       <TabButton icon={albumsOutline} activeIcon={albums} path="/projects" />
       <TabButton icon={add} activeIcon={add} onClick={() => {
-        navigate('/projects', { replace: true })
+        navigate('/projects', { replace: mayReplace() })
         modals.open('/add')
       }} />
       <TabButton icon={peopleOutline} activeIcon={people} path="/groups" />

@@ -3,6 +3,7 @@ import { IonButton, IonCheckbox, IonInput, IonItem, IonLabel, IonTextarea } from
 import { supabase } from '../../domains/db/supabaseClient';
 import { TableInsert } from '../../domains/db/tables';
 import { useNavigate } from '../../router';
+import { mayReplace } from '../../domains/ui/navigation';
 
 type Props = {
   project: TableInsert['project']
@@ -44,7 +45,7 @@ const ProjectForm = ({ project }: Props) => {
         console.error(res.error);
         alert('Failed to save project');
       } else {
-        navigate('/project/:projectId/view', { params: { projectId: res.data.id }, replace: true })
+        navigate('/project/:projectId/view', { params: { projectId: res.data.id }, replace: mayReplace() })
       }
     }
   });

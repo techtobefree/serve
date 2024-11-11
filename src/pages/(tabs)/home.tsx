@@ -6,6 +6,7 @@ import ProjectCard from "../../components/Project/ProjectCard";
 import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
 import { useNavigate } from "../../router";
+import { mayReplace } from "../../domains/ui/navigation";
 
 type Props = {
   userId?: string;
@@ -41,7 +42,8 @@ export function HomeComponent({ userId }: Props) {
             </>}
             {attendingProjects?.map((project) => <ProjectCard key={project.id} project={project} />)}
             {attendingProjects?.length === 0 && <div>
-              <span>No projects joined.</span><IonButton onClick={() => { navigate('/projects', { replace: true }) }}>Find one!</IonButton>
+              <span>No projects joined.</span>
+              <IonButton onClick={() => { navigate('/projects', { replace: mayReplace() }) }}>Find one!</IonButton>
             </div>}
           </div>
         </div>
