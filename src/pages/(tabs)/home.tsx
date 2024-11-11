@@ -1,20 +1,29 @@
-import { observer } from "mobx-react-lite"
 import { IonButton } from "@ionic/react";
-import { sessionStore } from "../../domains/auth/sessionStore";
-import PulsingCard from "../../components/Project/PulsingCard";
+import { observer } from "mobx-react-lite"
+
 import ProjectCard from "../../components/Project/ProjectCard";
+import PulsingCard from "../../components/Project/PulsingCard";
+import { sessionStore } from "../../domains/auth/sessionStore";
+import { mayReplace } from "../../domains/ui/navigation";
 import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
 import { useNavigate } from "../../router";
-import { mayReplace } from "../../domains/ui/navigation";
 
 type Props = {
   userId?: string;
 }
 
 export function HomeComponent({ userId }: Props) {
-  const { data: adminProjects, isLoading: isAdminLoading, isError: isAdminError } = useMyAdminProjectsQuery(userId);
-  const { data: attendingProjects, isLoading: isAttendingLoading, isError: isAttendingError } = useMyAttendingProjectsQuery(userId);
+  const {
+    data: adminProjects,
+    isLoading: isAdminLoading,
+    isError: isAdminError
+  } = useMyAdminProjectsQuery(userId);
+  const {
+    data: attendingProjects,
+    isLoading: isAttendingLoading,
+    isError: isAttendingError
+  } = useMyAttendingProjectsQuery(userId);
   const navigate = useNavigate();
 
   return (
@@ -29,7 +38,8 @@ export function HomeComponent({ userId }: Props) {
             </>}
             {adminProjects?.map((project) => <ProjectCard key={project.id} project={project} />)}
             {adminProjects?.length === 0 && <div>
-              <span>No managed projects.</span><IonButton onClick={() => { navigate('/project/new') }}>Create one!</IonButton>
+              <span>No managed projects.</span>
+              <IonButton onClick={() => { navigate('/project/new') }}>Create one!</IonButton>
             </div>}
           </div>
         </div>
@@ -40,10 +50,13 @@ export function HomeComponent({ userId }: Props) {
             {isAttendingLoading && <>
               <PulsingCard />
             </>}
-            {attendingProjects?.map((project) => <ProjectCard key={project.id} project={project} />)}
+            {attendingProjects?.map((project) =>
+              <ProjectCard key={project.id} project={project} />)}
             {attendingProjects?.length === 0 && <div>
               <span>No projects joined.</span>
-              <IonButton onClick={() => { navigate('/projects', { replace: mayReplace() }) }}>Find one!</IonButton>
+              <IonButton onClick={() => {
+                navigate('/projects', { replace: mayReplace() })
+              }}>Find one!</IonButton>
             </div>}
           </div>
         </div>
@@ -53,7 +66,7 @@ export function HomeComponent({ userId }: Props) {
   )
 }
 
-export const Home = observer(() => {
+const Home = observer(() => {
   return (
     <HomeComponent userId={sessionStore.current?.user.id} />
   )

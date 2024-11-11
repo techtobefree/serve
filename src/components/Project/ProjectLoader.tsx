@@ -7,7 +7,8 @@ type Props = {
 export default function ProjectLoader({ projectId, isLoading, isError }: Props) {
   if (isLoading) {
     return (
-      <div className="h-64 w-full bg-white rounded-2xl shadow-lg overflow-hidden flex justify-center animate-pulse" />
+      <div className="h-64 w-full bg-white rounded-2xl shadow-lg
+        overflow-hidden flex justify-center animate-pulse" />
     )
   }
 

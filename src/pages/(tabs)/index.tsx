@@ -4,8 +4,10 @@
  */
 
 import { useEffect } from "react";
-import Home from "./home";
+
 import { shouldReplaceHistory } from "../../domains/ui/navigation";
+
+import Home from "./home";
 
 export default function App() {
   useEffect(() => {

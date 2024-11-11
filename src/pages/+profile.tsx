@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "../router"
+
 import ProfileModalContent from "../components/ProfileModalContent/ProfileModalContent";
+import { useNavigate } from "../router"
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -25,7 +26,11 @@ export default function Profile() {
 
       {/* Modal Content */}
       <div
-        className={`fixed overflow-auto left-0 top-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`
+          fixed overflow-auto left-0 top-0 h-full w-72 bg-white shadow-lg
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          `}
       >
         <ProfileModalContent />
       </div>

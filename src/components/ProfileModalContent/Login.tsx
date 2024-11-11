@@ -1,10 +1,11 @@
 import { IonButton, IonIcon } from "@ionic/react";
-import { useState } from "react";
-import { requestOTP, verifyOTP } from "../../domains/auth/smsOTP";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useCountdown } from "../../hooks/useCountdown";
-import { useNavigate } from "../../router";
 import { closeOutline } from "ionicons/icons";
+import { useState } from "react";
+
+import { requestOTP, verifyOTP } from "../../domains/auth/smsOTP";
+import { useCountdown } from "../../hooks/useCountdown";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useNavigate } from "../../router";
 
 const LOCAL_STORAGE_PHONE_KEY = 'login-phone';
 
@@ -99,7 +100,8 @@ export default function Login() {
             className="px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 w-36"
           />
           {<p className={`${isError ? 'text-red-500' : ''} text-sm`}>
-            {isError ? phoneInfo : remainder ? `Please wait ${(Math.ceil(remainder / 1000)).toString()} seconds` : phoneInfo}
+            {isError ? phoneInfo : remainder ?
+              `Please wait ${(Math.ceil(remainder / 1000)).toString()} seconds` : phoneInfo}
           </p>}
         </div>
         <div>
@@ -110,7 +112,8 @@ export default function Login() {
           }}>Send OTP</IonButton>
         </div>
         <p className="pt-6">
-          Login with a One Time Password. We will text the number provided a 6 digit code. Texting charges apply.
+          Login with a One Time Password.
+          We will text the number provided a 6 digit code. Texting charges apply.
         </p>
         <div className="flex flex-col space-y-2 w-50 h-36 pt-12">
           <label htmlFor="otp" className="text-gray-700">
@@ -132,7 +135,9 @@ export default function Login() {
             className="w-36"
             disabled={isError || otpCode.length !== 6 || !!otpVerifyWait}
             onClick={() => { verifyAndDelayReverifyOTP(phone, otpCode) }}
-          >{otpCode.length === 6 && !!otpVerifyWait && !otpError ? 'Verifying' : 'Verify'}</IonButton>
+          >
+            {otpCode.length === 6 && !!otpVerifyWait && !otpError ? 'Verifying' : 'Verify'}
+          </IonButton>
         </div>
         {<p className='text-red-500 text-sm'>{otpError}</p>}
       </div>

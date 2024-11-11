@@ -1,6 +1,7 @@
 import { IonButton, IonIcon } from "@ionic/react";
-import { logout } from "../../domains/auth/smsOTP";
 import { closeOutline, createOutline } from "ionicons/icons";
+
+import { logout } from "../../domains/auth/smsOTP";
 import { useNavigate } from "../../router";
 
 type Props = {

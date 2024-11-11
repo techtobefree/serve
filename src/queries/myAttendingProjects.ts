@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { supabase } from "../domains/db/supabaseClient";
 
 export function useMyAttendingProjectsQuery(userId?: string) {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "../router"
+
 import MenuModal from "../components/MenuModal/MenuModal";
+import { useNavigate } from "../router"
 
 export default function Menu() {
   const navigate = useNavigate();
@@ -25,7 +26,11 @@ export default function Menu() {
 
       {/* Modal Content */}
       <div
-        className={`fixed overflow-auto right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`
+          fixed overflow-auto right-0 top-0 h-full w-72 bg-white
+          shadow-lg transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : 'translate-x-full'}
+          `}
       >
         <MenuModal />
       </div>

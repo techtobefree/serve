@@ -1,12 +1,13 @@
 import { IonButton, IonIcon } from "@ionic/react"
 import { arrowBack } from "ionicons/icons"
-import { back } from "../../../../domains/ui/back"
-import { useModals, useNavigate, useParams } from "../../../../router"
-import { sessionStore } from "../../../../domains/auth/sessionStore"
-import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
 import { observer } from "mobx-react-lite"
 import { useEffect, useRef } from "react"
+
+import { sessionStore } from "../../../../domains/auth/sessionStore"
+import { back } from "../../../../domains/ui/back"
 import { mayReplace } from "../../../../domains/ui/navigation"
+import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
+import { useModals, useNavigate, useParams } from "../../../../router"
 
 type Props = {
   userId?: string
@@ -35,7 +36,9 @@ export function ProjectJoinPageComponent({ userId }: Props) {
   return (
     <>
       <div>
-        <IonIcon className='cursor-pointer text-4xl' icon={arrowBack} onClick={() => { back(navigate) }} />
+        <IonIcon className='cursor-pointer text-4xl'
+          icon={arrowBack}
+          onClick={() => { back(navigate) }} />
       </div>
       <div className="flex justify-center">
         {userId ?
@@ -51,7 +54,9 @@ export function ProjectJoinPageComponent({ userId }: Props) {
             You must login to join a project.
           </div>
         }
-        <IonButton onClick={() => { navigate('/project/:projectId/view', { params: { projectId }, replace: true }) }}>View project</IonButton>
+        <IonButton onClick={() => {
+          navigate('/project/:projectId/view', { params: { projectId }, replace: true })
+        }}>View project</IonButton>
       </div>
     </>
   )

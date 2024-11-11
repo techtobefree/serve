@@ -1,7 +1,9 @@
 import { observer } from "mobx-react-lite";
+
 import { sessionStore } from "../../domains/auth/sessionStore";
-import Login from "./Login";
+
 import LoggedIn from "./LoggedIn";
+import Login from "./Login";
 
 type Props = {
   isLoggedIn: boolean;

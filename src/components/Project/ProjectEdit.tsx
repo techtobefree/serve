@@ -1,9 +1,10 @@
-import { useForm } from '@tanstack/react-form';
 import { IonButton, IonCheckbox, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
+import { useForm } from '@tanstack/react-form';
+
 import { supabase } from '../../domains/db/supabaseClient';
 import { TableInsert } from '../../domains/db/tables';
-import { useNavigate } from '../../router';
 import { mayReplace } from '../../domains/ui/navigation';
+import { useNavigate } from '../../router';
 
 type Props = {
   project: TableInsert['project']
@@ -45,7 +46,10 @@ const ProjectForm = ({ project }: Props) => {
         console.error(res.error);
         alert('Failed to save project');
       } else {
-        navigate('/project/:projectId/view', { params: { projectId: res.data.id }, replace: mayReplace() })
+        navigate(
+          '/project/:projectId/view',
+          { params: { projectId: res.data.id }, replace: mayReplace() }
+        )
       }
     }
   });

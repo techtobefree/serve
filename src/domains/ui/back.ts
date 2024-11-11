@@ -1,4 +1,5 @@
 import { Path, useNavigate } from "../../router";
+
 import { DEVICE, DEVICE_TYPE } from "./device";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,8 +22,10 @@ export function back(navigate: ReturnType<typeof useNavigate>) {
     navigate(destination)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-  if (navigationEntries.length > 1 && /serve/.test(navigationEntries[navigationEntries.length - 1].url)) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (navigationEntries.length > 1 && /serve/
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+    .test(navigationEntries[navigationEntries.length - 1].url)) {
     // TODO enhance check to use ENV variable
     destination = '/projects'
   }

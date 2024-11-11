@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite";
+
 import { sessionStore } from "../domains/auth/sessionStore";
 
 const DebugAuth = observer(() => {

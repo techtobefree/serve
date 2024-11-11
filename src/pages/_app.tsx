@@ -1,7 +1,8 @@
-import { Outlet, useLocation } from 'react-router-dom'
-import { useNavigate } from '../router';
-import { useEffect } from 'react';
 import { App as CapacitorApp } from '@capacitor/app';
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom'
+
+import { useNavigate } from '../router';
 
 export default function Layout() {
   const navigate = useNavigate();
