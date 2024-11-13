@@ -36,7 +36,7 @@ export function SearchResultsComponent({
   }, [isHeaderVisible, isSearchVisible]);
 
   useEffect(() => {
-    if (isSearchVisible) {
+    if (isSearchVisible && location.pathname !== '/map') {
       hideSearchResults();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
