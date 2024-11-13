@@ -7,12 +7,28 @@ type Props = {
 }
 
 export function HomeComponent({ userId }: Props) {
-
   return (
-    <>
-      {userId && <div>Welcome {userId} </div>}
-      <div className="pt-6">To Be Cleaned</div>
-    </>
+    <div className='flex justify-center p-10'>
+      <div className='max-w-[600px] gap-8'>
+        {userId && <div>Welcome {userId} </div>}
+        <br />
+        <br />
+        <div>
+          Serve to be Free is committed to helping volunteers find ways to serve,
+          and enable community members to start new projects.
+        </div>
+        <br />
+        <br />
+        <div>
+          We are working on adding progression, and celebrations.
+        </div>
+        <br />
+        <br />
+        <div>
+          This tab will be the social feed in the future.
+        </div>
+      </div>
+    </div>
   )
 }
 

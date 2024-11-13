@@ -65,7 +65,7 @@ export function HeaderComponent({ isVisible, setIsVisible, isSearchVisible }: Pr
             <IonIcon icon={personCircle} className='text-3xl' />
           </div>
           <div className='hidden md:block text-lg'>
-            Serve 2 free
+            Serve to be Free
           </div>
 
           {/* Search input */}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { mayReplace } from "../domains/ui/navigation";
 import { useNavigate } from "../router"
+import { Category, filterSearchToCategories, showSearchResults } from "../domains/search/search";
 
 export default function Add() {
   const navigate = useNavigate();
@@ -35,7 +36,11 @@ export default function Add() {
       >
         <div className='rounded-2xl bg-white flex flex-col gap-4 p-4
           pointer-events-auto h-fit m-16'>
-          <IonButton onClick={() => { navigate(-1) }}>Give Service</IonButton>
+          <IonButton onClick={() => {
+            navigate(-1)
+            filterSearchToCategories([Category.project])
+            showSearchResults()
+          }}>Give Service</IonButton>
           <IonButton onClick={() => {
             navigate('/project/new', { replace: mayReplace() });
           }}>Create a Project</IonButton>

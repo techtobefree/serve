@@ -8,6 +8,7 @@ import { mayReplace } from "../../domains/ui/navigation";
 import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
 import { useNavigate } from "../../router";
+import { Category, filterSearchToCategories, showSearchResults } from "../../domains/search/search";
 
 type Props = {
   userId?: string;
@@ -55,7 +56,9 @@ export function TrackComponent({ userId }: Props) {
             {attendingProjects?.length === 0 && <div>
               <span>No projects joined.</span>
               <IonButton onClick={() => {
-                navigate('/projects', { replace: mayReplace() })
+                navigate('/map', { replace: mayReplace() })
+                filterSearchToCategories([Category.project])
+                showSearchResults()
               }}>Find one!</IonButton>
             </div>}
           </div>
