@@ -8,6 +8,7 @@ import ProjectCard from "../Project/ProjectCard";
 import PulsingCard from "../Project/PulsingCard";
 import { Category, hideSearchResults, searchStore } from "../../domains/search/search";
 import { observer } from "mobx-react-lite";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   hasCategoryInFilter: Category[];
@@ -18,6 +19,7 @@ type Props = {
 
 export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, isSearchVisible, searchText }: Props) {
   const { data: projects, isLoading, isError } = useAllProjectsQuery();
+  const location = useLocation();
 
   const [filters, setFilters] = useState<string[]>([]);
 
@@ -30,6 +32,12 @@ export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, i
       return () => { document.body.classList.remove('overflow-hidden') };
     }
   }, [isHeaderVisible, isSearchVisible]);
+
+  useEffect(() => {
+    if (isSearchVisible) {
+      hideSearchResults();
+    }
+  }, [location.pathname])
 
   return (
     <>
@@ -67,38 +75,44 @@ export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, i
       </div>
 
       {/* Search results */}
-      <div className='flex justify-center bg-[#62aacb] pointer-events-auto h-full'
-        onClick={() => {
-          hideSearchResults();
-        }}>
+      <div className='flex justify-center pointer-events-auto h-full'>
         {isHeaderVisible && isSearchVisible &&
-          <div className='max-h-[calc(100vh-64px)] max-w-[800px] text-black overflow-auto'>
-            {/* Modal Body */}
-            {!!filters.length &&
-              <div className="p-6 text-gray-700">Filters: {filters.join(', ')}</div>
-            }
-            <div className="p-6 text-gray-700">(Search/filters coming soon)</div>
+          <div className='h-[calc(100vh-64px)] w-full text-black overflow-auto flex flex-col'>
+            <div className='w-full flex flex-col items-center bg-[#62aacb]'>
+              <div className='max-w-[800px]'>
+                {/* Modal Body */}
+                {!!filters.length &&
+                  <div className="p-6 text-gray-700">Filters: {filters.join(', ')}</div>
+                }
+                <div className="p-6 text-gray-700">(Search/filters coming soon)</div>
 
-            {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.project)) && <>
-              <div>Projects</div>
-              <div className="max-w-[800px] flex-1 flex-col gap-2 flex">
-                {isError && <div className='text-3xl p-3'>Error loading projects</div>}
-                {isLoading && <>
-                  <PulsingCard />
-                  <PulsingCard />
-                  <PulsingCard />
+                {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.project)) && <>
+                  <div>Projects</div>
+                  <div className="max-w-[800px] flex-1 flex-col gap-2 flex">
+                    {isError && <div className='text-3xl p-3'>Error loading projects</div>}
+                    {isLoading && <>
+                      <PulsingCard />
+                      <PulsingCard />
+                      <PulsingCard />
+                    </>}
+                    {projects?.map((project) => <ProjectCard key={project.id} project={project} />)}
+                  </div>
                 </>}
-                {projects?.map((project) => <ProjectCard key={project.id} project={project} />)}
+                {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.person)) && <>
+                  <div>People</div>
+                  <div className="p-6 text-gray-700">(Coming soon) No people found searching for "{searchText}"</div>
+                </>}
+                {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.group)) && <>
+                  <div>Groups</div>
+                  <div className="p-6 text-gray-700">(Coming soon) No groups found searching for "{searchText}"</div>
+                </>}
               </div>
-            </>}
-            {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.person)) && <>
-              <div>People</div>
-              <div className="p-6 text-gray-700">(Coming soon) No people found searching for "{searchText}"</div>
-            </>}
-            {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.group)) && <>
-              <div>Groups</div>
-              <div className="p-6 text-gray-700">(Coming soon) No groups found searching for "{searchText}"</div>
-            </>}
+            </div>
+            <div className="flex-grow w-full bg-[#000000aa]"
+              onClick={() => {
+                hideSearchResults();
+              }}>
+            </div>
           </div>}
       </div>
     </>
