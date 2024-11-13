@@ -1,4 +1,4 @@
-import { IonIcon } from "@ionic/react"
+import { IonButton, IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
@@ -41,8 +41,21 @@ export default function ProjectView({ project, canEdit }: Props) {
           alt="Placeholder"
           className="w-1/3 object-cover" />
       </div>
+      <br />
       <div>Members: {project.user_project.length}</div>
+      <br />
       <div>{project.description}</div>
+      <br />
+      <br />
+      <div className="w-full flex justify-end">
+        <IonButton
+          onClick={() => {
+            navigate(
+              '/project/:projectId/join',
+              { params: { projectId: project.id }, replace: true }
+            )
+          }}>Join Project</IonButton>
+      </div>
     </>
   )
 }
