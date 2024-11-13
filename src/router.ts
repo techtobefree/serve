@@ -1,20 +1,20 @@
 // Generouted, changes to this file will be overriden
-
+/* eslint-disable */
 
 import { components, hooks, utils } from "@generouted/react-router/client";
 
 export type Path =
   | `/`
+  | `/celebrate`
   | `/group/:groupId/view`
-  | `/groups`
   | `/home`
   | `/local`
-  | `/messages`
   | `/project/:projectId/edit`
   | `/project/:projectId/join`
   | `/project/:projectId/view`
   | `/project/new`
   | `/projects`
+  | `/track`
   | `/user/:userId/view`;
 
 export type Params = {
@@ -25,7 +25,7 @@ export type Params = {
   "/user/:userId/view": { userId: string };
 };
 
-export type ModalPath = `/add` | `/menu` | `/profile`;
+export type ModalPath = `/add` | `/messages` | `/profile`;
 
 export const { Link, Navigate } = components<Path, Params>();
 export const { useModals, useNavigate, useParams } = hooks<

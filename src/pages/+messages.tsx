@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import MenuModal from "../components/MenuModal/MenuModal";
+import MessagesModal from "../components/MessagesModal/MessagesModal";
 import { useNavigate } from "../router"
 
-export default function Menu() {
+export default function Messages() {
   const navigate = useNavigate();
   const [isOpen, setOpen] = useState(false)
 
@@ -27,12 +27,12 @@ export default function Menu() {
       {/* Modal Content */}
       <div
         className={`
-          fixed overflow-auto right-0 top-0 h-full w-72 bg-white
+          fixed overflow-auto right-0 top-0 h-full w-full bg-white
           shadow-lg transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
           `}
       >
-        <MenuModal />
+        <MessagesModal />
       </div>
     </div>
   )

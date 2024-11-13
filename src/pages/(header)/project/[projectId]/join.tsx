@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite"
 import { useEffect, useRef } from "react"
 
 import { sessionStore } from "../../../../domains/auth/sessionStore"
-import { back } from "../../../../domains/ui/back"
 import { mayReplace } from "../../../../domains/ui/navigation"
 import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
 import { useModals, useNavigate, useParams } from "../../../../router"
@@ -38,7 +37,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
       <div>
         <IonIcon className='cursor-pointer text-4xl'
           icon={arrowBack}
-          onClick={() => { back(navigate) }} />
+          onClick={() => { navigate(-1) }} />
       </div>
       <div className="flex justify-center">
         {userId ?

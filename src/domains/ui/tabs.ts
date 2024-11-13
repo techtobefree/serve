@@ -9,5 +9,5 @@ export const TAB_PATH = {
   home: '/home',
   projects: '/projects',
   groups: '/groups',
-  messages: '/messages',
+  celebrate: '/celebrate',
 }

@@ -5,7 +5,6 @@ import { observer } from "mobx-react-lite";
 import ProjectLoader from "../../../../components/Project/ProjectLoader";
 import ProjectView from "../../../../components/Project/ProjectView";
 import { sessionStore } from "../../../../domains/auth/sessionStore";
-import { back } from "../../../../domains/ui/back";
 import { useProjectByIdQuery } from "../../../../queries/projectById"
 import { useNavigate, useParams } from "../../../../router"
 
@@ -27,7 +26,7 @@ export function ProjectViewComponent({ currentUserId }: Props) {
       <div>
         <IonIcon className='cursor-pointer text-4xl'
           icon={arrowBack}
-          onClick={() => { back(navigate) }} />
+          onClick={() => { navigate(-1) }} />
       </div>
       <div className="flex justify-center">
         <div className="max-w-[800px] w-full">
