@@ -11,17 +11,17 @@ import { useModals } from '../../router'
 
 import Search from "./Search";
 import SearchResults from "./SearchResults";
+import { searchStore, showSearchResults } from "../../domains/search/search";
 
 type Props = {
   handle?: string;
   avatarUrl?: string;
   isVisible: boolean;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  isSearchVisible: boolean;
 }
 
-export function HeaderComponent({ isVisible, setIsVisible }: Props) {
-  const [searchText, setSearch] = useState('');
-  const [showSearchResults, setResultVisible] = useState(false);
+export function HeaderComponent({ isVisible, setIsVisible, isSearchVisible }: Props) {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [ref, refIsVisible] = useVisibleRef();
   const modals = useModals()
@@ -70,9 +70,7 @@ export function HeaderComponent({ isVisible, setIsVisible }: Props) {
 
           {/* Search input */}
           <div className="z-30 bg-gray-800">
-            <Search searchText={searchText}
-              setSearch={setSearch}
-              onFocus={() => { setResultVisible(true) }} />
+            <Search onFocus={() => { showSearchResults() }} />
           </div>
 
           {/* Messages */}
@@ -87,12 +85,10 @@ export function HeaderComponent({ isVisible, setIsVisible }: Props) {
         {
           <div className={`fixed top-0 w-full pointer-events-none z-20 overflow-hidden
             transform transition-transform duration-300 ease-in-out text-black
-            ${isVisible && showSearchResults ?
+            ${isVisible && isSearchVisible ?
               `max-h-screen translate-y-0` : // HEADER_HEIGHT but as px (64px) not 16
               'h-[0px] -translate-y-full'}`}>
-            <SearchResults isVisible={isVisible && showSearchResults}
-              searchText={searchText}
-              setResultVisible={isVisible => { setResultVisible(isVisible) }} />
+            <SearchResults isHeaderVisible={isVisible} />
           </div>
         }
       </div>
@@ -107,8 +103,9 @@ export function HeaderComponent({ isVisible, setIsVisible }: Props) {
   )
 }
 
-const Header = observer((props: Omit<Props, 'handle' | 'avatarUrl'>) => {
+const Header = observer((props: Omit<Props, 'handle' | 'avatarUrl' | 'isSearchVisible'>) => {
   return <HeaderComponent {...props}
+    isSearchVisible={searchStore.isSearchVisible}
     handle={sessionStore.current?.user.id}
     avatarUrl={sessionStore.current?.user.id} />
 });

@@ -33,9 +33,9 @@ export default function TabSelection({ headerIsVisible }: Props) {
       left-0 right-0 bg-gray-800 text-white transition-transform duration-300 ease-in-out
       `}>
       <TabButton icon={homeOutline} activeIcon={home} path="/home" />
-      <TabButton icon={mapOutline} activeIcon={map} path="/projects" />
+      <TabButton icon={mapOutline} activeIcon={map} path="/map" />
       <TabButton icon={add} activeIcon={add} onClick={() => {
-        navigate('/projects', { replace: mayReplace() })
+        navigate('/map', { replace: mayReplace() })
         modals.open('/add')
       }} />
       <TabButton icon={analyticsOutline} activeIcon={analytics} path="/track" />

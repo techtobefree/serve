@@ -1,14 +1,15 @@
 import { IonIcon } from "@ionic/react";
 import { search } from "ionicons/icons";
 import { useState } from "react";
+import { searchStore, setSearchText } from "../../domains/search/search";
+import { observer } from "mobx-react-lite";
 
 type Props = {
   searchText: string;
-  setSearch: (newSearch: string) => void;
   onFocus: () => void;
 }
 
-export default function Search({ searchText, setSearch, onFocus }: Props) {
+export function SearchComponent({ searchText, onFocus }: Props) {
   const [isFocused, setFocused] = useState(false);
 
   return (
@@ -22,9 +23,15 @@ export default function Search({ searchText, setSearch, onFocus }: Props) {
           setFocused(true);
         }}
         onBlur={() => { setFocused(false) }}
-        onChange={(e) => { setSearch(e.target.value) }}
+        onChange={(e) => { setSearchText(e.target.value) }}
       />
       <IonIcon className="absolute left-1" slot="start" icon={search} aria-hidden="true" />
     </div>
   )
 }
+
+const Search = observer(({ onFocus }: Omit<Props, 'searchText'>) => {
+  return <SearchComponent onFocus={onFocus} searchText={searchStore.text} />
+})
+
+export default Search;
