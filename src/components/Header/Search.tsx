@@ -1,8 +1,9 @@
 import { IonIcon } from "@ionic/react";
 import { search } from "ionicons/icons";
-import { useState } from "react";
-import { searchStore, setSearchText } from "../../domains/search/search";
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
+
+import { searchStore, setSearchText } from "../../domains/search/search";
 
 type Props = {
   searchText: string;

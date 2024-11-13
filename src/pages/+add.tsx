@@ -1,9 +1,9 @@
 import { IonButton } from "@ionic/react";
 import { useEffect, useState } from "react";
 
+import { Category, filterSearchToCategories, showSearchResults } from "../domains/search/search";
 import { mayReplace } from "../domains/ui/navigation";
 import { useNavigate } from "../router"
-import { Category, filterSearchToCategories, showSearchResults } from "../domains/search/search";
 
 export default function Add() {
   const navigate = useNavigate();

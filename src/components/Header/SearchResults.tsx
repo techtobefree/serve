@@ -1,24 +1,26 @@
 import { IonIcon } from "@ionic/react";
 import { funnelOutline, closeOutline } from "ionicons/icons";
-import { useEffect, useState } from "react";
-
-import { HEADER_HEIGHT } from "../../domains/ui/header";
-import { useAllProjectsQuery } from "../../queries/allProjects";
-import ProjectCard from "../Project/ProjectCard";
-import PulsingCard from "../Project/PulsingCard";
-import { Category, hideSearchResults, searchStore } from "../../domains/search/search";
 import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
+import { hideSearchResults, searchStore } from "../../domains/search/search";
+import { HEADER_HEIGHT } from "../../domains/ui/header";
+
+import GroupResults from "./GroupResults";
+import PeopleResults from "./PeopleResults";
+import ProjectResults from "./ProjectResults";
+
 type Props = {
-  hasCategoryInFilter: Category[];
   isHeaderVisible: boolean;
   isSearchVisible: boolean;
   searchText: string;
 }
 
-export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, isSearchVisible, searchText }: Props) {
-  const { data: projects, isLoading, isError } = useAllProjectsQuery();
+export function SearchResultsComponent({
+  isHeaderVisible,
+  isSearchVisible,
+}: Props) {
   const location = useLocation();
 
   const [filters, setFilters] = useState<string[]>([]);
@@ -37,6 +39,7 @@ export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, i
     if (isSearchVisible) {
       hideSearchResults();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
   return (
@@ -86,26 +89,9 @@ export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, i
                 }
                 <div className="p-6 text-gray-700">(Search/filters coming soon)</div>
 
-                {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.project)) && <>
-                  <div>Projects</div>
-                  <div className="max-w-[800px] flex-1 flex-col gap-2 flex">
-                    {isError && <div className='text-3xl p-3'>Error loading projects</div>}
-                    {isLoading && <>
-                      <PulsingCard />
-                      <PulsingCard />
-                      <PulsingCard />
-                    </>}
-                    {projects?.map((project) => <ProjectCard key={project.id} project={project} />)}
-                  </div>
-                </>}
-                {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.person)) && <>
-                  <div>People</div>
-                  <div className="p-6 text-gray-700">(Coming soon) No people found searching for "{searchText}"</div>
-                </>}
-                {(!hasCategoryInFilter.length || hasCategoryInFilter.includes(Category.group)) && <>
-                  <div>Groups</div>
-                  <div className="p-6 text-gray-700">(Coming soon) No groups found searching for "{searchText}"</div>
-                </>}
+                <ProjectResults />
+                <PeopleResults />
+                <GroupResults />
               </div>
             </div>
             <div className="flex-grow w-full bg-[#000000aa]"
@@ -119,9 +105,9 @@ export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, i
   )
 }
 
-const SearchResults = observer(({ isHeaderVisible }: Omit<Props, 'searchText' | 'isSearchVisible' | 'hasCategoryInFilter'>) => {
+const SearchResults = observer(({ isHeaderVisible }:
+  Omit<Props, 'searchText' | 'isSearchVisible'>) => {
   return <SearchResultsComponent
-    hasCategoryInFilter={searchStore.hasCategoryInFilter}
     isHeaderVisible={isHeaderVisible}
     isSearchVisible={searchStore.isSearchVisible}
     searchText={searchStore.text} />

@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useState, useEffect } from "react";
 
 import { sessionStore } from "../../domains/auth/sessionStore";
+import { searchStore, showSearchResults } from "../../domains/search/search";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { useVisibleRef } from "../../hooks/useVisibleRef";
@@ -11,7 +12,6 @@ import { useModals } from '../../router'
 
 import Search from "./Search";
 import SearchResults from "./SearchResults";
-import { searchStore, showSearchResults } from "../../domains/search/search";
 
 type Props = {
   handle?: string;

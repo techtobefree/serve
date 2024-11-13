@@ -4,11 +4,11 @@ import { observer } from "mobx-react-lite";
 import ProjectCard from "../../components/Project/ProjectCard";
 import PulsingCard from "../../components/Project/PulsingCard";
 import { sessionStore } from "../../domains/auth/sessionStore";
+import { Category, filterSearchToCategories, showSearchResults } from "../../domains/search/search";
 import { mayReplace } from "../../domains/ui/navigation";
 import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
 import { useNavigate } from "../../router";
-import { Category, filterSearchToCategories, showSearchResults } from "../../domains/search/search";
 
 type Props = {
   userId?: string;

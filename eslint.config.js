@@ -7,7 +7,7 @@ import react from 'eslint-plugin-react'
 import importPlugin from 'eslint-plugin-import';
 
 export default tseslint.config(
-  { ignores: ['dist', 'capacitor.config.ts', 'android', 'ios', 'src/domains/db/supabaseTypes.ts'] },
+  { ignores: ['dist', 'capacitor.config.ts', 'android', 'ios', 'src/router.ts', 'src/domains/db/supabaseTypes.ts'] },
   {
     extends: [
       js.configs.recommended,
