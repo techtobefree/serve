@@ -14,3 +14,6 @@ export function shouldReplaceHistory(itShould: boolean) {
 export function mayReplace() {
   return historyStore.replace
 }
+
+const { protocol, hostname, port } = window.location;
+export const BASE_URL = `${protocol}//${hostname}${port ? `:${port}` : ''}`

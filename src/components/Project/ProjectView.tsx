@@ -1,8 +1,9 @@
 import { IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 
-import { mayReplace } from "../../domains/ui/navigation"
+import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import { useProjectByIdQuery } from "../../queries/projectById"
+import { useQrCode } from "../../queries/qr"
 import { useNavigate } from "../../router"
 
 type Props = {
@@ -12,6 +13,8 @@ type Props = {
 
 export default function ProjectView({ project, canEdit }: Props) {
   const navigate = useNavigate();
+  const { data: projectQrCodeUrl } =
+    useQrCode(`${BASE_URL}/project/${project?.id || ''}/view`, !project?.id)
 
   if (!project) {
     return
@@ -30,8 +33,11 @@ export default function ProjectView({ project, canEdit }: Props) {
             )
           }} />}
       </div>
-      <div>
+      <div className='flex justify-between'>
         <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}
+          alt="Placeholder"
+          className="w-1/3 object-cover" />
+        <img src={projectQrCodeUrl}
           alt="Placeholder"
           className="w-1/3 object-cover" />
       </div>
