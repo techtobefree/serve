@@ -67,7 +67,10 @@ export function SearchResultsComponent({ hasCategoryInFilter, isHeaderVisible, i
       </div>
 
       {/* Search results */}
-      <div className='flex justify-center bg-[#62aacb] pointer-events-auto h-full'>
+      <div className='flex justify-center bg-[#62aacb] pointer-events-auto h-full'
+        onClick={() => {
+          hideSearchResults();
+        }}>
         {isHeaderVisible && isSearchVisible &&
           <div className='max-h-[calc(100vh-64px)] max-w-[800px] text-black overflow-auto'>
             {/* Modal Body */}
