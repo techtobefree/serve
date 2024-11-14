@@ -20,6 +20,6 @@ export function useMyAdminProjectsQuery(userId?: string) {
       }
 
       return data;
-    }
+    },
   })
 }

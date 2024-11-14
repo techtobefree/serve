@@ -32,6 +32,7 @@
     "@capacitor/ios": "^6.1.2",
     "@generouted/react-router": "^1.19.8",
     "@ionic/react": "^8.3.4",
+    "@ngneat/falso": "^7.2.0",
     "@supabase/supabase-js": "^2.46.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tanstack/react-form": "^0.34.4",

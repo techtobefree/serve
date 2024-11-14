@@ -37,7 +37,8 @@ export function TrackComponent({ userId }: Props) {
             {isAdminLoading && <>
               <PulsingCard />
             </>}
-            {adminProjects?.map((project) => <ProjectCard key={project.id} project={project} />)}
+            {Array.isArray(adminProjects) &&
+              adminProjects.map((project) => <ProjectCard key={project.id} project={project} />)}
             {adminProjects?.length === 0 && <div>
               <span>No managed projects.</span>
               <IonButton onClick={() => { navigate('/project/new') }}>Create one!</IonButton>
