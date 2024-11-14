@@ -16,7 +16,7 @@ ALTER TABLE public.admin_user ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "read_own_admin_user" ON public.admin_user
   FOR SELECT TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 -- Create an index on the user_id column for better performance

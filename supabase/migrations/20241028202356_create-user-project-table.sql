@@ -25,20 +25,20 @@ CREATE POLICY "read_user_project" ON public.user_project
 CREATE POLICY "insert_own_user_project" ON public.user_project
   FOR INSERT TO authenticated
   WITH CHECK (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
   -- TODO: or admin of project
 
 CREATE POLICY "update_own_user_project" ON public.user_project
   FOR UPDATE TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 CREATE POLICY "delete_own_user_project" ON public.user_project
   FOR DELETE TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 

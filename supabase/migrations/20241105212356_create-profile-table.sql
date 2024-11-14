@@ -1,6 +1,6 @@
 -- Create the profile table with RLS
 CREATE TABLE public.profile (
-  user_id uuid PRIMARY,
+  user_id uuid PRIMARY KEY,
   handle text UNIQUE NOT NULL,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
@@ -20,19 +20,19 @@ CREATE POLICY "read_profile" ON public.profile
 CREATE POLICY "insert_own_or_admin_profile" ON public.profile
   FOR INSERT TO authenticated
   WITH CHECK (
-    auth.uid() = user_id OR (auth.role() = 'admin')
+    (select auth.uid()) = user_id OR ((select auth.role()) = 'admin')
   );
 
 CREATE POLICY "update_own_or_admin_profile" ON public.profile
   FOR UPDATE TO authenticated
   USING (
-    auth.uid() = user_id OR (auth.role() = 'admin')
+    (select auth.uid()) = user_id OR ((select auth.role()) = 'admin')
   );
 
 CREATE POLICY "delete_own_or_admin_profile" ON public.profile
   FOR DELETE TO authenticated
   USING (
-    auth.uid() = user_id OR (auth.role() = 'admin')
+    (select auth.uid()) = user_id OR ((select auth.role()) = 'admin')
   );
 
 -- Create an index on the handle column for better performance
@@ -52,7 +52,7 @@ as $$
   declare
     claims jsonb;
   begin
-    claims := jsonb_build_object('role', (select role from public.admin_user where id = auth.uid()));
+    claims := jsonb_build_object('role', (select role from public.admin_user where id = (select auth.uid())));
     return claims;
   end;
 $$;

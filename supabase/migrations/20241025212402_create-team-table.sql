@@ -23,26 +23,26 @@ CREATE POLICY "read_non_unlisted_team" ON public.team
     -- TODO: should only be able to see if you are in the team, or it is not unlisted
     -- unlisted = false
     -- OR
-    -- auth.uid() = admin_id
+    -- (select auth.uid()) = admin_id
   );
 
 -- Create a policy that allows insert, update, and delete for the admin
 CREATE POLICY "insert_own_or_admin_team" ON public.team
   FOR INSERT TO authenticated
   WITH CHECK (
-    auth.uid() = admin_id OR (auth.role() = 'admin')
+    (select auth.uid()) = admin_id OR ((select auth.role()) = 'admin')
   );
 
 CREATE POLICY "update_own_or_admin_team" ON public.team
   FOR UPDATE TO authenticated
   USING (
-    auth.uid() = admin_id OR (auth.role() = 'admin')
+    (select auth.uid()) = admin_id OR ((select auth.role()) = 'admin')
   );
 
 CREATE POLICY "delete_own_or_admin_team" ON public.team
   FOR DELETE TO authenticated
   USING (
-    auth.uid() = admin_id OR (auth.role() = 'admin')
+    (select auth.uid()) = admin_id OR ((select auth.role()) = 'admin')
   );
 
 -- Create an index on the admin column for better performance

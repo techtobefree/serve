@@ -18,27 +18,27 @@ CREATE POLICY "read_user_team" ON public.user_team
   USING (
     true
     -- TODO: should only allow self, and admin of project (and friends of user) to see
-    -- auth.uid() = user_id
+    -- (select auth.uid()) = user_id
   );
 
 -- Create a policy that allows users manage their own data
 CREATE POLICY "insert_own_user_team" ON public.user_team
   FOR INSERT TO authenticated
   WITH CHECK (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
   -- TODO: or admin of project
 
 CREATE POLICY "update_own_user_team" ON public.user_team
   FOR UPDATE TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 CREATE POLICY "delete_own_user_team" ON public.user_team
   FOR DELETE TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 

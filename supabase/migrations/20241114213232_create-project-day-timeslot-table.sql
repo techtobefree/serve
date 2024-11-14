@@ -32,20 +32,22 @@ CREATE POLICY "read_project_day_timeslot" ON public.project_day_timeslot
 CREATE POLICY "insert_admin_project_day_timeslot" ON public.project_day_timeslot
   FOR INSERT TO authenticated
   WITH CHECK (
-    auth.uid() = (
-      SELECT auth_id 
-      FROM project 
+    (select auth.uid()) = (
+      SELECT admin_id
+      FROM project
       WHERE project.id = project_day_timeslot.project_id
+      LIMIT 1
     )
   );
 
 CREATE POLICY "delete_admin_project_day_timeslot" ON public.project_day_timeslot
   FOR DELETE TO authenticated
   USING (
-    auth.uid() = (
-      SELECT auth_id 
-      FROM project 
+    (select auth.uid()) = (
+      SELECT admin_id
+      FROM project
       WHERE project.id = project_day_timeslot.project_id
+      LIMIT 1
     )
   );
 
@@ -55,10 +57,10 @@ CREATE TRIGGER update_project_day_timeslot_modtime
   FOR EACH ROW
   EXECUTE FUNCTION update_modified_columns();
 
-ALTER TABLE project_day_timeslot
+ALTER TABLE public.project_day_timeslot
 ADD CONSTRAINT fk_project_id_to_project_id
 FOREIGN KEY (project_id) REFERENCES project(id);
 
-ALTER TABLE project_day_timeslot
+ALTER TABLE public.project_day_timeslot
 ADD CONSTRAINT fk_project_day_id_to_project_day_timeslot_project_id
-FOREIGN KEY (project_day_id) REFERENCES project_day(id);
+FOREIGN KEY (project_day_id) REFERENCES gis.project_day(id);

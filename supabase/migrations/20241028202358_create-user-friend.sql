@@ -17,28 +17,28 @@ ALTER TABLE public.user_friend ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "read_own_or_friend_user_friend" ON public.user_friend
   FOR SELECT TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
     OR
-    auth.uid() = friend_id
+    (select auth.uid()) = friend_id
   );
 
 -- Create a policy that allows users manage their own data
 CREATE POLICY "insert_own_user_friend" ON public.user_friend
   FOR INSERT TO authenticated
   WITH CHECK (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 CREATE POLICY "update_own_user_friend" ON public.user_friend
   FOR UPDATE TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 CREATE POLICY "delete_own_user_friend" ON public.user_friend
   FOR DELETE TO authenticated
   USING (
-    auth.uid() = user_id
+    (select auth.uid()) = user_id
   );
 
 

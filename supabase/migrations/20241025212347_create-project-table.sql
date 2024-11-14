@@ -31,19 +31,19 @@ CREATE POLICY "read_non_unlisted_project" ON public.project
 CREATE POLICY "insert_own_or_admin_project" ON public.project
   FOR INSERT TO authenticated
   WITH CHECK (
-    (auth.uid () = admin_id) OR (auth.role () = 'admin')
+    ((select auth.uid()) = admin_id) OR ((select auth.role()) = 'admin')
   );
 
 CREATE POLICY "update_own_or_admin_project" ON public.project
   FOR UPDATE TO authenticated
   USING (
-    (auth.uid () = admin_id) OR (auth.role () = 'admin')
+    ((select auth.uid()) = admin_id) OR ((select auth.role()) = 'admin')
   );
 
 CREATE POLICY "delete_own_or_admin_project" ON public.project 
   FOR DELETE TO authenticated
   USING (
-    (auth.uid () = admin_id) OR (auth.role () = 'admin')
+    ((select auth.uid()) = admin_id) OR ((select auth.role()) = 'admin')
   );
 
 -- Create an index on the admin column for better performance

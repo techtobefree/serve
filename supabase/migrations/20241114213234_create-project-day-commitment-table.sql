@@ -4,8 +4,8 @@ CREATE TABLE public.project_day_commitment (
   project_id uuid NOT NULL,
   project_day_id uuid NOT NULL,
 
-  commitment_start timestamp NOT NULL,
-  commitment_end timestamp NOT NULL,
+  commitment_start timestamp with time zone NOT NULL,
+  commitment_end timestamp with time zone NOT NULL,
   role text NOT NULL,
 
   created_at timestamp with time zone DEFAULT now(),
@@ -30,20 +30,22 @@ CREATE POLICY "read_project_day_commitment" ON public.project_day_commitment
 CREATE POLICY "insert_admin_project_day_commitment" ON public.project_day_commitment
   FOR INSERT TO authenticated
   WITH CHECK (
-    auth.uid() = (
-      SELECT auth_id 
-      FROM project 
+    (select auth.uid()) = (
+      SELECT admin_id
+      FROM project
       WHERE project.id = project_day_commitment.project_id
+      LIMIT 1
     )
   );
 
 CREATE POLICY "delete_admin_project_day_commitment" ON public.project_day_commitment
   FOR DELETE TO authenticated
   USING (
-    auth.uid() = (
-      SELECT auth_id 
-      FROM project 
+    (select auth.uid()) = (
+      SELECT admin_id
+      FROM project
       WHERE project.id = project_day_commitment.project_id
+      LIMIT 1
     )
   );
 
@@ -53,10 +55,10 @@ CREATE TRIGGER update_project_day_commitment_modtime
   FOR EACH ROW
   EXECUTE FUNCTION update_modified_columns();
 
-ALTER TABLE project_day_commitment
+ALTER TABLE public.project_day_commitment
 ADD CONSTRAINT fk_project_id_to_project_id
 FOREIGN KEY (project_id) REFERENCES project(id);
 
-ALTER TABLE project_day_commitment
+ALTER TABLE public.project_day_commitment
 ADD CONSTRAINT fk_project_day_id_to_project_day_commitment_project_id
-FOREIGN KEY (project_day_id) REFERENCES project_day(id);
+FOREIGN KEY (project_day_id) REFERENCES gis.project_day(id);

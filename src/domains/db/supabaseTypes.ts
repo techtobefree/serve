@@ -47,6 +47,7 @@ export type Database = {
           id: string
           project_id: string
           team_id: string
+          tone: string | null
           updated_at: string | null
           updated_by: string | null
           user_id: string
@@ -58,6 +59,7 @@ export type Database = {
           id?: string
           project_id: string
           team_id: string
+          tone?: string | null
           updated_at?: string | null
           updated_by?: string | null
           user_id: string
@@ -69,6 +71,7 @@ export type Database = {
           id?: string
           project_id?: string
           team_id?: string
+          tone?: string | null
           updated_at?: string | null
           updated_by?: string | null
           user_id?: string
@@ -143,6 +146,197 @@ export type Database = {
           updated_by?: string | null
         }
         Relationships: []
+      }
+      project_day_commitment: {
+        Row: {
+          commitment_end: string
+          commitment_start: string
+          created_at: string | null
+          created_by: string
+          id: string
+          project_day_id: string
+          project_id: string
+          role: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          commitment_end: string
+          commitment_start: string
+          created_at?: string | null
+          created_by: string
+          id?: string
+          project_day_id: string
+          project_id: string
+          role: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          commitment_end?: string
+          commitment_start?: string
+          created_at?: string | null
+          created_by?: string
+          id?: string
+          project_day_id?: string
+          project_id?: string
+          role?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_project_id_to_project_id"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_day_item_ask: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          every_member: boolean
+          id: string
+          item_count: number
+          item_name: string
+          project_day_id: string
+          project_id: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          every_member: boolean
+          id?: string
+          item_count: number
+          item_name: string
+          project_day_id: string
+          project_id: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          every_member?: boolean
+          id?: string
+          item_count?: number
+          item_name?: string
+          project_day_id?: string
+          project_id?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_project_id_to_project_id"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_day_item_commitment: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          id: string
+          item_count: number
+          item_name: string
+          project_day_id: string
+          project_id: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          id?: string
+          item_count: number
+          item_name: string
+          project_day_id: string
+          project_id: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          id?: string
+          item_count?: number
+          item_name?: string
+          project_day_id?: string
+          project_id?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_project_id_to_project_id"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_day_timeslot: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          id: string
+          project_day_id: string
+          project_id: string
+          role: string
+          timeslot_count: number
+          timeslot_duration_minutes: number
+          timeslot_start_hour: number
+          timeslot_start_minute: number
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          id?: string
+          project_day_id: string
+          project_id: string
+          role: string
+          timeslot_count: number
+          timeslot_duration_minutes: number
+          timeslot_start_hour: number
+          timeslot_start_minute: number
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          id?: string
+          project_day_id?: string
+          project_id?: string
+          role?: string
+          timeslot_count?: number
+          timeslot_duration_minutes?: number
+          timeslot_start_hour?: number
+          timeslot_start_minute?: number
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_project_id_to_project_id"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sensitive_profile: {
         Row: {
