@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite"
 
 import { sessionStore } from "../../domains/auth/sessionStore";
 import { Category, filterSearchToCategories, showSearchResults } from "../../domains/search/search";
+import { useMyProfileQuery } from "../../queries/myProfile";
 import { useNavigate } from "../../router";
 
 type Props = {
@@ -11,7 +12,9 @@ type Props = {
 }
 
 export function HomeComponent({ userId }: Props) {
+  useMyProfileQuery(userId) // Just to use the userId
   const navigate = useNavigate();
+
   return (
     <div className='flex justify-center items-center p-10'>
       <div className='max-w-[600px] gap-6 flex flex-col'>
