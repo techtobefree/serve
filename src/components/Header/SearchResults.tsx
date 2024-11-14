@@ -48,7 +48,7 @@ export function SearchResultsComponent({
       <div className="flex justify-between items-end">
         <div className={`
             pointer-events-auto text-lg cursor-pointer
-            bg-[#62aacb] h-${HEADER_HEIGHT} flex w-20 justify-center items-center
+            bg-[#f0f0f0] h-${HEADER_HEIGHT} flex w-20 justify-center items-center
           `}
           onClick={() => {
             setFilters(filters.concat('+1'))
@@ -57,20 +57,20 @@ export function SearchResultsComponent({
         </div>
         <div>
           <svg width="16" height="16" viewBox="0 0 16 16"
-            style={{ backgroundColor: '#62aacb' }}>
-            <path d="M 16 16 A 16 16 0 0 1 0 0 L 16 0 Z" fill="#1f2937" />
+            style={{ backgroundColor: '#f0f0f0' }}>
+            <path d="M 16 16 A 16 16 0 0 1 0 0 L 16 0 Z" fill="#004681" />
           </svg>
         </div>
         <div className='flex-grow'></div>
         <div>
           <svg width="16" height="16" viewBox="0 0 16 16"
-            style={{ backgroundColor: '#62aacb' }}>
-            <path d="M 16 0 A 16 16 0 0 1 0 16 L 0 0 Z" fill="#1f2937" />
+            style={{ backgroundColor: '#f0f0f0' }}>
+            <path d="M 16 0 A 16 16 0 0 1 0 16 L 0 0 Z" fill="#004681" />
           </svg>
         </div>
         <div className={`
                 pointer-events-auto cursor-pointer
-                bg-[#62aacb] h-${HEADER_HEIGHT} flex w-20 justify-center items-center
+                bg-[#f0f0f0] h-${HEADER_HEIGHT} flex w-20 justify-center items-center
               `}
           onClick={() => { hideSearchResults() }}>
           <IonIcon icon={closeOutline} className='text-3xl' />
@@ -78,16 +78,16 @@ export function SearchResultsComponent({
       </div>
 
       {/* Search results */}
-      <div className='flex justify-center pointer-events-auto h-full'>
+      <div className='flex justify-center pointer-events-auto h-full text-black'>
         {isHeaderVisible && isSearchVisible &&
-          <div className='h-[calc(100vh-64px)] w-full text-black overflow-auto flex flex-col'>
-            <div className='w-full flex flex-col items-center bg-[#62aacb]'>
+          <div className='h-[calc(100vh-64px)] w-full overflow-auto flex flex-col'>
+            <div className='w-full flex flex-col items-center bg-[#f0f0f0]'>
               <div className='max-w-[800px]'>
                 {/* Modal Body */}
                 {!!filters.length &&
-                  <div className="p-6 text-gray-700">Filters: {filters.join(', ')}</div>
+                  <div className="p-6">Filters: {filters.join(', ')}</div>
                 }
-                <div className="p-6 text-gray-700">(Search/filters coming soon)</div>
+                <div className="p-6">(Search/filters coming soon)</div>
 
                 <ProjectResults />
                 <PeopleResults />

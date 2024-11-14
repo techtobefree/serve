@@ -79,7 +79,6 @@ export default function Login() {
         {/* Close Button */}
         <button
           onClick={() => { navigate(-1) }}
-          className="text-gray-400 hover:text-gray-600"
         >
           <IonIcon className="text-4xl text-blue-500" icon={closeOutline} />
         </button>
@@ -88,7 +87,7 @@ export default function Login() {
       {/* Modal Content */}
       <div className="p-6">
         <div className="flex flex-col space-y-2 w-50 h-28">
-          <label htmlFor="phone" className="text-gray-700">
+          <label htmlFor="phone">
             Phone Number
           </label>
           <input
@@ -109,14 +108,14 @@ export default function Login() {
             void requestOTP(formatPhoneNumber(phone))
             const nextPhoneTime = Date.now() + 30 * 1000;
             setNextCodeAvailableTime(nextPhoneTime.toString()) // 60 seconds from now
-          }}>Send OTP</IonButton>
+          }}>{nextCodeAvailableTimeMS > Date.now() ? 'Password sent' : 'Send password'}</IonButton>
         </div>
         <p className="pt-6">
           Login with a One Time Password.
           We will text the number provided a 6 digit code. Texting charges apply.
         </p>
         <div className="flex flex-col space-y-2 w-50 h-36 pt-12">
-          <label htmlFor="otp" className="text-gray-700">
+          <label htmlFor="otp">
             Verify
           </label>
           <input

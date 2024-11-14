@@ -55,7 +55,6 @@ export default function LoggedIn({ handle, userId }: Props) {
         {/* Close Button */}
         <button
           onClick={() => { navigate(-1) }}
-          className="text-gray-400 hover:text-gray-600"
         >
           <IonIcon className="text-4xl text-blue-500" icon={closeOutline} />
         </button>

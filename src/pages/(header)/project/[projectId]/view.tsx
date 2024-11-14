@@ -31,6 +31,7 @@ export function ProjectViewComponent({ currentUserId }: Props) {
       <div className="flex justify-center">
         <div className="max-w-[800px] w-full">
           <ProjectView project={project}
+            currentUserId={currentUserId}
             canEdit={!!currentUserId && project.admin_id === currentUserId} />
         </div>
       </div>

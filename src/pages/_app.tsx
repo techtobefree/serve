@@ -37,7 +37,9 @@ export function LayoutComponent({ session }: Props) {
   }, [navigate, location]);
 
   return (
-    <Outlet />
+    <div className='bg-[#f0f0f0]'>
+      <Outlet />
+    </div>
   )
 }
 

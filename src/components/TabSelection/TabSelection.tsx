@@ -30,7 +30,7 @@ export default function TabSelection({ headerIsVisible }: Props) {
       flex h-${TAB_SELECTION_HEIGHT} w-full fixed bottom-0 md:bottom-auto
       ${DEVICE.PLATFORM === DEVICE_TYPE.ios ? 'md:top-16' : 'md:top-0'}
       ${headerIsVisible ? 'md:translate-y-full' : 'md:translate-y-0'}
-      left-0 right-0 bg-gray-800 text-white transition-transform duration-300 ease-in-out
+      left-0 right-0 bg-[#001B48] text-white transition-transform duration-300 ease-in-out
       `}>
       <TabButton icon={homeOutline} activeIcon={home} path="/home" />
       <TabButton icon={mapOutline} activeIcon={map} path="/map" />

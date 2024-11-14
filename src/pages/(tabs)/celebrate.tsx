@@ -1,6 +1,8 @@
 export default function Celebrate() {
 
   return (
-    <div>Celebrate soon</div>
+    <div className="flex justify-center p-4">
+      Celebrate coming soon
+    </div>
   )
 }

@@ -13,7 +13,8 @@ export function useProjectByIdQuery(projectId: string) {
           user_project (
             user_id,
             profile (
-              user_id
+              user_id,
+              handle
             )
           )
           `)

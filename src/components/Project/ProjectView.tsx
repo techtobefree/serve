@@ -1,6 +1,7 @@
 import { IonButton, IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 
+import { leaveProject } from "../../commands/leaveProject"
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import { useProjectByIdQuery } from "../../queries/projectById"
 import { useQrCode } from "../../queries/qr"
@@ -9,9 +10,10 @@ import { useNavigate } from "../../router"
 type Props = {
   project: ReturnType<typeof useProjectByIdQuery>['data'];
   canEdit: boolean;
+  currentUserId?: string;
 }
 
-export default function ProjectView({ project, canEdit }: Props) {
+export default function ProjectView({ currentUserId, project, canEdit }: Props) {
   const navigate = useNavigate();
   const { data: projectQrCodeUrl } =
     useQrCode(`${BASE_URL}/project/${project?.id || ''}/view`, !project?.id)
@@ -19,6 +21,7 @@ export default function ProjectView({ project, canEdit }: Props) {
   if (!project) {
     return
   }
+  const isUserMember = currentUserId && project.user_project.find(i => i.user_id === currentUserId);
 
   return (
     <>
@@ -44,17 +47,31 @@ export default function ProjectView({ project, canEdit }: Props) {
       <br />
       <div>Members: {project.user_project.length}</div>
       <br />
+      <div className="text-2xl">{`Who's going`}</div>
+      {project.user_project.map(i => {
+        return (
+          <div key={i.user_id}>
+            {i.profile?.handle || i.user_id}
+          </div>
+        )
+      })}
+      <br />
       <div>{project.description}</div>
       <br />
       <br />
       <div className="w-full flex justify-end">
-        <IonButton
+        {!isUserMember && <IonButton
           onClick={() => {
             navigate(
               '/project/:projectId/join',
               { params: { projectId: project.id }, replace: true }
             )
-          }}>Join Project</IonButton>
+          }}>Join Project</IonButton>}
+        {isUserMember && <IonButton
+          color='danger'
+          onClick={() => {
+            void leaveProject(project.id, currentUserId);
+          }}>Leave Project</IonButton>}
       </div>
     </>
   )

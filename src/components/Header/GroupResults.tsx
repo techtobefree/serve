@@ -17,7 +17,7 @@ export function GroupResultsComponent({ displayResults, searchText }: Props) {
   return (
     <>
       <div>Group</div>
-      <div className="p-6 text-gray-700">
+      <div className="p-6">
         (Coming soon) No people found searching for {`"${searchText}"`}
       </div>
     </>

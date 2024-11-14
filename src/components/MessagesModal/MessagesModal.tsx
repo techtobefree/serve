@@ -21,17 +21,16 @@ export function MessagesModalContentComponent() {
         {/* Close Button */}
         <button
           onClick={() => { navigate(-1) }}
-          className="text-gray-400 hover:text-gray-600"
         >
           <IonIcon className="text-4xl text-blue-500" icon={closeOutline} />
         </button>
       </div>
 
       {/* Modal Body */}
-      <div className="p-6 text-gray-700">Coming soon...</div>
-      <div className="p-6 text-gray-700">Direct messages</div>
-      <div className="p-6 text-gray-700">Group messages</div>
-      <div className="p-6 text-gray-700">Project messages</div>
+      <div className="p-6">Coming soon...</div>
+      <div className="p-6">Direct messages</div>
+      <div className="p-6">Group messages</div>
+      <div className="p-6">Project messages</div>
     </>
   )
 }

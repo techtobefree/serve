@@ -15,7 +15,7 @@ export async function changeHandle(userId: string, handle: string) {
       }
     ).eq('user_id', userId);
 
-  queryClient.invalidateQueries({ queryKey: ['my-profile', userId] });
+  await queryClient.invalidateQueries({ queryKey: ['my-profile', userId] });
 }
 
 export function useMyProfileQuery(userId?: string) {
@@ -45,7 +45,7 @@ export function useMyProfileQuery(userId?: string) {
             }
           ]);
       }
-      console.log('try 2')
+
       const { data: try2, error } = await supabase
         .from('profile')
         .select('*')

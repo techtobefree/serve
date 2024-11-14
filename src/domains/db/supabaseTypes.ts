@@ -79,8 +79,7 @@ export type Database = {
         Row: {
           created_at: string | null
           created_by: string
-          handle: string | null
-          id: string
+          handle: string
           updated_at: string | null
           updated_by: string | null
           user_id: string
@@ -88,8 +87,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           created_by: string
-          handle?: string | null
-          id?: string
+          handle: string
           updated_at?: string | null
           updated_by?: string | null
           user_id: string
@@ -97,8 +95,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           created_by?: string
-          handle?: string | null
-          id?: string
+          handle?: string
           updated_at?: string | null
           updated_by?: string | null
           user_id?: string
@@ -277,7 +274,22 @@ export type Database = {
           updated_by?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_project_project_id_to_project_id"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user_project_user_id_to_profile_user_id"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       user_team: {
         Row: {

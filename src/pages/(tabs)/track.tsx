@@ -8,13 +8,16 @@ import { Category, filterSearchToCategories, showSearchResults } from "../../dom
 import { mayReplace } from "../../domains/ui/navigation";
 import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
-import { useNavigate } from "../../router";
+import { useModals, useNavigate } from "../../router";
 
 type Props = {
   userId?: string;
 }
 
 export function TrackComponent({ userId }: Props) {
+  const modals = useModals();
+  const navigate = useNavigate();
+
   const {
     data: adminProjects,
     isLoading: isAdminLoading,
@@ -25,7 +28,6 @@ export function TrackComponent({ userId }: Props) {
     isLoading: isAttendingLoading,
     isError: isAttendingError
   } = useMyAttendingProjectsQuery(userId);
-  const navigate = useNavigate();
 
   return (
     <>
@@ -65,7 +67,13 @@ export function TrackComponent({ userId }: Props) {
           </div>
         </div>
       </>}
-      {!userId && <div>Login to track projects</div>}
+      {!userId &&
+        <div className="flex flex-col justify-center p-4">
+          <div>Login to track projects</div>
+          <IonButton onClick={() => {
+            modals.open('/profile');
+          }}>Login</IonButton>
+        </div>}
     </>
   )
 }

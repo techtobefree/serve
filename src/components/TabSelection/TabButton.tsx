@@ -25,7 +25,9 @@ export default function TabButton({ path, icon, activeIcon, onClick }: Props) {
 
   return (
     <div
-      className={`flex flex-1 ${isActive ? 'text-white' : 'text-blue-500'} p-4 cursor-pointer`}
+      className={`flex flex-1 text-white p-4 cursor-pointer
+        ${isActive ? 'opacity-100' : 'opacity-40'}
+        `}
       onClick={onClick ? onClick :
         () => { if (path) { navigate(path, { replace: mayReplace() }) } }
       }

@@ -1,7 +1,7 @@
 -- Create the profile table with RLS
 CREATE TABLE public.profile (
   user_id uuid PRIMARY,
-  handle text UNIQUE,
+  handle text UNIQUE NOT NULL,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
   updated_at timestamp with time zone DEFAULT now(),
