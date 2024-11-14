@@ -1,4 +1,4 @@
--- Create the user table with RLS
+-- Create the user_team table with RLS
 CREATE TABLE public.user_team (
   user_id uuid NOT NULL,
   team_id uuid NOT NULL,

@@ -1,4 +1,4 @@
--- Create the user table with RLS
+-- Create the user_project table with RLS
 CREATE TABLE public.user_project (
   user_id uuid NOT NULL,
   project_id uuid NOT NULL,

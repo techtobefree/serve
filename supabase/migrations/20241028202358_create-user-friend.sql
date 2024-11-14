@@ -1,4 +1,4 @@
--- Create the user table with RLS
+-- Create the user_friend table with RLS
 CREATE TABLE public.user_friend (
   user_id uuid NOT NULL,
   friend_id uuid NOT NULL,

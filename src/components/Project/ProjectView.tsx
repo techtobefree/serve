@@ -46,8 +46,6 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
       </div>
       <br />
       <div>Members: {project.user_project.length}</div>
-      <br />
-      <div className="text-2xl">{`Who's going`}</div>
       {project.user_project.map(i => {
         return (
           <div key={i.user_id}>

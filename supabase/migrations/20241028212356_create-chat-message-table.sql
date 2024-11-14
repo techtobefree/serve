@@ -1,10 +1,11 @@
--- Create the user table with RLS
+-- Create the chat_message table with RLS
 CREATE TABLE public.chat_message (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL, -- user who wrote the chat message
   project_id uuid NOT NULL,
   team_id uuid NOT NULL,
   friend_id uuid NOT NULL,
+  tone text,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
   updated_at timestamp with time zone DEFAULT now(),

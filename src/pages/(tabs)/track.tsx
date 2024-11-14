@@ -32,7 +32,7 @@ export function TrackComponent({ userId }: Props) {
   return (
     <>
       {userId && <>
-        <div className="text-2xl">{`Admin`}</div>
+        <div className="text-2xl">{`My Active Projects`}</div>
         <div className="flex justify-center m-1">
           <div className="max-w-[600px] flex-1 flex-col gap-2 flex">
             {isAdminError && <div className='text-3xl p-3'>Error loading projects</div>}
@@ -45,11 +45,6 @@ export function TrackComponent({ userId }: Props) {
               <span>No managed projects.</span>
               <IonButton onClick={() => { navigate('/project/new') }}>Create one!</IonButton>
             </div>}
-          </div>
-        </div>
-        <div className="text-2xl">{`Joined`}</div>
-        <div className="flex justify-center m-1">
-          <div className="max-w-[600px] flex-1 flex-col gap-2 flex">
             {isAttendingError && <div className='text-3xl p-3'>Error loading projects</div>}
             {isAttendingLoading && <>
               <PulsingCard />
@@ -67,6 +62,8 @@ export function TrackComponent({ userId }: Props) {
           </div>
         </div>
       </>}
+      {/* TODO: Project History */}
+      {/* <div className="text-2xl">{`Project History`}</div> */}
       {!userId &&
         <div className="flex flex-col justify-center p-4">
           <div>Login to track projects</div>

@@ -30,24 +30,33 @@ export default function LoggedIn({ handle, userId }: Props) {
       <div className="flex justify-between items-center border-b border-gray-200 p-4">
         {!inEditMode &&
           <div className="flex items-center cursor-pointer" onClick={() => { setEditMoade(true) }}>
-            <IonIcon icon={createOutline} className='text-xl p-1 text-blue-500' />
-            <h2 className="text-lg font-semibold">
+            <IonIcon icon={createOutline} className='text-xl p-2 text-blue-500' />
+            <div className="text-xl p-1 font-semibold">
               {handle}
-            </h2>
+            </div>
           </div>
         }
         {inEditMode &&
           <div className='flex items-center'>
             <IonIcon icon={checkbox}
-              className='cursor-pointer text-2xl p-1 text-blue-500'
+              className='p-2 -m-2 cursor-pointer text-4xl text-blue-500'
               onClick={() => {
                 void changeHandle(userId, name)
                 setEditMoade(false)
               }}
             />
             <input ref={inputRef}
+              className='m-1 p-1'
               value={name}
               onChange={(event) => { setName(event.target.value) }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  void changeHandle(userId, name)
+                  setEditMoade(false)
+                } else if (e.key === 'Escape') {
+                  setEditMoade(false)
+                }
+              }}
             />
           </div>
         }
