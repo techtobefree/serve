@@ -73,7 +73,7 @@ export function SearchResultsComponent({
                 bg-[#f0f0f0] h-${HEADER_HEIGHT} flex w-20 justify-center items-center
               `}
           onClick={() => { hideSearchResults() }}>
-          <IonIcon icon={closeOutline} className='text-3xl' />
+          <IonIcon icon={closeOutline} className='text-4xl' />
         </div>
       </div>
 

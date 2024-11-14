@@ -73,14 +73,14 @@ export default function Login() {
     <>
       {/* Modal Header */}
       <div className="flex justify-between items-center border-b border-gray-200 p-4">
-        <h2 className="text-lg font-semibold">Not logged in</h2>
+        <h2 className="text-lg font-semibold">Login</h2>
 
 
         {/* Close Button */}
         <button
           onClick={() => { navigate(-1) }}
         >
-          <IonIcon className="text-4xl text-blue-500" icon={closeOutline} />
+          <IonIcon className="text-4xl" icon={closeOutline} />
         </button>
       </div>
 

@@ -22,7 +22,7 @@ export function MessagesModalContentComponent() {
         <button
           onClick={() => { navigate(-1) }}
         >
-          <IonIcon className="text-4xl text-blue-500" icon={closeOutline} />
+          <IonIcon className="text-4xl" icon={closeOutline} />
         </button>
       </div>
 
