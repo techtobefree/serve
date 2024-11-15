@@ -13,7 +13,7 @@ type Props = {
 export function NewProjectComponent({ userId }: Props) {
   return (
     <div>
-      <ProjectEdit project={{ admin_id: userId, created_by: userId, name: 'New Project' }} />
+      <ProjectEdit project={{ owner_id: userId, created_by: userId, name: 'New Project' }} />
     </div>
   )
 }

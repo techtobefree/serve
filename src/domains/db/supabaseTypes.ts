@@ -107,7 +107,6 @@ export type Database = {
       }
       project: {
         Row: {
-          admin_id: string
           created_at: string | null
           created_by: string
           description: string | null
@@ -115,12 +114,12 @@ export type Database = {
           image_url: string | null
           lead_by: string | null
           name: string
+          owner_id: string
           unlisted: boolean | null
           updated_at: string | null
           updated_by: string | null
         }
         Insert: {
-          admin_id: string
           created_at?: string | null
           created_by: string
           description?: string | null
@@ -128,12 +127,12 @@ export type Database = {
           image_url?: string | null
           lead_by?: string | null
           name: string
+          owner_id: string
           unlisted?: boolean | null
           updated_at?: string | null
           updated_by?: string | null
         }
         Update: {
-          admin_id?: string
           created_at?: string | null
           created_by?: string
           description?: string | null
@@ -141,6 +140,7 @@ export type Database = {
           image_url?: string | null
           lead_by?: string | null
           name?: string
+          owner_id?: string
           unlisted?: boolean | null
           updated_at?: string | null
           updated_by?: string | null
@@ -376,37 +376,37 @@ export type Database = {
       }
       team: {
         Row: {
-          admin_id: string
           created_at: string | null
           created_by: string
           description: string | null
           id: string
           lead_by: string | null
           name: string
+          owner_id: string
           unlisted: boolean | null
           updated_at: string | null
           updated_by: string | null
         }
         Insert: {
-          admin_id: string
           created_at?: string | null
           created_by: string
           description?: string | null
           id?: string
           lead_by?: string | null
           name: string
+          owner_id: string
           unlisted?: boolean | null
           updated_at?: string | null
           updated_by?: string | null
         }
         Update: {
-          admin_id?: string
           created_at?: string | null
           created_by?: string
           description?: string | null
           id?: string
           lead_by?: string | null
           name?: string
+          owner_id?: string
           unlisted?: boolean | null
           updated_at?: string | null
           updated_by?: string | null

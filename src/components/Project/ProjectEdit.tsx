@@ -18,10 +18,10 @@ const ProjectForm = ({ project }: Props) => {
       unlisted: project.unlisted,
       description: project.description || '',
       image_url: project.image_url || '',
-      admin_id: project.admin_id || '',
+      owner_id: project.owner_id || '',
     },
     onSubmit: async ({ value }) => {
-      if (!value.name || !value.admin_id) {
+      if (!value.name || !value.owner_id) {
         alert('Name and Admin are required');
         return;
       }
@@ -91,7 +91,7 @@ const ProjectForm = ({ project }: Props) => {
           </IonItem>
         )}
       </form.Field>
-      <form.Field name='admin_id'>
+      <form.Field name='owner_id'>
         {(field) => (
           <IonItem>
             <IonInput label='Admin'

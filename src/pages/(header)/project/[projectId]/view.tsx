@@ -32,7 +32,7 @@ export function ProjectViewComponent({ currentUserId }: Props) {
         <div className="max-w-[800px] w-full">
           <ProjectView project={project}
             currentUserId={currentUserId}
-            canEdit={!!currentUserId && project.admin_id === currentUserId} />
+            canEdit={!!currentUserId && project.owner_id === currentUserId} />
         </div>
       </div>
     </>

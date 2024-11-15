@@ -31,7 +31,7 @@ CREATE POLICY "insert_admin_project_day_item_ask" ON public.project_day_item_ask
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
-      SELECT admin_id
+      SELECT owner_id
       FROM project
       WHERE project.id = project_day_item_ask.project_id
       LIMIT 1
@@ -42,7 +42,7 @@ CREATE POLICY "delete_admin_project_day_item_ask" ON public.project_day_item_ask
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (
-      SELECT admin_id
+      SELECT owner_id
       FROM project
       WHERE project.id = project_day_item_ask.project_id
       LIMIT 1

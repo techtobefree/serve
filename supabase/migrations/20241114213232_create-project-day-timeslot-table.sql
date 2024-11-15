@@ -33,7 +33,7 @@ CREATE POLICY "insert_admin_project_day_timeslot" ON public.project_day_timeslot
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
-      SELECT admin_id
+      SELECT owner_id
       FROM project
       WHERE project.id = project_day_timeslot.project_id
       LIMIT 1
@@ -44,7 +44,7 @@ CREATE POLICY "delete_admin_project_day_timeslot" ON public.project_day_timeslot
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (
-      SELECT admin_id
+      SELECT owner_id
       FROM project
       WHERE project.id = project_day_timeslot.project_id
       LIMIT 1

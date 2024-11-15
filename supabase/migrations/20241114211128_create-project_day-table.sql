@@ -39,7 +39,7 @@ CREATE POLICY "insert_admin_project_day" ON gis.project_day
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
-      SELECT admin_id
+      SELECT owner_id
       FROM project
       WHERE project.id = project_day.project_id
       LIMIT 1
@@ -50,7 +50,7 @@ CREATE POLICY "delete_admin_project_day" ON gis.project_day
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (
-      SELECT admin_id
+      SELECT owner_id
       FROM project
       WHERE project.id = project_day.project_id
       LIMIT 1

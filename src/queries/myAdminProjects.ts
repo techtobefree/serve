@@ -13,7 +13,7 @@ export function useMyAdminProjectsQuery(userId?: string) {
       const { data, error } = await supabase
         .from('project')
         .select('*')
-        .eq('admin_id', userId);
+        .eq('owner_id', userId);
 
       if (error) {
         throw new Error(error.message);
