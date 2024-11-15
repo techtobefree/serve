@@ -1,18 +1,25 @@
 import { TableRows } from "../../domains/db/tables"
+import { hideSearchResults } from "../../domains/search/search";
+import { mayReplace } from "../../domains/ui/navigation";
 import { useNavigate } from "../../router";
 
 type Props = {
-  project: TableRows['project']
+  project: TableRows['project'];
+  joinable?: boolean;
 }
 
-export default function ProjectCard({ project }: Props) {
+export default function ProjectCard({ project, joinable }: Props) {
   const navigate = useNavigate();
 
   return (
     <div className="h-32 w-full bg-white rounded-2xl shadow-md text-black
       overflow-hidden flex justify-center cursor-pointer"
       onClick={() => {
-        navigate('/project/:projectId/view', { params: { projectId: project.id } })
+        hideSearchResults();
+        navigate(
+          '/project/:projectId/view',
+          { params: { projectId: project.id }, replace: mayReplace() }
+        )
       }}>
       <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}
         alt="Placeholder"
@@ -25,12 +32,20 @@ export default function ProjectCard({ project }: Props) {
           <p className="mt-2 overflow-hidden
             text-ellipsis line-clamp-3">{project.description}</p>
         </div>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-md"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate('/project/:projectId/join', { params: { projectId: project.id } })
-          }}
-        >Join</button>
+
+        {joinable && (
+          <button className="px-4 py-2 bg-blue-500 text-white rounded-md"
+            onClick={(e) => {
+              e.stopPropagation();
+              hideSearchResults();
+              navigate(
+                '/project/:projectId/join',
+                { params: { projectId: project.id }, replace: mayReplace() }
+              )
+            }}
+          >Join</button>
+        )}
+
       </div>
     </div>
   )

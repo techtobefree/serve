@@ -18,7 +18,8 @@ export function useMyAttendingProjectsQuery(userId?: string) {
           user_id
         )
       `)
-        .eq('user_project.user_id', userId);
+        .eq('user_project.user_id', userId)
+        .neq('owner_id', userId);
 
       if (error) {
         throw new Error(error.message);

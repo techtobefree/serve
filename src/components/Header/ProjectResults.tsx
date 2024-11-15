@@ -25,7 +25,11 @@ export function ProjectResultsComponent({ displayResults }: Props) {
           <PulsingCard />
           <PulsingCard />
         </>}
-        {projects?.map((project) => <ProjectCard key={project.id} project={project} />)}
+        {projects?.map((project) => <ProjectCard
+          key={project.id}
+          project={project}
+          joinable
+        />)}
       </div>
     </>
   )

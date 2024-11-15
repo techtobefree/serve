@@ -2,7 +2,6 @@ import { IonIcon } from "@ionic/react";
 import { funnelOutline, closeOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 import { hideSearchResults, searchStore } from "../../domains/search/search";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
@@ -21,8 +20,6 @@ export function SearchResultsComponent({
   isHeaderVisible,
   isSearchVisible,
 }: Props) {
-  const location = useLocation();
-
   const [filters, setFilters] = useState<string[]>([]);
 
   useEffect(() => {
@@ -34,13 +31,6 @@ export function SearchResultsComponent({
       return () => { document.body.classList.remove('overflow-hidden') };
     }
   }, [isHeaderVisible, isSearchVisible]);
-
-  useEffect(() => {
-    if (isSearchVisible && location.pathname !== '/map') {
-      hideSearchResults();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname])
 
   return (
     <>

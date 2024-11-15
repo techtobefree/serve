@@ -45,6 +45,8 @@ CREATE TRIGGER update_profile_modtime
   EXECUTE FUNCTION update_modified_columns();
 
 -- Add to claim JWT
+SET search_path = public;
+
 create or replace function public.auth_custom_claims()
 returns jsonb
 language plpgsql
@@ -56,4 +58,3 @@ as $$
     return claims;
   end;
 $$;
-SET search_path = public;
