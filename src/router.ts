@@ -25,7 +25,11 @@ export type Params = {
   "/user/:userId/view": { userId: string };
 };
 
-export type ModalPath = `/add` | `/messages` | `/profile`;
+export type ModalPath =
+  | `/add`
+  | `/messages`
+  | `/profile`
+  | `/project/[projectId]/event`;
 
 export const { Link, Navigate } = components<Path, Params>();
 export const { useModals, useNavigate, useParams } = hooks<

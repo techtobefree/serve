@@ -1,0 +1,7 @@
+/* Style for the Google Maps Autocomplete dropdown */
+.pac-container {
+}
+
+.pac-item {
+  padding: 10px; /* Adjust padding as needed */
+}

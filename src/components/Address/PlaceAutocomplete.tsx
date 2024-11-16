@@ -1,6 +1,7 @@
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useState, useRef, useEffect } from "react";
 
+import './autocomplete.css';
 import { Address, decodeAddressComponents } from "../../domains/map/addressComponents";
 
 type PlaceAutocompleteProps = {
@@ -56,8 +57,8 @@ export default function PlaceAutocomplete({ onPlaceSelect }: PlaceAutocompletePr
   }, [onPlaceSelect, placeAutocomplete]);
 
   return (
-    <div className="autocomplete-container">
-      <input ref={inputRef} />
-    </div>
+    <input ref={inputRef}
+      className='p-2 mt-2 mb-2 rounded w-full'
+      placeholder="Search for a location" />
   );
 }

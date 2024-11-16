@@ -1,4 +1,4 @@
-import { IonItem, IonLabel } from "@ionic/react";
+import { IonInput, IonItem } from "@ionic/react";
 
 import { Address } from "../../domains/map/addressComponents";
 
@@ -11,53 +11,47 @@ type Props = {
 
 export default function AddressInput({ address, onChange, name, changeName }: Props) {
   return (
-    <div className="max-w-[400px]">
+    <div className="w-full">
       <IonItem>
-        <IonLabel>Name</IonLabel>
-        <input type='text'
-          className='w-[300px]'
+        <IonInput label='Name'
+          labelPlacement="fixed"
           value={name}
-          onChange={(e) => { changeName(e.target.value) }}
+          onIonChange={(e) => { changeName(e.detail.value || '') }}
         />
       </IonItem>
       <IonItem>
-        <IonLabel>Street</IonLabel>
-        <input type='text'
-          className='w-[300px]'
+        <IonInput label='Street'
+          labelPlacement="fixed"
           value={address.street}
-          onChange={(e) => { onChange({ ...address, street: e.target.value }) }}
+          onIonChange={(e) => { onChange({ ...address, street: e.detail.value || '' }) }}
         />
       </IonItem>
       <IonItem>
-        <IonLabel>City</IonLabel>
-        <input type='text'
-          className='w-[300px]'
+        <IonInput label='City'
+          labelPlacement="fixed"
           value={address.city}
-          onChange={(e) => { onChange({ ...address, city: e.target.value }) }}
+          onIonChange={(e) => { onChange({ ...address, city: e.detail.value || '' }) }}
         />
       </IonItem>
       <IonItem>
-        <IonLabel>State</IonLabel>
-        <input type='text'
-          className='w-[300px]'
+        <IonInput label='State'
+          labelPlacement="fixed"
           value={address.state}
-          onChange={(e) => { onChange({ ...address, state: e.target.value }) }}
+          onIonChange={(e) => { onChange({ ...address, state: e.detail.value || '' }) }}
         />
       </IonItem>
       <IonItem>
-        <IonLabel>Zip</IonLabel>
-        <input type='text'
-          className='w-[300px]'
+        <IonInput label='Zip'
+          labelPlacement="fixed"
           value={address.zip}
-          onChange={(e) => { onChange({ ...address, zip: e.target.value }) }}
+          onIonChange={(e) => { onChange({ ...address, zip: e.detail.value || '' }) }}
         />
       </IonItem>
       <IonItem>
-        <IonLabel>Country</IonLabel>
-        <input type='text'
-          className='w-[300px]'
+        <IonInput label='Country'
+          labelPlacement="fixed"
           value={address.country}
-          onChange={(e) => { onChange({ ...address, country: e.target.value }) }}
+          onIonChange={(e) => { onChange({ ...address, country: e.detail.value || '' }) }}
         />
       </IonItem>
     </div>

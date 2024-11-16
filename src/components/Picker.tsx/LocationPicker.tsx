@@ -1,22 +1,27 @@
 import { Map, useMap, AdvancedMarker } from '@vis.gl/react-google-maps';
 import { useEffect, useMemo, useState } from 'react';
 
-import { blankAddress, decodeAddressComponents } from '../../domains/map/addressComponents';
+import { Address, decodeAddressComponents } from '../../domains/map/addressComponents';
 import AddressInput from '../Address/AddressInput';
 import PlaceAutocomplete from '../Address/PlaceAutocomplete';
 
 type Props = {
-  value: { lat: number, lng: number };
-  onChange: (location: { lat: number, lng: number }) => void;
+  location: { lat: number, lng: number };
+  changeLocation: (location: { lat: number, lng: number }) => void;
+  address: Address;
+  changeAddress: (address: Address) => void;
+  addressName: string;
+  changeAddressName: (name: string) => void;
 }
 
-export default function LocationPicker({ value, onChange }: Props) {
+export default function LocationPicker({
+  location, changeLocation,
+  address, changeAddress,
+  addressName, changeAddressName
+}: Props) {
   const map = useMap('selection-map');
   const [selectedLocation, setLocation] = useState<{ lat: number, lng: number } | null>(null);
-  const [addressName, setAddressName] = useState('');
-  const [address, setAddress] = useState(blankAddress());
   const [error, setError] = useState<string>('');
-  const geocoder = useMemo(() => new google.maps.Geocoder(), []);
   const places = useMemo(() => map ? new google.maps.places.PlacesService(map) : null, [map]);
 
   useEffect(() => {
@@ -28,7 +33,7 @@ export default function LocationPicker({ value, onChange }: Props) {
             lng: position.coords.longitude
           };
           map?.panTo(location);
-          onChange(location);
+          changeLocation(location);
         },
         (error) => {
           setError('Unable to get location: ' + error.message);
@@ -37,19 +42,19 @@ export default function LocationPicker({ value, onChange }: Props) {
     } else {
       setError('Geolocation is not supported by your browser');
     }
-  }, [map, onChange]);
+  }, [map, changeLocation]);
 
   return (
     <>
-      {error && <div>{error}</div>}
+      {error && <div className='text-sm'>{error}</div>}
       <PlaceAutocomplete onPlaceSelect={({ address: newAddress, location, place }) => {
         if (location) {
           map?.panTo(location);
           map?.setZoom(17);
-          onChange(location);
+          changeLocation(location);
         }
-        setAddress(newAddress);
-        setAddressName(place?.name || '');
+        changeAddress(newAddress);
+        changeAddressName(place?.name || '');
       }} />
       <div className='h-[50vh] w-full'>
         <Map
@@ -61,25 +66,30 @@ export default function LocationPicker({ value, onChange }: Props) {
           onClick={(e) => {
             const location = e.detail.latLng;
             if (location) {
-              onChange({ lat: location.lat, lng: location.lng })
+              changeLocation({ lat: location.lat, lng: location.lng })
               setLocation({ lat: location.lat, lng: location.lng })
             }
             const placeId = e.detail.placeId;
             if (placeId) {
               places?.getDetails({ placeId }, (results, status) => {
                 if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                  setAddressName(results.name || '');
-                  setAddress(decodeAddressComponents(results.address_components));
+                  changeAddressName(results.name || '');
+                  changeAddress(decodeAddressComponents(results.address_components));
+                } else {
+                  changeAddress(decodeAddressComponents(undefined));
+                  changeAddressName('');
                 }
               });
             } else if (location) {
-              setAddressName('');
-              void geocoder.geocode({ location }, (results, status) => {
+              void new google.maps.Geocoder().geocode({ location }, (results, status) => {
                 if (status === google.maps.GeocoderStatus.OK && results) {
                   const addressComponents = results[0].address_components;
-                  setAddress(decodeAddressComponents(addressComponents));
+                  const newAddress = decodeAddressComponents(addressComponents);
+                  changeAddress(newAddress);
+                  changeAddressName(newAddress.street);
                 } else {
-                  setAddress(decodeAddressComponents(undefined));
+                  changeAddress(decodeAddressComponents(undefined));
+                  changeAddressName('');
                 }
               });
             }
@@ -87,14 +97,15 @@ export default function LocationPicker({ value, onChange }: Props) {
           gestureHandling={'greedy'}
           disableDefaultUI={true}
         >
-          <AdvancedMarker position={value} />
+          <AdvancedMarker position={location} />
         </Map>
       </div>
+      Ensure the pin is in the correct location, then fill in the address details:
       <AddressInput
         address={address}
-        onChange={setAddress}
+        onChange={changeAddress}
         name={addressName}
-        changeName={setAddressName} />
+        changeName={changeAddressName} />
     </>
   )
 }
