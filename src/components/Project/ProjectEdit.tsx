@@ -63,7 +63,7 @@ const ProjectForm = ({ project }: Props) => {
       <form.Field name='unlisted'>
         {(field) => (
           <IonItem onClick={() => { field.handleChange(!field.state.value) }}>
-            <IonLabel>List on catalog</IonLabel>
+            <IonLabel>Publish</IonLabel>
             <IonCheckbox
               checked={!field.state.value} // `checked` is preferred over `value` for checkboxes
               onIonChange={(e) => { field.handleChange(e.detail.checked) }}

@@ -1,11 +1,15 @@
 import { IonButton, IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
+import { useState } from "react"
 
 import { leaveProject } from "../../commands/leaveProject"
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import { useProjectByIdQuery } from "../../queries/projectById"
 import { useQrCode } from "../../queries/qr"
 import { useNavigate } from "../../router"
+
+import ProjectDay from "./ProjectDay"
+
 
 type Props = {
   project: ReturnType<typeof useProjectByIdQuery>['data'];
@@ -15,12 +19,14 @@ type Props = {
 
 export default function ProjectView({ currentUserId, project, canEdit }: Props) {
   const navigate = useNavigate();
+  const [showNewDay, setShowNewDay] = useState(false);
   const { data: projectQrCodeUrl } =
-    useQrCode(`${BASE_URL}/project/${project?.id || ''}/view`, !project?.id)
+    useQrCode(`${BASE_URL}/project/${project?.id || ''}/view`, !project?.id);
 
   if (!project) {
     return
   }
+
   const isUserMember = currentUserId && project.user_project.find(i => i.user_id === currentUserId);
 
   return (
@@ -44,6 +50,17 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           alt="Placeholder"
           className="w-1/3 object-cover" />
       </div>
+      {canEdit && (
+        <div onClick={() => { setShowNewDay(true) }}>Add day</div>
+      )}
+      {currentUserId && showNewDay && (
+        <div>
+          <div className='text-2xl'>When</div>
+          <ProjectDay projectId={project.id} userId={currentUserId} />
+        </div>
+      )}
+      <div className='text-2xl'>When</div>
+      <div className='text-2xl'>Where</div>
       <br />
       <div>Members: {project.user_project.length}</div>
       {project.user_project.map(i => {
