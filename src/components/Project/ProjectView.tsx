@@ -26,7 +26,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
   const isUserMember = currentUserId && project.user_project.find(i => i.user_id === currentUserId);
 
   return (
-    <>
+    <div className='p-2'>
       <div className="flex justify-between m-2">
         <div className="text-3xl">{project.name}</div>
         {canEdit && <IonIcon className='cursor-pointer text-2xl'
@@ -80,6 +80,6 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             void leaveProject(project.id, currentUserId);
           }}>Leave Project</IonButton>}
       </div>
-    </>
+    </div>
   )
 }

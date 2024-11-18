@@ -71,7 +71,7 @@ export function SearchResultsComponent({
       <div className='flex justify-center pointer-events-auto h-full text-black'>
         {isHeaderVisible && isSearchVisible &&
           <div className='h-[calc(100vh-64px)] w-full overflow-auto flex flex-col'>
-            <div className='w-full flex flex-col items-center bg-[#f0f0f0]'>
+            <div className='w-full flex flex-col items-center bg-[#f0f0f0] p-2'>
               <div className='max-w-[800px]'>
                 {/* Modal Body */}
                 {!!filters.length &&

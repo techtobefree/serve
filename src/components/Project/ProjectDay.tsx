@@ -80,6 +80,9 @@ export function ProjectDayComponent({ projectId, userId }: Props) {
             modalRef.current?.scrollTo(0, 0);
             return
           }
+          if (!location.lat || !location.lng) {
+            alert('Please select a location')
+          }
           console.log('create event', { projectId, userId, date, location, addressName, address })
         }}>Create event</IonButton>
       </div>
