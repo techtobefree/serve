@@ -19,8 +19,6 @@ if (!root) {
   throw new Error("Missing root element")
 }
 
-console.log('debug', API_KEY)
-
 createRoot(root).render(
   <StrictMode>
     <APIProvider apiKey={API_KEY} libraries={['places']}>

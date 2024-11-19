@@ -149,7 +149,6 @@ export function CreateEventComponent({ projectId, userId }: Props) {
               }
               try {
                 format(e.detail.value, 'MM-dd-yyyy')
-                console.log('Valid date', format(e.detail.value, 'MM-dd-yyyy'))
                 setManualDateError('')
               } catch (err) {
                 setManualDateError('Invalid date, please use MM-dd-yyyy')

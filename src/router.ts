@@ -29,6 +29,7 @@ export type ModalPath =
   | `/add`
   | `/messages`
   | `/profile`
+  | `/project/[projectId]/ask`
   | `/project/[projectId]/event`;
 
 export const { Link, Navigate } = components<Path, Params>();

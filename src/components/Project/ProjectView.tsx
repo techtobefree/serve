@@ -4,18 +4,16 @@ import { createOutline } from "ionicons/icons"
 import { leaveProject } from "../../commands/leaveProject"
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import { useProjectByIdQuery } from "../../queries/projectById"
-import { useProjectDaysByProjectIdQuery } from "../../queries/projectDaysByProjectId"
 import { useQrCode } from "../../queries/qr"
 import { useModals, useNavigate } from "../../router"
 
 type Props = {
   project: ReturnType<typeof useProjectByIdQuery>['data'];
-  projectDays: ReturnType<typeof useProjectDaysByProjectIdQuery>['data'];
   canEdit: boolean;
   currentUserId?: string;
 }
 
-export default function ProjectView({ currentUserId, project, projectDays, canEdit }: Props) {
+export default function ProjectView({ currentUserId, project, canEdit }: Props) {
   const navigate = useNavigate();
   const modals = useModals();
   const { data: projectQrCodeUrl } =
@@ -24,9 +22,6 @@ export default function ProjectView({ currentUserId, project, projectDays, canEd
   if (!project) {
     return
   }
-
-  console.log('!!project', project)
-  console.log('!!projectDays', projectDays)
 
   const isUserMember = currentUserId && project.user_project.find(i => i.user_id === currentUserId);
 
@@ -70,13 +65,23 @@ export default function ProjectView({ currentUserId, project, projectDays, canEd
           modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
         }}>Creat event</IonButton>
       )}
-      {!projectDays?.length && (
+      {!project.project_event.length && (
         <div>No events</div>
       )}
-      {projectDays?.map(i => {
+      {project.project_event.map(i => {
         return (
           <div key={i.id}>
-            <div>{i.project_day_date}</div>
+            <div>{i.location_name}</div>
+            <div>{i.project_event_date}</div>
+            <div onClick={() => {
+              modals.open('/project/[projectId]/ask', {
+                params: { projectId: project.id }, state: {
+                  eventId: i.id
+                }
+              })
+            }}>
+              Add
+            </div>
           </div>
         )
       })}

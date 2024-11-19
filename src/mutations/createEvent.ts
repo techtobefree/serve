@@ -3,7 +3,6 @@ import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../domains/db/supabaseClient";
 import { Address } from "../domains/map/addressComponents";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
-import { partialQueryKey as projectDaysKey } from "../queries/projectDaysByProjectId";
 import { queryClient } from "../queries/queryClient";
 
 async function createEvent({
@@ -23,41 +22,27 @@ async function createEvent({
   addressName: string,
   address: Address,
 }) {
-  const { data: addressData, error } = await supabase
-    .schema('gis')
-    .from('project_day')
+  const { error } = await supabase
+    .from('project_event')
     .insert({
+      project_event_date: date,
       project_id: projectId,
-      project_day_date: date,
       created_by: userId,
       timezone,
       location: `POINT(${location.lng.toString()} ${location.lat.toString()})`,
-    })
-    .select('id')
-    .single();;
-
-  if (error) {
-    alert('Failed to create project day');
-    return;
-  }
-
-  const { error: addressError } = await supabase
-    .from('project_day_address')
-    .insert({
-      project_id: projectId,
-      project_day_id: addressData.id,
-      name: addressName,
+      location_name: addressName,
       street_address: address.street,
       city: address.city,
       state: address.state,
       postal_code: address.postalCode,
       country: address.country,
-      created_by: userId,
-      updated_by: userId,
     })
+    .select('id')
+    .single();;
 
-  if (addressError) {
-    alert('Failed to create address');
+  if (error) {
+    alert('Failed to create project event');
+    return;
   }
 }
 
@@ -69,7 +54,6 @@ export default function useCreateEvent(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
-      void queryClient.invalidateQueries({ queryKey: [projectDaysKey, projectId] });
       callback();
     },
     onError: (error: Error) => {

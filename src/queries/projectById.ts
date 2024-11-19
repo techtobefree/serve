@@ -19,18 +19,25 @@ export function useProjectByIdQuery(projectId: string) {
               handle
             )
           ),
-          project_day_address(*),
-          project_day_timeslot (
-            *
-          ),
-          project_day_item_ask (
-            *
-          ),
-          project_day_commitment (
-            *
-          ),
-          project_day_item_commitment (
-            *
+          project_event (
+            id,
+            project_id,
+            project_event_date,
+            timezone,
+            location,
+            location_name,
+            project_event_timeslot (
+              *
+            ),
+            project_event_item_ask (
+              *
+            ),
+            project_event_commitment (
+              *
+            ),
+            project_event_item_commitment (
+              *
+            )
           )
           `)
         .eq('id', projectId)
