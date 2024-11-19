@@ -21,7 +21,7 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <APIProvider apiKey={API_KEY} libraries={['places']}>
+    <APIProvider key={API_KEY} apiKey={API_KEY} libraries={['places']}>
       <QueryClientProvider client={queryClient}>
         <Routes />
       </QueryClientProvider>
