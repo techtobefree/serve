@@ -9,7 +9,6 @@ import '@ionic/react/css/core.css';
 import './index.css'
 import { queryClient } from './queries/queryClient';
 
-
 setupIonicReact();
 
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
@@ -21,7 +20,7 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <APIProvider key={API_KEY} apiKey={API_KEY} libraries={['places']}>
+    <APIProvider apiKey={API_KEY} libraries={['places']}>
       <QueryClientProvider client={queryClient}>
         <Routes />
       </QueryClientProvider>

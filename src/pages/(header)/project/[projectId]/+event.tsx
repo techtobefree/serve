@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import CreateEvent from "../../../../components/Project/CreateEvent";
+import CreateEvent from "../../../../components/Event/CreateEvent";
 import { useNavigate, useParams } from "../../../../router";
 
 
@@ -29,7 +29,7 @@ export default function NewEvent() {
       {/* Modal Content */}
       <div
         className={`
-          pointer-events-none fixed flex justify-center items-end md:items-start pb-4 bt-4
+          pointer-events-none fixed flex justify-center items-end md:items-start
           top-0 left-0 transform transition-transform duration-900 ease-in-out w-full h-full
           ${isOpen ? 'opacity-100' : 'opacity-0'}
           `}

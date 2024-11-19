@@ -4,6 +4,40 @@ import { supabase } from "../domains/db/supabaseClient";
 
 export const partialQueryKey = 'get-projectById';
 
+export function useEventByIdQuery(eventId: string) {
+  return useQuery({
+    queryKey: ['get-eventById', eventId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('project_event')
+        .select(`
+          *,
+          project_event_timeslot (
+            *
+          ),
+          project_event_item_ask (
+            *
+          ),
+          project_event_commitment (
+            *
+          ),
+          project_event_item_commitment (
+            *
+          )
+          `)
+        .eq('id', eventId)
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    }
+  })
+}
+
+
 export function useProjectByIdQuery(projectId: string) {
   return useQuery({
     queryKey: [partialQueryKey, projectId],
@@ -20,12 +54,7 @@ export function useProjectByIdQuery(projectId: string) {
             )
           ),
           project_event (
-            id,
-            project_id,
-            project_event_date,
-            timezone,
-            location,
-            location_name,
+            *,
             project_event_timeslot (
               *
             ),

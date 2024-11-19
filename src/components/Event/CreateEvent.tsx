@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { sessionStore } from "../../domains/auth/sessionStore";
 import { blankAddress } from "../../domains/map/addressComponents";
 import useCreateEvent from "../../mutations/createEvent";
-import { useModals, useNavigate } from "../../router";
+import { useNavigate } from "../../router";
 import FutureDatePicker from "../Picker.tsx/FutureDatePicker";
 import LocationPicker from "../Picker.tsx/LocationPicker";
 
@@ -91,7 +91,6 @@ const timezones = [
 ];
 
 export function CreateEventComponent({ projectId, userId }: Props) {
-  const modals = useModals();
   const modalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -102,7 +101,7 @@ export function CreateEventComponent({ projectId, userId }: Props) {
   const [address, setAddress] = useState(blankAddress());
   const [timezone, setTimezone] = useState('America/Denver');
   const { mutate, isPending } = useCreateEvent({ projectId }, () => {
-    modals.close();
+    navigate(-1);
   });
 
   useEffect(() => {
@@ -114,8 +113,8 @@ export function CreateEventComponent({ projectId, userId }: Props) {
 
   return (
     <div ref={modalRef}
-      className='bg-white flex flex-col p-4
-    max-h-[calc(100vh-32px)] pointer-events-auto overflow-auto'>
+      className='bg-white flex flex-col p-4 mb-6
+    max-h-[calc(100vh-96px)] pointer-events-auto overflow-auto'>
       <div className='flex flex-col items-center'>
         <div className='flex items-center mb-8 justify-between w-full'>
           <div className='text-4xl'>Create an Event</div>

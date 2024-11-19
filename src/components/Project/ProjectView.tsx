@@ -6,6 +6,7 @@ import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import { useProjectByIdQuery } from "../../queries/projectById"
 import { useQrCode } from "../../queries/qr"
 import { useModals, useNavigate } from "../../router"
+import EventCard from "../Event/EventCard"
 
 type Props = {
   project: ReturnType<typeof useProjectByIdQuery>['data'];
@@ -60,33 +61,22 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             void leaveProject(project.id, currentUserId);
           }}>Leave Project</IonButton>}
       </div>
+      <div className='text-2xl'>When & Where</div>
+      {!project.project_event.length && (
+        <div>No events</div>
+      )}
+      <div className='flex flex-wrap'>
+        {project.project_event
+          .sort((a, b) => a.project_event_date < b.project_event_date ? -1 : 1)
+          .map(event => {
+            return <EventCard key={event.id} event={event} canEdit={canEdit} />
+          })}
+      </div>
       {canEdit && (
         <IonButton onClick={() => {
           modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
         }}>Creat event</IonButton>
       )}
-      {!project.project_event.length && (
-        <div>No events</div>
-      )}
-      {project.project_event.map(i => {
-        return (
-          <div key={i.id}>
-            <div>{i.location_name}</div>
-            <div>{i.project_event_date}</div>
-            <div onClick={() => {
-              modals.open('/project/[projectId]/ask', {
-                params: { projectId: project.id }, state: {
-                  eventId: i.id
-                }
-              })
-            }}>
-              Add
-            </div>
-          </div>
-        )
-      })}
-      <div className='text-2xl'>When</div>
-      <div className='text-2xl'>Where</div>
       <br />
       <div>Members: {project.user_project.length}</div>
       {project.user_project.map(i => {
