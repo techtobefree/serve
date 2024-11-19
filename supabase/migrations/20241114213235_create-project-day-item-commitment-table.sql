@@ -26,7 +26,7 @@ CREATE POLICY "read_project_day_item_commitment" ON public.project_day_item_comm
   );
 
 -- Create a policy that allows users to manage the project_day_item_commitments of the project they admin
-CREATE POLICY "insert_admin_project_day_item_commitment" ON public.project_day_item_commitment
+CREATE POLICY "insert_project_day_item_commitment" ON public.project_day_item_commitment
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
@@ -37,7 +37,7 @@ CREATE POLICY "insert_admin_project_day_item_commitment" ON public.project_day_i
     )
   );
 
-CREATE POLICY "delete_admin_project_day_item_commitment" ON public.project_day_item_commitment
+CREATE POLICY "delete_project_day_item_commitment" ON public.project_day_item_commitment
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (

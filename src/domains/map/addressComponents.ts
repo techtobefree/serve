@@ -2,7 +2,7 @@ export type Address = {
   street: string;
   city: string;
   state: string;
-  zip: string;
+  postalCode: string;
   country: string;
 }
 
@@ -11,7 +11,7 @@ export function blankAddress(): Address {
     street: '',
     city: '',
     state: '',
-    zip: '',
+    postalCode: '',
     country: ''
   };
 }
@@ -36,7 +36,7 @@ export function decodeAddressComponents(
       address.state = component.short_name;
     }
     if (type === 'postal_code') {
-      address.zip = component.long_name;
+      address.postalCode = component.long_name;
     }
     if (type === 'country') {
       address.country = component.long_name;

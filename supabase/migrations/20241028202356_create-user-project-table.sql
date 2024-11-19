@@ -22,20 +22,20 @@ CREATE POLICY "read_user_project" ON public.user_project
   );
 
 -- Create a policy that allows users manage their own data
-CREATE POLICY "insert_own_user_project" ON public.user_project
+CREATE POLICY "insert_user_project" ON public.user_project
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = user_id
   );
   -- TODO: or admin of project
 
-CREATE POLICY "update_own_user_project" ON public.user_project
+CREATE POLICY "update_user_project" ON public.user_project
   FOR UPDATE TO authenticated
   USING (
     (select auth.uid()) = user_id
   );
 
-CREATE POLICY "delete_own_user_project" ON public.user_project
+CREATE POLICY "delete_user_project" ON public.user_project
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = user_id

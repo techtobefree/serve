@@ -6,7 +6,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), generouted(), VitePWA({
-    registerType: 'prompt',
+    registerType: 'autoUpdate',
+    strategies: 'generateSW',
     manifest: {
       name: 'Serve2free',
       short_name: 'Serve2free',
@@ -23,7 +24,10 @@ export default defineConfig({
           sizes: '512x512',
           type: 'image/png'
         }
-      ]
+      ],
+      start_url: '/',
+      display: 'standalone',
+      background_color: '#001B48'
     }
   })],
 })

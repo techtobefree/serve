@@ -41,10 +41,10 @@ export default function AddressInput({ address, onChange, name, changeName }: Pr
         />
       </IonItem>
       <IonItem>
-        <IonInput label='Zip'
+        <IonInput label='Postal Code'
           labelPlacement="fixed"
-          value={address.zip}
-          onIonChange={(e) => { onChange({ ...address, zip: e.detail.value || '' }) }}
+          value={address.postalCode}
+          onIonChange={(e) => { onChange({ ...address, postalCode: e.detail.value || '' }) }}
         />
       </IonItem>
       <IonItem>

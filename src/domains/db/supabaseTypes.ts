@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       project_day: {
         Row: {
+          address_id: string | null
           created_at: string | null
           created_by: string
           id: string
@@ -22,6 +23,7 @@ export type Database = {
           updated_by: string | null
         }
         Insert: {
+          address_id?: string | null
           created_at?: string | null
           created_by: string
           id?: string
@@ -33,6 +35,7 @@ export type Database = {
           updated_by?: string | null
         }
         Update: {
+          address_id?: string | null
           created_at?: string | null
           created_by?: string
           id?: string
@@ -3265,7 +3268,7 @@ export type Database = {
           lead_by: string | null
           name: string
           owner_id: string
-          unlisted: boolean | null
+          published: boolean | null
           updated_at: string | null
           updated_by: string | null
         }
@@ -3278,7 +3281,7 @@ export type Database = {
           lead_by?: string | null
           name: string
           owner_id: string
-          unlisted?: boolean | null
+          published?: boolean | null
           updated_at?: string | null
           updated_by?: string | null
         }
@@ -3291,7 +3294,49 @@ export type Database = {
           lead_by?: string | null
           name?: string
           owner_id?: string
-          unlisted?: boolean | null
+          published?: boolean | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      project_day_address: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          name: string | null
+          postal_code: string | null
+          state: string | null
+          street_address: string | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          name?: string | null
+          postal_code?: string | null
+          state?: string | null
+          street_address?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          name?: string | null
+          postal_code?: string | null
+          state?: string | null
+          street_address?: string | null
           updated_at?: string | null
           updated_by?: string | null
         }
@@ -3533,7 +3578,7 @@ export type Database = {
           lead_by: string | null
           name: string
           owner_id: string
-          unlisted: boolean | null
+          published: boolean | null
           updated_at: string | null
           updated_by: string | null
         }
@@ -3545,7 +3590,7 @@ export type Database = {
           lead_by?: string | null
           name: string
           owner_id: string
-          unlisted?: boolean | null
+          published?: boolean | null
           updated_at?: string | null
           updated_by?: string | null
         }
@@ -3557,7 +3602,7 @@ export type Database = {
           lead_by?: string | null
           name?: string
           owner_id?: string
-          unlisted?: boolean | null
+          published?: boolean | null
           updated_at?: string | null
           updated_by?: string | null
         }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import ProjectDay from "../../../../components/Project/ProjectDay";
+import CreateEvent from "../../../../components/Project/CreateEvent";
 import { useNavigate, useParams } from "../../../../router";
 
 
@@ -34,7 +34,7 @@ export default function NewEvent() {
           ${isOpen ? 'opacity-100' : 'opacity-0'}
           `}
       >
-        <ProjectDay projectId={projectId} />
+        <CreateEvent projectId={projectId} />
       </div>
     </div>
   )

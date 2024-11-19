@@ -17,7 +17,7 @@ type Props = {
 export default function LocationPicker({
   location, changeLocation,
   address, changeAddress,
-  addressName, changeAddressName
+  addressName, changeAddressName,
 }: Props) {
   const map = useMap('selection-map');
   const [selectedLocation, setLocation] = useState<{ lat: number, lng: number } | null>(null);

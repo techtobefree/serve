@@ -27,7 +27,7 @@ CREATE POLICY "read_project_day_item_ask" ON public.project_day_item_ask
   );
 
 -- Create a policy that allows users to manage the project_day_item_asks of the project they admin
-CREATE POLICY "insert_admin_project_day_item_ask" ON public.project_day_item_ask
+CREATE POLICY "insert_project_day_item_ask" ON public.project_day_item_ask
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
@@ -38,7 +38,7 @@ CREATE POLICY "insert_admin_project_day_item_ask" ON public.project_day_item_ask
     )
   );
 
-CREATE POLICY "delete_admin_project_day_item_ask" ON public.project_day_item_ask
+CREATE POLICY "delete_project_day_item_ask" ON public.project_day_item_ask
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (

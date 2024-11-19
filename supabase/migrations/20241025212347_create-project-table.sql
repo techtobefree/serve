@@ -5,7 +5,7 @@ CREATE TABLE public.project (
   name text NOT NULL,
   description text,
   image_url text,
-  unlisted boolean DEFAULT false,
+  published boolean DEFAULT false,
   lead_by uuid,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
@@ -16,31 +16,31 @@ CREATE TABLE public.project (
 -- Enable Row Level Security
 ALTER TABLE public.project ENABLE ROW LEVEL SECURITY;
 
--- Create a policy that allows read access to all users for non-unlisted projects
-CREATE POLICY "read_non_unlisted_project" ON public.project
+-- Create a policy that allows read access to all users for published projects
+CREATE POLICY "read_project" ON public.project
   FOR SELECT TO authenticated, anon
   USING (
     true
-    -- TODO: should only be able to see if you are in the project, or it is not unlisted
-    -- unlisted = false
+    -- TODO: should only be able to see if you are in the project, or it is not published
+    -- published = false
     -- OR
     -- auth.uid() = owner_id
   );
 
 -- Create a policy that allows insert, update, and delete for the admin
-CREATE POLICY "insert_own_or_admin_project" ON public.project
+CREATE POLICY "insert_project" ON public.project
   FOR INSERT TO authenticated
   WITH CHECK (
     ((select auth.uid()) = owner_id) OR ((select auth.role()) = 'admin')
   );
 
-CREATE POLICY "update_own_or_admin_project" ON public.project
+CREATE POLICY "update_project" ON public.project
   FOR UPDATE TO authenticated
   USING (
     ((select auth.uid()) = owner_id) OR ((select auth.role()) = 'admin')
   );
 
-CREATE POLICY "delete_own_or_admin_project" ON public.project 
+CREATE POLICY "delete_project" ON public.project 
   FOR DELETE TO authenticated
   USING (
     ((select auth.uid()) = owner_id) OR ((select auth.role()) = 'admin')

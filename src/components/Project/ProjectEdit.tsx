@@ -15,7 +15,7 @@ const ProjectForm = ({ project }: Props) => {
   const form = useForm({
     defaultValues: {
       name: project.name,
-      unlisted: project.unlisted,
+      published: project.published,
       description: project.description || '',
       image_url: project.image_url || '',
       owner_id: project.owner_id || '',
@@ -60,7 +60,7 @@ const ProjectForm = ({ project }: Props) => {
       e.stopPropagation()
       void form.handleSubmit()
     }}>
-      <form.Field name='unlisted'>
+      <form.Field name='published'>
         {(field) => (
           <IonItem onClick={() => { field.handleChange(!field.state.value) }}>
             <IonLabel>Publish</IonLabel>
@@ -91,16 +91,16 @@ const ProjectForm = ({ project }: Props) => {
           </IonItem>
         )}
       </form.Field>
-      <form.Field name='owner_id'>
+      {/* <form.Field name='owner_id'>
         {(field) => (
           <IonItem>
-            <IonInput label='Admin'
+            <IonInput label='Owner'
               value={field.state.value}
               onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
             />
           </IonItem>
         )}
-      </form.Field>
+      </form.Field> */}
       <form.Field name='description'>
         {(field) => (
           <IonItem>

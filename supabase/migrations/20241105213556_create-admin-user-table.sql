@@ -13,7 +13,7 @@ CREATE TABLE public.admin_user (
 ALTER TABLE public.admin_user ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows profiles to read their own data
-CREATE POLICY "read_own_admin_user" ON public.admin_user
+CREATE POLICY "read_admin_user" ON public.admin_user
   FOR SELECT TO authenticated
   USING (
     (select auth.uid()) = user_id

@@ -25,7 +25,7 @@ CREATE POLICY "read_chat_message" ON public.chat_message
   );
 
 -- Create a policy that allows users manage their own data
-CREATE POLICY "insert_enforce_single_category_chat_message" ON public.chat_message
+CREATE POLICY "insert_chat_message" ON public.chat_message
 FOR INSERT TO authenticated
 WITH CHECK (
     (select auth.uid()) = user_id
@@ -35,7 +35,7 @@ WITH CHECK (
     (friend_id IS NOT NULL)::int = 1
 );
 
-CREATE POLICY "update_enforce_single_category_chat_message" ON public.chat_message
+CREATE POLICY "update_chat_message" ON public.chat_message
 FOR UPDATE TO authenticated
 USING (
     (select auth.uid()) = user_id
@@ -45,7 +45,7 @@ USING (
     (friend_id IS NOT NULL)::int = 1
 );
 
-CREATE POLICY "delete_own_chat_message" ON public.chat_message
+CREATE POLICY "delete_chat_message" ON public.chat_message
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = user_id

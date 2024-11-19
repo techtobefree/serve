@@ -17,19 +17,19 @@ CREATE POLICY "read_profile" ON public.profile
   USING (true);
 
 -- Create a policy that allows insert, update, and delete for the admin
-CREATE POLICY "insert_own_or_admin_profile" ON public.profile
+CREATE POLICY "insert_profile" ON public.profile
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = user_id OR ((select auth.role()) = 'admin')
   );
 
-CREATE POLICY "update_own_or_admin_profile" ON public.profile
+CREATE POLICY "update_profile" ON public.profile
   FOR UPDATE TO authenticated
   USING (
     (select auth.uid()) = user_id OR ((select auth.role()) = 'admin')
   );
 
-CREATE POLICY "delete_own_or_admin_profile" ON public.profile
+CREATE POLICY "delete_profile" ON public.profile
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = user_id OR ((select auth.role()) = 'admin')

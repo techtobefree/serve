@@ -17,6 +17,10 @@ CREATE TABLE gis.project_day (
   updated_by uuid
 );
 
+GRANT SELECT ON TABLE gis.project_day TO authenticated;
+GRANT DELETE ON TABLE gis.project_day TO authenticated;
+GRANT INSERT ON TABLE gis.project_day TO authenticated;
+
 -- USE PostGIS index
 create index project_day_geo_index
   on gis.project_day
@@ -35,7 +39,7 @@ CREATE POLICY "read_project_day" ON gis.project_day
   );
 
 -- Create a policy that allows users to manage the project_days of the project they admin
-CREATE POLICY "insert_admin_project_day" ON gis.project_day
+CREATE POLICY "insert_project_day" ON gis.project_day
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
@@ -46,7 +50,7 @@ CREATE POLICY "insert_admin_project_day" ON gis.project_day
     )
   );
 
-CREATE POLICY "delete_admin_project_day" ON gis.project_day
+CREATE POLICY "delete_project_day" ON gis.project_day
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (

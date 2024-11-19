@@ -4,7 +4,7 @@ CREATE TABLE public.team (
   owner_id uuid NOT NULL,
   name text NOT NULL,
   description text,
-  unlisted boolean DEFAULT false,
+  published boolean DEFAULT false,
   lead_by uuid,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
@@ -15,31 +15,31 @@ CREATE TABLE public.team (
 -- Enable Row Level Security
 ALTER TABLE public.team ENABLE ROW LEVEL SECURITY;
 
--- Create a policy that allows read access to all users for non-unlisted teams
-CREATE POLICY "read_non_unlisted_team" ON public.team
+-- Create a policy that allows read access to all users for published teams
+CREATE POLICY "read_team" ON public.team
   FOR SELECT TO authenticated, anon
   USING (
     true
-    -- TODO: should only be able to see if you are in the team, or it is not unlisted
-    -- unlisted = false
+    -- TODO: should only be able to see if you are in the team, or it is published
+    -- published = false
     -- OR
     -- (select auth.uid()) = owner_id
   );
 
 -- Create a policy that allows insert, update, and delete for the admin
-CREATE POLICY "insert_own_or_admin_team" ON public.team
+CREATE POLICY "insert_team" ON public.team
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = owner_id OR ((select auth.role()) = 'admin')
   );
 
-CREATE POLICY "update_own_or_admin_team" ON public.team
+CREATE POLICY "update_team" ON public.team
   FOR UPDATE TO authenticated
   USING (
     (select auth.uid()) = owner_id OR ((select auth.role()) = 'admin')
   );
 
-CREATE POLICY "delete_own_or_admin_team" ON public.team
+CREATE POLICY "delete_team" ON public.team
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = owner_id OR ((select auth.role()) = 'admin')

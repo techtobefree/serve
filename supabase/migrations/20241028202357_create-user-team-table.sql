@@ -22,20 +22,20 @@ CREATE POLICY "read_user_team" ON public.user_team
   );
 
 -- Create a policy that allows users manage their own data
-CREATE POLICY "insert_own_user_team" ON public.user_team
+CREATE POLICY "insert_user_team" ON public.user_team
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = user_id
   );
   -- TODO: or admin of project
 
-CREATE POLICY "update_own_user_team" ON public.user_team
+CREATE POLICY "update_user_team" ON public.user_team
   FOR UPDATE TO authenticated
   USING (
     (select auth.uid()) = user_id
   );
 
-CREATE POLICY "delete_own_user_team" ON public.user_team
+CREATE POLICY "delete_user_team" ON public.user_team
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = user_id

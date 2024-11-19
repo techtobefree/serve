@@ -29,7 +29,7 @@ CREATE POLICY "read_project_day_timeslot" ON public.project_day_timeslot
   );
 
 -- Create a policy that allows users to manage the project_day_timeslots of the project they admin
-CREATE POLICY "insert_admin_project_day_timeslot" ON public.project_day_timeslot
+CREATE POLICY "insert_project_day_timeslot" ON public.project_day_timeslot
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
@@ -40,7 +40,7 @@ CREATE POLICY "insert_admin_project_day_timeslot" ON public.project_day_timeslot
     )
   );
 
-CREATE POLICY "delete_admin_project_day_timeslot" ON public.project_day_timeslot
+CREATE POLICY "delete_project_day_timeslot" ON public.project_day_timeslot
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (
