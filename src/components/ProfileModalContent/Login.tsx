@@ -104,11 +104,15 @@ export default function Login() {
           </p>}
         </div>
         <div>
-          <IonButton disabled={isError || nextCodeAvailableTimeMS > Date.now()} onClick={() => {
-            void requestOTP(formatPhoneNumber(phone))
-            const nextPhoneTime = Date.now() + 30 * 1000;
-            setNextCodeAvailableTime(nextPhoneTime.toString()) // 60 seconds from now
-          }}>{nextCodeAvailableTimeMS > Date.now() ? 'Password sent' : 'Send password'}</IonButton>
+          <IonButton color="secondary"
+            disabled={isError || nextCodeAvailableTimeMS > Date.now()}
+            onClick={() => {
+              void requestOTP(formatPhoneNumber(phone))
+              const nextPhoneTime = Date.now() + 30 * 1000;
+              setNextCodeAvailableTime(nextPhoneTime.toString()) // 60 seconds from now
+            }}
+          >{nextCodeAvailableTimeMS > Date.now() ? 'Password sent' : 'Send password'}
+          </IonButton>
         </div>
         <p className="pt-6">
           Login with a One Time Password.
@@ -131,6 +135,7 @@ export default function Login() {
         </div>
         <div className="pt-6">
           <IonButton
+            color="secondary"
             className="w-36"
             disabled={isError || otpCode.length !== 6 || !!otpVerifyWait}
             onClick={() => { verifyAndDelayReverifyOTP(phone, otpCode) }}

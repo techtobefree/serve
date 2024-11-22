@@ -1,3 +1,5 @@
+import { IonButton } from "@ionic/react";
+
 import { TableRows } from "../../domains/db/tables"
 import { hideSearchResults } from "../../domains/search/search";
 import { mayReplace } from "../../domains/ui/navigation";
@@ -34,7 +36,8 @@ export default function ProjectCard({ project, joinable }: Props) {
         </div>
 
         {joinable && (
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-md"
+          <IonButton
+            color="secondary"
             onClick={(e) => {
               e.stopPropagation();
               hideSearchResults();
@@ -43,9 +46,8 @@ export default function ProjectCard({ project, joinable }: Props) {
                 { params: { projectId: project.id }, replace: mayReplace() }
               )
             }}
-          >Join</button>
+          >Join</IonButton>
         )}
-
       </div>
     </div>
   )

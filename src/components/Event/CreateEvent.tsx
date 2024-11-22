@@ -1,6 +1,6 @@
+import { tzOffset } from "@date-fns/tz";
 import { IonButton, IonIcon, IonInput, IonItem, IonSelect, IonSelectOption } from "@ionic/react";
 import { format } from "date-fns";
-import { getTimezoneOffset } from 'date-fns-tz';
 import { closeOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useEffect, useRef, useState } from "react";
@@ -128,8 +128,8 @@ export function CreateEventComponent({ projectId, userId }: Props) {
           onIonChange={e => { setTimezone(e.detail.value as string) }}
         >
           {timezones.map(tz => {
-            const offset = getTimezoneOffset(tz) / (1000 * 60 * 60);
-            const sign = offset > 0 ? '+' : '';
+            const offset = tzOffset(tz, new Date('2020-01-15T00:00:00Z')) / 60;
+            const sign = offset >= 0 ? '+' : '';
             return (
               <IonSelectOption key={tz} value={tz}>
                 {tz.replace(/_/g, ' ')} (UTC{sign}{offset})
@@ -169,6 +169,7 @@ export function CreateEventComponent({ projectId, userId }: Props) {
         <br />
         <br />
         <IonButton
+          color='secondary'
           disabled={isPending}
           onClick={() => {
             if (manualDateError) {

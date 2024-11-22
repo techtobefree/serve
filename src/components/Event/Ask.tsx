@@ -133,7 +133,7 @@ export function AskComponent({ eventId, projectId, userId }: Props) {
                 key={button.value}
                 className='w-40'
                 onClick={() => { setActiveValue(button.value) }}
-                color={activeValue === button.value ? 'primary' : 'medium'} // Highlight active button
+                color={activeValue === button.value ? 'secondary' : 'medium'} // Highlight active button
               >
                 {button.label}
               </IonButton>
@@ -249,23 +249,28 @@ export function AskComponent({ eventId, projectId, userId }: Props) {
               )
             })}
           </div>
-          <IonButton onClick={() => {
-            const last = timeslots[timeslots.length - 1] || {};
-            const newTimeslot = nextTimeSlot(activeValue, last.hour, last.minute, last.count)
-            setTimeslots(
-              [...timeslots,
-                newTimeslot
-              ]
-            )
-          }}>Add block</IonButton>
+          <IonButton
+            color='secondary'
+            onClick={() => {
+              const last = timeslots[timeslots.length - 1] || {};
+              const newTimeslot = nextTimeSlot(activeValue, last.hour, last.minute, last.count)
+              setTimeslots(
+                [...timeslots,
+                  newTimeslot
+                ]
+              )
+            }}>Add block</IonButton>
           <div className='mt-8 w-full flex justify-end'>
-            <IonButton onClick={() => {
-              if (timeslots.length === 0) {
-                alert('Please add at least one timeslot.')
-                return
-              }
-              mutate({ durationMinutes: activeValue, eventId, projectId, timeslots, userId })
-            }} disabled={isPending}>SAVE</IonButton>
+            <IonButton
+              size='large'
+              color='secondary'
+              onClick={() => {
+                if (timeslots.length === 0) {
+                  alert('Please add at least one timeslot.')
+                  return
+                }
+                mutate({ durationMinutes: activeValue, eventId, projectId, timeslots, userId })
+              }} disabled={isPending}>Save</IonButton>
           </div>
         </div>
       </div>

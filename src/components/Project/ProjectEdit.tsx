@@ -112,7 +112,7 @@ const ProjectForm = ({ project }: Props) => {
           </IonItem>
         )}
       </form.Field>
-      <IonButton type="submit" expand="block" color="primary">
+      <IonButton type="submit" expand="block" color="secondary">
         Save
       </IonButton>
     </form>

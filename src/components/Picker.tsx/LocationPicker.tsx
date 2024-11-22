@@ -60,6 +60,7 @@ export default function LocationPicker({
         <Map
           id='selection-map'
           mapId='8093bbfaf47225d8'
+          gestureHandling='cooperative'
           style={{ width: '100%', height: '100%' }}
           defaultCenter={selectedLocation || { lat: 40.25511147870447, lng: -111.66301131248474 }}
           defaultZoom={13}
@@ -94,7 +95,6 @@ export default function LocationPicker({
               });
             }
           }}
-          gestureHandling={'greedy'}
           disableDefaultUI={true}
         >
           <AdvancedMarker position={location} />

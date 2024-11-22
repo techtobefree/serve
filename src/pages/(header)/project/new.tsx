@@ -34,7 +34,7 @@ const NewProject = observer(() => {
           icon={arrowBack} onClick={() => { navigate(-1) }} />
       </div>
       <div>You must login to create projects.</div>
-      <IonButton onClick={() => { modals.open('/profile') }}>Login</IonButton>
+      <IonButton color="secondary" onClick={() => { modals.open('/profile') }}>Login</IonButton>
     </>
   }
 

@@ -4,6 +4,29 @@ import { supabase } from "../domains/db/supabaseClient";
 
 export const partialQueryKey = 'get-projectById';
 
+// Only used for the type
+export function useTimeslotByIdQuery(eventId: string) {
+  return useQuery({
+    queryKey: ['get-eventById', eventId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('project_event_timeslot')
+        .select(`
+          *
+          `)
+        .eq('id', eventId)
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    }
+  })
+}
+
+// Only used for the type
 export function useEventByIdQuery(eventId: string) {
   return useQuery({
     queryKey: ['get-eventById', eventId],

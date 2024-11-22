@@ -71,7 +71,11 @@ export default function LoggedIn({ handle, userId }: Props) {
 
       {/* Modal Content */}
       <div className="p-4">
-        <IonButton onClick={() => { void logout() }}>Logout</IonButton>
+        <div>
+          Timezone: {Intl.DateTimeFormat().resolvedOptions().timeZone}
+        </div>
+        <br />
+        <IonButton color="secondary" onClick={() => { void logout() }}>Logout</IonButton>
       </div>
     </>
   )

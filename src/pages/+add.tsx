@@ -36,14 +36,16 @@ export default function Add() {
       >
         <div className='rounded-2xl bg-white flex flex-col gap-4 p-4
           pointer-events-auto h-fit m-16'>
-          <IonButton onClick={() => {
-            navigate(-1)
-            filterSearchToCategories([Category.project])
-            showSearchResults()
-          }}>Give Service</IonButton>
-          <IonButton onClick={() => {
-            navigate('/project/new', { replace: mayReplace() });
-          }}>Create a Project</IonButton>
+          <IonButton
+            color="secondary" onClick={() => {
+              navigate(-1)
+              filterSearchToCategories([Category.project])
+              showSearchResults()
+            }}>Give Service</IonButton>
+          <IonButton
+            color="secondary" onClick={() => {
+              navigate('/project/new', { replace: mayReplace() });
+            }}>Create a Project</IonButton>
         </div>
       </div>
     </div>

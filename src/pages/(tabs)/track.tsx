@@ -43,7 +43,9 @@ export function TrackComponent({ userId }: Props) {
               adminProjects.map((project) => <ProjectCard key={project.id} project={project} />)}
             {adminProjects?.length === 0 && <div>
               <span>No managed projects.</span>
-              <IonButton onClick={() => { navigate('/project/new') }}>Create one!</IonButton>
+              <IonButton color="secondary"
+                onClick={() => { navigate('/project/new') }}
+              >Create one!</IonButton>
             </div>}
             {isAttendingError && <div className='text-3xl p-3'>Error loading projects</div>}
             {isAttendingLoading && <>
@@ -53,11 +55,12 @@ export function TrackComponent({ userId }: Props) {
               <ProjectCard key={project.id} project={project} />)}
             {attendingProjects?.length === 0 && <div>
               <span>No projects joined.</span>
-              <IonButton onClick={() => {
-                navigate('/map', { replace: mayReplace() })
-                filterSearchToCategories([Category.project])
-                showSearchResults()
-              }}>Find one!</IonButton>
+              <IonButton color="secondary"
+                onClick={() => {
+                  navigate('/map', { replace: mayReplace() })
+                  filterSearchToCategories([Category.project])
+                  showSearchResults()
+                }}>Find one!</IonButton>
             </div>}
           </div>
         </div>
@@ -67,7 +70,7 @@ export function TrackComponent({ userId }: Props) {
       {!userId &&
         <div className="flex flex-col justify-center p-4">
           <div>Login to track projects</div>
-          <IonButton onClick={() => {
+          <IonButton color="secondary" onClick={() => {
             modals.open('/profile');
           }}>Login</IonButton>
         </div>}

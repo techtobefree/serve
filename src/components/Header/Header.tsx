@@ -59,10 +59,10 @@ export function HeaderComponent({ isVisible, setIsVisible, isSearchVisible }: Pr
         <div className='flex justify-between items-center'>
           {/* Profile */}
           <div className={`
-            h-${HEADER_HEIGHT} flex w-20 justify-center items-center cursor-pointer
+            h-${HEADER_HEIGHT} flex w-16 justify-center items-center cursor-pointer
           `}
             onClick={() => { modals.open('/profile') }}>
-            <IonIcon icon={personCircle} className='text-3xl' />
+            <IonIcon icon={personCircle} className='text-3xl border-2 p-3 rounded-2xl' />
           </div>
           <div className='hidden md:block text-lg'>
             Serve to be Free
@@ -75,11 +75,11 @@ export function HeaderComponent({ isVisible, setIsVisible, isSearchVisible }: Pr
 
           {/* Messages */}
           <div className={
-            `h-${HEADER_HEIGHT} flex w-20
+            `h-${HEADER_HEIGHT} flex w-16
             justify-center items-center cursor-pointer
             `}
             onClick={() => { modals.open('/messages') }}>
-            <IonIcon icon={chatbox} className='text-3xl' />
+            <IonIcon icon={chatbox} className='text-3xl border-2 p-3 rounded-2xl' />
           </div>
         </div>
         {

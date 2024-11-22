@@ -6,6 +6,8 @@ import { useEffect, useRef } from "react"
 import { sessionStore } from "../../../../domains/auth/sessionStore"
 import { mayReplace } from "../../../../domains/ui/navigation"
 import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
+import { partialQueryKey as projectByIdQueryKey } from "../../../../queries/projectById"
+import { queryClient } from "../../../../queries/queryClient"
 import { useModals, useNavigate, useParams } from "../../../../router"
 
 type Props = {
@@ -28,6 +30,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
 
   useEffect(() => {
     if (data) {
+      void queryClient.invalidateQueries({ queryKey: [projectByIdQueryKey, projectId] });
       navigate('/project/:projectId/view', { params: { projectId }, replace: mayReplace() })
     }
   }, [data, projectId, navigate])
@@ -53,9 +56,11 @@ export function ProjectJoinPageComponent({ userId }: Props) {
             You must login to join a project.
           </div>
         }
-        <IonButton onClick={() => {
-          navigate('/project/:projectId/view', { params: { projectId }, replace: true })
-        }}>View project</IonButton>
+        <IonButton
+          color="secondary"
+          onClick={() => {
+            navigate('/project/:projectId/view', { params: { projectId }, replace: true })
+          }}>View project</IonButton>
       </div>
     </>
   )
