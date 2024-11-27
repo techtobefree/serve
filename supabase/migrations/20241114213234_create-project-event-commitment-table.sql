@@ -19,7 +19,7 @@ ALTER TABLE public.project_event_commitment ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows anyone to read the user table
 CREATE POLICY "read_project_event_commitment" ON public.project_event_commitment
-  FOR SELECT TO authenticated, anon
+  FOR SELECT TO authenticated
   USING (
     true
     -- TODO: should only allow self, and admin of project (and friends of user) to see
