@@ -29,23 +29,13 @@ CREATE POLICY "read_project_event_item_commitment" ON public.project_event_item_
 CREATE POLICY "insert_project_event_item_commitment" ON public.project_event_item_commitment
   FOR INSERT TO authenticated
   WITH CHECK (
-    (select auth.uid()) = (
-      SELECT owner_id
-      FROM project
-      WHERE project.id = project_event_item_commitment.project_id
-      LIMIT 1
-    )
+    (select auth.uid()) = created_by
   );
 
 CREATE POLICY "delete_project_event_item_commitment" ON public.project_event_item_commitment
   FOR DELETE TO authenticated
   USING (
-    (select auth.uid()) = (
-      SELECT owner_id
-      FROM project
-      WHERE project.id = project_event_item_commitment.project_id
-      LIMIT 1
-    )
+    (select auth.uid()) = created_by
   );
 
 -- Create a trigger to call the update_modified_columns function
