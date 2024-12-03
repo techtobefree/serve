@@ -4,6 +4,7 @@ import { addMinutes, format } from "date-fns";
 import { buildStartTime } from "../../domains/date/timezone";
 import useCommitToTimeslot from "../../mutations/commitToTimeslot";
 import { useEventByIdQuery, useTimeslotByIdQuery } from "../../queries/projectById";
+import { useModals } from "../../router";
 
 type Props = {
   committed: boolean;
@@ -13,6 +14,7 @@ type Props = {
 }
 
 export default function Timeslot({ committed, currentUserId, event, timeslot }: Props) {
+  const modals = useModals();
   const startTime = buildStartTime(event.project_event_date, event.timezone, timeslot);
   const endTime = addMinutes(startTime, timeslot.timeslot_duration_minutes);
   const span = `${format(startTime, 'h:mm bbb')} - ${format(endTime, 'h:mm bbb')}`;
@@ -39,6 +41,13 @@ export default function Timeslot({ committed, currentUserId, event, timeslot }: 
               currentUserId,
               eventId: event.id,
             })
+          }}
+        >Commit</IonButton>}
+        {!currentUserId && <IonButton
+          disabled={timeslotCommit.isPending}
+          color='secondary'
+          onClick={() => {
+            modals.open('/profile')
           }}
         >Commit</IonButton>}
       </div>

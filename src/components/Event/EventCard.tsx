@@ -28,7 +28,7 @@ export default function EventCard({ currentUserId, event, canEdit }: Props) {
         <div className="text-lg font-bold">{event.project_event_date}</div>
         <div>
           {committed && <div className='border-2 p-2 mb-6'>
-            <div className='text-2xl'>GOING</div>
+            <div className='text-2xl'>{`I'm going`}</div>
             <div>{myCommitments.map(commitment => {
               return <div key={commitment.id} className='flex justify-between items-center'>
                 <div>
@@ -67,11 +67,14 @@ export default function EventCard({ currentUserId, event, canEdit }: Props) {
               {event.project_event_commitment.length === 0 && 'No one is going yet'}
               {event.project_event_commitment.map(commitment => {
                 return <div key={commitment.id} className='flex justify-between items-center gap-2'>
-                  <div>{commitment.role}</div>
+                  <div>{(commitment.profile as unknown as { handle: string }).handle}</div>
                   <div>
-                    {format(commitment.commitment_start, 'h:mm bbb')}
-                    {' - '}
-                    {format(commitment.commitment_end, 'h:mm bbb')}
+                    <div>{commitment.role}</div>
+                    <div>
+                      {format(commitment.commitment_start, 'h:mm bbb')}
+                      {' - '}
+                      {format(commitment.commitment_end, 'h:mm bbb')}
+                    </div>
                   </div>
                 </div>
               })}

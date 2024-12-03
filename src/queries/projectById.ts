@@ -42,7 +42,11 @@ export function useEventByIdQuery(eventId: string) {
             *
           ),
           project_event_commitment (
-            *
+            *,
+            profile (
+              user_id,
+              handle
+            )
           ),
           project_event_item_commitment (
             *
@@ -85,7 +89,11 @@ export function useProjectByIdQuery(projectId: string) {
               *
             ),
             project_event_commitment (
-              *
+              *,
+            profile (
+              user_id,
+              handle
+            )
             ),
             project_event_item_commitment (
               *

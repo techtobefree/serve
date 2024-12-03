@@ -51,3 +51,7 @@ FOREIGN KEY (project_id) REFERENCES project(id);
 ALTER TABLE public.project_event_item_commitment
 ADD CONSTRAINT fk_project_event_id_to_project_event_item_commitment_project_id
 FOREIGN KEY (project_event_id) REFERENCES public.project_event(id);
+
+ALTER TABLE public.project_event_item_commitment
+ADD CONSTRAINT fk_project_created_by_to_profile_user_id
+FOREIGN KEY (created_by) REFERENCES public.profile(user_id);

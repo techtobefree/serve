@@ -15,6 +15,9 @@ Generated ios and android directories
 `pnpm dev:ios`
 
 ## TODO
+Disable login for the web (unless ... what determines they are an admin and actually want to manage the project from the web?). Prefer to capture email, name, phone number, and then direct them to install the app.
+
+#### Later
 Figure out how to allow someone to pass admin to another user.
 (Maybe doesn't matter) update buttons to use links so hover and ctrl+click works.
 
