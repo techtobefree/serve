@@ -1,10 +1,11 @@
-import { IonButton, IonCheckbox, IonIcon, IonInput, IonItem, IonLabel } from "@ionic/react";
-
+import { IonButton, IonCheckbox, IonIcon, IonImg, IonInput, IonItem, IonLabel } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
-
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
 
+import UploadImage from "../../../../components/UploadImage";
 import { sessionStore } from "../../../../domains/auth/sessionStore";
+import { getPublicUrl, profilePicturePath } from "../../../../queries/image";
 import {
   acceptTerms,
   changeEmail,
@@ -21,7 +22,10 @@ type Props = {
 }
 
 export function UserView({ canEdit, userId, initial }: Props) {
-  const { data: user, isLoading } = useProfileQuery(userId)
+  const { data: user, isLoading } = useProfileQuery(userId);
+  const [isEditingPhoto, setIsEditingPhoto] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(getPublicUrl(profilePicturePath(userId)));
+  const [tempBase64Image, setTempBase64Image] = useState<string | null>(null);
   const navigate = useNavigate();
 
   if (isLoading || !user) {
@@ -30,7 +34,7 @@ export function UserView({ canEdit, userId, initial }: Props) {
 
   if (canEdit) {
     return (
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center overflow-auto">
         <div className="max-w-[800px] w-full p-2 flex flex-col gap-6">
           <div>
             <IonIcon className='cursor-pointer text-4xl'
@@ -46,6 +50,27 @@ export function UserView({ canEdit, userId, initial }: Props) {
           <div className='flex flex-col gap-4'>
             <div className='text-3xl'>
               Profile
+            </div>
+            <div className='flex flex-col'>
+              <IonImg src={tempBase64Image || profilePicture}
+                alt="Picture" className='w-[200px] h-[200px] self-center' />
+              {!isEditingPhoto && (
+                <IonButton color='secondary'
+                  className='flex pb-4'
+                  onClick={() => { setIsEditingPhoto(true) }}>
+                  Change picture
+                </IonButton>
+              )}
+              {isEditingPhoto && (
+                <UploadImage path={profilePicturePath(userId)}
+                  onChange={image => { setTempBase64Image(image) }}
+                  close={() => {
+                    setProfilePicture(
+                      `${getPublicUrl(profilePicturePath(userId))}?
+                      ${new Date().getTime().toString()}`)
+                    setIsEditingPhoto(false)
+                  }} />
+              )}
             </div>
             <IonItem>
               <IonInput label='Public name*'
@@ -84,6 +109,14 @@ export function UserView({ canEdit, userId, initial }: Props) {
             <div>
               First name, last name, and email address will be shared with your project leaders.
             </div>
+            <div>
+              By using the app you agree to our {' '}
+              <a className='underline cursor-pointer color-blue'
+                href='https://servetobefree.org/privacy-policy'
+                target="_blank" rel="noreferrer">
+                privacy policy
+              </a>.
+            </div>
             <IonItem onClick={() => {
               void acceptTerms(userId, !user.sensitive_profile[0]?.accepted_terms)
             }}>
@@ -95,14 +128,6 @@ export function UserView({ canEdit, userId, initial }: Props) {
                 }}
               />
             </IonItem>
-          </div>
-          <div>
-            By using the app you agree to our {' '}
-            <a className='underline cursor-pointer color-blue'
-              href='https://servetobefree.org/privacy-policy'
-              target="_blank" rel="noreferrer">
-              privacy policy
-            </a>.
           </div>
           {initial && (
             <IonButton className='p-4 self-end'>Continue</IonButton>

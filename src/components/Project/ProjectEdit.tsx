@@ -4,7 +4,9 @@ import { useForm } from '@tanstack/react-form';
 import { supabase } from '../../domains/db/supabaseClient';
 import { TableInsert } from '../../domains/db/tables';
 import { mayReplace } from '../../domains/ui/navigation';
+import { projectPicturePath, getPublicUrl } from '../../queries/image';
 import { useNavigate } from '../../router';
+import UploadImage from '../UploadImage';
 
 type Props = {
   project: TableInsert['project']
@@ -81,16 +83,22 @@ const ProjectForm = ({ project }: Props) => {
           </IonItem>
         )}
       </form.Field>
-      <form.Field name='image_url'>
-        {(field) => (
-          <IonItem>
-            <IonInput label='Image URL'
-              value={field.state.value}
-              onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
-            />
-          </IonItem>
-        )}
-      </form.Field>
+      {
+        project.id && (
+          <form.Field name='image_url'>
+            {(field) => (
+              <IonItem>
+                <UploadImage
+                  src={getPublicUrl(projectPicturePath(project.id as string))}
+                  path={projectPicturePath(project.id as string)}
+                  close={() => {
+                    field.handleChange(getPublicUrl(projectPicturePath(project.id as string)))
+                  }} />
+              </IonItem>
+            )}
+          </form.Field>
+        )
+      }
       {/* <form.Field name='owner_id'>
         {(field) => (
           <IonItem>
@@ -107,7 +115,7 @@ const ProjectForm = ({ project }: Props) => {
             <IonTextarea label='Description'
               value={field.state.value}
               onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
-              rows={4}
+              rows={12}
             />
           </IonItem>
         )}

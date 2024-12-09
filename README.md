@@ -38,3 +38,5 @@ Generated ios and android directories
 ### TODO
 Figure out how to allow someone to pass admin to another user.
 (Maybe doesn't matter) update buttons to use links so hover and ctrl+click works.
+
+Enable image stuff on native https://ionicframework.com/docs/native/camera#pickimages

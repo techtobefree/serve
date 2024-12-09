@@ -1,9 +1,10 @@
-import { IonButton, IonIcon } from "@ionic/react"
+import { IonButton, IonIcon, IonImg } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import useJoinProject from "../../mutations/joinProject"
 import useLeaveProject from "../../mutations/leaveProject"
+import { getPublicUrl, profilePicturePath } from "../../queries/image"
 import { useProjectByIdQuery } from "../../queries/projectById"
 import { useQrCode } from "../../queries/qr"
 import { useModals, useNavigate } from "../../router"
@@ -90,7 +91,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           color='tertiary'
           onClick={() => {
             modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
-          }}>Creat event</IonButton>
+          }}>Create event</IonButton>
       )}
       <br />
       {/* <div>Members: {project.user_project.length}</div>
@@ -102,6 +103,10 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
         )
       })}
       <br /> */}
+      <div className='text-2xl'>Leader</div>
+      <IonImg src={getPublicUrl(profilePicturePath(project.lead_by || project.owner_id))}
+        alt="Picture" className='w-[200px] h-[200px] self-center' />
+      <div className='text-2xl'>Description</div>
       <div>{project.description}</div>
       <br />
       <br />

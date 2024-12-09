@@ -1,4 +1,5 @@
 import { Routes } from '@generouted/react-router'
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { setupIonicReact } from '@ionic/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { APIProvider } from '@vis.gl/react-google-maps';
@@ -9,6 +10,7 @@ import '@ionic/react/css/core.css';
 import './index.css'
 import { queryClient } from './queries/queryClient';
 
+void defineCustomElements(window);
 setupIonicReact();
 
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;

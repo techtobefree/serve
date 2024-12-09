@@ -67,7 +67,7 @@ export function LayoutComponent({ session }: Props) {
 
 const Layout = observer(() => {
   return (
-    <LayoutComponent session={sessionStore.current} currentUser={currentUserStore} />
+    <LayoutComponent session={sessionStore.current} currentUser={{ ...currentUserStore }} />
   )
 })
 

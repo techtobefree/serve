@@ -24,7 +24,7 @@ const ProfileModalContent = observer(() => {
   const { current } = sessionStore;
   const currentUser = currentUserStore;
 
-  return <ProfileModalContentComponent isLoggedIn={!!current} currentUser={currentUser} />
+  return <ProfileModalContentComponent isLoggedIn={!!current} currentUser={{ ...currentUser }} />
 });
 
 export default ProfileModalContent;
