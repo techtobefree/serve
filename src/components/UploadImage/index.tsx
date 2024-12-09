@@ -30,9 +30,8 @@ export default function UploadImage({ path, onChange, close, src }: Props) {
       const base64Data = `data:image/jpeg;base64,${photo.base64String as string}`;
       if (onChange) {
         onChange(base64Data);
-      } else {
-        setBase64Image(base64Data);
       }
+      setBase64Image(base64Data);
     } catch (error) {
       console.error('Error capturing image:', error);
     }
@@ -48,7 +47,7 @@ export default function UploadImage({ path, onChange, close, src }: Props) {
       <div className='flex'>
         <IonButton color="secondary" onClick={() => { void captureImage() }}>
           <IonIcon className='pr-4' size='large' icon={cameraOutline} />
-          Capture Image
+          Add Image
         </IonButton>
         <IonButton disabled={!base64Image}
           onClick={(async () => {
@@ -61,7 +60,7 @@ export default function UploadImage({ path, onChange, close, src }: Props) {
           }) as () => void}
           color="secondary">
           <IonIcon className='pr-4' size='large' icon={cloudUpload} />
-          Upload
+          Save
         </IonButton>
         <IonButton disabled={!base64Image && !onChange}
           color="danger" onClick={() => { setBase64Image(null); close(); }}>
