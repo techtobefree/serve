@@ -79,6 +79,7 @@ export function SearchResultsComponent({
                 <IonButton
                   className='self-center'
                   color="secondary" onClick={() => {
+                    hideSearchResults();
                     navigate('/project/new', { replace: mayReplace() });
                   }}>Create a Project</IonButton>
                 {/* Modal Body */}

@@ -99,6 +99,14 @@ const ProjectForm = ({ project }: Props) => {
           </form.Field>
         )
       }
+      {
+        !project.id && (
+          <IonItem disabled>
+            <IonLabel>Image</IonLabel>
+            <span className='p-4'>After creating the project, an image can be attached.</span>
+          </IonItem>
+        )
+      }
       {/* <form.Field name='owner_id'>
         {(field) => (
           <IonItem>
