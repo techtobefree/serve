@@ -1,30 +1,30 @@
 import { observer } from "mobx-react-lite";
 
 import { sessionStore } from "../../domains/auth/sessionStore";
-import { useMyProfileQuery } from "../../queries/myProfile";
+import { CurrentUser, currentUserStore } from "../../domains/currentUser/currentUserStore";
 
 import LoggedIn from "./LoggedIn";
 import Login from "./Login";
 
 type Props = {
   isLoggedIn: boolean;
-  userId?: string;
+  currentUser?: CurrentUser;
 }
 
-export function ProfileModalContentComponent({ isLoggedIn, userId }: Props) {
-  const { data } = useMyProfileQuery(userId)
+export function ProfileModalContentComponent({ isLoggedIn, currentUser }: Props) {
   return (
     <>
-      {(!isLoggedIn || !userId) && <Login />}
-      {isLoggedIn && userId && <LoggedIn handle={data?.handle || 'Loading'} userId={userId} />}
+      {(!isLoggedIn || !currentUser) && <Login />}
+      {isLoggedIn && currentUser && <LoggedIn currentUser={currentUser} />}
     </>
   )
 }
 
 const ProfileModalContent = observer(() => {
   const { current } = sessionStore;
+  const currentUser = currentUserStore;
 
-  return <ProfileModalContentComponent isLoggedIn={!!current} userId={current?.user.id} />
+  return <ProfileModalContentComponent isLoggedIn={!!current} currentUser={currentUser} />
 });
 
 export default ProfileModalContent;

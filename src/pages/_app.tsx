@@ -4,17 +4,22 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
+import Header from '../components/Header/Header';
 import { sessionStore } from '../domains/auth/sessionStore';
-import { useMyProfileQuery } from '../queries/myProfile';
+import { CurrentUser, currentUserStore } from '../domains/currentUser/currentUserStore';
+import { useProfileQuery } from '../queries/profileByUserId';
 import { useNavigate } from '../router';
+
+import { UserView } from './(header)/user/[userId]/view';
 
 
 type Props = {
   session?: Session | null;
+  currentUser: CurrentUser;
 }
 
 export function LayoutComponent({ session }: Props) {
-  useMyProfileQuery(session?.user.id)
+  useProfileQuery(session?.user.id)
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -37,6 +42,22 @@ export function LayoutComponent({ session }: Props) {
     };
   }, [navigate, location]);
 
+  if (currentUserStore.userId && (
+    !currentUserStore.handle ||
+    !currentUserStore.email ||
+    !currentUserStore.firstName ||
+    !currentUserStore.lastName ||
+    !currentUserStore.acceptedTerms
+  )) {
+    // Sorry for this
+    return (
+      <div className='bg-[#f0f0f0]'>
+        <Header isVisible={true} setIsVisible={() => { }} />
+        <UserView userId={currentUserStore.userId} canEdit={true} initial />
+      </div>
+    )
+  }
+
   return (
     <div className='bg-[#f0f0f0]'>
       <Outlet />
@@ -46,7 +67,7 @@ export function LayoutComponent({ session }: Props) {
 
 const Layout = observer(() => {
   return (
-    <LayoutComponent session={sessionStore.current} />
+    <LayoutComponent session={sessionStore.current} currentUser={currentUserStore} />
   )
 })
 

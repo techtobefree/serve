@@ -1,65 +1,39 @@
 import { IonButton, IonIcon } from "@ionic/react";
-import { checkbox, closeOutline, createOutline } from "ionicons/icons";
-
-import { useEffect, useRef, useState } from "react";
+import { closeOutline, createOutline } from "ionicons/icons";
 
 import { logout } from "../../domains/auth/smsOTP";
-import { changeHandle } from "../../queries/myProfile";
+import { CurrentUser } from "../../domains/currentUser/currentUserStore";
 import { useNavigate } from "../../router";
 
 type Props = {
-  handle: string;
-  userId: string;
+  currentUser: CurrentUser;
 }
 
-export default function LoggedIn({ handle, userId }: Props) {
-  const [inEditMode, setEditMoade] = useState(false);
-  const [name, setName] = useState(handle);
-  const inputRef = useRef<HTMLInputElement>(null);
+export default function LoggedIn({ currentUser }: Props) {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [inEditMode])
+  const userId = currentUser.userId;
 
   return (
     <>
       {/* Modal Header */}
       <div className="flex justify-between items-center border-b border-gray-200 p-4">
-        {!inEditMode &&
-          <div className="flex items-center cursor-pointer" onClick={() => { setEditMoade(true) }}>
+        {userId && (
+          <div className="flex items-center cursor-pointer"
+            onClick={() => {
+              navigate('/user/:userId/view', { params: { userId }, replace: true })
+            }}>
             <IonIcon icon={createOutline} className='text-xl p-2 text-blue-500' />
-            <div className="text-xl p-1 font-semibold">
-              {handle}
+            <div className='flex flex-col p-1'>
+              <div className="text-xl font-semibold">
+                {currentUser.handle}
+              </div>
+              <div>
+                Edit Profile
+              </div>
             </div>
           </div>
-        }
-        {inEditMode &&
-          <div className='flex items-center'>
-            <IonIcon icon={checkbox}
-              className='p-2 -m-2 cursor-pointer text-4xl text-blue-500'
-              onClick={() => {
-                void changeHandle(userId, name)
-                setEditMoade(false)
-              }}
-            />
-            <input ref={inputRef}
-              className='m-1 p-1'
-              value={name}
-              onChange={(event) => { setName(event.target.value) }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  void changeHandle(userId, name)
-                  setEditMoade(false)
-                } else if (e.key === 'Escape') {
-                  setEditMoade(false)
-                }
-              }}
-            />
-          </div>
-        }
+        )}
 
         {/* Close Button */}
         <button

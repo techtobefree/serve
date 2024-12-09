@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite"
 
 import { sessionStore } from "../../domains/auth/sessionStore";
 import { Category, filterSearchToCategories, showSearchResults } from "../../domains/search/search";
-import { useMyProfileQuery } from "../../queries/myProfile";
+import { useProfileQuery } from "../../queries/profileByUserId";
 import { useNavigate } from "../../router";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export function HomeComponent({ userId }: Props) {
-  useMyProfileQuery(userId) // Just to use the userId
+  useProfileQuery(userId) // Just to use the userId
   const navigate = useNavigate();
 
   return (

@@ -12,12 +12,14 @@ type Props = {
 
 export function NewProjectComponent({ userId }: Props) {
   return (
-    <div>
-      <ProjectEdit project={{
-        owner_id: userId,
-        created_by: userId,
-        name: 'New Project'
-      }} />
+    <div className="flex w-full justify-center">
+      <div className="max-w-[800px] w-full">
+        <ProjectEdit project={{
+          owner_id: userId,
+          created_by: userId,
+          name: 'New Project'
+        }} />
+      </div>
     </div>
   )
 }

@@ -3362,6 +3362,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_project_created_by_to_profile_user_id"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["user_id"]
+          },
+          {
             foreignKeyName: "fk_project_event_id_to_project_event_commitment_project_id"
             columns: ["project_event_id"]
             isOneToOne: false
@@ -3467,6 +3474,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_project_created_by_to_profile_user_id"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["user_id"]
+          },
+          {
             foreignKeyName: "fk_project_event_id_to_project_event_item_commitment_project_id"
             columns: ["project_event_id"]
             isOneToOne: false
@@ -3544,39 +3558,56 @@ export type Database = {
       }
       sensitive_profile: {
         Row: {
+          accepted_terms: boolean | null
           created_at: string | null
           created_by: string
           email: string | null
+          first_name: string | null
           id: string
           iss: string | null
+          last_name: string | null
           sub: string | null
           updated_at: string | null
           updated_by: string | null
           user_id: string
         }
         Insert: {
+          accepted_terms?: boolean | null
           created_at?: string | null
           created_by: string
           email?: string | null
+          first_name?: string | null
           id?: string
           iss?: string | null
+          last_name?: string | null
           sub?: string | null
           updated_at?: string | null
           updated_by?: string | null
           user_id: string
         }
         Update: {
+          accepted_terms?: boolean | null
           created_at?: string | null
           created_by?: string
           email?: string | null
+          first_name?: string | null
           id?: string
           iss?: string | null
+          last_name?: string | null
           sub?: string | null
           updated_at?: string | null
           updated_by?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_id_to_profile_user_id"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       team: {
         Row: {

@@ -1,10 +1,12 @@
-import { IonIcon } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
 import { funnelOutline, closeOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 
 import { hideSearchResults, searchStore } from "../../domains/search/search";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
+import { mayReplace } from "../../domains/ui/navigation";
+import { useNavigate } from "../../router";
 
 import GroupResults from "./GroupResults";
 import PeopleResults from "./PeopleResults";
@@ -20,6 +22,7 @@ export function SearchResultsComponent({
   isHeaderVisible,
   isSearchVisible,
 }: Props) {
+  const navigate = useNavigate();
   const [filters, setFilters] = useState<string[]>([]);
 
   useEffect(() => {
@@ -72,7 +75,12 @@ export function SearchResultsComponent({
         {isHeaderVisible && isSearchVisible &&
           <div className='h-[calc(100vh-64px)] w-full overflow-auto flex flex-col'>
             <div className='w-full flex flex-col items-center bg-[#f0f0f0] p-2'>
-              <div className='max-w-[800px]'>
+              <div className='max-w-[800px] flex flex-col'>
+                <IonButton
+                  className='self-center'
+                  color="secondary" onClick={() => {
+                    navigate('/project/new', { replace: mayReplace() });
+                  }}>Create a Project</IonButton>
                 {/* Modal Body */}
                 {!!filters.length &&
                   <div className="p-6">Filters: {filters.join(', ')}</div>

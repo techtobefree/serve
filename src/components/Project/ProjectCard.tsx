@@ -2,7 +2,6 @@ import { IonButton } from "@ionic/react";
 
 import { TableRows } from "../../domains/db/tables"
 import { hideSearchResults } from "../../domains/search/search";
-import { mayReplace } from "../../domains/ui/navigation";
 import { useNavigate } from "../../router";
 
 type Props = {
@@ -20,7 +19,7 @@ export default function ProjectCard({ project, joinable }: Props) {
         hideSearchResults();
         navigate(
           '/project/:projectId/view',
-          { params: { projectId: project.id }, replace: mayReplace() }
+          { params: { projectId: project.id } }
         )
       }}>
       <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}
@@ -43,7 +42,7 @@ export default function ProjectCard({ project, joinable }: Props) {
               hideSearchResults();
               navigate(
                 '/project/:projectId/join',
-                { params: { projectId: project.id }, replace: mayReplace() }
+                { params: { projectId: project.id } }
               )
             }}
           >Join</IonButton>
