@@ -1,4 +1,4 @@
-// Generouted, changes to this file will be overriden
+// Generouted, changes to this file will be overridden
 /* eslint-disable */
 
 import { components, hooks, utils } from "@generouted/react-router/client";
@@ -8,7 +8,6 @@ export type Path =
   | `/celebrate`
   | `/group/:groupId/view`
   | `/home`
-  | `/local`
   | `/map`
   | `/project/:projectId/edit`
   | `/project/:projectId/join`

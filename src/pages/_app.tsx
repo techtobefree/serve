@@ -7,6 +7,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Header from '../components/Header/Header';
 import { sessionStore } from '../domains/auth/sessionStore';
 import { CurrentUser, currentUserStore } from '../domains/currentUser/currentUserStore';
+import { useLocalAuth } from '../hooks/useLocalAuth';
 import { useProfileQuery } from '../queries/profileByUserId';
 import { useNavigate } from '../router';
 
@@ -19,7 +20,8 @@ type Props = {
 }
 
 export function LayoutComponent({ session }: Props) {
-  useProfileQuery(session?.user.id)
+  useLocalAuth(); // Comment if you want to test logged out state
+  useProfileQuery(session?.user.id);
   const navigate = useNavigate();
   const location = useLocation();
 
