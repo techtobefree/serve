@@ -3,6 +3,8 @@ import { IonButton, IonIcon, IonImg, IonLoading } from "@ionic/react";
 import { cameraOutline, closeOutline, cloudUpload, cube } from 'ionicons/icons';
 import { useState } from "react";
 
+import { IMAGE_SIZE, IMAGE_SIZE_MAP } from '../../domains/image';
+import { showToast } from '../../domains/ui/toast';
 import { uploadImage } from '../../queries/image';
 
 type Props = {
@@ -10,9 +12,10 @@ type Props = {
   src?: string;
   onChange?: (image: string) => void;
   close: () => void;
+  size?: IMAGE_SIZE;
 }
 
-export default function UploadImage({ path, onChange, close, src }: Props) {
+export default function UploadImage({ path, onChange, close, src, size }: Props) {
   const [base64Image, setBase64Image] = useState<string | null>(null); // Base64 image preview
   const [uploading, setUploading] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -34,21 +37,23 @@ export default function UploadImage({ path, onChange, close, src }: Props) {
       }
       setBase64Image(base64Data);
       setFailed(false);
+      console.log('Image captured', base64Data);
     } catch (error) {
       console.error('Error capturing image:', error);
     }
-    console.log('Image captured', base64Image);
   };
 
   return (
-    <div className='flex flex-col items-center w-full'>
+    <div className='flex flex-col items-center w-full overflow-hidden rounded-xl'>
       {!onChange && (
         !failed ? (
-          <IonImg src={base64Image || src || ''} alt="Picture"
-            onIonError={() => { setFailed(true) }}
-            className='w-[200px] h-[200px] self-center' />
+          <div className='overflow-hidden rounded-xl'>
+            <IonImg src={base64Image || src || ''} alt="Picture"
+              onIonError={() => { setFailed(true) }}
+              className={`${size ? IMAGE_SIZE_MAP[size] : ''} self-center object-cover`} />
+          </div>
         ) : (
-          <IonIcon icon={cube} className={'w-[200px] h-[200px] self-center'} />
+          <IonIcon icon={cube} className={`${size ? IMAGE_SIZE_MAP[size] : ''} self-center`} />
         )
       )}
       <div className='flex'>
@@ -63,6 +68,7 @@ export default function UploadImage({ path, onChange, close, src }: Props) {
               await uploadImage(path, base64Image)
               setUploading(false)
               close();
+              showToast('Upload successful. It may take up to an hour to reflect')
             }
           }) as () => void}
           color="secondary">

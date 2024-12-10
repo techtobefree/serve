@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { supabase } from "../domains/db/supabaseClient";
+import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
 
@@ -10,10 +11,15 @@ export async function removeCommitment({ id, projectId }:
     projectId: string,
   }) {
 
-  await supabase
+  const { error } = await supabase
     .from('project_event_commitment')
     .delete()
     .eq('id', id)
+
+  if (error) {
+    showToast('Failed to delete commitment', { duration: 5000, isError: true });
+    throw error;
+  }
 
   await queryClient.invalidateQueries({ queryKey: ['get-projectId', projectId] });
 }
@@ -29,7 +35,7 @@ export default function useRemoveCommitment(
       callback?.();
     },
     onError: (error: Error) => {
-      console.error('Error creating post:', error);
+      console.error('Error removing commitment:', error);
       callback?.(error);
     },
   });

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { sessionStore } from "../../domains/auth/sessionStore";
 import { blankAddress } from "../../domains/map/addressComponents";
+import { showToast } from "../../domains/ui/toast";
 import useCreateEvent from "../../mutations/createEvent";
 import { useNavigate } from "../../router";
 import FutureDatePicker from "../Picker.tsx/FutureDatePicker";
@@ -93,7 +94,7 @@ const timezones = [
 export function CreateEventComponent({ projectId, userId }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(new Date().toISOString());
   const [manualDate, setManualDate] = useState('');
   const [manualDateError, setManualDateError] = useState('');
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
@@ -177,14 +178,22 @@ export function CreateEventComponent({ projectId, userId }: Props) {
               return
             }
             if (!location.lat || !location.lng) {
-              alert('Please select a location')
+              showToast('Please select a location', { duration: 5000, isError: true })
               return
             }
             if (!userId) {
-              alert('No user id')
+              showToast('No user id', { duration: 5000, isError: true })
               return
             }
-            mutate({ projectId, userId, date, location, addressName, address, timezone })
+            mutate({
+              projectId,
+              userId,
+              date: manualDate,
+              location,
+              addressName,
+              address,
+              timezone
+            })
           }}>Create event</IonButton>
       </div>
     </div>

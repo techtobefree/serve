@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
 import Header from '../components/Header/Header';
+import Toast from '../components/Toast';
 import { sessionStore } from '../domains/auth/sessionStore';
 import { CurrentUser, currentUserStore } from '../domains/currentUser/currentUserStore';
 import { useLocalAuth } from '../hooks/useLocalAuth';
@@ -54,7 +55,7 @@ export function LayoutComponent({ session }: Props) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>
-        <Header isVisible={true} setIsVisible={() => { }} />
+        <Header isVisible={false} setIsVisible={() => { }} />
         <UserView userId={currentUserStore.userId} canEdit={true} initial />
       </div>
     )
@@ -63,6 +64,7 @@ export function LayoutComponent({ session }: Props) {
   return (
     <div className='bg-[#f0f0f0]'>
       <Outlet />
+      <Toast />
     </div>
   )
 }

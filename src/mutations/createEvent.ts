@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { supabase } from "../domains/db/supabaseClient";
 import { Address } from "../domains/map/addressComponents";
+import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
 
@@ -38,11 +39,11 @@ async function createEvent({
       country: address.country,
     })
     .select('id')
-    .single();;
+    .single();
 
   if (error) {
-    alert('Failed to create project event');
-    return;
+    showToast('Failed to create project event', { duration: 5000, isError: true });
+    throw error;
   }
 }
 
@@ -57,7 +58,7 @@ export default function useCreateEvent(
       callback();
     },
     onError: (error: Error) => {
-      console.error('Error creating post:', error);
+      console.error('Error creating event:', error);
       callback(error);
     },
   });

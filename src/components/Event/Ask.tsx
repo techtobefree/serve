@@ -12,6 +12,7 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 
 import { sessionStore } from "../../domains/auth/sessionStore";
+import { showToast } from '../../domains/ui/toast';
 import useCreateTimeslots, { Timeslot } from '../../mutations/createTimeslots';
 import { useNavigate } from "../../router";
 
@@ -119,7 +120,7 @@ export function AskComponent({ eventId, projectId, userId }: Props) {
                   }
                   setActiveValue(newInt)
                 } catch (e) {
-                  alert('Please enter a valid number.')
+                  showToast('Please enter a valid number', { duration: 5000, isError: true })
                   console.log('Error parsing int', e)
                   setActiveValue(60)
                 }
@@ -215,7 +216,8 @@ export function AskComponent({ eventId, projectId, userId }: Props) {
                         try {
                           const newInt = parseInt(e.detail.value as string)
                           if (newInt < 0) {
-                            alert('Please enter a positive number.')
+                            showToast('Please enter a positive number',
+                              { duration: 5000, isError: true })
                             return
                           }
                           setTimeslots(
@@ -266,7 +268,7 @@ export function AskComponent({ eventId, projectId, userId }: Props) {
               color='secondary'
               onClick={() => {
                 if (timeslots.length === 0) {
-                  alert('Please add at least one timeslot.')
+                  showToast('Please add at least one timeslot', { duration: 5000, isError: true })
                   return
                 }
                 mutate({ durationMinutes: activeValue, eventId, projectId, timeslots, userId })

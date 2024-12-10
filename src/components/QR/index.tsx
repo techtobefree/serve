@@ -1,9 +1,8 @@
 import { IonIcon, IonImg } from "@ionic/react";
-import { cube } from "ionicons/icons";
-import { useState } from "react";
+import { person } from "ionicons/icons";
+import { useEffect, useState } from "react";
 
-import { IMAGE_SIZE_MAP, IMAGE_SIZE } from "../../domains/image";
-
+import { IMAGE_SIZE, IMAGE_SIZE_MAP } from "../../domains/image";
 
 type Props = {
   src: string;
@@ -12,7 +11,7 @@ type Props = {
   size: IMAGE_SIZE;
 }
 
-export default function ProjectImage({
+export default function Avatar({
   src,
   alt,
   size,
@@ -20,10 +19,16 @@ export default function ProjectImage({
 }: Props) {
   const [failed, setFailed] = useState(false);
 
+  useEffect(() => {
+    if (src) {
+      setFailed(false);
+    }
+  }, [src]);
+
   const classes = [IMAGE_SIZE_MAP[size], className].join(' ');
 
   return (
-    <div className={`rounded-xl overflow-hidden`}>
+    <div className='overflow-hidden'>
       {!failed ? (
         <IonImg
           alt={alt}
@@ -32,7 +37,7 @@ export default function ProjectImage({
           onIonError={() => { setFailed(true) }}
         />
       ) : (
-        <IonIcon icon={cube} className={classes} />
+        <IonIcon icon={person} className={classes} />
       )}
     </div>
   )

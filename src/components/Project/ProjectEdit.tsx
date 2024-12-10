@@ -3,7 +3,9 @@ import { useForm } from '@tanstack/react-form';
 
 import { supabase } from '../../domains/db/supabaseClient';
 import { TableInsert } from '../../domains/db/tables';
+import { IMAGE_SIZE } from '../../domains/image';
 import { mayReplace } from '../../domains/ui/navigation';
+import { showToast } from '../../domains/ui/toast';
 import { projectPicturePath, getPublicUrl } from '../../queries/image';
 import { useNavigate } from '../../router';
 import UploadImage from '../UploadImage';
@@ -24,7 +26,7 @@ const ProjectForm = ({ project }: Props) => {
     },
     onSubmit: async ({ value }) => {
       if (!value.name || !value.owner_id) {
-        alert('Name and Admin are required');
+        showToast('Name and Admin are required', { duration: 5000, isError: true })
         return;
       }
 
@@ -46,7 +48,7 @@ const ProjectForm = ({ project }: Props) => {
 
       if (res.error) {
         console.error(res.error);
-        alert('Failed to save project');
+        showToast('Failed to save project', { duration: 5000, isError: true })
       } else {
         navigate(
           '/project/:projectId/view',
@@ -89,6 +91,7 @@ const ProjectForm = ({ project }: Props) => {
             {(field) => (
               <IonItem>
                 <UploadImage
+                  size={IMAGE_SIZE.PROJECT_LARGE}
                   src={getPublicUrl(projectPicturePath(project.id as string))}
                   path={projectPicturePath(project.id as string)}
                   close={() => {

@@ -1,7 +1,11 @@
 import { TZDate } from "@date-fns/tz";
-import { formatISO } from "date-fns";
+import { format, formatISO } from "date-fns";
 
 import { TableInsert } from "../db/tables";
+
+export function buildTZDateFromDB(date: string) {
+  return new TZDate(date, 'UTC');
+}
 
 export function buildStartTime(
   eventDate: string,
@@ -23,4 +27,8 @@ export function buildStartTime(
 
 export function tzDateToDB(date: TZDate) {
   return formatISO(date.withTimeZone('UTC'));
+}
+
+export function formatDateLLLLddyyyy(date: string) {
+  return format(new Date(date), 'LLLL dd, yyyy');
 }

@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { supabase } from "../domains/db/supabaseClient";
+import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
 
@@ -38,8 +39,8 @@ async function createTimeslots({
     .select('id');
 
   if (error) {
-    alert('Failed to create project event');
-    return;
+    showToast('Failed to create project event', { duration: 5000, isError: true });
+    throw error;
   }
 }
 
@@ -54,7 +55,7 @@ export default function useCreateTimeslots(
       callback();
     },
     onError: (error: Error) => {
-      console.error('Error creating post:', error);
+      console.error('Error creating timeslot:', error);
       callback(error);
     },
   });

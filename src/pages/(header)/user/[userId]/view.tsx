@@ -3,9 +3,10 @@ import { arrowBack } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 
-import Avatar, { AvatarSize } from "../../../../components/Avatar";
+import Avatar from "../../../../components/Avatar";
 import UploadImage from "../../../../components/UploadImage";
 import { sessionStore } from "../../../../domains/auth/sessionStore";
+import { IMAGE_SIZE } from "../../../../domains/image";
 import { getPublicUrl, profilePicturePath } from "../../../../queries/image";
 import {
   acceptTerms,
@@ -37,12 +38,12 @@ export function UserView({ canEdit, userId, initial }: Props) {
     return (
       <div className="flex w-full justify-center overflow-auto">
         <div className="max-w-[800px] w-full p-2 flex flex-col gap-6">
-          <div>
+          {!initial && <div>
             <IonIcon className='cursor-pointer text-4xl'
               icon={arrowBack} onClick={() => { navigate('/track') }} />
-          </div>
+          </div>}
           {initial && (
-            <div className='pb-4 pt-4'>
+            <div className='pb-4'>
               We require you to fill out your profile to continue.
               Once the required fields are filled out, you will be taken back to where you were.
               Edit any time by expanding the profile icon in the top left corner.
@@ -56,7 +57,7 @@ export function UserView({ canEdit, userId, initial }: Props) {
               <Avatar
                 src={tempBase64Image || profilePicture}
                 alt={user.handle}
-                size={AvatarSize.LARGE} />
+                size={IMAGE_SIZE.AVATAR_LARGE} />
               {!isEditingPhoto && (
                 <IonButton color='secondary'
                   className='flex pb-4'
@@ -152,6 +153,10 @@ export function UserView({ canEdit, userId, initial }: Props) {
           <div className='text-3xl'>
             Profile
           </div>
+          <Avatar
+            src={tempBase64Image || profilePicture}
+            alt={user.handle}
+            size={IMAGE_SIZE.AVATAR_LARGE} />
           <div>Public name: {user.handle}</div>
           <div>First name: {user.sensitive_profile[0]?.first_name}</div>
           <div>Last name: {user.sensitive_profile[0]?.last_name}</div>

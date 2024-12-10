@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { tzDateToDB } from "../domains/date/timezone";
 import { supabase } from "../domains/db/supabaseClient";
+import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
 
@@ -15,7 +16,7 @@ export async function commitToTimeslot({ currentUserId, eventId, projectId, star
     endTime: TZDate
   }) {
 
-  await supabase
+  const { error } = await supabase
     .from('project_event_commitment')
     .insert({
       created_by: currentUserId,
@@ -26,6 +27,11 @@ export async function commitToTimeslot({ currentUserId, eventId, projectId, star
       role: 'Volunteer',
     })
     .select('*')
+
+  if (error) {
+    showToast('Failed to commit to timeslot', { duration: 5000, isError: true });
+    throw error;
+  }
 
   await queryClient.invalidateQueries({ queryKey: ['get-projectId', projectId] });
 }
@@ -41,7 +47,7 @@ export default function useCommitToTimeslot(
       callback?.();
     },
     onError: (error: Error) => {
-      console.error('Error creating post:', error);
+      console.error('Error creating commitment:', error);
       callback?.(error);
     },
   });

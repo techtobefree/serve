@@ -1,17 +1,20 @@
 import { IonButton, IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 
+import { IMAGE_SIZE } from "../../domains/image"
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import useJoinProject from "../../mutations/joinProject"
 import useLeaveProject from "../../mutations/leaveProject"
-import { getPublicUrl, profilePicturePath, projectPicturePath } from "../../queries/image"
+import { getPublicUrl, projectPicturePath } from "../../queries/image"
 import { useProjectByIdQuery } from "../../queries/projectById"
 import { useQrCode } from "../../queries/qr"
 import { useModals, useNavigate } from "../../router"
-import Avatar, { AvatarSize } from "../Avatar"
 import EventCard from "../Event/EventCard"
 
-import ProjectImage, { ProjectImageSize } from "./ProjectImage"
+import ProfileCard from "../Profile/ProfileCard"
+import QR from "../QR"
+
+import ProjectImage from "./ProjectImage"
 
 type Props = {
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>;
@@ -31,6 +34,8 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
 
   return (
     <div className='p-2'>
+
+      {/* Follow button */}
       <div className='absolute top-16 right-2'>
         {!isUserMember && <IonButton
           color='secondary'
@@ -52,6 +57,8 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             leaveProject.mutate({ projectId: project.id, userId: currentUserId });
           }}>Unfollow</IonButton>}
       </div>
+
+      {/* Edit button */}
       <div className="flex justify-between items-center m-2">
         <div className='flex items-center gap-2'>
           {canEdit && <IonButton
@@ -67,13 +74,47 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           <div className="text-3xl">{project.name}</div>
         </div>
       </div>
-      <div className='flex justify-between items-center'>
-        <ProjectImage
-          src={project.image_url || getPublicUrl(projectPicturePath(project.id))}
-          alt="Project"
-          size={ProjectImageSize.LARGE}
-          className="w-2/3 object-cover" />
-        <Avatar src={projectQrCodeUrl} alt='QR Code' className="w-1/3" size={AvatarSize.LARGE} />
+
+      {/* Project Image & QR Code */}
+      <div className='flex justify-between items-center #container'>
+        <div>
+          <ProjectImage
+            src={project.image_url || getPublicUrl(projectPicturePath(project.id))}
+            alt="Project"
+            size={IMAGE_SIZE.PROJECT_LARGE}
+            className="max-w-[60vw] object-cover" />
+        </div>
+        <div className='w-1/3'>
+          <QR
+            src={projectQrCodeUrl}
+            alt='QR Code'
+            className="max-w-[30vw]"
+            size={IMAGE_SIZE.QR} />
+        </div>
+      </div>
+
+      {/* <div>Members: {project.user_project.length}</div>
+      {project.user_project.map(i => {
+        return (
+          <div key={i.user_id}>
+            {i.profile?.handle || i.user_id}
+          </div>
+        )
+      })}
+      <br /> */}
+
+      {/* Description & Leader */}
+      <div className='flex'>
+        <div className='w-2/3'>
+          <div className='text-2xl'>Description</div>
+          <div>{project.description}</div>
+        </div>
+        <div className='w-1/3'>
+          <div className='text-2xl'>Leader</div>
+          <ProfileCard
+            size={IMAGE_SIZE.AVATAR_MEDIUM}
+            userId={project.lead_by || project.owner_id} />
+        </div>
       </div>
       <div className='text-2xl'>When & Where</div>
       {!project.project_event.length && (
@@ -89,6 +130,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
               canEdit={canEdit} />
           })}
       </div>
+      <br />
       {canEdit && (
         <IonButton
           color='tertiary'
@@ -96,25 +138,6 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
           }}>Create event</IonButton>
       )}
-      <br />
-      {/* <div>Members: {project.user_project.length}</div>
-      {project.user_project.map(i => {
-        return (
-          <div key={i.user_id}>
-            {i.profile?.handle || i.user_id}
-          </div>
-        )
-      })}
-      <br /> */}
-      <div className='text-2xl'>Leader</div>
-      <Avatar
-        size={AvatarSize.MEDIUM}
-        alt='Leader'
-        src={getPublicUrl(profilePicturePath(project.lead_by || project.owner_id))} />
-      <div className='text-2xl'>Description</div>
-      <div>{project.description}</div>
-      <br />
-      <br />
     </div>
   )
 }

@@ -5,33 +5,37 @@ import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
 
-export async function leaveProject({ projectId, userId }: { projectId: string, userId: string }) {
+export async function removeEvent({ id, projectId }:
+  {
+    id: string,
+    projectId: string,
+  }) {
+
   const { error } = await supabase
-    .from('user_project')
+    .from('project_event')
     .delete()
-    .eq('user_id', userId)
-    .eq('project_id', projectId);
+    .eq('id', id)
 
   if (error) {
-    showToast('Failed to leave project', { duration: 5000, isError: true });
+    showToast('Failed to delete event', { duration: 5000, isError: true });
     throw error;
   }
 
   await queryClient.invalidateQueries({ queryKey: ['get-projectId', projectId] });
 }
 
-export default function useLeaveProject(
+export default function useRemoveEvent(
   { projectId }: { projectId?: string },
   callback?: (err?: Error) => void) {
   return useMutation({
-    mutationFn: leaveProject,
+    mutationFn: removeEvent,
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
       callback?.();
     },
     onError: (error: Error) => {
-      console.error('Error leaving project:', error);
+      console.error('Error removing event:', error);
       callback?.(error);
     },
   });

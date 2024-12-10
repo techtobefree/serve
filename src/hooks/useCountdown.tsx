@@ -8,6 +8,12 @@ function findRemainder(endTime: number) {
   return remaingTime
 }
 
+/**
+ * Kick off a timer, get back the remaining time and a function to extend the countdown in MS
+ * @param endTime Optional: initialize with a specific end time
+ * @param interval Optional: how often to update the countdown (remainder)
+ * @returns 
+ */
 export function useCountdown(endTime: number = 0, interval: number = 1000) {
   const [currentEndTime, setEndtime] = useState<number>(endTime);
   const [remainder, setRemainder] = useState(findRemainder(currentEndTime));

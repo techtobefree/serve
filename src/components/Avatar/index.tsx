@@ -2,23 +2,13 @@ import { IonIcon, IonImg } from "@ionic/react";
 import { person } from "ionicons/icons";
 import { useEffect, useState } from "react";
 
-export enum AvatarSize {
-  SMALL = 'small',
-  MEDIUM = 'medium',
-  LARGE = 'large',
-}
+import { IMAGE_SIZE, IMAGE_SIZE_MAP } from "../../domains/image";
 
 type Props = {
   src: string;
   alt: string;
   className?: string;
-  size: AvatarSize;
-}
-
-const sizeMap = {
-  [AvatarSize.SMALL]: 'w-[50px] h-[50px]',
-  [AvatarSize.MEDIUM]: 'w-[100px] h-[100px]',
-  [AvatarSize.LARGE]: 'w-[200px] h-[200px]',
+  size: IMAGE_SIZE;
 }
 
 export default function Avatar({
@@ -35,10 +25,10 @@ export default function Avatar({
     }
   }, [src]);
 
-  const classes = [className, sizeMap[size]].join(' ');
+  const classes = ['object-cover', IMAGE_SIZE_MAP[size], className].join(' ');
 
   return (
-    <>
+    <div className='overflow-hidden rounded-full w-min'>
       {!failed ? (
         <IonImg
           alt={alt}
@@ -49,6 +39,6 @@ export default function Avatar({
       ) : (
         <IonIcon icon={person} className={classes} />
       )}
-    </>
+    </div>
   )
 }
