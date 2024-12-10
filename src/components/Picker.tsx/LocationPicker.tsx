@@ -1,7 +1,7 @@
 import { Map, useMap, AdvancedMarker } from '@vis.gl/react-google-maps';
 import { useEffect, useMemo, useState } from 'react';
 
-import { Address, decodeAddressComponents } from '../../domains/map/addressComponents';
+import { Address, decodeAddressComponents } from '../../domains/address/addressComponents';
 import AddressInput from '../Address/AddressInput';
 import PlaceAutocomplete from '../Address/PlaceAutocomplete';
 

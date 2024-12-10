@@ -1,6 +1,6 @@
 import { IonInput, IonItem } from "@ionic/react";
 
-import { Address } from "../../domains/map/addressComponents";
+import { Address } from "../../domains/address/addressComponents";
 
 type Props = {
   address: Address;

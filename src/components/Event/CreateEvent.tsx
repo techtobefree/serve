@@ -5,8 +5,8 @@ import { closeOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useEffect, useRef, useState } from "react";
 
+import { blankAddress } from "../../domains/address/addressComponents";
 import { sessionStore } from "../../domains/auth/sessionStore";
-import { blankAddress } from "../../domains/map/addressComponents";
 import { showToast } from "../../domains/ui/toast";
 import useCreateEvent from "../../mutations/createEvent";
 import { useNavigate } from "../../router";

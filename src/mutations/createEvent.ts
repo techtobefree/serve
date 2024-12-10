@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
+import { Address } from "../domains/address/addressComponents";
 import { supabase } from "../domains/db/supabaseClient";
-import { Address } from "../domains/map/addressComponents";
 import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";

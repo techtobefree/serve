@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 
 import { copy } from 'ionicons/icons';
 
+import { getEventAddressAsText } from '../../domains/address';
 import { buildTZDateFromDB, formatDateLLLLddyyyy } from '../../domains/date/timezone';
 import { IMAGE_SIZE } from '../../domains/image';
 import { showToast } from '../../domains/ui/toast';
@@ -18,27 +19,11 @@ import AddCalendarEventButton from '../Calendar';
 
 import Timeslot from './Timeslot';
 
-type ProjectEvent = Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>
-
 type Props = {
   currentUserId?: string;
-  event: ProjectEvent;
+  event: Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>;
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>;
   canEdit: boolean;
-}
-
-function getEventAddressAsText(event: ProjectEvent) {
-  const parts = [];
-  if (event.location_name) {
-    parts.push(event.location_name);
-  }
-  if (event.street_address && event.location_name !== event.street_address) {
-    parts.push(event.street_address);
-  }
-  return `${parts.join(' ')} ${event.city ?
-    event.city + ', ' : ''}${event.state || ''} ${event.state && event.postal_code ?
-      ' ' + event.postal_code :
-      event.postal_code || ''}`;
 }
 
 export default function EventCard({ currentUserId, event, project, canEdit }: Props) {
@@ -67,7 +52,7 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
         <div className="text-lg">
           {
             (event.location_name || event.street_address) && (
-              <div className='flex gap-1 cursor-pointer' onClick={() => {
+              <div className='flex gap-1 cursor-pointer w-fit' onClick={() => {
                 void navigator.clipboard.writeText(getEventAddressAsText(event));
                 showToast('Address copied to clipboard');
               }}>
@@ -139,7 +124,7 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
                 return (
                   <div
                     key={commitment.id}
-                    className={`flex justify-between items-center gap-2 pl-6 pr-6 -ml-6 -mr-6
+                    className={`flex justify-between items-center gap-2 pl-2 pr-2 -ml-2 -mr-2
                   ${index % 2 === 0 ? 'bg-[#ddd]' : ''}`}>
 
                     <div className='cursor-pointer'

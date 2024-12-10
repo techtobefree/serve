@@ -2,7 +2,7 @@ import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useState, useRef, useEffect } from "react";
 
 import './autocomplete.css';
-import { Address, decodeAddressComponents } from "../../domains/map/addressComponents";
+import { Address, decodeAddressComponents } from "../../domains/address/addressComponents";
 
 type PlaceAutocompleteProps = {
   onPlaceSelect: ({
