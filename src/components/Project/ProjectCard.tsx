@@ -2,7 +2,10 @@ import { IonButton } from "@ionic/react";
 
 import { TableRows } from "../../domains/db/tables"
 import { hideSearchResults } from "../../domains/search/search";
+import { getPublicUrl, projectPicturePath } from "../../queries/image";
 import { useNavigate } from "../../router";
+
+import ProjectImage, { ProjectImageSize } from "./ProjectImage";
 
 type Props = {
   project: TableRows['project'];
@@ -22,9 +25,11 @@ export default function ProjectCard({ project, joinable }: Props) {
           { params: { projectId: project.id } }
         )
       }}>
-      <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}
-        alt="Placeholder"
-        className="w-1/3 object-cover" />
+      <ProjectImage
+        src={project.image_url || getPublicUrl(projectPicturePath(project.id))}
+        alt="Project"
+        size={ProjectImageSize.SMALL}
+        className="object-cover" />
 
       <div className="p-4 flex-1 items-end flex">
         <div className="flex-col h-full flex-1 flex">

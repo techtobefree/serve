@@ -1,8 +1,9 @@
-import { IonButton, IonCheckbox, IonIcon, IonImg, IonInput, IonItem, IonLabel } from "@ionic/react";
+import { IonButton, IonCheckbox, IonIcon, IonInput, IonItem, IonLabel } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 
+import Avatar, { AvatarSize } from "../../../../components/Avatar";
 import UploadImage from "../../../../components/UploadImage";
 import { sessionStore } from "../../../../domains/auth/sessionStore";
 import { getPublicUrl, profilePicturePath } from "../../../../queries/image";
@@ -51,9 +52,11 @@ export function UserView({ canEdit, userId, initial }: Props) {
             <div className='text-3xl'>
               Profile
             </div>
-            <div className='flex flex-col'>
-              <IonImg src={tempBase64Image || profilePicture}
-                alt="Picture" className='w-[200px] h-[200px] self-center' />
+            <div className='flex flex-col items-center'>
+              <Avatar
+                src={tempBase64Image || profilePicture}
+                alt={user.handle}
+                size={AvatarSize.LARGE} />
               {!isEditingPhoto && (
                 <IonButton color='secondary'
                   className='flex pb-4'

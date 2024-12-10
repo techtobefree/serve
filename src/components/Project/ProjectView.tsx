@@ -1,14 +1,17 @@
-import { IonButton, IonIcon, IonImg } from "@ionic/react"
+import { IonButton, IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import useJoinProject from "../../mutations/joinProject"
 import useLeaveProject from "../../mutations/leaveProject"
-import { getPublicUrl, profilePicturePath } from "../../queries/image"
+import { getPublicUrl, profilePicturePath, projectPicturePath } from "../../queries/image"
 import { useProjectByIdQuery } from "../../queries/projectById"
 import { useQrCode } from "../../queries/qr"
 import { useModals, useNavigate } from "../../router"
+import Avatar, { AvatarSize } from "../Avatar"
 import EventCard from "../Event/EventCard"
+
+import ProjectImage, { ProjectImageSize } from "./ProjectImage"
 
 type Props = {
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>;
@@ -64,13 +67,13 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           <div className="text-3xl">{project.name}</div>
         </div>
       </div>
-      <div className='flex justify-between'>
-        <img src={project.image_url ? project.image_url : "https://via.placeholder.com/150"}
-          alt="Placeholder"
-          className="w-1/3 object-cover" />
-        <img src={projectQrCodeUrl}
-          alt="Placeholder"
-          className="w-1/3 object-cover" />
+      <div className='flex justify-between items-center'>
+        <ProjectImage
+          src={project.image_url || getPublicUrl(projectPicturePath(project.id))}
+          alt="Project"
+          size={ProjectImageSize.LARGE}
+          className="w-2/3 object-cover" />
+        <Avatar src={projectQrCodeUrl} alt='QR Code' className="w-1/3" size={AvatarSize.LARGE} />
       </div>
       <div className='text-2xl'>When & Where</div>
       {!project.project_event.length && (
@@ -104,8 +107,10 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
       })}
       <br /> */}
       <div className='text-2xl'>Leader</div>
-      <IonImg src={getPublicUrl(profilePicturePath(project.lead_by || project.owner_id))}
-        alt="Picture" className='w-[200px] h-[200px] self-center' />
+      <Avatar
+        size={AvatarSize.MEDIUM}
+        alt='Leader'
+        src={getPublicUrl(profilePicturePath(project.lead_by || project.owner_id))} />
       <div className='text-2xl'>Description</div>
       <div>{project.description}</div>
       <br />

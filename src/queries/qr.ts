@@ -7,7 +7,7 @@ export function useQrCode(textToEncode?: string, disabled?: boolean) {
     enabled: !!textToEncode || !disabled,
     queryFn: async () => {
       if (!textToEncode) {
-        return;
+        return { data: '' };
       }
 
       try {
@@ -17,7 +17,7 @@ export function useQrCode(textToEncode?: string, disabled?: boolean) {
         console.error(err)
       }
 
-      return;
+      return { data: '' };
     },
-  })
+  }) as { data: string };
 }

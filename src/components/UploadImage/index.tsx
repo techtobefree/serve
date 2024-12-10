@@ -1,6 +1,6 @@
 import { Camera, CameraDirection, CameraResultType, CameraSource } from '@capacitor/camera';
 import { IonButton, IonIcon, IonImg, IonLoading } from "@ionic/react";
-import { cameraOutline, closeOutline, cloudUpload } from 'ionicons/icons';
+import { cameraOutline, closeOutline, cloudUpload, cube } from 'ionicons/icons';
 import { useState } from "react";
 
 import { uploadImage } from '../../queries/image';
@@ -15,6 +15,7 @@ type Props = {
 export default function UploadImage({ path, onChange, close, src }: Props) {
   const [base64Image, setBase64Image] = useState<string | null>(null); // Base64 image preview
   const [uploading, setUploading] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const captureImage = async () => {
     try {
@@ -32,6 +33,7 @@ export default function UploadImage({ path, onChange, close, src }: Props) {
         onChange(base64Data);
       }
       setBase64Image(base64Data);
+      setFailed(false);
     } catch (error) {
       console.error('Error capturing image:', error);
     }
@@ -41,8 +43,13 @@ export default function UploadImage({ path, onChange, close, src }: Props) {
   return (
     <div className='flex flex-col items-center w-full'>
       {!onChange && (
-        <IonImg src={base64Image || src || ''} alt="Picture"
-          className='w-[200px] h-[200px] self-center' />
+        !failed ? (
+          <IonImg src={base64Image || src || ''} alt="Picture"
+            onIonError={() => { setFailed(true) }}
+            className='w-[200px] h-[200px] self-center' />
+        ) : (
+          <IonIcon icon={cube} className={'w-[200px] h-[200px] self-center'} />
+        )
       )}
       <div className='flex'>
         <IonButton color="secondary" onClick={() => { void captureImage() }}>
