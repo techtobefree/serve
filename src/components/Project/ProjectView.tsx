@@ -125,6 +125,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           .sort((a, b) => a.project_event_date < b.project_event_date ? -1 : 1)
           .map(event => {
             return <EventCard key={event.id}
+              project={project}
               event={event}
               currentUserId={currentUserId}
               canEdit={canEdit} />

@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Ask from "../../../../components/Event/Ask";
 import { useNavigate, useParams } from "../../../../router";
 
-export default function NewEvent() {
+export default function AskModal() {
   const navigate = useNavigate();
   const { projectId } = useParams('/project/:projectId/view');
   const location = useLocation();
@@ -13,12 +13,12 @@ export default function NewEvent() {
   const [isOpen, setOpen] = useState(false)
 
   useEffect(() => {
-    // Toggle the overflow-hidden class on the body when modal opens/closes
-    document.body.classList.add('overflow-hidden');
+    // Toggle the backdrop-no-scroll class on the body when modal opens/closes
+    document.body.classList.add('backdrop-no-scroll');
     setOpen(true)
 
     // Clean up the class when the component unmounts
-    return () => { document.body.classList.remove('overflow-hidden') };
+    return () => { document.body.classList.remove('backdrop-no-scroll') };
   }, []);
 
   return (

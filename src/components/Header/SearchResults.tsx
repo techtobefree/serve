@@ -27,11 +27,11 @@ export function SearchResultsComponent({
 
   useEffect(() => {
     if (isHeaderVisible && isSearchVisible) {
-      // Toggle the overflow-hidden class on the body when modal opens/closes
-      document.body.classList.add('overflow-hidden');
+      // Toggle the backdrop-no-scroll class on the body when modal opens/closes
+      document.body.classList.add('backdrop-no-scroll');
 
       // Clean up the class when the component unmounts
-      return () => { document.body.classList.remove('overflow-hidden') };
+      return () => { document.body.classList.remove('backdrop-no-scroll') };
     }
   }, [isHeaderVisible, isSearchVisible]);
 

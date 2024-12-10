@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@awesome-cordova-plugins/calendar':
+        specifier: ^6.12.0
+        version: 6.12.0(@awesome-cordova-plugins/core@6.12.0(rxjs@7.8.1))(rxjs@7.8.1)
       '@capacitor/android':
         specifier: ^6.2.0
         version: 6.2.0(@capacitor/core@6.2.0)
@@ -172,6 +175,17 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       ajv: '>=8'
+
+  '@awesome-cordova-plugins/calendar@6.12.0':
+    resolution: {integrity: sha512-XUK3jM2hG9QZjc7mnvSNfLhUdkvo+ckeRzpd/vya7KYI9ugTAaH/nxOfoNosaSEbw0BLMN5Ax8OfAHqL9E5HXw==}
+    peerDependencies:
+      '@awesome-cordova-plugins/core': ^6.0.1
+      rxjs: ^5.5.0 || ^6.5.0 || ^7.3.0
+
+  '@awesome-cordova-plugins/core@6.12.0':
+    resolution: {integrity: sha512-Kdc1I3up1QDBA1i6XecZtJ55bZFV9fbjVon7//xqUlZ4mdTSAM5JhLQypOjynMkT4LGdwenxVsxos6lPIMTL7w==}
+    peerDependencies:
+      rxjs: ^5.5.0 || ^6.5.0 || ^7.3.0
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -1394,6 +1408,9 @@ packages:
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
+
+  '@types/cordova@11.0.3':
+    resolution: {integrity: sha512-kyuRQ40/NWQVhqGIHq78Ehu2Bf9Mlg0LhmSmis6ZFJK7z933FRfYi8tHe/k/0fB+PGfCf95rJC6TO7dopaFvAg==}
 
   '@types/estree@0.0.39':
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
@@ -3618,6 +3635,9 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
+  rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+
   safe-array-concat@1.1.2:
     resolution: {integrity: sha512-vj6RsCsWBCf19jIeHEfkRMw8DPiBb+DMXklQ/1SGDHOMlHdPUkZXFQ2YdplS23zESTijAcurb1aSgJA3AgMu1Q==}
     engines: {node: '>=0.4'}
@@ -4408,6 +4428,17 @@ snapshots:
       json-schema: 0.4.0
       jsonpointer: 5.0.1
       leven: 3.1.0
+
+  '@awesome-cordova-plugins/calendar@6.12.0(@awesome-cordova-plugins/core@6.12.0(rxjs@7.8.1))(rxjs@7.8.1)':
+    dependencies:
+      '@awesome-cordova-plugins/core': 6.12.0(rxjs@7.8.1)
+      '@types/cordova': 11.0.3
+      rxjs: 7.8.1
+
+  '@awesome-cordova-plugins/core@6.12.0(rxjs@7.8.1)':
+    dependencies:
+      '@types/cordova': 11.0.3
+      rxjs: 7.8.1
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -5862,6 +5893,8 @@ snapshots:
   '@tsconfig/node16@1.0.4': {}
 
   '@types/cookie@0.6.0': {}
+
+  '@types/cordova@11.0.3': {}
 
   '@types/estree@0.0.39': {}
 
@@ -8265,6 +8298,10 @@ snapshots:
   run-parallel@1.2.0:
     dependencies:
       queue-microtask: 1.2.3
+
+  rxjs@7.8.1:
+    dependencies:
+      tslib: 2.8.1
 
   safe-array-concat@1.1.2:
     dependencies:

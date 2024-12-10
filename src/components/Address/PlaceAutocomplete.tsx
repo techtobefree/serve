@@ -58,7 +58,7 @@ export default function PlaceAutocomplete({ onPlaceSelect }: PlaceAutocompletePr
 
   return (
     <input ref={inputRef}
-      className='p-2 mt-2 mb-2 rounded w-full'
+      className='p-2 mt-2 mb-2 rounded w-full border border-gray-300'
       placeholder="Search for a location" />
   );
 }

@@ -100,12 +100,13 @@ export default function LocationPicker({
           <AdvancedMarker position={location} />
         </Map>
       </div>
-      Ensure the pin is in the correct location, then fill in the address details:
-      <AddressInput
-        address={address}
-        onChange={changeAddress}
-        name={addressName}
-        changeName={changeAddressName} />
+      {(location.lat && location.lng) ? (
+        <AddressInput
+          address={address}
+          onChange={changeAddress}
+          name={addressName}
+          changeName={changeAddressName} />
+      ) : null}
     </>
   )
 }
