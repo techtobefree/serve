@@ -17,7 +17,7 @@ export async function uploadImage(path: string, base64Image: string) {
   const response = await fetch(base64Image);
   const blob = await response.blob();
 
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from('public-images')
     .upload(path, blob, {
       contentType: 'image/jpeg',
@@ -25,31 +25,6 @@ export async function uploadImage(path: string, base64Image: string) {
     });
 
   if (error) {
-    console.error('Upload error:', error.message);
-
-
-
-    // await supabase.storage
-    //   .from('public-images')
-    //   .remove([profilePicturePath(userId)]);
-    // const { data, error } = await supabase.storage
-    //   .from('public-images')
-    //   .list('profile', { limit: 100 });
-    // console.log(data, error);
-
-
-
-    // const { data: data2, error: error2 } = await supabase.storage
-    //   .from('public-images')
-    //   .upload(profilePicturePath(userId), blob, {
-    //     contentType: 'image/jpeg',
-    //   });
-    // if (error2) {
-    //   console.error('Upload error:', error2.message);
-    // } else {
-    //   console.log('File uploaded successfully:', data2);
-    // }
-  } else {
-    console.log('File uploaded successfully:', data);
+    throw error
   }
 }

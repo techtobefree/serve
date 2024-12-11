@@ -1,27 +1,32 @@
-import { IonIcon } from "@ionic/react";
-import { chatbox, personCircle } from "ionicons/icons";
+import { IonIcon, IonImg } from "@ionic/react";
+import { chatbox } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useState, useEffect } from "react";
 
 import { sessionStore } from "../../domains/auth/sessionStore";
+import { IMAGE_SIZE } from "../../domains/image";
 import { searchStore, showSearchResults } from "../../domains/search/search";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { useVisibleRef } from "../../hooks/useVisibleRef";
-import { useModals } from '../../router'
+import { getPublicUrl, profilePicturePath } from "../../queries/image";
+import { useModals, useNavigate } from '../../router'
+
+import Avatar from "../Avatar";
 
 import Search from "./Search";
 import SearchResults from "./SearchResults";
 
 type Props = {
   handle?: string;
-  avatarUrl?: string;
+  userId?: string;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchVisible: boolean;
 }
 
-export function HeaderComponent({ isVisible, setIsVisible, isSearchVisible }: Props) {
+export function HeaderComponent({ userId, isVisible, setIsVisible, isSearchVisible }: Props) {
+  const navigate = useNavigate();
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [ref, refIsVisible] = useVisibleRef();
   const modals = useModals()
@@ -57,31 +62,53 @@ export function HeaderComponent({ isVisible, setIsVisible, isSearchVisible }: Pr
         ${isVisible ? 'translate-y-0' : '-translate-y-full'}
       `}>
         <div className='flex justify-between items-center'>
-          {/* Profile */}
-          <div className={`
-            h-${HEADER_HEIGHT} flex w-16 justify-center items-center cursor-pointer
-          `}
-            onClick={() => { modals.open('/profile') }}>
-            <IonIcon icon={personCircle} className='text-3xl border-2 p-3 rounded-2xl' />
+          <div className='flex items-center gap-2 p-2 cursor-pointer' onClick={() => {
+            navigate('/')
+          }}>
+            <IonImg
+              alt='Serve to be Free'
+              src='/assets/logo.png'
+              className='h-12 w-12'
+            />
+            <div className='hidden md:block text-lg'>Serve to be Free</div>
           </div>
-          <div className='hidden md:block text-lg'>
-            Serve to be Free
-          </div>
-
           {/* Search input */}
-          <div className="z-30 bg-[#004681]">
+          <div className="z-30 bg-[#004681] p-4">
             <Search onFocus={() => { showSearchResults() }} />
           </div>
+          <div className='flex items-center'>
+            {/* Messages */}
+            {userId && (
+              <div className={
+                `h-${HEADER_HEIGHT} flex w-16
+                justify-center items-center cursor-pointer
+                `}
+                onClick={() => { modals.open('/messages') }}>
+                <IonIcon icon={chatbox} className='text-3xl border-2 p-3 rounded-2xl' />
+              </div>
+            )}
 
-          {/* Messages */}
-          <div className={
-            `h-${HEADER_HEIGHT} flex w-16
-            justify-center items-center cursor-pointer
-            `}
-            onClick={() => { modals.open('/messages') }}>
-            <IonIcon icon={chatbox} className='text-3xl border-2 p-3 rounded-2xl' />
+
+            {/* Profile */}
+            <div className={`
+                h-${HEADER_HEIGHT} flex w-16 justify-center items-center cursor-pointer
+              `}
+              onClick={() => { modals.open('/profile') }}>
+              {
+                userId && (
+                  <Avatar
+                    size={IMAGE_SIZE.AVATAR_SMALL}
+                    alt={'Profile picture'}
+                    src={getPublicUrl(profilePicturePath(userId))} />
+                )
+              }
+              {!userId && (
+                <div>Login</div>
+              )}
+            </div>
           </div>
         </div>
+
         {
           <div className={`fixed top-0 w-full pointer-events-none z-20 overflow-hidden text-black
             transform transition-transform duration-300 ease-in-out
@@ -107,7 +134,7 @@ const Header = observer((props: Omit<Props, 'handle' | 'avatarUrl' | 'isSearchVi
   return <HeaderComponent {...props}
     isSearchVisible={searchStore.isSearchVisible}
     handle={sessionStore.current?.user.id}
-    avatarUrl={sessionStore.current?.user.id} />
+    userId={sessionStore.current?.user.id} />
 });
 
 export default Header;

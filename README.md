@@ -43,3 +43,5 @@ Figure out how to allow someone to pass admin to another user.
 #### Native
 Enable image stuff on native https://ionicframework.com/docs/native/camera#pickimages
 Verify native calendar stuff for @awesome-cordova-plugins/calendar
+
+Crop, and center tool - at the same time compress the image, so it is not over 10 MB, and I can change the bucket back down again

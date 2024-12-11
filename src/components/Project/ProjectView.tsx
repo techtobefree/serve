@@ -35,29 +35,6 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
   return (
     <div className='p-2'>
 
-      {/* Follow button */}
-      <div className='absolute top-16 right-2'>
-        {!isUserMember && <IonButton
-          color='secondary'
-          disabled={joinProject.isPending}
-          onClick={() => {
-            if (currentUserId) {
-              joinProject.mutate({ projectId: project.id, userId: currentUserId });
-            } else {
-              navigate(
-                '/project/:projectId/join',
-                { params: { projectId: project.id }, replace: true }
-              )
-            }
-          }}>Follow</IonButton>}
-        {isUserMember && <IonButton
-          color='danger'
-          disabled={leaveProject.isPending}
-          onClick={() => {
-            leaveProject.mutate({ projectId: project.id, userId: currentUserId });
-          }}>Unfollow</IonButton>}
-      </div>
-
       {/* Edit button */}
       <div className="flex justify-between items-center m-2">
         <div className='flex items-center gap-2'>
@@ -84,12 +61,34 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             size={IMAGE_SIZE.PROJECT_LARGE}
             className="max-w-[60vw] object-cover" />
         </div>
-        <div className='w-1/3'>
+        <div className='w-1/3 flex flex-col justify-center'>
           <QR
             src={projectQrCodeUrl}
             alt='QR Code'
-            className="max-w-[30vw]"
+            className="max-w-[30vw] h-min"
             size={IMAGE_SIZE.QR} />
+          {/* Follow button */}
+          <div>
+            {!isUserMember && <IonButton
+              color='secondary'
+              disabled={joinProject.isPending}
+              onClick={() => {
+                if (currentUserId) {
+                  joinProject.mutate({ projectId: project.id, userId: currentUserId });
+                } else {
+                  navigate(
+                    '/project/:projectId/join',
+                    { params: { projectId: project.id }, replace: true }
+                  )
+                }
+              }}>Follow</IonButton>}
+            {isUserMember && <IonButton
+              color='danger'
+              disabled={leaveProject.isPending}
+              onClick={() => {
+                leaveProject.mutate({ projectId: project.id, userId: currentUserId });
+              }}>Unfollow</IonButton>}
+          </div>
         </div>
       </div>
 
@@ -106,7 +105,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
       {/* Description & Leader */}
       <div className='flex'>
         <div className='w-2/3'>
-          <div className='text-2xl'>Description</div>
+          <div className='text-2xl'>What</div>
           <div>{project.description}</div>
         </div>
         <div className='w-1/3'>

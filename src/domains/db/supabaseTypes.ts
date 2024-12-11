@@ -3194,6 +3194,7 @@ export type Database = {
       }
       profile: {
         Row: {
+          bio: string | null
           created_at: string | null
           created_by: string
           handle: string
@@ -3202,6 +3203,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          bio?: string | null
           created_at?: string | null
           created_by: string
           handle: string
@@ -3210,6 +3212,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          bio?: string | null
           created_at?: string | null
           created_by?: string
           handle?: string
@@ -3549,6 +3552,47 @@ export type Database = {
           },
           {
             foreignKeyName: "fk_project_id_to_project_id"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_role: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          description: string | null
+          id: string
+          name: string | null
+          project_id: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          description?: string | null
+          id?: string
+          name?: string | null
+          project_id: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          description?: string | null
+          id?: string
+          name?: string | null
+          project_id?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_project_id_to_project_role_project_id"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "project"

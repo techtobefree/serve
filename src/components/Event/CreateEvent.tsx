@@ -10,8 +10,8 @@ import { sessionStore } from "../../domains/auth/sessionStore";
 import { showToast } from "../../domains/ui/toast";
 import useCreateEvent from "../../mutations/createEvent";
 import { useNavigate } from "../../router";
-import FutureDatePicker from "../Picker.tsx/FutureDatePicker";
-import LocationPicker from "../Picker.tsx/LocationPicker";
+import FutureDatePicker from "../Picker/FutureDatePicker";
+import LocationPicker from "../Picker/LocationPicker";
 
 type Props = {
   projectId: string;

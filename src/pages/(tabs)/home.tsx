@@ -1,11 +1,12 @@
-import { IonIcon } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
 import { add, heartOutline, search, starOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite"
 
 import { sessionStore } from "../../domains/auth/sessionStore";
+import { logout } from "../../domains/auth/smsOTP";
 import { Category, filterSearchToCategories, showSearchResults } from "../../domains/search/search";
 import { useProfileQuery } from "../../queries/profileByUserId";
-import { useNavigate } from "../../router";
+import { useModals, useNavigate } from "../../router";
 
 type Props = {
   userId?: string;
@@ -14,6 +15,7 @@ type Props = {
 export function HomeComponent({ userId }: Props) {
   useProfileQuery(userId) // Just to use the userId
   const navigate = useNavigate();
+  const modals = useModals();
 
   return (
     <div className='flex justify-center items-center p-10'>
@@ -53,6 +55,16 @@ export function HomeComponent({ userId }: Props) {
           <IonIcon className='absolute left-2 text-2xl text-[#ffcb1e]' icon={heartOutline} />
           Sponsor a Project
         </div>
+        <br />
+        <br />
+        {
+          userId ?
+            <IonButton color="secondary" onClick={() => { void logout() }}>Logout</IonButton>
+            : <IonButton color="secondary" onClick={() => {
+              modals.open('/profile')
+            }}>Login</IonButton>
+        }
+
       </div>
     </div>
   )

@@ -123,7 +123,11 @@ const ProjectForm = ({ project }: Props) => {
       <form.Field name='description'>
         {(field) => (
           <IonItem>
-            <IonTextarea label='Description'
+            <IonLabel>
+              <div>Description</div>
+              <div className='text-sm'>(First 150 characters used for short)</div>
+            </IonLabel>
+            <IonTextarea
               value={field.state.value}
               onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
               rows={12}

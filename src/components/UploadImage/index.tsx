@@ -1,6 +1,6 @@
 import { Camera, CameraDirection, CameraResultType, CameraSource } from '@capacitor/camera';
 import { IonButton, IonIcon, IonImg, IonLoading } from "@ionic/react";
-import { cameraOutline, closeOutline, cloudUpload, cube } from 'ionicons/icons';
+import { cameraOutline, closeOutline, cube } from 'ionicons/icons';
 import { useState } from "react";
 
 import { IMAGE_SIZE, IMAGE_SIZE_MAP } from '../../domains/image';
@@ -68,11 +68,10 @@ export default function UploadImage({ path, onChange, close, src, size }: Props)
               await uploadImage(path, base64Image)
               setUploading(false)
               close();
-              showToast('Upload successful. It may take up to an hour to reflect')
+              showToast('Upload successful')
             }
           }) as () => void}
           color="secondary">
-          <IonIcon className='pr-4' size='large' icon={cloudUpload} />
           Save
         </IonButton>
         <IonButton disabled={!base64Image && !onChange}

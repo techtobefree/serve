@@ -72,20 +72,86 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
               'MISSING STATE'} ${event.postal_code || ''}`}
           </div>
         </div>
-        <div className='max-h-[60vh] overflow-auto'>
+        {committed && <div className='border-2 p-2 mb-6'>
+          <div className='text-2xl'>{`I'm going`}</div>
+          <div>{myCommitments.map(commitment => {
+            return <div key={commitment.id} className='flex justify-between items-center gap-2'>
+              <div>
+                <AddCalendarEventButton
+                  start={commitment.commitment_start}
+                  end={commitment.commitment_end}
+                  title={project.name}
+                  location={getEventAddressAsText(event)}
+                  details={project.description || ''} />
+              </div>
+              <div>
+                <div>{commitment.role}</div>
+                <div>
+                  {format(commitment.commitment_start, 'h:mm bbb')}
+                  {' - '}
+                  {format(commitment.commitment_end, 'h:mm bbb')}
+                </div>
+              </div>
+              <div>
+                <IonButton
+                  disabled={removeCommitment.isPending}
+                  color='danger'
+                  onClick={() => {
+                    removeCommitment.mutate({ id: commitment.id, projectId: event.project_id })
+                  }}
+                >X</IonButton>
+              </div>
+            </div>
+          })}</div>
+        </div>}
+        {/* <div className='max-h-[30vh] overflow-auto'> */}
+        <div>
+          {event.project_event_timeslot.map((timeslot, index) =>
+            <Timeslot key={index}
+              canEdit={canEdit}
+              currentUserId={currentUserId}
+              timeslot={timeslot}
+              committed={committed}
+              event={event} />)}
+        </div>
+        {canEdit && (
+          <IonButton
+            color='tertiary'
+            onClick={() => {
+              modals.open('/project/[projectId]/ask', {
+                params: { projectId: event.project_id }, state: {
+                  eventId: event.id
+                }
+              })
+            }}>
+            Add Timeslot
+          </IonButton>
+        )}
+        {/* </div> */}
+        <div className='border-rounded p-2'>
+          <div className='text-2xl'>
+            {`Who`}
+          </div>
           <div>
-            {committed && <div className='border-2 p-2 mb-6'>
-              <div className='text-2xl'>{`I'm going`}</div>
-              <div>{myCommitments.map(commitment => {
-                return <div key={commitment.id} className='flex justify-between items-center gap-2'>
-                  <div>
-                    <AddCalendarEventButton
-                      start={commitment.commitment_start}
-                      end={commitment.commitment_end}
-                      title={project.name}
-                      location={getEventAddressAsText(event)}
-                      details={project.description || ''} />
+            {event.project_event_commitment.length === 0 && 'No one is going yet'}
+            {event.project_event_commitment.map((commitment, index) => {
+              return (
+                <div
+                  key={commitment.id}
+                  className={`flex justify-between items-center gap-2 pl-2 pr-2 -ml-2 -mr-2
+                  ${index % 2 === 0 ? 'bg-[#ddd]' : ''}`}>
+
+                  <div className='cursor-pointer'
+                    onClick={() => {
+                      navigate('/user/:userId/view',
+                        { params: { userId: commitment.created_by } })
+                    }}>
+                    <Avatar
+                      size={IMAGE_SIZE.AVATAR_SMALL}
+                      alt={commitment.profile?.handle || 'Volunteer Photo'}
+                      src={getPublicUrl(profilePicturePath(commitment.created_by))} />
                   </div>
+                  <div>{(commitment.profile as unknown as { handle: string }).handle}</div>
                   <div>
                     <div>{commitment.role}</div>
                     <div>
@@ -94,76 +160,10 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
                       {format(commitment.commitment_end, 'h:mm bbb')}
                     </div>
                   </div>
-                  <div>
-                    <IonButton
-                      disabled={removeCommitment.isPending}
-                      color='danger'
-                      onClick={() => {
-                        removeCommitment.mutate({ id: commitment.id, projectId: event.project_id })
-                      }}
-                    >X</IonButton>
-                  </div>
                 </div>
-              })}</div>
-            </div>}
-            {event.project_event_timeslot.map((timeslot, index) =>
-              <Timeslot key={index}
-                canEdit={canEdit}
-                currentUserId={currentUserId}
-                timeslot={timeslot}
-                committed={committed}
-                event={event} />)}
+              )
+            })}
           </div>
-          <div className='border-rounded p-2'>
-            <div className='text-xl'>
-              {`Who's going`}
-            </div>
-            <div>
-              {event.project_event_commitment.length === 0 && 'No one is going yet'}
-              {event.project_event_commitment.map((commitment, index) => {
-                return (
-                  <div
-                    key={commitment.id}
-                    className={`flex justify-between items-center gap-2 pl-2 pr-2 -ml-2 -mr-2
-                  ${index % 2 === 0 ? 'bg-[#ddd]' : ''}`}>
-
-                    <div className='cursor-pointer'
-                      onClick={() => {
-                        navigate('/user/:userId/view',
-                          { params: { userId: commitment.created_by } })
-                      }}>
-                      <Avatar
-                        size={IMAGE_SIZE.AVATAR_SMALL}
-                        alt={commitment.profile?.handle || 'Volunteer Photo'}
-                        src={getPublicUrl(profilePicturePath(commitment.created_by))} />
-                    </div>
-                    <div>{(commitment.profile as unknown as { handle: string }).handle}</div>
-                    <div>
-                      <div>{commitment.role}</div>
-                      <div>
-                        {format(commitment.commitment_start, 'h:mm bbb')}
-                        {' - '}
-                        {format(commitment.commitment_end, 'h:mm bbb')}
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          {canEdit && (
-            <IonButton
-              color='tertiary'
-              onClick={() => {
-                modals.open('/project/[projectId]/ask', {
-                  params: { projectId: event.project_id }, state: {
-                    eventId: event.id
-                  }
-                })
-              }}>
-              Add Timeslot
-            </IonButton>
-          )}
         </div>
       </div>
     </div>
