@@ -32,6 +32,7 @@ export default function useRemoveCommitment(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      showToast('Commitment deleted', { duration: 3000 })
       callback?.();
     },
     onError: (error: Error) => {

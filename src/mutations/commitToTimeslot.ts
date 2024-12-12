@@ -44,6 +44,7 @@ export default function useCommitToTimeslot(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      showToast('Committed to serve')
       callback?.();
     },
     onError: (error: Error) => {

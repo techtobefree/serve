@@ -28,6 +28,7 @@ export default function useLeaveProject(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      showToast('Project unfollowed', { duration: 3000 })
       callback?.();
     },
     onError: (error: Error) => {

@@ -32,6 +32,7 @@ export default function useRemoveTimeslot(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      showToast('Timeslot deleted', { duration: 3000 });
       callback?.();
     },
     onError: (error: Error) => {

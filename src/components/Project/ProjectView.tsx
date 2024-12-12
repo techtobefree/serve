@@ -61,7 +61,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             size={IMAGE_SIZE.PROJECT_LARGE}
             className="max-w-[60vw] object-cover" />
         </div>
-        <div className='w-1/3 flex flex-col justify-center'>
+        <div className='w-1/3 flex flex-col justify-center items-center'>
           <QR
             src={projectQrCodeUrl}
             alt='QR Code'

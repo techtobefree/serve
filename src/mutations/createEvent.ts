@@ -55,6 +55,7 @@ export default function useCreateEvent(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      showToast('Event created', { duration: 3000 })
       callback();
     },
     onError: (error: Error) => {

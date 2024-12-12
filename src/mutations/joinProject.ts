@@ -27,6 +27,7 @@ export default function useJoinProject(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      showToast('Following project', { duration: 3000 })
       callback?.();
     },
     onError: (error: Error) => {

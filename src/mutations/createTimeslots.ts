@@ -52,6 +52,7 @@ export default function useCreateTimeslots(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      showToast('Timeslots created', { duration: 3000 })
       callback();
     },
     onError: (error: Error) => {
