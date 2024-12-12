@@ -63,7 +63,7 @@ export function HeaderComponent({ userId, isVisible, setIsVisible }: Props) {
           }}>
             <IonImg
               alt='Serve to be Free'
-              src='/assets/logo.png'
+              src='/pwa-192x192.png'
               className='h-12 w-12'
             />
             <div className='hidden md:block text-lg'>Serve to be Free</div>
