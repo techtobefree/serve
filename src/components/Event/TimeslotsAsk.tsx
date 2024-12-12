@@ -30,28 +30,37 @@ const buttons = [
   { value: 1440, label: '24 Hours' },
 ];
 
-function nextTimeBlock(duration: number, hour?: number, minute?: number, count?: number): Timeslot {
+function nextTimeBlock(duration: number,
+  hour?: number,
+  minute?: number,
+  count?: number,
+  role?: string
+): Timeslot {
   if (hour === undefined || minute === undefined) {
     return {
+      duration,
       hour: 18,
       minute: 0,
-      count: 0
+      count: 0,
+      role: role || 'Volunteer'
     }
   }
 
   const nextMinute = minute + duration;
   const nextHour = hour + Math.floor(nextMinute / 60);
   return {
+    duration,
     hour: nextHour % 24,
     minute: nextMinute % 60,
-    count: count || 0
+    count: count || 0,
+    role: role || 'Volunteer'
   }
 }
 
 export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
   const [activeValue, setActiveValue] = useState<number>(60); // Default active value
   const navigate = useNavigate();
-  const [timeslots, setTimeslots] = useState<Timeslot[]>([nextTimeBlock(activeValue)]);
+  const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
   const createTimeslots = useCreateTimeslots({ projectId }, () => {
     navigate(-1)
   });
@@ -105,8 +114,24 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
             ))}
           </div>
           <br />
+          <div className='w-full flex justify-center'>
+            <IonIcon
+              className='cursor-pointer p-4 self-center'
+              icon={addCircle}
+              size='large'
+              color='secondary'
+              onClick={() => {
+                const last = timeslots[timeslots.length - 1] || {};
+                const newTimeslot = nextTimeBlock(activeValue, last.hour, last.minute, last.count)
+                setTimeslots(
+                  [...timeslots,
+                    newTimeslot
+                  ]
+                )
+              }} />
+          </div>
           <br />
-          {!timeslots.length && <div>No timeslots</div>}
+          {!timeslots.length && <div className='w-full text-center'>No timeslots</div>}
           <div className='flex flex-col gap-2'>
             {timeslots.sort((a, b) => {
               // Feel free to make this readable
@@ -125,22 +150,6 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
               )
             })}
           </div>
-          <div className='w-full flex justify-center'>
-            <IonIcon
-              className='cursor-pointer p-4 self-center'
-              icon={addCircle}
-              size='large'
-              color='secondary'
-              onClick={() => {
-                const last = timeslots[timeslots.length - 1] || {};
-                const newTimeslot = nextTimeBlock(activeValue, last.hour, last.minute, last.count)
-                setTimeslots(
-                  [...timeslots,
-                    newTimeslot
-                  ]
-                )
-              }} />
-          </div>
           <div className='mt-8 w-full flex justify-end'>
             <IonButton
               size='large'
@@ -151,7 +160,6 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
                   return
                 }
                 createTimeslots.mutate({
-                  durationMinutes: activeValue,
                   eventId,
                   projectId,
                   timeslots,

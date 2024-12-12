@@ -8,20 +8,20 @@ import { queryClient } from "../queries/queryClient";
 export type Timeslot = {
   hour: number;
   minute: number;
+  duration: number;
   count: number;
+  role: string;
 }
 
 async function createTimeslots({
   eventId,
   projectId,
   userId,
-  durationMinutes,
   timeslots,
 }: {
   eventId: string,
   projectId: string,
   userId: string,
-  durationMinutes: number,
   timeslots: Timeslot[],
 }) {
   const { error } = await supabase
@@ -30,11 +30,11 @@ async function createTimeslots({
       project_event_id: eventId,
       project_id: projectId,
       created_by: userId,
-      timeslot_duration_minutes: durationMinutes,
+      timeslot_duration_minutes: timeslot.duration,
       timeslot_start_hour: timeslot.hour,
       timeslot_start_minute: timeslot.minute,
       timeslot_count: timeslot.count,
-      role: 'Volunteer'
+      role: timeslot.role
     })))
     .select('id');
 

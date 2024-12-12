@@ -2,11 +2,14 @@ import {
   IonButton,
   IonIcon,
   IonInput,
+  IonItem,
   IonLabel,
   IonSelect,
   IonSelectOption
 } from '@ionic/react';
 import { personOutline, trashOutline } from 'ionicons/icons';
+
+import { useState } from 'react';
 
 import { showToast } from '../../domains/ui/toast';
 import { Timeslot } from '../../mutations/createTimeslots';
@@ -45,6 +48,17 @@ const minutes = Array.from({ length: 60 }, (_, i) => i).map(i => {
   }
 });
 
+function findDuration(
+  startHour: number,
+  startMinute: number,
+  endHour: number,
+  endMinute: number,
+): number {
+  const endMinutes = endHour * 60 + endMinute;
+  const startMinutes = startHour * 60 + startMinute;
+  return endMinutes - startMinutes;
+}
+
 type Props = {
   timeslots: Timeslot[];
   setTimeslots: (timeslots: Timeslot[]) => void;
@@ -58,61 +72,137 @@ export default function TimeslotAsk({
   timeslots,
   setTimeslots
 }: Props) {
+  const [endHour, setEndHour] = useState((timeslot.hour + Math.floor((timeslot.duration) / 60)));
+  const [endMinute, setEndMinute] = useState((timeslot.minute + timeslot.duration) % 60);
   const countString = timeslot.count.toString();
 
   return (
-    <div className='flex gap-2 items-center
-        border-b border-gray-300 border-bottom h-[45px]'>
-      <IonSelect
-        label="Time"
-        value={timeslot.hour}
-        onIonChange={e => {
-          setTimeslots(
-            (index === 0 ? [] : timeslots.slice(0, index))
-              .concat([
-                {
-                  hour: e.detail.value,
-                  minute: timeslot.minute,
-                  count: timeslot.count
-                }
-              ],
-                (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-              ))
-        }}
-      >
-        {hours.map(hour => {
-          return (
-            <IonSelectOption key={hour.value} value={hour.value}>
-              {hour.label}
-            </IonSelectOption>
-          );
-        })}
-      </IonSelect>
-      <IonSelect
-        value={timeslot.minute}
-        onIonChange={e => {
-          setTimeslots(
-            (index === 0 ? [] : timeslots.slice(0, index))
-              .concat([
-                {
-                  hour: timeslot.hour,
-                  minute: e.detail.value,
-                  count: timeslot.count
-                }
-              ],
-                (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-              ))
-        }}
-      >
-        {minutes.map(minute => {
-          return (
-            <IonSelectOption key={minute.value} value={minute.value}>
-              {minute.label}
-            </IonSelectOption>
-          );
-        })}
-      </IonSelect>
-      <div className='flex items-center gap-2 relative'>
+    <div className='flex flex-col gap-2 items-center'>
+      <div className='flex'>
+        <IonItem>
+          <IonSelect
+            label="Start time"
+            value={timeslot.hour}
+            onIonChange={e => {
+              setTimeslots(
+                (index === 0 ? [] : timeslots.slice(0, index))
+                  .concat([
+                    {
+                      count: timeslot.count,
+                      duration: findDuration(e.detail.value as number, timeslot.minute,
+                        endHour, endMinute),
+                      hour: e.detail.value,
+                      minute: timeslot.minute,
+                      role: timeslot.role,
+                    }
+                  ],
+                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                  ))
+            }}
+          >
+            {hours.map(hour => {
+              return (
+                <IonSelectOption key={hour.value} value={hour.value}>
+                  {hour.label}
+                </IonSelectOption>
+              );
+            })}
+          </IonSelect>
+
+          <IonSelect
+            value={timeslot.minute}
+            onIonChange={e => {
+              setTimeslots(
+                (index === 0 ? [] : timeslots.slice(0, index))
+                  .concat([
+                    {
+                      count: timeslot.count,
+                      duration: findDuration(timeslot.hour, e.detail.value as number,
+                        endHour, endMinute),
+                      hour: timeslot.hour,
+                      minute: e.detail.value,
+                      role: timeslot.role,
+                    }
+                  ],
+                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                  ))
+            }}
+          >
+            {minutes.map(minute => {
+              return (
+                <IonSelectOption key={minute.value} value={minute.value}>
+                  {minute.label}
+                </IonSelectOption>
+              );
+            })}
+          </IonSelect>
+        </IonItem>
+      </div>
+
+      <div className='flex'>
+        <IonItem>
+          <IonSelect
+            label="End time"
+            value={endHour}
+            onIonChange={e => {
+              setEndHour(e.detail.value as number);
+              setTimeslots(
+                (index === 0 ? [] : timeslots.slice(0, index))
+                  .concat([
+                    {
+                      count: timeslot.count,
+                      duration: findDuration(timeslot.hour, timeslot.minute,
+                        e.detail.value as number, endMinute),
+                      hour: timeslot.hour,
+                      minute: timeslot.minute,
+                      role: timeslot.role,
+                    }
+                  ],
+                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                  ))
+            }}
+          >
+            {hours.map(hour => {
+              return (
+                <IonSelectOption key={hour.value} value={hour.value}>
+                  {hour.label}
+                </IonSelectOption>
+              );
+            })}
+          </IonSelect>
+
+          <IonSelect
+            value={endMinute}
+            onIonChange={e => {
+              setEndMinute(e.detail.value as number);
+              setTimeslots(
+                (index === 0 ? [] : timeslots.slice(0, index))
+                  .concat([
+                    {
+                      count: timeslot.count,
+                      duration: findDuration(timeslot.hour, timeslot.minute,
+                        endHour, e.detail.value as number),
+                      hour: timeslot.hour,
+                      minute: timeslot.minute,
+                      role: timeslot.role,
+                    }
+                  ],
+                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                  ))
+            }}
+          >
+            {minutes.map(minute => {
+              return (
+                <IonSelectOption key={minute.value} value={minute.value}>
+                  {minute.label}
+                </IonSelectOption>
+              );
+            })}
+          </IonSelect>
+        </IonItem>
+      </div>
+
+      <div className='flex items-center gap-2'>
         <IonLabel><IonIcon icon={personOutline} /></IonLabel>
         <IonInput
           value={!countString || countString === '0' ? '' : countString}
@@ -129,9 +219,11 @@ export default function TimeslotAsk({
                 (index === 0 ? [] : timeslots.slice(0, index))
                   .concat([
                     {
+                      count: newInt || 0,
+                      duration: timeslot.duration,
                       hour: timeslot.hour,
                       minute: timeslot.minute,
-                      count: newInt || 0
+                      role: timeslot.role,
                     }
                   ],
                     (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
@@ -142,6 +234,7 @@ export default function TimeslotAsk({
           }}
         />
       </div>
+
       <IonButton
         color='danger'
         onClick={() => {
@@ -151,7 +244,6 @@ export default function TimeslotAsk({
                 (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
               ))
         }}><IonIcon icon={trashOutline} /></IonButton>
-
     </div>
   )
 }
