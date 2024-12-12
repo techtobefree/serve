@@ -1,19 +1,18 @@
 import {
   home,
   homeOutline,
-  analytics,
-  analyticsOutline,
-  map,
-  mapOutline,
+  // analytics,
+  // analyticsOutline,
+  // map,
+  // mapOutline,
   add,
   ribbon,
   ribbonOutline,
 } from "ionicons/icons";
 
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
-import { mayReplace } from "../../domains/ui/navigation";
 import { TAB_SELECTION_HEIGHT } from "../../domains/ui/tabs";
-import { useModals, useNavigate } from "../../router";
+import { useModals } from "../../router";
 
 import TabButton from "./TabButton";
 
@@ -22,7 +21,6 @@ type Props = {
 }
 
 export default function TabSelection({ headerIsVisible }: Props) {
-  const navigate = useNavigate();
   const modals = useModals()
 
   return (
@@ -33,12 +31,11 @@ export default function TabSelection({ headerIsVisible }: Props) {
       left-0 right-0 bg-[#001B48] text-white transition-transform duration-300 ease-in-out
       `}>
       <TabButton icon={homeOutline} activeIcon={home} path="/home" />
-      <TabButton icon={mapOutline} activeIcon={map} path="/map" />
+      {/* <TabButton icon={mapOutline} activeIcon={map} path="/map" /> */}
       <TabButton icon={add} activeIcon={add} onClick={() => {
-        navigate('/map', { replace: mayReplace() })
         modals.open('/add')
       }} />
-      <TabButton icon={analyticsOutline} activeIcon={analytics} path="/track" />
+      {/* <TabButton icon={analyticsOutline} activeIcon={analytics} path="/track" /> */}
       <TabButton icon={ribbonOutline} activeIcon={ribbon} path="/celebrate" />
     </div>
   )

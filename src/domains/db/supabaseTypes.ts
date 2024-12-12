@@ -3602,7 +3602,7 @@ export type Database = {
       }
       sensitive_profile: {
         Row: {
-          accepted_terms: boolean | null
+          accepted_at: string | null
           created_at: string | null
           created_by: string
           email: string | null
@@ -3616,7 +3616,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          accepted_terms?: boolean | null
+          accepted_at?: string | null
           created_at?: string | null
           created_by: string
           email?: string | null
@@ -3630,7 +3630,7 @@ export type Database = {
           user_id: string
         }
         Update: {
-          accepted_terms?: boolean | null
+          accepted_at?: string | null
           created_at?: string | null
           created_by?: string
           email?: string | null

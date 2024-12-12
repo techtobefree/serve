@@ -26,8 +26,8 @@ export function PeopleResultsComponent({ displayResults, searchText }: Props) {
 
 const PeopleResults = observer(() => {
   return <PeopleResultsComponent
-    displayResults={!searchStore.hasCategoryInFilter.length ||
-      searchStore.hasCategoryInFilter.includes(Category.person)}
+    displayResults={!searchStore.categoriesToShow.length ||
+      searchStore.categoriesToShow.includes(Category.person)}
     searchText={searchStore.text}
   />
 })

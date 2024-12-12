@@ -26,8 +26,8 @@ export function GroupResultsComponent({ displayResults, searchText }: Props) {
 
 const GroupResults = observer(() => {
   return <GroupResultsComponent
-    displayResults={!searchStore.hasCategoryInFilter.length ||
-      searchStore.hasCategoryInFilter.includes(Category.group)}
+    displayResults={!searchStore.categoriesToShow.length ||
+      searchStore.categoriesToShow.includes(Category.group)}
     searchText={searchStore.text}
   />
 })

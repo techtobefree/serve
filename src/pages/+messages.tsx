@@ -27,7 +27,7 @@ export default function Messages() {
       {/* Modal Content */}
       <div
         className={`
-          fixed overflow-auto right-0 top-0 h-full w-full bg-white
+          fixed overflow-auto right-0 top-[64px] bottom-[64px] w-full bg-white
           shadow-lg transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
           `}

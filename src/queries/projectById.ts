@@ -98,6 +98,9 @@ export function useProjectByIdQuery(projectId: string) {
             project_event_item_commitment (
               *
             )
+          ),
+          project_role (
+            *
           )
           `)
         .eq('id', projectId)

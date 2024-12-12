@@ -6,7 +6,7 @@ export type CurrentUser = {
   email?: string,
   firstName?: string,
   lastName?: string,
-  acceptedTerms?: boolean,
+  acceptedAt?: string,
 }
 
 export const currentUserStore = observable<CurrentUser>({})
@@ -18,6 +18,6 @@ export function setCurrentUser(user: CurrentUser) {
     currentUserStore.email = user.email
     currentUserStore.firstName = user.firstName
     currentUserStore.lastName = user.lastName
-    currentUserStore.acceptedTerms = user.acceptedTerms
+    currentUserStore.acceptedAt = user.acceptedAt
   })
 }

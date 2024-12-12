@@ -26,7 +26,7 @@ export function ProjectViewComponent({ currentUserId }: Props) {
       <div>
         <IonIcon className='cursor-pointer text-4xl'
           icon={arrowBack}
-          onClick={() => { navigate('/track') }} />
+          onClick={() => { navigate('/home') }} />
       </div>
       <div className="flex justify-center">
         <div className="max-w-[800px] w-full">

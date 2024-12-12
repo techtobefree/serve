@@ -2,7 +2,6 @@ import { IonButton } from "@ionic/react";
 
 import { TableRows } from "../../domains/db/tables"
 import { IMAGE_SIZE } from "../../domains/image";
-import { hideSearchResults } from "../../domains/search/search";
 import { getPublicUrl, projectPicturePath } from "../../queries/image";
 import { useNavigate } from "../../router";
 
@@ -20,10 +19,9 @@ export default function ProjectCard({ project, joinable }: Props) {
     <div className="h-32 w-full bg-white rounded-2xl shadow-md text-black
       overflow-hidden flex justify-center cursor-pointer"
       onClick={() => {
-        hideSearchResults();
         navigate(
           '/project/:projectId/view',
-          { params: { projectId: project.id } }
+          { params: { projectId: project.id }, replace: true }
         )
       }}>
       <ProjectImage
@@ -45,10 +43,9 @@ export default function ProjectCard({ project, joinable }: Props) {
             color="secondary"
             onClick={(e) => {
               e.stopPropagation();
-              hideSearchResults();
               navigate(
                 '/project/:projectId/join',
-                { params: { projectId: project.id } }
+                { params: { projectId: project.id }, replace: true }
               )
             }}
           >Join</IonButton>

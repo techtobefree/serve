@@ -8,7 +8,10 @@ import { useState } from "react";
 import Avatar from "../../../../components/Avatar";
 import UploadImage from "../../../../components/UploadImage";
 import { sessionStore } from "../../../../domains/auth/sessionStore";
+import { currentUserStore } from "../../../../domains/currentUser/currentUserStore";
+import { formatDateLLLLddyyyy } from "../../../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../../../domains/image";
+import { showToast } from "../../../../domains/ui/toast";
 import { getPublicUrl, profilePicturePath } from "../../../../queries/image";
 import {
   acceptTerms,
@@ -18,21 +21,22 @@ import {
   changeName,
   useProfileQuery
 } from "../../../../queries/profileByUserId";
-import { useModals, useNavigate, useParams } from "../../../../router"
+import { useNavigate, useParams } from "../../../../router"
 
 type Props = {
   canEdit?: boolean;
   userId: string;
   initial?: boolean;
+  acceptedAt?: string;
 }
 
-export function UserView({ canEdit, userId, initial }: Props) {
+export function UserView({ canEdit, userId, initial, acceptedAt }: Props) {
   const { data: user, isLoading } = useProfileQuery(userId);
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
   const [profilePicture, setProfilePicture] = useState(getPublicUrl(profilePicturePath(userId)));
   const [tempBase64Image, setTempBase64Image] = useState<string | null>(null);
   const navigate = useNavigate();
-  const modals = useModals();
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   if (isLoading || !user) {
     return <div>Loading...</div>
@@ -44,7 +48,7 @@ export function UserView({ canEdit, userId, initial }: Props) {
         <div className="max-w-[800px] w-full p-2 flex flex-col gap-6">
           {!initial && <div>
             <IonIcon className='cursor-pointer text-4xl'
-              icon={arrowBack} onClick={() => { navigate('/track') }} />
+              icon={arrowBack} onClick={() => { navigate('/home') }} />
           </div>}
           {initial && (
             <div className='pb-4'>
@@ -123,22 +127,22 @@ export function UserView({ canEdit, userId, initial }: Props) {
             </div>
             <div>
               <div className='text-2xl'>Code of Conduct</div>
-              At Serve To Be Free (STBF), we are committed to fostering a positive and inclusive community where all participants feel valued, respected, and supported. As a member of our platform, you agree to uphold the following code of conduct:
-              <br />Respect: Treat all participants with kindness, empathy, and respect, regardless of their background, beliefs, or opinions. We celebrate diversity and encourage open-mindedness in all interactions.
-              <br />Inclusivity: Embrace and support individuals from all walks of life, including those with diverse abilities, cultures, genders, sexual orientations, and identities. Everyone has a unique perspective to contribute, and we welcome them with open arms.
-              <br />Collaboration: Foster a spirit of collaboration and teamwork in all projects and activities. Work together towards common goals, share ideas constructively, and empower each other to succeed.
-              <br />Communication: Communicate openly, honestly, and transparently with fellow participants. Listen actively, give and receive feedback respectfully, and address any conflicts or concerns promptly and professionally.
-              <br />Safety: Prioritize the safety and well-being of all participants at all times. Report any inappropriate or harmful behavior to STBF administrators immediately, and refrain from engaging in any actions that could jeopardize the safety of others.
-              <br />Integrity: Act with integrity and honesty in all your interactions on the platform. Uphold the values of trustworthiness, accountability, and ethical conduct, and strive to build a community founded on mutual respect and integrity.
-              <br />Privacy: Respect the privacy and confidentiality of fellow participants. Do not share personal information or sensitive data without consent, and abide by STBF's privacy policies and guidelines at all times.
-              <br />Non-Discrimination: Refrain from engaging in discrimination, harassment, or bullying of any kind. STBF is a safe and inclusive space for all, and discriminatory behavior will not be tolerated under any circumstances.
-              <br />Compliance: Adhere to all applicable laws, regulations, and guidelines governing your participation in STBF activities. Respect intellectual property rights, including copyrights and trademarks, and refrain from engaging in any illegal or unethical conduct.
-              <br />Contribution: Contribute positively to the STBF community by actively participating in projects, offering support and encouragement to fellow participants, and promoting a culture of kindness, generosity, and service.
-              <br />By participating in Serve To Be Free, you agree to abide by this code of conduct and uphold the values and principles it represents. Together, let's create a welcoming, inclusive, and empowering community where everyone can thrive and make a difference! 🌟
+              <br />At Serve To Be Free (STBF), we are committed to fostering a positive and inclusive community where all participants feel valued, respected, and supported. As a member of our platform, you agree to uphold the following code of conduct:
+              <br /><br />Respect: Treat all participants with kindness, empathy, and respect, regardless of their background, beliefs, or opinions. We celebrate diversity and encourage open-mindedness in all interactions.
+              <br /><br />Inclusivity: Embrace and support individuals from all walks of life, including those with diverse abilities, cultures, genders, sexual orientations, and identities. Everyone has a unique perspective to contribute, and we welcome them with open arms.
+              <br /><br />Collaboration: Foster a spirit of collaboration and teamwork in all projects and activities. Work together towards common goals, share ideas constructively, and empower each other to succeed.
+              <br /><br />Communication: Communicate openly, honestly, and transparently with fellow participants. Listen actively, give and receive feedback respectfully, and address any conflicts or concerns promptly and professionally.
+              <br /><br />Safety: Prioritize the safety and well-being of all participants at all times. Report any inappropriate or harmful behavior to STBF administrators immediately, and refrain from engaging in any actions that could jeopardize the safety of others.
+              <br /><br />Integrity: Act with integrity and honesty in all your interactions on the platform. Uphold the values of trustworthiness, accountability, and ethical conduct, and strive to build a community founded on mutual respect and integrity.
+              <br /><br />Privacy: Respect the privacy and confidentiality of fellow participants. Do not share personal information or sensitive data without consent, and abide by STBF's privacy policies and guidelines at all times.
+              <br /><br />Non-Discrimination: Refrain from engaging in discrimination, harassment, or bullying of any kind. STBF is a safe and inclusive space for all, and discriminatory behavior will not be tolerated under any circumstances.
+              <br /><br />Compliance: Adhere to all applicable laws, regulations, and guidelines governing your participation in STBF activities. Respect intellectual property rights, including copyrights and trademarks, and refrain from engaging in any illegal or unethical conduct.
+              <br /><br />Contribution: Contribute positively to the STBF community by actively participating in projects, offering support and encouragement to fellow participants, and promoting a culture of kindness, generosity, and service.
+              <br /><br />By participating in Serve To Be Free, you agree to abide by this code of conduct and uphold the values and principles it represents. Together, let's create a welcoming, inclusive, and empowering community where everyone can thrive and make a difference! 🌟
             </div>
             <div>
               <div className='text-2xl'>Privacy Policy</div>
-              <br /><br />This Privacy Policy describes how ServeToBeFree.org ("STBF," "we," "us," or "our") collects, uses, and shares your personal information when you use our website and services (collectively, the "Service").
+              <br />This Privacy Policy describes how ServeToBeFree.org ("STBF," "we," "us," or "our") collects, uses, and shares your personal information when you use our website and services (collectively, the "Service").
               <br /><br />1. Information We Collect
               <br />a. Information You Provide: When you register for an account, participate in projects, or communicate with us, we may collect personal information such as your name, email address, and other contact details.
               <br />b. Automatically Collected Information: We may automatically collect certain information about your device and usage of the Service, including your IP address, browser type, operating system, and interactions with the Service.
@@ -162,7 +166,7 @@ export function UserView({ canEdit, userId, initial }: Props) {
 
             <div>
               <div className='text-2xl'>Other conditions</div>
-              This User Agreement is a legal agreement between you ("User" or "you") and ServeToBeFree.org ("STBF") governing your use of the STBF platform and services. By accessing or using STBF, you agree to be bound by the terms and conditions of this Agreement.
+              <br />This User Agreement is a legal agreement between you ("User" or "you") and ServeToBeFree.org ("STBF") governing your use of the STBF platform and services. By accessing or using STBF, you agree to be bound by the terms and conditions of this Agreement.
               <br /><br />1. Acceptance of Terms: By accessing or using STBF, you acknowledge that you have read, understood, and agree to be bound by this Agreement and any additional terms and policies referenced herein or available through hyperlinks. If you do not agree to these terms, you may not use STBF.
               <br /><br />2. Registration and Account: You must register for an account to access certain features of STBF. You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate, current, and complete. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.
               <br /><br />3. Use of Services: Subject to your compliance with this Agreement, STBF grants you a limited, non-exclusive, non-transferable, revocable license to access and use STBF solely for your personal, non-commercial use. You may not use STBF for any unlawful or unauthorized purpose.
@@ -179,28 +183,37 @@ export function UserView({ canEdit, userId, initial }: Props) {
               <br /><br />14. Contact Information: If you have any questions about this Agreement, please contact us at support@servetobefree.org
               <br /><br />By using STBF, you acknowledge that you have read, understood, and agree to be bound by this Agreement.
             </div>
-            <div>
-            </div>
-            {
-              user.sensitive_profile[0]?.accepted_terms
-            }
-            <IonItem onClick={() => {
-              void acceptTerms(userId, !user.sensitive_profile[0]?.accepted_terms)
-            }}>
-              <IonLabel>I accept terms and conditions*</IonLabel>
-              <IonCheckbox
-                checked={!!user.sensitive_profile[0]?.accepted_terms}
-                onIonChange={(e) => {
-                  void acceptTerms(userId, e.target.checked)
-                }}
-              />
-            </IonItem>
           </div>
+          {/* Initial */}
           {initial && (
-            <IonButton className='p-4 self-end'>Continue</IonButton>
+            <>
+              <IonItem>
+                <IonLabel onClick={() => {
+                  setAcceptedTerms(!acceptedTerms)
+                }}>I accept terms and conditions*</IonLabel>
+                <IonCheckbox
+                  checked={!!acceptedTerms}
+                  onIonChange={(e) => {
+                    setAcceptedTerms(e.detail.checked)
+                  }}
+                />
+              </IonItem>
+              <IonButton disabled={!acceptedTerms} className='p-4 self-end' onClick={() => {
+                void acceptTerms(userId).then(() => {
+                  showToast('Thank you for joining us')
+                })
+              }}>Accept</IonButton>
+            </>
           )}
-          {!initial && (
-            <IonButton className='p-4 self-end' onClick={() => { modals.close() }}>Back</IonButton>
+          {/* Not initial */}
+          {!initial && acceptedAt && (
+            <>
+              <IonItem disabled>
+                <IonLabel>I accepted terms and conditions</IonLabel>
+                <div>{formatDateLLLLddyyyy(acceptedAt)}</div>
+              </IonItem>
+              <IonButton className='p-4 self-end' onClick={() => { navigate('/home') }}>Home</IonButton>
+            </>
           )}
           <br />
         </div>
@@ -213,7 +226,7 @@ export function UserView({ canEdit, userId, initial }: Props) {
       <div className="max-w-[800px] w-full p-2">
         <div>
           <IonIcon className='cursor-pointer text-4xl'
-            icon={arrowBack} onClick={() => { navigate('/track') }} />
+            icon={arrowBack} onClick={() => { navigate('/home') }} />
         </div>
         <div>
           <div className='text-3xl'>
@@ -223,15 +236,13 @@ export function UserView({ canEdit, userId, initial }: Props) {
             src={tempBase64Image || profilePicture}
             alt={user.handle}
             size={IMAGE_SIZE.AVATAR_LARGE} />
-          <div>Public name: {user.handle}</div>
-          <div>First name: {user.sensitive_profile[0]?.first_name}</div>
-          <div>Last name: {user.sensitive_profile[0]?.last_name}</div>
+          <div>Display name: {user.handle}</div>
         </div>
         <div>
-          <div className='text-3xl'>
-            Contact
+          <div className='text-2xl'>
+            Bio
           </div>
-          <div>Email: {user.sensitive_profile[0]?.email}</div>
+          <div>{user.bio}</div>
         </div>
       </div>
     </div>
@@ -243,7 +254,10 @@ export const UserViewPage = observer(() => {
   const currentUserId = sessionStore.current?.user.id;
 
   return (
-    <UserView userId={userId} canEdit={userId === currentUserId} />
+    <UserView
+      userId={userId}
+      canEdit={userId === currentUserId}
+      acceptedAt={currentUserStore.acceptedAt} />
   )
 });
 

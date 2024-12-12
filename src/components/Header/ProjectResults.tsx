@@ -37,8 +37,8 @@ export function ProjectResultsComponent({ displayResults }: Props) {
 
 const ProjectResults = observer(() => {
   return <ProjectResultsComponent
-    displayResults={!searchStore.hasCategoryInFilter.length ||
-      searchStore.hasCategoryInFilter.includes(Category.project)}
+    displayResults={!searchStore.categoriesToShow.length ||
+      searchStore.categoriesToShow.includes(Category.project)}
   />
 })
 

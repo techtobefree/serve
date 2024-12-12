@@ -9,13 +9,13 @@ export enum Category {
 type Search = {
   text: string;
   isSearchVisible: boolean;
-  hasCategoryInFilter: Category[];
+  categoriesToShow: Category[];
 }
 
 export const searchStore = observable<Search>({
   text: '',
   isSearchVisible: false,
-  hasCategoryInFilter: []
+  categoriesToShow: []
 })
 
 export function setSearchText(text: string) {
@@ -24,20 +24,8 @@ export function setSearchText(text: string) {
   })
 }
 
-export function showSearchResults() {
-  runInAction(() => {
-    searchStore.isSearchVisible = true;
-  })
-}
-
-export function hideSearchResults() {
-  runInAction(() => {
-    searchStore.isSearchVisible = false;
-  })
-}
-
 export function filterSearchToCategories(categories: Category[]) {
   runInAction(() => {
-    searchStore.hasCategoryInFilter = categories;
+    searchStore.categoriesToShow = categories;
   })
 }

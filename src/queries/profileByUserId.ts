@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { setCurrentUser } from "../domains/currentUser/currentUserStore";
 import { supabase } from "../domains/db/supabaseClient";
+import { showToast } from "../domains/ui/toast";
 
 import { queryClient } from "./queryClient";
 
@@ -10,14 +11,41 @@ export async function changeHandle(userId: string, handle?: string | null) {
     return
   }
 
-  await supabase
+  const { error } = await supabase
     .from('profile')
     .update(
       {
         user_id: userId,
-        handle: handle,
+        handle,
       }
     ).eq('user_id', userId);
+
+  if (error) {
+    showToast('Failed to update bio', { isError: true, duration: 5000 })
+    throw new Error(error.message);
+  }
+
+  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+}
+
+export async function changeBio(userId: string, bio?: string | null) {
+  if (bio === null || bio === undefined) {
+    return
+  }
+
+  const { error } = await supabase
+    .from('profile')
+    .update(
+      {
+        user_id: userId,
+        bio,
+      }
+    ).eq('user_id', userId);
+
+  if (error) {
+    showToast('Failed to update bio', { isError: true, duration: 5000 })
+    throw new Error(error.message);
+  }
 
   await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 }
@@ -27,7 +55,7 @@ export async function changeEmail(userId: string, email?: string | null) {
     return
   }
 
-  await supabase
+  const { error } = await supabase
     .from('sensitive_profile')
     .update(
       {
@@ -35,6 +63,11 @@ export async function changeEmail(userId: string, email?: string | null) {
         email: email,
       }
     ).eq('user_id', userId);
+
+  if (error) {
+    showToast('Failed to change email', { isError: true, duration: 5000 })
+    throw new Error(error.message);
+  }
 
   await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 }
@@ -63,7 +96,7 @@ export async function changeName(userId: string,
     throw new Error('No changes to make')
   }
 
-  await supabase
+  const { error } = await supabase
     .from('sensitive_profile')
     .update(
       {
@@ -72,18 +105,28 @@ export async function changeName(userId: string,
       }
     ).eq('user_id', userId);
 
+  if (error) {
+    showToast('Failed to change name', { isError: true, duration: 5000 })
+    throw new Error(error.message);
+  }
+
   await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 }
 
-export async function acceptTerms(userId: string, acceptedTerms: boolean) {
-  await supabase
+export async function acceptTerms(userId: string) {
+  const { error } = await supabase
     .from('sensitive_profile')
     .update(
       {
         user_id: userId,
-        accepted_terms: acceptedTerms
+        accepted_at: new Date().toISOString(),
       }
     ).eq('user_id', userId);
+
+  if (error) {
+    showToast('Failed to update terms', { isError: true, duration: 5000 })
+    throw new Error(error.message);
+  }
 
   await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 }
@@ -171,7 +214,7 @@ export function useProfileQuery(userId?: string) {
         handle: data.handle,
         firstName: data.sensitive_profile[0]?.first_name || undefined,
         lastName: data.sensitive_profile[0]?.last_name || undefined,
-        acceptedTerms: data.sensitive_profile[0]?.accepted_terms || false,
+        acceptedAt: data.sensitive_profile[0]?.accepted_at || undefined,
       })
 
       return data;

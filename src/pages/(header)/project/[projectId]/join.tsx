@@ -45,15 +45,15 @@ export function ProjectJoinPageComponent({ userId }: Props) {
       <div className="flex justify-center">
         {userId ?
           <div className="max-w-[800px] w-full">
-            {isLoading && <div>Joining project ...</div>}
-            {isError && <div>Error joining project</div>}
+            {isLoading && <div>Following project ...</div>}
+            {isError && <div>Error following project</div>}
             {!isError && !isLoading &&
               <div>You should be redirected to view {projectId}</div>
             }
           </div>
           :
           <div>
-            You must login to join a project.
+            You must login to follow a project.
           </div>
         }
         <IonButton

@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
-import Header from '../components/Header/Header';
 import Toast from '../components/Toast';
 import { sessionStore } from '../domains/auth/sessionStore';
 import { CurrentUser, currentUserStore } from '../domains/currentUser/currentUserStore';
@@ -12,6 +11,7 @@ import { useLocalAuth } from '../hooks/useLocalAuth';
 import { useProfileQuery } from '../queries/profileByUserId';
 import { useNavigate } from '../router';
 
+// eslint-disable-next-line import/namespace
 import { UserView } from './(header)/user/[userId]/view';
 
 
@@ -20,7 +20,7 @@ type Props = {
   currentUser: CurrentUser;
 }
 
-export function LayoutComponent({ session }: Props) {
+export function LayoutComponent({ currentUser, session }: Props) {
   useLocalAuth(); // Comment if you want to test logged out state
   useProfileQuery(session?.user.id);
   const navigate = useNavigate();
@@ -45,18 +45,21 @@ export function LayoutComponent({ session }: Props) {
     };
   }, [navigate, location]);
 
-  if (currentUserStore.userId && (
-    !currentUserStore.handle ||
-    !currentUserStore.email ||
-    !currentUserStore.firstName ||
-    !currentUserStore.lastName ||
-    !currentUserStore.acceptedTerms
+  if (currentUser.userId && (
+    !currentUser.handle ||
+    !currentUser.email ||
+    !currentUser.firstName ||
+    !currentUser.lastName ||
+    !currentUser.acceptedAt
   )) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>
-        <Header isVisible={false} setIsVisible={() => { }} />
-        <UserView userId={currentUserStore.userId} canEdit={true} initial />
+        <UserView userId={currentUser.userId}
+          canEdit={true}
+          acceptedAt={currentUser.acceptedAt}
+          initial />
+        <Toast />
       </div>
     )
   }

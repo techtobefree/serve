@@ -1,31 +1,27 @@
 import { IonIcon, IonImg } from "@ionic/react";
-import { chatbox } from "ionicons/icons";
+import { chatbox, search } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useState, useEffect } from "react";
 
 import { sessionStore } from "../../domains/auth/sessionStore";
 import { IMAGE_SIZE } from "../../domains/image";
-import { searchStore, showSearchResults } from "../../domains/search/search";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
+import { mayReplace } from "../../domains/ui/navigation";
 import { useVisibleRef } from "../../hooks/useVisibleRef";
 import { getPublicUrl, profilePicturePath } from "../../queries/image";
 import { useModals, useNavigate } from '../../router'
 
 import Avatar from "../Avatar";
 
-import Search from "./Search";
-import SearchResults from "./SearchResults";
-
 type Props = {
   handle?: string;
   userId?: string;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  isSearchVisible: boolean;
 }
 
-export function HeaderComponent({ userId, isVisible, setIsVisible, isSearchVisible }: Props) {
+export function HeaderComponent({ userId, isVisible, setIsVisible }: Props) {
   const navigate = useNavigate();
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [ref, refIsVisible] = useVisibleRef();
@@ -63,7 +59,7 @@ export function HeaderComponent({ userId, isVisible, setIsVisible, isSearchVisib
       `}>
         <div className='flex justify-between items-center'>
           <div className='flex items-center gap-2 p-2 cursor-pointer' onClick={() => {
-            navigate('/')
+            navigate('/home', { replace: mayReplace() })
           }}>
             <IonImg
               alt='Serve to be Free'
@@ -72,27 +68,23 @@ export function HeaderComponent({ userId, isVisible, setIsVisible, isSearchVisib
             />
             <div className='hidden md:block text-lg'>Serve to be Free</div>
           </div>
-          {/* Search input */}
-          <div className="z-30 bg-[#004681] p-4">
-            <Search onFocus={() => { showSearchResults() }} />
-          </div>
-          <div className='flex items-center'>
+          <div className='flex items-center gap-4 pr-2'>
+            {/* Search input */}
+            <div className={'flex cursor-pointer'}
+              onClick={() => { modals.open('/search') }}>
+              <IonIcon icon={search} className='text-3xl p-3 rounded-full bg-[#ffffff22]' />
+            </div>
+
             {/* Messages */}
             {userId && (
-              <div className={
-                `h-${HEADER_HEIGHT} flex w-16
-                justify-center items-center cursor-pointer
-                `}
+              <div className={'flex cursor-pointer'}
                 onClick={() => { modals.open('/messages') }}>
-                <IonIcon icon={chatbox} className='text-3xl border-2 p-3 rounded-2xl' />
+                <IonIcon icon={chatbox} className='text-3xl p-3 rounded-full bg-[#ffffff22]' />
               </div>
             )}
 
-
             {/* Profile */}
-            <div className={`
-                h-${HEADER_HEIGHT} flex w-16 justify-center items-center cursor-pointer
-              `}
+            <div className={`flex justify-center items-center cursor-pointer`}
               onClick={() => { modals.open('/profile') }}>
               {
                 userId && (
@@ -108,16 +100,6 @@ export function HeaderComponent({ userId, isVisible, setIsVisible, isSearchVisib
             </div>
           </div>
         </div>
-
-        {
-          <div className={`fixed top-0 w-full pointer-events-none z-20 overflow-hidden text-black
-            transform transition-transform duration-300 ease-in-out
-            ${isVisible && isSearchVisible ?
-              `max-h-screen translate-y-0` : // HEADER_HEIGHT but as px (64px) not 16
-              'h-[0px] -translate-y-full'}`}>
-            <SearchResults isHeaderVisible={isVisible} />
-          </div>
-        }
       </div>
       {/* Use the space for the header at the top */}
       <div className={`h-${HEADER_HEIGHT} w-fit bg-[#004681]`} ref={ref}></div>
@@ -132,7 +114,6 @@ export function HeaderComponent({ userId, isVisible, setIsVisible, isSearchVisib
 
 const Header = observer((props: Omit<Props, 'handle' | 'avatarUrl' | 'isSearchVisible'>) => {
   return <HeaderComponent {...props}
-    isSearchVisible={searchStore.isSearchVisible}
     handle={sessionStore.current?.user.id}
     userId={sessionStore.current?.user.id} />
 });

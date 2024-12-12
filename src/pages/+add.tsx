@@ -1,12 +1,13 @@
-import { IonButton } from "@ionic/react";
+import { IonIcon } from "@ionic/react";
+import { search, starOutline, heartOutline, add } from "ionicons/icons";
 import { useEffect, useState } from "react";
 
-import { Category, filterSearchToCategories, showSearchResults } from "../domains/search/search";
-import { mayReplace } from "../domains/ui/navigation";
-import { useNavigate } from "../router"
+import { Category, filterSearchToCategories } from "../domains/search/search";
+import { useModals, useNavigate } from "../router"
 
 export default function Add() {
   const navigate = useNavigate();
+  const modals = useModals();
   const [isOpen, setOpen] = useState(false)
 
   useEffect(() => {
@@ -36,16 +37,41 @@ export default function Add() {
       >
         <div className='rounded-2xl bg-white flex flex-col gap-4 p-4
           pointer-events-auto h-fit m-16'>
-          <IonButton
-            color="secondary" onClick={() => {
-              navigate(-1)
+          <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+            onClick={() => {
               filterSearchToCategories([Category.project])
-              showSearchResults()
-            }}>Give Service</IonButton>
-          <IonButton
-            color="secondary" onClick={() => {
-              navigate('/project/new', { replace: mayReplace() });
-            }}>Create a Project</IonButton>
+              modals.open('/search')
+            }} >
+            <IonIcon className='absolute left-2 text-2xl text-[#1a237e]' icon={search} />
+            Find a Project
+          </div>
+          <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+            onClick={() => {
+              navigate('/project/new')
+            }} >
+            <IonIcon className='absolute left-2 text-2xl text-[#f50057]' icon={add} />
+            Create a Project
+          </div>
+          <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+            onClick={() => {
+              filterSearchToCategories([Category.project])
+              modals.open('/search')
+            }} >
+            <IonIcon className='absolute left-2 text-2xl text-[#1e88e6]' icon={starOutline} />
+            Lead a Project
+          </div>
+          <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+            onClick={() => {
+              filterSearchToCategories([Category.project])
+              modals.open('/search')
+            }} >
+            <IonIcon className='absolute left-2 text-2xl text-[#ffcb1e]' icon={heartOutline} />
+            Sponsor a Project
+          </div>
         </div>
       </div>
     </div>
