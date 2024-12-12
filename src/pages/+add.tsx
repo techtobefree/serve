@@ -41,7 +41,7 @@ export default function Add() {
           rounded-full flex justify-center items-center relative cursor-pointer'
             onClick={() => {
               filterSearchToCategories([Category.project])
-              modals.open('/search')
+              modals.open('/search', { replace: true })
             }} >
             <IonIcon className='absolute left-2 text-2xl text-[#1a237e]' icon={search} />
             Find a Project
@@ -49,7 +49,7 @@ export default function Add() {
           <div className='w-60 border-2 border-black p-2 shadow-lg
           rounded-full flex justify-center items-center relative cursor-pointer'
             onClick={() => {
-              navigate('/project/new')
+              navigate('/project/new', { replace: true })
             }} >
             <IonIcon className='absolute left-2 text-2xl text-[#f50057]' icon={add} />
             Create a Project
@@ -58,7 +58,7 @@ export default function Add() {
           rounded-full flex justify-center items-center relative cursor-pointer'
             onClick={() => {
               filterSearchToCategories([Category.project])
-              modals.open('/search')
+              modals.open('/search', { replace: true })
             }} >
             <IonIcon className='absolute left-2 text-2xl text-[#1e88e6]' icon={starOutline} />
             Lead a Project
@@ -67,7 +67,7 @@ export default function Add() {
           rounded-full flex justify-center items-center relative cursor-pointer'
             onClick={() => {
               filterSearchToCategories([Category.project])
-              modals.open('/search')
+              modals.open('/search', { replace: true })
             }} >
             <IonIcon className='absolute left-2 text-2xl text-[#ffcb1e]' icon={heartOutline} />
             Sponsor a Project

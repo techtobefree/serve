@@ -2,6 +2,7 @@ import { IonButton } from "@ionic/react";
 
 import { TableRows } from "../../domains/db/tables"
 import { IMAGE_SIZE } from "../../domains/image";
+import { mayReplace } from "../../domains/ui/navigation";
 import { getPublicUrl, projectPicturePath } from "../../queries/image";
 import { useNavigate } from "../../router";
 
@@ -21,7 +22,7 @@ export default function ProjectCard({ project, joinable }: Props) {
       onClick={() => {
         navigate(
           '/project/:projectId/view',
-          { params: { projectId: project.id }, replace: true }
+          { params: { projectId: project.id }, replace: mayReplace() }
         )
       }}>
       <ProjectImage
@@ -45,7 +46,7 @@ export default function ProjectCard({ project, joinable }: Props) {
               e.stopPropagation();
               navigate(
                 '/project/:projectId/join',
-                { params: { projectId: project.id }, replace: true }
+                { params: { projectId: project.id }, replace: mayReplace() }
               )
             }}
           >Join</IonButton>

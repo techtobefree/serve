@@ -75,7 +75,7 @@ export function HomeComponent({ userId }: Props) {
               onClick={() => {
                 filterSearchToCategories([Category.project])
                 modals.open('/search')
-              }} >
+              }}>
               <IonIcon className='absolute left-2 text-2xl text-[#1a237e]' icon={search} />
               Find a Project
             </div>
@@ -83,7 +83,7 @@ export function HomeComponent({ userId }: Props) {
           rounded-full flex justify-center items-center relative cursor-pointer'
               onClick={() => {
                 navigate('/project/new')
-              }} >
+              }}>
               <IonIcon className='absolute left-2 text-2xl text-[#f50057]' icon={add} />
               Create a Project
             </div>
@@ -92,7 +92,7 @@ export function HomeComponent({ userId }: Props) {
               onClick={() => {
                 filterSearchToCategories([Category.project])
                 modals.open('/search')
-              }} >
+              }}>
               <IonIcon className='absolute left-2 text-2xl text-[#1e88e6]' icon={starOutline} />
               Lead a Project
             </div>
@@ -101,7 +101,7 @@ export function HomeComponent({ userId }: Props) {
               onClick={() => {
                 filterSearchToCategories([Category.project])
                 modals.open('/search')
-              }} >
+              }}>
               <IonIcon className='absolute left-2 text-2xl text-[#ffcb1e]' icon={heartOutline} />
               Sponsor a Project
             </div>
