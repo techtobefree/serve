@@ -1,4 +1,5 @@
-import { IonButton } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
+import { add, heartOutline, search, starOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 
 import ProjectCard from "../../components/Project/ProjectCard";
@@ -66,11 +67,51 @@ export function HomeComponent({ userId }: Props) {
       {/* TODO: Project History */}
       {/* <div className="text-2xl">{`Project History`}</div> */}
       {!userId &&
-        <div className="flex flex-col justify-center p-4">
-          <div>Login to track projects</div>
-          <IonButton color="secondary" onClick={() => {
-            modals.open('/profile');
-          }}>Login</IonButton>
+        <div className='flex justify-center'>
+          <div className='rounded-2xl bg-white flex flex-col gap-4 p-4
+          pointer-events-auto h-fit w-fit'>
+            <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+              onClick={() => {
+                filterSearchToCategories([Category.project])
+                modals.open('/search')
+              }} >
+              <IonIcon className='absolute left-2 text-2xl text-[#1a237e]' icon={search} />
+              Find a Project
+            </div>
+            <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+              onClick={() => {
+                navigate('/project/new')
+              }} >
+              <IonIcon className='absolute left-2 text-2xl text-[#f50057]' icon={add} />
+              Create a Project
+            </div>
+            <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+              onClick={() => {
+                filterSearchToCategories([Category.project])
+                modals.open('/search')
+              }} >
+              <IonIcon className='absolute left-2 text-2xl text-[#1e88e6]' icon={starOutline} />
+              Lead a Project
+            </div>
+            <div className='w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer'
+              onClick={() => {
+                filterSearchToCategories([Category.project])
+                modals.open('/search')
+              }} >
+              <IonIcon className='absolute left-2 text-2xl text-[#ffcb1e]' icon={heartOutline} />
+              Sponsor a Project
+            </div>
+            <br />
+            <div className="flex flex-col justify-center p-4">
+              <IonButton color="secondary" onClick={() => {
+                modals.open('/profile');
+              }}>Login</IonButton>
+            </div>
+          </div>
         </div>}
     </>
   )

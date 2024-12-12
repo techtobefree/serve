@@ -79,9 +79,9 @@ export default function TimeslotAsk({
 
   return (
     <div className='flex gap-6 items-center self-center'>
-      <div className='flex flex-col gap-2 items-center'>
+      <div className='flex flex-col gap-2'>
         <IonItem>
-          <IonLabel>Role</IonLabel>
+          <IonLabel className='pr-2'>Role</IonLabel>
           <IonInput
             value={timeslot.role}
             onIonChange={e => {
@@ -228,9 +228,8 @@ export default function TimeslotAsk({
 
         <IonItem>
           <IonLabel className='whitespace-nowrap'>
-            Min persons<IonIcon className='pl-2' icon={personOutline} /></IonLabel>
+            Min persons<IonIcon className='pl-2 pr-2' icon={personOutline} /></IonLabel>
           <IonInput
-            className='w-16'
             value={!minimumCountString || minimumCountString === '0' ? '' : minimumCountString}
             onIonChange={e => {
               try {
@@ -263,9 +262,8 @@ export default function TimeslotAsk({
 
         <IonItem>
           <IonLabel className='whitespace-nowrap'>
-            Max persons<IonIcon className='pl-2' icon={personOutline} /></IonLabel>
+            Max persons<IonIcon className='pl-2 pr-2' icon={personOutline} /></IonLabel>
           <IonInput
-            className='w-16'
             value={!countString || countString === '0' ? '' : countString}
             placeholder='∞'
             onIonChange={e => {
