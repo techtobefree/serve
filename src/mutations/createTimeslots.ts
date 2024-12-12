@@ -10,6 +10,7 @@ export type Timeslot = {
   minute: number;
   duration: number;
   count: number;
+  minimumCount: number;
   role: string;
 }
 
@@ -34,6 +35,7 @@ async function createTimeslots({
       timeslot_start_hour: timeslot.hour,
       timeslot_start_minute: timeslot.minute,
       timeslot_count: timeslot.count,
+      timeslot_minimum_count: timeslot.minimumCount,
       role: timeslot.role
     })))
     .select('id');

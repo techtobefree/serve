@@ -3509,6 +3509,7 @@ export type Database = {
           role: string
           timeslot_count: number
           timeslot_duration_minutes: number
+          timeslot_minimum_count: number
           timeslot_start_hour: number
           timeslot_start_minute: number
           updated_at: string | null
@@ -3523,6 +3524,7 @@ export type Database = {
           role: string
           timeslot_count: number
           timeslot_duration_minutes: number
+          timeslot_minimum_count: number
           timeslot_start_hour: number
           timeslot_start_minute: number
           updated_at?: string | null
@@ -3537,6 +3539,7 @@ export type Database = {
           role?: string
           timeslot_count?: number
           timeslot_duration_minutes?: number
+          timeslot_minimum_count?: number
           timeslot_start_hour?: number
           timeslot_start_minute?: number
           updated_at?: string | null

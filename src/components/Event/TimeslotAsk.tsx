@@ -75,10 +75,33 @@ export default function TimeslotAsk({
   const [endHour, setEndHour] = useState((timeslot.hour + Math.floor((timeslot.duration) / 60)));
   const [endMinute, setEndMinute] = useState((timeslot.minute + timeslot.duration) % 60);
   const countString = timeslot.count.toString();
+  const minimumCountString = timeslot.minimumCount.toString();
 
   return (
-    <div className='flex flex-col gap-2 items-center'>
-      <div className='flex'>
+    <div className='flex gap-6 items-center self-center'>
+      <div className='flex flex-col gap-2 items-center'>
+        <IonItem>
+          <IonLabel>Role</IonLabel>
+          <IonInput
+            value={timeslot.role}
+            onIonChange={e => {
+              setTimeslots(
+                (index === 0 ? [] : timeslots.slice(0, index))
+                  .concat([
+                    {
+                      count: timeslot.count,
+                      duration: timeslot.duration,
+                      hour: timeslot.hour,
+                      minimumCount: timeslot.minimumCount,
+                      minute: timeslot.minute,
+                      role: e.detail.value as string,
+                    }
+                  ],
+                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                  ))
+            }}
+          />
+        </IonItem>
         <IonItem>
           <IonSelect
             label="Start time"
@@ -92,6 +115,7 @@ export default function TimeslotAsk({
                       duration: findDuration(e.detail.value as number, timeslot.minute,
                         endHour, endMinute),
                       hour: e.detail.value,
+                      minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
                       role: timeslot.role,
                     }
@@ -120,6 +144,7 @@ export default function TimeslotAsk({
                       duration: findDuration(timeslot.hour, e.detail.value as number,
                         endHour, endMinute),
                       hour: timeslot.hour,
+                      minimumCount: timeslot.minimumCount,
                       minute: e.detail.value,
                       role: timeslot.role,
                     }
@@ -137,9 +162,7 @@ export default function TimeslotAsk({
             })}
           </IonSelect>
         </IonItem>
-      </div>
 
-      <div className='flex'>
         <IonItem>
           <IonSelect
             label="End time"
@@ -154,6 +177,7 @@ export default function TimeslotAsk({
                       duration: findDuration(timeslot.hour, timeslot.minute,
                         e.detail.value as number, endMinute),
                       hour: timeslot.hour,
+                      minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
                       role: timeslot.role,
                     }
@@ -183,6 +207,7 @@ export default function TimeslotAsk({
                       duration: findDuration(timeslot.hour, timeslot.minute,
                         endHour, e.detail.value as number),
                       hour: timeslot.hour,
+                      minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
                       role: timeslot.role,
                     }
@@ -200,50 +225,90 @@ export default function TimeslotAsk({
             })}
           </IonSelect>
         </IonItem>
-      </div>
 
-      <div className='flex items-center gap-2'>
-        <IonLabel><IonIcon icon={personOutline} /></IonLabel>
-        <IonInput
-          value={!countString || countString === '0' ? '' : countString}
-          placeholder='∞'
-          onIonChange={e => {
-            try {
-              const newInt = parseInt(e.detail.value as string)
-              if (newInt < 0) {
-                showToast('Please enter a positive number',
-                  { duration: 5000, isError: true })
-                return
+        <IonItem>
+          <IonLabel className='whitespace-nowrap'>
+            Min persons<IonIcon className='pl-2' icon={personOutline} /></IonLabel>
+          <IonInput
+            className='w-16'
+            value={!minimumCountString || minimumCountString === '0' ? '' : minimumCountString}
+            onIonChange={e => {
+              try {
+                const newInt = parseInt(e.detail.value as string)
+                if (newInt < 0) {
+                  showToast('Please enter a positive number',
+                    { duration: 5000, isError: true })
+                  return
+                }
+                setTimeslots(
+                  (index === 0 ? [] : timeslots.slice(0, index))
+                    .concat([
+                      {
+                        count: timeslot.count,
+                        duration: timeslot.duration,
+                        hour: timeslot.hour,
+                        minimumCount: newInt || 0,
+                        minute: timeslot.minute,
+                        role: timeslot.role,
+                      }
+                    ],
+                      (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                    ))
+              } catch (e) {
+                console.log('Error parsing int', e)
               }
-              setTimeslots(
-                (index === 0 ? [] : timeslots.slice(0, index))
-                  .concat([
-                    {
-                      count: newInt || 0,
-                      duration: timeslot.duration,
-                      hour: timeslot.hour,
-                      minute: timeslot.minute,
-                      role: timeslot.role,
-                    }
-                  ],
-                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                  ))
-            } catch (e) {
-              console.log('Error parsing int', e)
-            }
-          }}
-        />
+            }}
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonLabel className='whitespace-nowrap'>
+            Max persons<IonIcon className='pl-2' icon={personOutline} /></IonLabel>
+          <IonInput
+            className='w-16'
+            value={!countString || countString === '0' ? '' : countString}
+            placeholder='∞'
+            onIonChange={e => {
+              try {
+                const newInt = parseInt(e.detail.value as string)
+                if (newInt < 0) {
+                  showToast('Please enter a positive number',
+                    { duration: 5000, isError: true })
+                  return
+                }
+                setTimeslots(
+                  (index === 0 ? [] : timeslots.slice(0, index))
+                    .concat([
+                      {
+                        count: newInt || 0,
+                        duration: timeslot.duration,
+                        hour: timeslot.hour,
+                        minimumCount: timeslot.minimumCount,
+                        minute: timeslot.minute,
+                        role: timeslot.role,
+                      }
+                    ],
+                      (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                    ))
+              } catch (e) {
+                console.log('Error parsing int', e)
+              }
+            }}
+          />
+        </IonItem>
       </div>
 
-      <IonButton
-        color='danger'
-        onClick={() => {
-          setTimeslots(
-            (index === 0 ? [] : timeslots.slice(0, index))
-              .concat(
-                (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-              ))
-        }}><IonIcon icon={trashOutline} /></IonButton>
+      <div>
+        <IonButton
+          color='danger'
+          onClick={() => {
+            setTimeslots(
+              (index === 0 ? [] : timeslots.slice(0, index))
+                .concat(
+                  (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                ))
+          }}><IonIcon icon={trashOutline} /></IonButton>
+      </div>
     </div>
   )
 }

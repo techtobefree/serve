@@ -34,6 +34,7 @@ function nextTimeBlock(duration: number,
   hour?: number,
   minute?: number,
   count?: number,
+  minimumCount?: number,
   role?: string
 ): Timeslot {
   if (hour === undefined || minute === undefined) {
@@ -42,6 +43,7 @@ function nextTimeBlock(duration: number,
       hour: 18,
       minute: 0,
       count: 0,
+      minimumCount: 0,
       role: role || 'Volunteer'
     }
   }
@@ -53,6 +55,7 @@ function nextTimeBlock(duration: number,
     hour: nextHour % 24,
     minute: nextMinute % 60,
     count: count || 0,
+    minimumCount: minimumCount || 0,
     role: role || 'Volunteer'
   }
 }
@@ -122,7 +125,13 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
               color='secondary'
               onClick={() => {
                 const last = timeslots[timeslots.length - 1] || {};
-                const newTimeslot = nextTimeBlock(activeValue, last.hour, last.minute, last.count)
+                const newTimeslot = nextTimeBlock(
+                  activeValue,
+                  last.hour,
+                  last.minute,
+                  last.count,
+                  last.minimumCount,
+                  last.role);
                 setTimeslots(
                   [...timeslots,
                     newTimeslot
@@ -156,7 +165,13 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
               color='secondary'
               onClick={() => {
                 if (timeslots.length === 0) {
-                  showToast('Please add at least one timeslot', { duration: 5000, isError: true })
+                  showToast('Please add at least one timeslot',
+                    { duration: 5000, isError: true })
+                  return
+                }
+                if (timeslots.some(i => i.duration <= 0)) {
+                  showToast('Please ensure timeslots end after they start',
+                    { duration: 5000, isError: true })
                   return
                 }
                 createTimeslots.mutate({
