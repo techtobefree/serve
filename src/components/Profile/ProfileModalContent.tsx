@@ -1,30 +1,29 @@
 import { observer } from "mobx-react-lite";
 
-import { sessionStore } from "../../domains/auth/sessionStore";
-import { CurrentUser, currentUserStore } from "../../domains/currentUser/currentUserStore";
+import { userStore } from "../../domains/auth/sessionStore";
+import { CurrentProfile, currentProfileStore } from "../../domains/currentUser/currentUserStore";
 
 import LoggedIn from "./LoggedIn";
 import Login from "./Login";
 
 type Props = {
   isLoggedIn: boolean;
-  currentUser?: CurrentUser;
+  currentProfile?: CurrentProfile;
 }
 
-export function ProfileModalContentComponent({ isLoggedIn, currentUser }: Props) {
+export function ProfileModalContentComponent({ isLoggedIn, currentProfile }: Props) {
   return (
     <>
-      {(!isLoggedIn || !currentUser) && <Login />}
-      {isLoggedIn && currentUser && <LoggedIn currentUser={currentUser} />}
+      {(!isLoggedIn || !currentProfile) && <Login />}
+      {isLoggedIn && currentProfile && <LoggedIn currentProfile={currentProfile} />}
     </>
   )
 }
 
 const ProfileModalContent = observer(() => {
-  const { current } = sessionStore;
-  const currentUser = currentUserStore;
+  const { current } = userStore;
 
-  return <ProfileModalContentComponent isLoggedIn={!!current} currentUser={{ ...currentUser }} />
+  return <ProfileModalContentComponent isLoggedIn={!!current} currentProfile={{ ...currentProfileStore }} />
 });
 
 export default ProfileModalContent;

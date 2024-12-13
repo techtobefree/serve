@@ -1,7 +1,7 @@
-import { supabase } from "../db/supabaseClient";
+import { clientSupabase } from "../db/clientSupabase";
 
 export async function requestOTP(phoneNumber: string) {
-  const { error } = await supabase.auth.signInWithOtp({ phone: phoneNumber });
+  const { error } = await clientSupabase.auth.signInWithOtp({ phone: phoneNumber });
   if (error) {
     console.error("Error sending OTP:", error.message);
   } else {
@@ -10,7 +10,7 @@ export async function requestOTP(phoneNumber: string) {
 }
 
 export async function verifyOTP(phoneNumber: string, otp: string, onError: () => void) {
-  const { data, error } = await supabase.auth.verifyOtp({
+  const { data, error } = await clientSupabase.auth.verifyOtp({
     phone: phoneNumber,
     token: otp,
     type: 'sms',
@@ -25,7 +25,7 @@ export async function verifyOTP(phoneNumber: string, otp: string, onError: () =>
 }
 
 export async function logout() {
-  const { error } = await supabase.auth.signOut()
+  const { error } = await clientSupabase.auth.signOut()
 
   if (error) {
     console.error("Error logging out:", error.message);

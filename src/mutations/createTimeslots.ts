@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
@@ -25,7 +25,7 @@ async function createTimeslots({
   userId: string,
   timeslots: Timeslot[],
 }) {
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('project_event_timeslot')
     .insert(timeslots.map(timeslot => ({
       project_event_id: eventId,

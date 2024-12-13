@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import ProjectLoader from "../../../../components/Project/ProjectLoader";
 import ProjectView from "../../../../components/Project/ProjectView";
-import { sessionStore } from "../../../../domains/auth/sessionStore";
+import { userStore } from "../../../../domains/auth/sessionStore";
 import { useProjectByIdQuery } from "../../../../queries/projectById"
 import { useNavigate, useParams } from "../../../../router"
 
@@ -40,7 +40,7 @@ export function ProjectViewComponent({ currentUserId }: Props) {
 }
 
 const ProjectViewPage = observer(() => {
-  return <ProjectViewComponent currentUserId={sessionStore.current?.user.id} />
+  return <ProjectViewComponent currentUserId={userStore.current?.id} />
 })
 
 export default ProjectViewPage;

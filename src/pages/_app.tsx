@@ -1,12 +1,12 @@
 import { App as CapacitorApp } from '@capacitor/app';
-import { Session } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
 import Toast from '../components/Toast';
-import { sessionStore } from '../domains/auth/sessionStore';
-import { CurrentUser, currentUserStore } from '../domains/currentUser/currentUserStore';
+import { userStore } from '../domains/auth/sessionStore';
+import { CurrentProfile, currentProfileStore } from '../domains/currentUser/currentUserStore';
 import { useLocalAuth } from '../hooks/useLocalAuth';
 import { useProfileQuery } from '../queries/profileByUserId';
 import { useNavigate } from '../router';
@@ -16,13 +16,13 @@ import { UserView } from './(header)/user/[userId]/view';
 
 
 type Props = {
-  session?: Session | null;
-  currentUser: CurrentUser;
+  user?: User | null;
+  currentProfile: CurrentProfile;
 }
 
-export function LayoutComponent({ currentUser, session }: Props) {
+export function LayoutComponent({ currentProfile, user }: Props) {
   useLocalAuth(); // Comment if you want to test logged out state
-  useProfileQuery(session?.user.id);
+  useProfileQuery(user?.id);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,19 +45,19 @@ export function LayoutComponent({ currentUser, session }: Props) {
     };
   }, [navigate, location]);
 
-  if (currentUser.userId && (
-    !currentUser.handle ||
-    !currentUser.email ||
-    !currentUser.firstName ||
-    !currentUser.lastName ||
-    !currentUser.acceptedAt
+  if (currentProfile.userId && (
+    !currentProfile.handle ||
+    !currentProfile.email ||
+    !currentProfile.firstName ||
+    !currentProfile.lastName ||
+    !currentProfile.acceptedAt
   )) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>
-        <UserView userId={currentUser.userId}
+        <UserView userId={currentProfile.userId}
           canEdit={true}
-          acceptedAt={currentUser.acceptedAt}
+          acceptedAt={currentProfile.acceptedAt}
           initial />
         <Toast />
       </div>
@@ -74,7 +74,7 @@ export function LayoutComponent({ currentUser, session }: Props) {
 
 const Layout = observer(() => {
   return (
-    <LayoutComponent session={sessionStore.current} currentUser={{ ...currentUserStore }} />
+    <LayoutComponent user={userStore.current} currentProfile={{ ...currentProfileStore }} />
   )
 })
 

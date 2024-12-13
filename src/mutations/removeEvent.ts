@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
@@ -11,7 +11,7 @@ export async function removeEvent({ id, projectId }:
     projectId: string,
   }) {
 
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('project_event')
     .delete()
     .eq('id', id)

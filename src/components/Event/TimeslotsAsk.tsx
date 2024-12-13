@@ -8,7 +8,7 @@ import { addCircle, closeOutline } from 'ionicons/icons';
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 
-import { sessionStore } from "../../domains/auth/sessionStore";
+import { userStore } from "../../domains/auth/sessionStore";
 import { showToast } from '../../domains/ui/toast';
 import useCreateTimeslots, { Timeslot } from '../../mutations/createTimeslots';
 import { useNavigate } from "../../router";
@@ -192,7 +192,7 @@ const TimeslotsAsk = observer(({ projectId, eventId }: Omit<Props, 'userId'>) =>
   return <TimeslotsAskComponent
     projectId={projectId}
     eventId={eventId}
-    userId={sessionStore.current?.user.id}
+    userId={userStore.current?.id}
   />
 })
 

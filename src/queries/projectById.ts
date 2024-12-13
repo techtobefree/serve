@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 
 export const partialQueryKey = 'get-projectById';
 
@@ -9,7 +9,7 @@ export function useTimeslotByIdQuery(eventId: string) {
   return useQuery({
     queryKey: ['get-eventById', eventId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await clientSupabase
         .from('project_event_timeslot')
         .select(`
           *
@@ -31,7 +31,7 @@ export function useEventByIdQuery(eventId: string) {
   return useQuery({
     queryKey: ['get-eventById', eventId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await clientSupabase
         .from('project_event')
         .select(`
           *,
@@ -69,7 +69,7 @@ export function useProjectByIdQuery(projectId: string) {
   return useQuery({
     queryKey: [partialQueryKey, projectId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await clientSupabase
         .from('project')
         .select(`
           *,

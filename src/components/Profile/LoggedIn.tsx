@@ -2,18 +2,18 @@ import { IonButton, IonIcon } from "@ionic/react";
 import { closeOutline, createOutline } from "ionicons/icons";
 
 import { logout } from "../../domains/auth/smsOTP";
-import { CurrentUser } from "../../domains/currentUser/currentUserStore";
+import { CurrentProfile } from "../../domains/currentUser/currentUserStore";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { useNavigate } from "../../router";
 
 type Props = {
-  currentUser: CurrentUser;
+  currentProfile: CurrentProfile;
 }
 
-export default function LoggedIn({ currentUser }: Props) {
+export default function LoggedIn({ currentProfile }: Props) {
   const navigate = useNavigate();
 
-  const userId = currentUser.userId;
+  const userId = currentProfile.userId;
 
   return (
     <>
@@ -27,7 +27,7 @@ export default function LoggedIn({ currentUser }: Props) {
             <IonIcon icon={createOutline} className='text-4xl p-2 text-blue-500' />
             <div className='flex flex-col p-1'>
               <div className="text-xl font-semibold">
-                {currentUser.handle}
+                {currentProfile.handle}
               </div>
               <div>
                 Edit Profile

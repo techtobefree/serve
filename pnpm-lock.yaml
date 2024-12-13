@@ -44,6 +44,9 @@ importers:
       '@ngneat/falso':
         specifier: ^7.2.0
         version: 7.2.0
+      '@supabase/functions-js':
+        specifier: ^2.4.3
+        version: 2.4.3
       '@supabase/supabase-js':
         specifier: ^2.47.2
         version: 2.47.2
@@ -123,6 +126,9 @@ importers:
       eslint-import-resolver-typescript:
         specifier: ^3.7.0
         version: 3.7.0(eslint-plugin-import@2.31.0)(eslint@9.16.0(jiti@1.21.6))
+      eslint-plugin-deno:
+        specifier: ^0.0.1
+        version: 0.0.1
       eslint-plugin-import:
         specifier: ^2.31.0
         version: 2.31.0(@typescript-eslint/parser@8.17.0(eslint@9.16.0(jiti@1.21.6))(typescript@5.6.3))(eslint-import-resolver-typescript@3.7.0)(eslint@9.16.0(jiti@1.21.6))
@@ -2297,6 +2303,9 @@ packages:
         optional: true
       eslint-import-resolver-webpack:
         optional: true
+
+  eslint-plugin-deno@0.0.1:
+    resolution: {integrity: sha512-rHitv5KTHZCfdEbLT1QWX4D8K+V5WrN86Ly6CkvDy7Gg+RTvYnY6++5e0/l7/RITDtnCuHdqhFiVxueES8mzWw==}
 
   eslint-plugin-import@2.31.0:
     resolution: {integrity: sha512-ixmkI62Rbc2/w8Vfxyh1jQRTdRTF52VxwRVHl/ykPAmqG+Nb7/kNn+byLP0LxPgI7zWA16Jt82SybJInmMia3A==}
@@ -6926,6 +6935,8 @@ snapshots:
       eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import@2.31.0)(eslint@9.16.0(jiti@1.21.6))
     transitivePeerDependencies:
       - supports-color
+
+  eslint-plugin-deno@0.0.1: {}
 
   eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.17.0(eslint@9.16.0(jiti@1.21.6))(typescript@5.6.3))(eslint-import-resolver-typescript@3.7.0)(eslint@9.16.0(jiti@1.21.6)):
     dependencies:

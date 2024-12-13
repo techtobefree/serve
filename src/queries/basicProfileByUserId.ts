@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 
 async function fetchUserProfile(userId: string) {
-  return supabase
+  return clientSupabase
     .from('profile')
     .select(`
       *

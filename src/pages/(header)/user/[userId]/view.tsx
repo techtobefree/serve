@@ -7,8 +7,8 @@ import { useState } from "react";
 
 import Avatar from "../../../../components/Avatar";
 import UploadImage from "../../../../components/UploadImage";
-import { sessionStore } from "../../../../domains/auth/sessionStore";
-import { currentUserStore } from "../../../../domains/currentUser/currentUserStore";
+import { userStore } from "../../../../domains/auth/sessionStore";
+import { currentProfileStore } from "../../../../domains/currentUser/currentUserStore";
 import { formatDateLLLLddyyyy } from "../../../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../../../domains/image";
 import { showToast } from "../../../../domains/ui/toast";
@@ -251,13 +251,13 @@ export function UserView({ canEdit, userId, initial, acceptedAt }: Props) {
 
 export const UserViewPage = observer(() => {
   const { userId } = useParams('/user/:userId/view')
-  const currentUserId = sessionStore.current?.user.id;
+  const currentUserId = userStore.current?.id;
 
   return (
     <UserView
       userId={userId}
       canEdit={userId === currentUserId}
-      acceptedAt={currentUserStore.acceptedAt} />
+      acceptedAt={currentProfileStore.acceptedAt} />
   )
 });
 

@@ -1,13 +1,13 @@
 import { observer } from "mobx-react-lite";
 
-import { sessionStore } from "../domains/auth/sessionStore";
+import { userStore } from "../domains/auth/sessionStore";
 
 const DebugAuth = observer(() => {
-  const { current } = sessionStore;
+  const { current } = userStore;
 
   return (
     <div className="flex bg-red-600">
-      {current ? current.user.id : 'No current'}
+      {current ? current.id : 'No current'}
     </div>
   )
 });

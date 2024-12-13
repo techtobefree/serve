@@ -3,7 +3,7 @@ import { chatbox, search } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useState, useEffect } from "react";
 
-import { sessionStore } from "../../domains/auth/sessionStore";
+import { userStore } from "../../domains/auth/sessionStore";
 import { IMAGE_SIZE } from "../../domains/image";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
@@ -114,8 +114,8 @@ export function HeaderComponent({ userId, isVisible, setIsVisible }: Props) {
 
 const Header = observer((props: Omit<Props, 'handle' | 'avatarUrl' | 'isSearchVisible'>) => {
   return <HeaderComponent {...props}
-    handle={sessionStore.current?.user.id}
-    userId={sessionStore.current?.user.id} />
+    handle={userStore.current?.id}
+    userId={userStore.current?.id} />
 });
 
 export default Header;

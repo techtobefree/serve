@@ -2,7 +2,7 @@ import { TZDate } from "@date-fns/tz";
 import { useMutation } from "@tanstack/react-query";
 
 import { tzDateToDB } from "../domains/date/timezone";
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
@@ -16,7 +16,7 @@ export async function commitToTimeslot({ currentUserId, eventId, projectId, star
     endTime: TZDate
   }) {
 
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('project_event_commitment')
     .insert({
       created_by: currentUserId,

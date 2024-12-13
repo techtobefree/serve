@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 
 import { queryClient } from "./queryClient";
 
@@ -13,7 +13,7 @@ export function useJoinProjectByIdQuery(projectId?: string, userId?: string) {
         return
       }
 
-      const { data: existing } = await supabase
+      const { data: existing } = await clientSupabase
         .from('user_project')
         .select('*')
         .eq('user_id', userId)
@@ -23,7 +23,7 @@ export function useJoinProjectByIdQuery(projectId?: string, userId?: string) {
         return existing
       }
 
-      const { data, error } = await supabase
+      const { data, error } = await clientSupabase
         .from('user_project')
         .insert({ project_id: projectId, created_by: userId, user_id: userId })
         .select('*')

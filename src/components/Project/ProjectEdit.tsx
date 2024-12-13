@@ -1,7 +1,7 @@
 import { IonButton, IonCheckbox, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
 import { useForm } from '@tanstack/react-form';
 
-import { supabase } from '../../domains/db/supabaseClient';
+import { clientSupabase } from '../../domains/db/clientSupabase';
 import { TableInsert } from '../../domains/db/tables';
 import { IMAGE_SIZE } from '../../domains/image';
 import { mayReplace } from '../../domains/ui/navigation';
@@ -32,14 +32,14 @@ const ProjectForm = ({ project }: Props) => {
 
       let res;
       if (project.id) {
-        res = await supabase
+        res = await clientSupabase
           .from('project')
           .update({ ...value })
           .eq('id', project.id)
           .select('id')
           .single();
       } else {
-        res = await supabase
+        res = await clientSupabase
           .from('project')
           .insert({ created_by: project.created_by, ...value })
           .select('id')

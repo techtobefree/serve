@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import ProjectCard from "../../components/Project/ProjectCard";
 import PulsingCard from "../../components/Project/PulsingCard";
-import { sessionStore } from "../../domains/auth/sessionStore";
+import { userStore } from "../../domains/auth/sessionStore";
 import { Category, filterSearchToCategories } from "../../domains/search/search";
 import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
@@ -78,7 +78,7 @@ export function TrackComponent({ userId }: Props) {
 
 const Track = observer(() => {
   return (
-    <TrackComponent userId={sessionStore.current?.user.id} />
+    <TrackComponent userId={userStore.current?.id} />
   )
 })
 

@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useRef, useState } from "react";
 
 import { blankAddress } from "../../domains/address/addressComponents";
-import { sessionStore } from "../../domains/auth/sessionStore";
+import { userStore } from "../../domains/auth/sessionStore";
 import { showToast } from "../../domains/ui/toast";
 import useCreateEvent from "../../mutations/createEvent";
 import { useNavigate } from "../../router";
@@ -201,7 +201,7 @@ export function CreateEventComponent({ projectId, userId }: Props) {
 }
 
 const CreateEvent = observer(({ projectId }: Omit<Props, 'userId'>) => {
-  return <CreateEventComponent projectId={projectId} userId={sessionStore.current?.user.id} />
+  return <CreateEventComponent projectId={projectId} userId={userStore.current?.id} />
 })
 
 export default CreateEvent;

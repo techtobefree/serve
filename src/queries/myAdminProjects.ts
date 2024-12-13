@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 
 export function useMyAdminProjectsQuery(userId?: string) {
   return useQuery({
@@ -10,7 +10,7 @@ export function useMyAdminProjectsQuery(userId?: string) {
       if (!userId) {
         return
       }
-      const { data, error } = await supabase
+      const { data, error } = await clientSupabase
         .from('project')
         .select('*')
         .eq('owner_id', userId);

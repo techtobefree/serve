@@ -18,6 +18,8 @@ import Avatar from '../Avatar';
 import AddCalendarEventButton from '../Calendar';
 
 import Timeslot from './Timeslot';
+import { downloadTextFile } from '../../domains/file';
+import { projectCommitmentReport } from '../../queries/projectReport';
 
 type Props = {
   currentUserId?: string;
@@ -38,12 +40,22 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
   return (
     <div className="border border-gray-300 rounded-lg p-4 w-full">
       <div key={event.id} className="flex flex-col">
+        {canEdit && (
+          <IonButton className='whitespace-nowrap'
+            color='tertiary'
+            onClick={() => {
+              projectCommitmentReport({ projectEventId: event.id }).then(i => {
+                downloadTextFile('text.csv', i)
+              })
+            }}>BETA: Download report</IonButton>
+        )}
         <div className='flex justify-between'>
           <div className="text-lg">
             {formatDateLLLLddyyyy(buildTZDateFromDB(event.project_event_date).toDateString())}
           </div>
           {canEdit && (
-            <IonButton color='tertiary'
+            <IonButton className='whitespace-nowrap'
+              color='tertiary'
               onClick={() => {
                 removeEvent.mutate({ id: event.id, projectId: event.project_id })
               }}>Delete Event</IonButton>
@@ -104,7 +116,6 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
             </div>
           })}</div>
         </div>}
-        {/* <div className='max-h-[30vh] overflow-auto'> */}
         <div>
           {event.project_event_timeslot.map((timeslot, index) =>
             <Timeslot key={index}
@@ -127,7 +138,6 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
             Add Timeslot
           </IonButton>
         )}
-        {/* </div> */}
         <div className='border-rounded p-2'>
           <div className='text-2xl'>
             {`Who`}

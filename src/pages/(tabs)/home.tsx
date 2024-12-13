@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import ProjectCard from "../../components/Project/ProjectCard";
 import PulsingCard from "../../components/Project/PulsingCard";
-import { sessionStore } from "../../domains/auth/sessionStore";
+import { userStore } from "../../domains/auth/sessionStore";
 import { Category, filterSearchToCategories } from "../../domains/search/search";
 import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
@@ -119,7 +119,7 @@ export function HomeComponent({ userId }: Props) {
 
 const Home = observer(() => {
   return (
-    <HomeComponent userId={sessionStore.current?.user.id} />
+    <HomeComponent userId={userStore.current?.id} />
   )
 })
 

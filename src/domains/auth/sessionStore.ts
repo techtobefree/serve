@@ -1,22 +1,30 @@
-import { Session } from "@supabase/supabase-js";
+import { Session, User } from "@supabase/supabase-js";
 import { observable, runInAction } from "mobx"
 
-import { supabase } from "../db/supabaseClient";
+import { clientSupabase } from "../db/clientSupabase";
 
-export type SupabaseSession = {
-  current?: Session | null,
+export type SupabaseUser = {
+  current?: User | null,
+  session?: Session | null,
 }
 
-export const sessionStore = observable<SupabaseSession>({})
+export const userStore = observable<SupabaseUser>({})
 
-void supabase.auth.getSession().then(({ data: { session } }) => {
+void clientSupabase.auth.getUser().then(({ data: { user } }) => {
   runInAction(() => {
-    sessionStore.current = session;
+    userStore.current = user;
   })
 })
 
-supabase.auth.onAuthStateChange((_event, session) => {
+void clientSupabase.auth.getSession().then(({ data: { session } }) => {
   runInAction(() => {
-    sessionStore.current = session;
+    userStore.session = session;
+  })
+})
+
+clientSupabase.auth.onAuthStateChange((_event, session) => {
+  runInAction(() => {
+    userStore.current = session?.user;
+    userStore.session = session;
   })
 })

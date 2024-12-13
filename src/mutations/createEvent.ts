@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { Address } from "../domains/address/addressComponents";
-import { supabase } from "../domains/db/supabaseClient";
+import { clientSupabase } from "../domains/db/clientSupabase";
 import { showToast } from "../domains/ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queries/projectById";
 import { queryClient } from "../queries/queryClient";
@@ -23,7 +23,7 @@ async function createEvent({
   addressName: string,
   address: Address,
 }) {
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('project_event')
     .insert({
       project_event_date: date,

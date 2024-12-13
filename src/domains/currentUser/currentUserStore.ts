@@ -1,6 +1,6 @@
 import { observable, runInAction } from "mobx"
 
-export type CurrentUser = {
+export type CurrentProfile = {
   userId?: string,
   handle?: string,
   email?: string,
@@ -9,15 +9,15 @@ export type CurrentUser = {
   acceptedAt?: string,
 }
 
-export const currentUserStore = observable<CurrentUser>({})
+export const currentProfileStore = observable<CurrentProfile>({})
 
-export function setCurrentUser(user: CurrentUser) {
+export function setCurrentProfile(user: CurrentProfile) {
   runInAction(() => {
-    currentUserStore.userId = user.userId
-    currentUserStore.handle = user.handle
-    currentUserStore.email = user.email
-    currentUserStore.firstName = user.firstName
-    currentUserStore.lastName = user.lastName
-    currentUserStore.acceptedAt = user.acceptedAt
+    currentProfileStore.userId = user.userId
+    currentProfileStore.handle = user.handle
+    currentProfileStore.email = user.email
+    currentProfileStore.firstName = user.firstName
+    currentProfileStore.lastName = user.lastName
+    currentProfileStore.acceptedAt = user.acceptedAt
   })
 }

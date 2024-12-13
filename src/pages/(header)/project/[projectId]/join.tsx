@@ -3,7 +3,7 @@ import { arrowBack } from "ionicons/icons"
 import { observer } from "mobx-react-lite"
 import { useEffect, useRef } from "react"
 
-import { sessionStore } from "../../../../domains/auth/sessionStore"
+import { userStore } from "../../../../domains/auth/sessionStore"
 import { mayReplace } from "../../../../domains/ui/navigation"
 import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
 import { partialQueryKey as projectByIdQueryKey } from "../../../../queries/projectById"
@@ -68,7 +68,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
 
 const ProjectJoinPage = observer(() => {
   return (
-    <ProjectJoinPageComponent userId={sessionStore.current?.user.id} />
+    <ProjectJoinPageComponent userId={userStore.current?.id} />
   )
 })
 

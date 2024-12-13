@@ -1,4 +1,4 @@
-import { Database } from "./supabaseTypes";
+import { Database } from "../../../supabase/functions/lib/supabaseTypes";
 
 export type PublicTables = Database['public']['Tables'];
 

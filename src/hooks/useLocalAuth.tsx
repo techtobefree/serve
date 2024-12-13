@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-import { sessionStore } from "../domains/auth/sessionStore";
-import { supabase } from "../domains/db/supabaseClient";
+import { userStore } from "../domains/auth/sessionStore";
+import { clientSupabase } from "../domains/db/clientSupabase";
 import { useNavigate } from "../router";
 
 const IS_LOCAL = import.meta.env.VITE_LOCAL as string;
@@ -12,11 +12,11 @@ export function useLocalAuth() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (IS_LOCAL && !sessionStore.current?.user) {
+    if (IS_LOCAL && !userStore.current) {
       setTimeout(() => {
-        if (!sessionStore.current?.user) {
+        if (!userStore.current) {
           const auth = async () => {
-            await supabase.auth.signInWithPassword({
+            await clientSupabase.auth.signInWithPassword({
               email: LOCAL_AUTH_EMAIL,
               password: LOCAL_AUTH_PASSWORD
             })

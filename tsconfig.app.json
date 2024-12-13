@@ -25,6 +25,7 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "src"
+    "src",
+    "supabase/functions/lib/supabaseTypes.ts"
   ]
 }

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { setCurrentUser } from "../domains/currentUser/currentUserStore";
-import { supabase } from "../domains/db/supabaseClient";
+import { setCurrentProfile } from "../domains/currentUser/currentUserStore";
+import { clientSupabase } from "../domains/db/clientSupabase";
 import { showToast } from "../domains/ui/toast";
 
 import { queryClient } from "./queryClient";
@@ -11,7 +11,7 @@ export async function changeHandle(userId: string, handle?: string | null) {
     return
   }
 
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('profile')
     .update(
       {
@@ -33,7 +33,7 @@ export async function changeBio(userId: string, bio?: string | null) {
     return
   }
 
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('profile')
     .update(
       {
@@ -55,7 +55,7 @@ export async function changeEmail(userId: string, email?: string | null) {
     return
   }
 
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('sensitive_profile')
     .update(
       {
@@ -96,7 +96,7 @@ export async function changeName(userId: string,
     throw new Error('No changes to make')
   }
 
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('sensitive_profile')
     .update(
       {
@@ -114,7 +114,7 @@ export async function changeName(userId: string,
 }
 
 export async function acceptTerms(userId: string) {
-  const { error } = await supabase
+  const { error } = await clientSupabase
     .from('sensitive_profile')
     .update(
       {
@@ -132,7 +132,7 @@ export async function acceptTerms(userId: string) {
 }
 
 async function fetchUserProfile(userId: string) {
-  return supabase
+  return clientSupabase
     .from('profile')
     .select(`
       *,
@@ -146,7 +146,7 @@ async function fetchUserProfile(userId: string) {
 
 
 async function createProfile(userId: string) {
-  await supabase
+  await clientSupabase
     .from('profile')
     .insert([
       {
@@ -156,7 +156,7 @@ async function createProfile(userId: string) {
       }
     ]);
 
-  await supabase
+  await clientSupabase
     .from('sensitive_profile')
     .insert([
       {
@@ -190,7 +190,7 @@ export function useProfileQuery(userId?: string) {
       }
 
       if (data.sensitive_profile.length === 0) {
-        await supabase
+        await clientSupabase
           .from('sensitive_profile')
           .insert([
             {
@@ -208,7 +208,7 @@ export function useProfileQuery(userId?: string) {
         return data
       }
 
-      setCurrentUser({
+      setCurrentProfile({
         userId: data.user_id,
         email: data.sensitive_profile[0]?.email || undefined,
         handle: data.handle,
