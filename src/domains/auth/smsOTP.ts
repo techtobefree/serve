@@ -1,3 +1,4 @@
+import { AuthError } from "@supabase/supabase-js";
 import { clientSupabase } from "../db/clientSupabase";
 import { showToast } from "../ui/toast";
 
@@ -10,7 +11,7 @@ export async function requestOTP(phoneNumber: string) {
   }
 }
 
-export async function verifyOTP(phoneNumber: string, otp: string, onError: () => void) {
+export async function verifyOTP(phoneNumber: string, otp: string, callback: (err: AuthError | null) => void) {
   const { error } = await clientSupabase.auth.verifyOtp({
     phone: phoneNumber,
     token: otp,
@@ -19,8 +20,9 @@ export async function verifyOTP(phoneNumber: string, otp: string, onError: () =>
 
   if (error) {
     showToast("Error verifying one-time password");
-    onError();
   }
+
+  callback(error);
 }
 
 export async function logout() {

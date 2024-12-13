@@ -5,7 +5,7 @@ import { useState } from "react";
 import { requestOTP, verifyOTP } from "../../domains/auth/smsOTP";
 import { useCountdown } from "../../hooks/useCountdown";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useNavigate } from "../../router";
+import { useModals, useNavigate } from "../../router";
 
 const LOCAL_STORAGE_PHONE_KEY = 'login-phone';
 
@@ -17,6 +17,7 @@ function formatPhoneNumber(phone: string) {
 }
 
 export default function Login() {
+  const modals = useModals();
   const navigate = useNavigate();
   const [phone, setPhone] = useLocalStorage('login-phone');
   const [nextCodeAvailableTime, setNextCodeAvailableTime] = useLocalStorage('next-phone')
@@ -63,8 +64,12 @@ export default function Login() {
 
   const verifyAndDelayReverifyOTP = (phone: string, otpCode: string) => {
     setOtpError('')
-    void verifyOTP(formatPhoneNumber(phone), otpCode, () => {
-      setOtpError('Verification failed')
+    void verifyOTP(formatPhoneNumber(phone), otpCode, (err) => {
+      if (!err) {
+        setOtpError('Verification failed')
+      } else {
+        modals.close();
+      }
     })
     waitToReverify(3000)
   }
