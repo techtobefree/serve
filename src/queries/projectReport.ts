@@ -1,16 +1,11 @@
-import { userStore } from "../domains/auth/sessionStore";
+import { format } from "date-fns";
 import { clientSupabase } from "../domains/db/clientSupabase";
 import { showToast } from "../domains/ui/toast";
 
-export async function projectCommitmentReport({ projectEventId }: { projectEventId: string }) {
-  const accessToken = userStore.session?.access_token;
-  const { data, error } = await clientSupabase.functions.invoke('project-report-download', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: {
-      projectEventId
-    },
+export async function projectCommitmentsReport({ projectEventId }: { projectEventId: string }) {
+  const { data, error } = await clientSupabase.functions.invoke('projectCommitmentsReport', {
+    method: 'POST',
+    body: JSON.stringify({ projectEventId }),
   });
 
   if (error) {
@@ -19,18 +14,25 @@ export async function projectCommitmentReport({ projectEventId }: { projectEvent
     throw error;
   }
 
-  return data.map((item: any) => {
+  const mapped = data.map((item: any) => {
     return {
-      commitment_start: item.commitment_start,
-      commitment_end: item.commitment_end,
+      commitment_start: format(new Date(item.commitment_start), 'HH:mm'),
+      commitment_end: format(new Date(item.commitment_end), 'HH:mm'),
       role: item.role,
       // profile: {
-      user_id: item.profile.user_id,
       handle: item.profile.handle,
       // sensitive_profile: {
-      first_name: item.profile.sensitive_profile.first_name,
-      last_name: item.profile.sensitive_profile.last_name,
-      email: item.profile.sensitive_profile.email,
+      first_name: item.profile.sensitive_profile[0].first_name,
+      last_name: item.profile.sensitive_profile[0].last_name,
+      email: item.profile.sensitive_profile[0].email,
     }
-  })
+  }) as Object[]
+
+  return {
+    data: mapped,
+    metadata: {
+      projectDate: format(new Date(data[0].commitment_start), 'yyyy.MM.dd'),
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/\//g, ''),
+    }
+  }
 }

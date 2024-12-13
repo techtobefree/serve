@@ -33,7 +33,7 @@ syncs all migrations and seeds.
 #### Local functions
 
 - Install Deno https://docs.deno.com/runtime/getting_started/installation/
-- Install Deno dependencies `deno install`
+- Install Deno dependencies `cd supabase && deno install`
 - Host locally: `npx supabase functions serve`
 
 ### Original setup

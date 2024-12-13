@@ -1,6 +1,5 @@
 import { IonButton, IonIcon } from '@ionic/react';
 import { format } from 'date-fns';
-
 import { copy } from 'ionicons/icons';
 
 import { getEventAddressAsText } from '../../domains/address';
@@ -12,14 +11,12 @@ import useRemoveEvent from '../../mutations/removeEvent';
 import { getPublicUrl, profilePicturePath } from '../../queries/image';
 import { useEventByIdQuery, useProjectByIdQuery } from "../../queries/projectById";
 import { useModals, useNavigate } from "../../router";
-
 import Avatar from '../Avatar';
-
 import AddCalendarEventButton from '../Calendar';
-
 import Timeslot from './Timeslot';
 import { downloadTextFile } from '../../domains/file';
-import { projectCommitmentReport } from '../../queries/projectReport';
+import { projectCommitmentsReport } from '../../queries/projectReport';
+import { jsonToCsv } from '../../domains/file/jsonToCsv';
 
 type Props = {
   currentUserId?: string;
@@ -44,10 +41,10 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
           <IonButton className='whitespace-nowrap'
             color='tertiary'
             onClick={() => {
-              projectCommitmentReport({ projectEventId: event.id }).then(i => {
-                downloadTextFile('text.csv', i)
+              projectCommitmentsReport({ projectEventId: event.id }).then(i => {
+                downloadTextFile(`project_commitments_${i.metadata.projectDate}_${i.metadata.timezone}.csv`, jsonToCsv(i.data))
               })
-            }}>BETA: Download report</IonButton>
+            }}>Download report</IonButton>
         )}
         <div className='flex justify-between'>
           <div className="text-lg">
