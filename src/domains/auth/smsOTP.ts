@@ -1,26 +1,25 @@
 import { clientSupabase } from "../db/clientSupabase";
+import { showToast } from "../ui/toast";
 
 export async function requestOTP(phoneNumber: string) {
   const { error } = await clientSupabase.auth.signInWithOtp({ phone: phoneNumber });
   if (error) {
-    console.error("Error sending OTP:", error.message);
+    showToast("Failed to send one-time password", { isError: true, duration: 5000 });
   } else {
-    console.log("OTP sent successfully!");
+    showToast("One-time password sent", { duration: 3000 });
   }
 }
 
 export async function verifyOTP(phoneNumber: string, otp: string, onError: () => void) {
-  const { data, error } = await clientSupabase.auth.verifyOtp({
+  const { error } = await clientSupabase.auth.verifyOtp({
     phone: phoneNumber,
     token: otp,
     type: 'sms',
   });
 
   if (error) {
-    console.error("Error verifying OTP:", error.message);
+    showToast("Error verifying one-time password");
     onError();
-  } else {
-    console.log("Logged in successfully!", data);
   }
 }
 
@@ -28,8 +27,9 @@ export async function logout() {
   const { error } = await clientSupabase.auth.signOut()
 
   if (error) {
+    showToast("Error logging out", { isError: true, duration: 5000 });
     console.error("Error logging out:", error.message);
   } else {
-    console.log("Logged out successfully!");
+    showToast("Successfully logged out", { duration: 3000 });
   }
 }
