@@ -17,7 +17,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className={`fixed inset-0 z-50 flex`}>
+    <div className={`fixed inset-0 z-10 flex`}>
       {/* Backdrop */}
       <div
         onClick={() => { navigate(-1) }}

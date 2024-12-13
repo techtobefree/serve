@@ -7,7 +7,6 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Toast from '../components/Toast';
 import { userStore } from '../domains/auth/sessionStore';
 import { CurrentProfile, currentProfileStore } from '../domains/currentUser/currentUserStore';
-import { useLocalAuth } from '../hooks/useLocalAuth';
 import { useProfileQuery } from '../queries/profileByUserId';
 import { useNavigate } from '../router';
 
@@ -21,7 +20,6 @@ type Props = {
 }
 
 export function LayoutComponent({ currentProfile, user }: Props) {
-  useLocalAuth(); // Comment if you want to test logged out state
   useProfileQuery(user?.id);
   const navigate = useNavigate();
   const location = useLocation();
