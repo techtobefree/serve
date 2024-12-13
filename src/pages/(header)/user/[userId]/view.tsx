@@ -8,7 +8,7 @@ import { useState } from "react";
 import Avatar from "../../../../components/Avatar";
 import UploadImage from "../../../../components/UploadImage";
 import { userStore } from "../../../../domains/auth/sessionStore";
-import { currentProfileStore } from "../../../../domains/currentUser/currentUserStore";
+import { loggedInProfileStore } from "../../../../domains/profile/loggedInProfileStore";
 import { formatDateLLLLddyyyy } from "../../../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../../../domains/image";
 import { showToast } from "../../../../domains/ui/toast";
@@ -257,7 +257,7 @@ export const UserViewPage = observer(() => {
     <UserView
       userId={userId}
       canEdit={userId === currentUserId}
-      acceptedAt={currentProfileStore.acceptedAt} />
+      acceptedAt={loggedInProfileStore.acceptedAt} />
   )
 });
 

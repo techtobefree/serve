@@ -10,6 +10,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Conditional configuration based on the platform
-const clientSupabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
-
-export { clientSupabase };
+export const clientSupabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+  }
+});

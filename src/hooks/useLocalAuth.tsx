@@ -9,10 +9,11 @@ const LOCAL_AUTH_EMAIL = import.meta.env.VITE_LOCAL_AUTH_EMAIL as string;
 const LOCAL_AUTH_PASSWORD = import.meta.env.VITE_LOCAL_AUTH_PASSWORD as string;
 
 export function useLocalAuth() {
+  if (!IS_LOCAL) return;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (IS_LOCAL && !userStore.current) {
+    if (!userStore.current) {
       setTimeout(() => {
         if (!userStore.current) {
           const auth = async () => {

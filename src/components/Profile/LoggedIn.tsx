@@ -2,12 +2,12 @@ import { IonButton, IonIcon } from "@ionic/react";
 import { closeOutline, createOutline } from "ionicons/icons";
 
 import { logout } from "../../domains/auth/smsOTP";
-import { CurrentProfile } from "../../domains/currentUser/currentUserStore";
+import { LoggedInProfile } from "../../domains/profile/loggedInProfileStore";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { useNavigate } from "../../router";
 
 type Props = {
-  currentProfile: CurrentProfile;
+  currentProfile: LoggedInProfile;
 }
 
 export default function LoggedIn({ currentProfile }: Props) {

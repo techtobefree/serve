@@ -1,26 +1,23 @@
 import { App as CapacitorApp } from '@capacitor/app';
-import { User } from '@supabase/supabase-js';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
 import Toast from '../components/Toast';
 import { userStore } from '../domains/auth/sessionStore';
-import { CurrentProfile, currentProfileStore } from '../domains/currentUser/currentUserStore';
+import { LoggedInProfile, loggedInProfileStore } from '../domains/profile/loggedInProfileStore';
 import { useProfileQuery } from '../queries/profileByUserId';
 import { useNavigate } from '../router';
 
 // eslint-disable-next-line import/namespace
 import { UserView } from './(header)/user/[userId]/view';
+import { useLocalAuth } from '../hooks/useLocalAuth';
 
+type Props = LoggedInProfile
 
-type Props = {
-  user?: User | null;
-  currentProfile: CurrentProfile;
-}
-
-export function LayoutComponent({ currentProfile, user }: Props) {
-  useProfileQuery(user?.id);
+export function LayoutComponent({ userId, handle, email, firstName, lastName, acceptedAt }: Props) {
+  useLocalAuth();
+  useProfileQuery(userId);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,19 +40,19 @@ export function LayoutComponent({ currentProfile, user }: Props) {
     };
   }, [navigate, location]);
 
-  if (currentProfile.userId && (
-    !currentProfile.handle ||
-    !currentProfile.email ||
-    !currentProfile.firstName ||
-    !currentProfile.lastName ||
-    !currentProfile.acceptedAt
+  if (userId && (
+    !handle ||
+    !email ||
+    !firstName ||
+    !lastName ||
+    !acceptedAt
   )) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>
-        <UserView userId={currentProfile.userId}
+        <UserView userId={userId}
           canEdit={true}
-          acceptedAt={currentProfile.acceptedAt}
+          acceptedAt={acceptedAt}
           initial />
         <Toast />
       </div>
@@ -72,7 +69,12 @@ export function LayoutComponent({ currentProfile, user }: Props) {
 
 const Layout = observer(() => {
   return (
-    <LayoutComponent user={userStore.current} currentProfile={{ ...currentProfileStore }} />
+    <LayoutComponent userId={userStore.current?.id}
+      handle={loggedInProfileStore.handle}
+      email={loggedInProfileStore.email}
+      firstName={loggedInProfileStore.firstName}
+      lastName={loggedInProfileStore.lastName}
+      acceptedAt={loggedInProfileStore.acceptedAt} />
   )
 })
 

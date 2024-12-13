@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { setCurrentProfile } from "../domains/currentUser/currentUserStore";
+import { setCurrentProfile } from "../domains/profile/loggedInProfileStore";
 import { clientSupabase } from "../domains/db/clientSupabase";
 import { showToast } from "../domains/ui/toast";
 
