@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { copy } from 'ionicons/icons';
 
 import { getEventAddressAsText } from '../../domains/address';
-import { buildTZDateFromDB, formatDateLLLLddyyyy } from '../../domains/date/timezone';
+import { buildTZDateFromDBDayOnly, formatDateLLLLddyyyy } from '../../domains/date/timezone';
 import { IMAGE_SIZE } from '../../domains/image';
 import { showToast } from '../../domains/ui/toast';
 import useRemoveCommitment from '../../mutations/removeCommitment';
@@ -48,7 +48,7 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
         )}
         <div className='flex justify-between'>
           <div className="text-lg">
-            {formatDateLLLLddyyyy(buildTZDateFromDB(event.project_event_date).toDateString())}
+            {formatDateLLLLddyyyy(buildTZDateFromDBDayOnly(event.project_event_date).toDateString())}
           </div>
           {canEdit && (
             <IonButton className='whitespace-nowrap'

@@ -3,19 +3,19 @@ import { format, formatISO } from "date-fns";
 
 import { TableInsert } from "../db/tables";
 
-export function buildTZDateFromDB(date: string) {
+export function buildTZDateFromDBDayOnly(date: string) {
   return new TZDate(date, 'UTC');
 }
 
 export function buildStartTime(
-  eventDate: string,
+  eventDateUTC: string,
   timezone: string,
   timeslot: TableInsert['project_event_timeslot'],
 ) {
-  const date = new Date(eventDate);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  const date = new Date(eventDateUTC);
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth();
+  const day = date.getUTCDate();
   const hour = timeslot.timeslot_start_hour;
   const minute = timeslot.timeslot_start_minute;
 
