@@ -17,6 +17,7 @@ import Timeslot from './Timeslot';
 import { downloadTextFile } from '../../domains/file';
 import { projectCommitmentsReport } from '../../queries/projectReport';
 import { jsonToCsv } from '../../domains/file/jsonToCsv';
+import { sortDBTimeslots } from '../../domains/date/sort';
 
 type Props = {
   currentUserId?: string;
@@ -114,7 +115,7 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
           })}</div>
         </div>}
         <div>
-          {event.project_event_timeslot.map((timeslot, index) =>
+          {event.project_event_timeslot.sort(sortDBTimeslots).map((timeslot, index) =>
             <Timeslot key={index}
               canEdit={canEdit}
               currentUserId={currentUserId}

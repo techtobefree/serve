@@ -14,6 +14,7 @@ import useCreateTimeslots, { Timeslot } from '../../mutations/createTimeslots';
 import { useNavigate } from "../../router";
 
 import TimeslotAsk from './TimeslotAsk';
+import { sortTimeslots } from '../../domains/date/sort';
 
 type Props = {
   eventId: string;
@@ -142,11 +143,7 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
           <br />
           {!timeslots.length && <div className='w-full text-center'>No timeslots</div>}
           <div className='flex flex-col gap-2'>
-            {timeslots.sort((a, b) => {
-              // Feel free to make this readable
-              return a.hour < b.hour ? -1 : a.hour > b.hour ?
-                1 : a.minute < b.minute ? -1 : a.minute > b.minute ? 1 : 0
-            }).map((timeslot, index) => {
+            {timeslots.sort(sortTimeslots).map((timeslot, index) => {
               const hourString = timeslot.hour.toString();
               const minuteString = timeslot.hour.toString();
               const id = `${index.toString()}${hourString}${minuteString}`;

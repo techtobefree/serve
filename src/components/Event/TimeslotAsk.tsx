@@ -107,13 +107,14 @@ export default function TimeslotAsk({
             label="Start time"
             value={timeslot.hour}
             onIonChange={e => {
+              setEndHour((e.detail.value + Math.floor((timeslot.duration) / 60)));
+              setEndMinute((timeslot.minute + timeslot.duration) % 60);
               setTimeslots(
                 (index === 0 ? [] : timeslots.slice(0, index))
                   .concat([
                     {
                       count: timeslot.count,
-                      duration: findDuration(e.detail.value as number, timeslot.minute,
-                        endHour, endMinute),
+                      duration: timeslot.duration,
                       hour: e.detail.value,
                       minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
