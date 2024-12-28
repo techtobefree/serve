@@ -2,9 +2,9 @@ import { IonButton } from "@ionic/react";
 import { addMinutes, format } from "date-fns";
 
 import { buildStartTime } from "../../domains/date/timezone";
-import useCommitToTimeslot from "../../mutations/commitToTimeslot";
-import useRemoveTimeslot from "../../mutations/removeTimeslot";
-import { useEventByIdQuery, useTimeslotByIdQuery } from "../../queries/projectById";
+import useCommitToTimeslot from "../../domains/project/commitment/mutationCommitToTimeslot";
+import useRemoveTimeslot from "../../domains/project/event/mutationRemoveTimeslot";
+import { useEventByIdQuery, useTimeslotByIdQuery } from "../../domains/project/queryProjectById";
 import { useModals } from "../../router";
 
 type Props = {

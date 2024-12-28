@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { clientSupabase } from "../domains/db/clientSupabase";
+import { clientSupabase } from "../persistence/clientSupabase";
+
+export const partialQueryKey = 'basic-profile';
 
 async function fetchUserProfile(userId: string) {
   return clientSupabase
@@ -14,7 +16,7 @@ async function fetchUserProfile(userId: string) {
 
 export function useBasicProfileQuery(userId?: string) {
   return useQuery({
-    queryKey: ['basic-profile', userId],
+    queryKey: [partialQueryKey, userId],
     enabled: !!userId,
     queryFn: async () => {
       if (!userId) {

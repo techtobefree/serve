@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { blankAddress } from "../../domains/address/addressComponents";
 import { userStore } from "../../domains/auth/sessionStore";
 import { showToast } from "../../domains/ui/toast";
-import useCreateEvent from "../../mutations/createEvent";
+import useCreateEvent from "../../domains/project/event/mutationCreateEvent";
 import { useNavigate } from "../../router";
 import FutureDatePicker from "../Picker/FutureDatePicker";
 import LocationPicker from "../Picker/LocationPicker";

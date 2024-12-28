@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-import { userStore } from "../domains/auth/sessionStore";
-import { clientSupabase } from "../domains/db/clientSupabase";
-import { useNavigate } from "../router";
+import { userStore } from "./sessionStore";
+import { clientSupabase } from "../persistence/clientSupabase";
+import { useNavigate } from "../../router";
 
 const IS_LOCAL = import.meta.env.VITE_LOCAL as string;
 const LOCAL_AUTH_EMAIL = import.meta.env.VITE_LOCAL_AUTH_EMAIL as string;

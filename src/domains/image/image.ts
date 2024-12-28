@@ -1,4 +1,4 @@
-import { clientSupabase } from "../domains/db/clientSupabase";
+import { clientSupabase } from "../persistence/clientSupabase";
 
 export function profilePicturePath(userId: string) {
   return `profile/user_id_${userId}.jpg`

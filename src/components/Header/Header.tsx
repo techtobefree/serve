@@ -8,8 +8,8 @@ import { IMAGE_SIZE } from "../../domains/image";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { mayReplace } from "../../domains/ui/navigation";
-import { useVisibleRef } from "../../hooks/useVisibleRef";
-import { getPublicUrl, profilePicturePath } from "../../queries/image";
+import { useVisibleRef } from "../../domains/ui/useVisibleRef";
+import { getPublicUrl, profilePicturePath } from "../../domains/image/image";
 import { useModals, useNavigate } from '../../router'
 
 import Avatar from "../Avatar";

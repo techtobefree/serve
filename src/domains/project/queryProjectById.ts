@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { clientSupabase } from "../domains/db/clientSupabase";
+import { clientSupabase } from "../persistence/clientSupabase";
 
 export const partialQueryKey = 'get-projectById';
 

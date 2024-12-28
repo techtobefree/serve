@@ -6,12 +6,12 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Toast from '../components/Toast';
 import { userStore } from '../domains/auth/sessionStore';
 import { LoggedInProfile, loggedInProfileStore } from '../domains/profile/loggedInProfileStore';
-import { useProfileQuery } from '../queries/profileByUserId';
+import { useProfileQuery } from '../domains/profile/queryProfileByUserId';
 import { useNavigate } from '../router';
 
 // eslint-disable-next-line import/namespace
 import { UserView } from './(header)/user/[userId]/view';
-import { useLocalAuth } from '../hooks/useLocalAuth';
+import { useLocalAuth } from '../domains/auth/useLocalAuth';
 
 type Props = LoggedInProfile
 

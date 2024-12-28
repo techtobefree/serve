@@ -1,11 +1,11 @@
 import { TZDate } from "@date-fns/tz";
 import { useMutation } from "@tanstack/react-query";
 
-import { tzDateToDB } from "../domains/date/timezone";
-import { clientSupabase } from "../domains/db/clientSupabase";
-import { showToast } from "../domains/ui/toast";
-import { partialQueryKey as projectByIdKey } from "../queries/projectById";
-import { queryClient } from "../queries/queryClient";
+import { tzDateToDB } from "../../date/timezone";
+import { clientSupabase } from "../../persistence/clientSupabase";
+import { showToast } from "../../ui/toast";
+import { partialQueryKey as projectByIdKey } from "../queryProjectById";
+import { queryClient } from "../../persistence/queryClient";
 
 export async function commitToTimeslot({ currentUserId, eventId, projectId, startTime, endTime }:
   {
@@ -33,7 +33,7 @@ export async function commitToTimeslot({ currentUserId, eventId, projectId, star
     throw error;
   }
 
-  await queryClient.invalidateQueries({ queryKey: ['get-projectId', projectId] });
+  await queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
 }
 
 export default function useCommitToTimeslot(

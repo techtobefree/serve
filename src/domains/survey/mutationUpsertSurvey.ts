@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { clientSupabase } from "../domains/db/clientSupabase";
-import { showToast } from "../domains/ui/toast";
-import { partialQueryKey as projectByIdKey } from "../queries/projectById";
-import { queryClient } from "../queries/queryClient";
-import { TableInsert } from "../domains/db/tables";
+import { clientSupabase } from "../persistence/clientSupabase";
+import { showToast } from "../ui/toast";
+import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
+import { queryClient } from "../persistence/queryClient";
+import { TableInsert } from "../persistence/tables";
 
 async function upsertSurvey({
   id,

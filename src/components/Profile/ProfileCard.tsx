@@ -1,6 +1,6 @@
 import { IMAGE_SIZE } from "../../domains/image";
-import { useBasicProfileQuery } from "../../queries/basicProfileByUserId";
-import { getPublicUrl, profilePicturePath } from "../../queries/image";
+import { useBasicProfileQuery } from "../../domains/profile/queryBasicProfileByUserId";
+import { getPublicUrl, profilePicturePath } from "../../domains/image/image";
 import { useNavigate } from "../../router";
 import Avatar from "../Avatar";
 

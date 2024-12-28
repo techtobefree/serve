@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { IMAGE_SIZE, IMAGE_SIZE_MAP } from '../../domains/image';
 import { showToast } from '../../domains/ui/toast';
-import { uploadImage } from '../../queries/image';
+import { uploadImage } from '../../domains/image/image';
 
 type Props = {
   path: string;

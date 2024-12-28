@@ -5,9 +5,9 @@ import { useEffect, useRef } from "react"
 
 import { userStore } from "../../../../domains/auth/sessionStore"
 import { mayReplace } from "../../../../domains/ui/navigation"
-import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
-import { partialQueryKey as projectByIdQueryKey } from "../../../../queries/projectById"
-import { queryClient } from "../../../../queries/queryClient"
+import { useJoinProjectByIdQuery } from "../../../../domains/project/queryJoinProject"
+import { partialQueryKey as projectByIdQueryKey } from "../../../../domains/project/queryProjectById"
+import { queryClient } from "../../../../domains/persistence/queryClient"
 import { useModals, useNavigate, useParams } from "../../../../router"
 
 type Props = {

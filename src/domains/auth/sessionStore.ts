@@ -1,7 +1,7 @@
 import { Session, User } from "@supabase/supabase-js";
 import { observable, runInAction } from "mobx"
 
-import { clientSupabase } from "../db/clientSupabase";
+import { clientSupabase } from "../persistence/clientSupabase";
 
 export type SupabaseUser = {
   current?: User | null,

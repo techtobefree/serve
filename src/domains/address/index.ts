@@ -1,4 +1,4 @@
-import { useEventByIdQuery } from "../../queries/projectById";
+import { useEventByIdQuery } from "../project/queryProjectById";
 
 export function getEventAddressAsText(event:
   Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>) {

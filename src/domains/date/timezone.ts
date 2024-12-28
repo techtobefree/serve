@@ -1,7 +1,7 @@
 import { TZDate } from "@date-fns/tz";
 import { format, formatISO } from "date-fns";
 
-import { TableInsert } from "../db/tables";
+import { TableInsert } from "../persistence/tables";
 
 export function buildTZDateFromDBDayOnly(date: string) {
   return new TZDate(date, 'UTC');

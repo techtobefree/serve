@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { clientSupabase } from "../domains/db/clientSupabase";
+import { clientSupabase } from "../persistence/clientSupabase";
+import { partialQueryKey as projectByIdKey } from "./queryProjectById";
 
-import { queryClient } from "./queryClient";
+import { queryClient } from "../persistence/queryClient";
+
+export const partialQueryKey = 'join-projectId-user-id';
 
 export function useJoinProjectByIdQuery(projectId?: string, userId?: string) {
   return useQuery({
-    queryKey: ['join-projectId-user-id', projectId, userId],
+    queryKey: [partialQueryKey, projectId, userId],
     enabled: !!projectId && !!userId,
     queryFn: async () => {
       if (!projectId || !userId) {
@@ -28,7 +31,7 @@ export function useJoinProjectByIdQuery(projectId?: string, userId?: string) {
         .insert({ project_id: projectId, created_by: userId, user_id: userId })
         .select('*')
 
-      await queryClient.invalidateQueries({ queryKey: ['get-projectId', projectId] });
+      await queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
 
 
       if (error) {

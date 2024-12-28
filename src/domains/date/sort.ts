@@ -1,4 +1,4 @@
-import { Timeslot } from "../../mutations/createTimeslots";
+import { Timeslot } from "../project/event/mutationCreateTimeslots";
 
 export function sortTimeslots(a: Timeslot, b: Timeslot) {
   // Feel free to make this readable

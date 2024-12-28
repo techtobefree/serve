@@ -12,7 +12,7 @@ import { loggedInProfileStore } from "../../../../domains/profile/loggedInProfil
 import { formatDateLLLLddyyyy } from "../../../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../../../domains/image";
 import { showToast } from "../../../../domains/ui/toast";
-import { getPublicUrl, profilePicturePath } from "../../../../queries/image";
+import { getPublicUrl, profilePicturePath } from "../../../../domains/image/image";
 import {
   acceptTerms,
   changeBio,
@@ -20,7 +20,7 @@ import {
   changeHandle,
   changeName,
   useProfileQuery
-} from "../../../../queries/profileByUserId";
+} from "../../../../domains/profile/queryProfileByUserId";
 import { useNavigate, useParams } from "../../../../router"
 
 type Props = {

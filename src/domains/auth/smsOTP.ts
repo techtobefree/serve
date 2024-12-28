@@ -1,5 +1,5 @@
 import { AuthError } from "@supabase/supabase-js";
-import { clientSupabase } from "../db/clientSupabase";
+import { clientSupabase } from "../persistence/clientSupabase";
 import { showToast } from "../ui/toast";
 
 export async function requestOTP(phoneNumber: string) {

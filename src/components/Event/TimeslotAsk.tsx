@@ -12,7 +12,7 @@ import { personOutline, trashOutline } from 'ionicons/icons';
 import { useState } from 'react';
 
 import { showToast } from '../../domains/ui/toast';
-import { Timeslot } from '../../mutations/createTimeslots';
+import { Timeslot } from '../../domains/project/event/mutationCreateTimeslots';
 
 const hours = [
   { value: 0, label: '12 AM' },

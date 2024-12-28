@@ -10,7 +10,7 @@ import { useState } from "react";
 
 import { userStore } from "../../domains/auth/sessionStore";
 import { showToast } from '../../domains/ui/toast';
-import useCreateTimeslots, { Timeslot } from '../../mutations/createTimeslots';
+import useCreateTimeslots, { Timeslot } from '../../domains/project/event/mutationCreateTimeslots';
 import { useNavigate } from "../../router";
 
 import TimeslotAsk from './TimeslotAsk';

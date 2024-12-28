@@ -1,15 +1,15 @@
 import { IonButton, IonCheckbox, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
 import { useForm } from '@tanstack/react-form';
 
-import { clientSupabase } from '../../domains/db/clientSupabase';
-import { TableInsert } from '../../domains/db/tables';
+import { clientSupabase } from '../../domains/persistence/clientSupabase';
+import { TableInsert } from '../../domains/persistence/tables';
 import { IMAGE_SIZE } from '../../domains/image';
 import { mayReplace } from '../../domains/ui/navigation';
 import { showToast } from '../../domains/ui/toast';
-import { projectPicturePath, getPublicUrl } from '../../queries/image';
+import { projectPicturePath, getPublicUrl } from '../../domains/image/image';
 import { useNavigate } from '../../router';
 import UploadImage from '../UploadImage';
-import useDeleteProject from '../../mutations/deleteProject';
+import useDeleteProject from '../../domains/project/mutationDeleteProject';
 
 type Props = {
   project: TableInsert['project'],

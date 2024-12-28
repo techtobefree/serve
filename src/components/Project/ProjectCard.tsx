@@ -1,9 +1,9 @@
 import { IonButton } from "@ionic/react";
 
-import { TableRows } from "../../domains/db/tables"
+import { TableRows } from "../../domains/persistence/tables"
 import { IMAGE_SIZE } from "../../domains/image";
 import { mayReplace } from "../../domains/ui/navigation";
-import { getPublicUrl, projectPicturePath } from "../../queries/image";
+import { getPublicUrl, projectPicturePath } from "../../domains/image/image";
 import { useNavigate } from "../../router";
 
 import ProjectImage from "./ProjectImage";

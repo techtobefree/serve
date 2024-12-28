@@ -4,7 +4,7 @@ import { arrowBack } from "ionicons/icons";
 import ProjectEdit from "../../../../components/Project/ProjectEdit";
 import ProjectLoader from "../../../../components/Project/ProjectLoader";
 import { mayReplace } from "../../../../domains/ui/navigation";
-import { useProjectByIdQuery } from "../../../../queries/projectById"
+import { useProjectByIdQuery } from "../../../../domains/project/queryProjectById"
 import { useNavigate, useParams } from "../../../../router"
 import { userStore } from "../../../../domains/auth/sessionStore";
 

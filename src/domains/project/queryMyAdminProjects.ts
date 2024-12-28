@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { clientSupabase } from "../domains/db/clientSupabase";
+import { clientSupabase } from "../persistence/clientSupabase";
 
 export function useMyAdminProjectsQuery(userId?: string) {
   return useQuery({

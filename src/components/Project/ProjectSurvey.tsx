@@ -1,7 +1,7 @@
-import { TableInsert } from '../../domains/db/tables';
+import { TableInsert } from '../../domains/persistence/tables';
 import { useNavigate } from '../../router';
-import useUpsertSurvey from '../../mutations/upsertSurvey';
-import { useProjectByIdQuery } from '../../queries/projectById';
+import useUpsertSurvey from '../../domains/survey/mutationUpsertSurvey';
+import { useProjectByIdQuery } from '../../domains/project/queryProjectById';
 import { IonButton } from '@ionic/react';
 
 type Props = {

@@ -3,8 +3,8 @@ import { closeOutline } from "ionicons/icons";
 import { useState } from "react";
 
 import { requestOTP, verifyOTP } from "../../domains/auth/smsOTP";
-import { useCountdown } from "../../hooks/useCountdown";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useCountdown } from "../../domains/ui/useCountdown";
+import { useLocalStorage } from "../../domains/ui/useLocalStorage";
 import { useModals, useNavigate } from "../../router";
 
 const LOCAL_STORAGE_PHONE_KEY = 'login-phone';

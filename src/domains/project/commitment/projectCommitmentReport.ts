@@ -1,6 +1,6 @@
 import { format } from "date-fns";
-import { clientSupabase } from "../domains/db/clientSupabase";
-import { showToast } from "../domains/ui/toast";
+import { clientSupabase } from "../../persistence/clientSupabase";
+import { showToast } from "../../ui/toast";
 
 export async function projectCommitmentsReport({ projectEventId }: { projectEventId: string }) {
   const { data, error } = await clientSupabase.functions.invoke('projectCommitmentsReport', {
