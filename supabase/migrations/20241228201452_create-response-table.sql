@@ -1,7 +1,6 @@
 -- Create the survey_response table with RLS
 CREATE TABLE public.survey_response (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  project_id uuid NOT NULL,
   survey_id uuid NOT NULL,
   survey_question_id uuid NOT NULL,
   question_type text NOT NULL,
@@ -23,8 +22,8 @@ CREATE POLICY "read_survey_response" ON public.survey_response
     or
     (select auth.uid()) = (
       SELECT owner_id
-      FROM project
-      WHERE project.id = project_id
+      FROM survey
+      WHERE survey.id = survey_id
       LIMIT 1
     )
   );
@@ -47,10 +46,6 @@ CREATE TRIGGER update_survey_response_modtime
   BEFORE UPDATE ON public.survey_response
   FOR EACH ROW
   EXECUTE FUNCTION update_modified_columns();
-
-ALTER TABLE public.survey_response
-ADD CONSTRAINT fk_project_id_to_project_id
-FOREIGN KEY (project_id) REFERENCES public.project(id);
 
 ALTER TABLE public.survey_response
 ADD CONSTRAINT fk_survey_id_to_survey_id

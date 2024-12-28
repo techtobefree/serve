@@ -21,7 +21,7 @@
     "db:start": "npx supabase start",
     "db:push": "npx supabase db push",
     "db:reset": "npx supabase db reset && pnpm db:types",
-    "db:types": "npx supabase gen types typescript --schema public,gis > supabase/functions/supabaseTypes.ts --local",
+    "db:types": "npx supabase gen types typescript --schema public,gis > supabase/functions/_shared/supabaseTypes.ts --local",
     "func:new": "npx supabase functions new",
     "func:debug": "npx supabase functions logs",
     "func:deploy": "npx supabase functions deploy",

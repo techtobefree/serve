@@ -1,7 +1,7 @@
 -- Create the survey table with RLS
 CREATE TABLE public.survey (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  project_id uuid NOT NULL,
+  owner_id uuid NOT NULL,
   name text NOT NULL,
   description text NOT NULL,
   created_at timestamp with time zone DEFAULT now(),
@@ -26,23 +26,13 @@ CREATE POLICY "read_survey" ON public.survey
 CREATE POLICY "insert_survey" ON public.survey
   FOR INSERT TO authenticated
   WITH CHECK (
-    (select auth.uid()) = (
-      SELECT owner_id
-      FROM project
-      WHERE project.id = project_id
-      LIMIT 1
-    )
+    (select auth.uid()) = owner_id
   );
 
 CREATE POLICY "delete_survey" ON public.survey
   FOR DELETE TO authenticated
   USING (
-    (select auth.uid()) = (
-      SELECT owner_id
-      FROM project
-      WHERE project.id = project_id
-      LIMIT 1
-    )
+    (select auth.uid()) = owner_id
   );
 
 -- Create a trigger to call the update_modified_columns function
@@ -50,7 +40,3 @@ CREATE TRIGGER update_survey_modtime
   BEFORE UPDATE ON public.survey
   FOR EACH ROW
   EXECUTE FUNCTION update_modified_columns();
-
-ALTER TABLE public.survey
-ADD CONSTRAINT fk_project_id_to_project_id
-FOREIGN KEY (project_id) REFERENCES public.project(id);

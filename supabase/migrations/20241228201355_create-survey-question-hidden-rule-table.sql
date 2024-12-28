@@ -1,7 +1,6 @@
 -- Create the survey_question_hidden_rule table with RLS
 CREATE TABLE public.survey_question_hidden_rule (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  project_id uuid NOT NULL,
   survey_id uuid NOT NULL,
   survey_question_id uuid NOT NULL,
   response_text_indicating_to_hide text NOT NULL,
@@ -29,8 +28,8 @@ CREATE POLICY "insert_survey_question_hidden_rule" ON public.survey_question_hid
   WITH CHECK (
     (select auth.uid()) = (
       SELECT owner_id
-      FROM project
-      WHERE project.id = project_id
+      FROM survey
+      WHERE survey.id = survey_id
       LIMIT 1
     )
   );
@@ -40,8 +39,8 @@ CREATE POLICY "delete_survey_question_hidden_rule" ON public.survey_question_hid
   USING (
     (select auth.uid()) = (
       SELECT owner_id
-      FROM project
-      WHERE project.id = project_id
+      FROM survey
+      WHERE survey.id = survey_id
       LIMIT 1
     )
   );
@@ -51,10 +50,6 @@ CREATE TRIGGER update_survey_question_hidden_rule_modtime
   BEFORE UPDATE ON public.survey_question_hidden_rule
   FOR EACH ROW
   EXECUTE FUNCTION update_modified_columns();
-
-ALTER TABLE public.survey_question_hidden_rule
-ADD CONSTRAINT fk_project_id_to_project_id
-FOREIGN KEY (project_id) REFERENCES public.project(id);
 
 ALTER TABLE public.survey_question_hidden_rule
 ADD CONSTRAINT fk_survey_id_to_survey_id

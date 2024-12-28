@@ -1,14 +1,15 @@
-import { IonIcon } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 
 import ProjectLoader from "../../../../components/Project/ProjectLoader";
 import { mayReplace } from "../../../../domains/ui/navigation";
 import { useProjectByIdQuery } from "../../../../queries/projectById"
-import { useNavigate, useParams } from "../../../../router"
+import { useModals, useNavigate, useParams } from "../../../../router"
 import { userStore } from "../../../../domains/auth/sessionStore";
 import ProjectSurvey from "../../../../components/Project/ProjectSurvey";
 
 export default function ProjectEditPage() {
+  const modals = useModals();
   const { projectId } = useParams('/project/:projectId/view');
   const navigate = useNavigate();
   const { data: project, isLoading, isError } = useProjectByIdQuery(projectId);
@@ -20,6 +21,17 @@ export default function ProjectEditPage() {
 
   // Careful, this is not updated when mobx store changes
   const userId = userStore.current?.id ? userStore.current.id : undefined;
+
+  if (!userId) {
+    return <>
+      <div>
+        <IonIcon className='cursor-pointer text-4xl'
+          icon={arrowBack} onClick={() => { navigate(-1) }} />
+      </div>
+      <div>You must login to create projects.</div>
+      <IonButton color="secondary" onClick={() => { modals.open('/profile') }}>Login</IonButton>
+    </>
+  }
 
   return (
     <>
