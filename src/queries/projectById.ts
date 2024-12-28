@@ -101,6 +101,15 @@ export function useProjectByIdQuery(projectId: string) {
           ),
           project_role (
             *
+          ),
+          survey (
+            *,
+            survey_question (
+              *,
+              survey_question_option (
+                *
+              )
+            )
           )
           `)
         .eq('id', projectId)

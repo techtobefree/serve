@@ -8,10 +8,10 @@ export type Path =
   | `/celebrate`
   | `/group/:groupId/view`
   | `/home`
-  | `/local`
   | `/map`
   | `/project/:projectId/edit`
   | `/project/:projectId/join`
+  | `/project/:projectId/survey`
   | `/project/:projectId/view`
   | `/project/new`
   | `/track`
@@ -21,6 +21,7 @@ export type Params = {
   "/group/:groupId/view": { groupId: string };
   "/project/:projectId/edit": { projectId: string };
   "/project/:projectId/join": { projectId: string };
+  "/project/:projectId/survey": { projectId: string };
   "/project/:projectId/view": { projectId: string };
   "/user/:userId/view": { userId: string };
 };

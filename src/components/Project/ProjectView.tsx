@@ -115,6 +115,20 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             userId={project.lead_by || project.owner_id} />
         </div>
       </div>
+      {canEdit && (
+        <div className='flex justify-around'>
+          <IonButton
+            color='tertiary'
+            onClick={() => {
+              modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
+            }}>Manage questions</IonButton>
+          <IonButton
+            color='tertiary'
+            onClick={() => {
+              modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
+            }}>Create event</IonButton>
+        </div>
+      )}
       <div className='text-2xl'>When & Where</div>
       {!project.project_event.length && (
         <div>No events</div>
@@ -130,14 +144,6 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
               canEdit={canEdit} />
           })}
       </div>
-      <br />
-      {canEdit && (
-        <IonButton
-          color='tertiary'
-          onClick={() => {
-            modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
-          }}>Create event</IonButton>
-      )}
     </div>
   )
 }
