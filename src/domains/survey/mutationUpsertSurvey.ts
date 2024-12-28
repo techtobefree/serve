@@ -8,6 +8,7 @@ import { TableInsert } from "../persistence/tables";
 
 async function upsertSurvey({
   id,
+  projectId,
   userId,
 }: {
   id?: string,
@@ -16,7 +17,7 @@ async function upsertSurvey({
   newQuestions: TableInsert['survey_question'][],
   deleteQuestionIds: string[],
 }) {
-  const { error } = await clientSupabase
+  const { data: surveyData, error: surveyError } = await clientSupabase
     .from('survey')
     .upsert({
       id,
@@ -27,9 +28,24 @@ async function upsertSurvey({
     })
     .select('id');
 
-  if (error) {
+  if (surveyError) {
     showToast('Failed to update survey', { duration: 5000, isError: true });
-    throw error;
+    throw surveyError;
+  }
+
+  const surveyId = surveyData?.[0]?.id;
+
+  const { error: projectError } = await clientSupabase
+    .from('project')
+    .update({
+      commitment_survey_id: surveyId,
+    })
+    .eq('id', projectId)
+    .select('id');
+
+  if (projectError) {
+    showToast('Failed to update project survey', { duration: 5000, isError: true });
+    throw projectError;
   }
 }
 

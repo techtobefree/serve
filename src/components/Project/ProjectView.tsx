@@ -120,7 +120,10 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           <IonButton
             color='tertiary'
             onClick={() => {
-              modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
+              navigate(
+                '/project/:projectId/survey',
+                { params: { projectId: project.id }, replace: mayReplace() }
+              )
             }}>Manage questions</IonButton>
           <IonButton
             color='tertiary'
