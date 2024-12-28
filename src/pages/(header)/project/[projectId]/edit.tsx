@@ -6,6 +6,7 @@ import ProjectLoader from "../../../../components/Project/ProjectLoader";
 import { mayReplace } from "../../../../domains/ui/navigation";
 import { useProjectByIdQuery } from "../../../../queries/projectById"
 import { useNavigate, useParams } from "../../../../router"
+import { userStore } from "../../../../domains/auth/sessionStore";
 
 export default function ProjectEditPage() {
   const { projectId } = useParams('/project/:projectId/view');
@@ -15,6 +16,9 @@ export default function ProjectEditPage() {
   if (!project) {
     return <ProjectLoader projectId={projectId} isLoading={isLoading} isError={isError} />;
   }
+
+  // Careful, this is not updated when mobx store changes
+  const userId = userStore.current?.id ? userStore.current.id : undefined;
 
   return (
     <>
@@ -27,7 +31,7 @@ export default function ProjectEditPage() {
       </div>
       <div className="flex w-full justify-center">
         <div className="max-w-[800px] w-full">
-          <ProjectEdit project={project} />
+          <ProjectEdit project={project} userId={userId} />
         </div>
       </div>
     </>

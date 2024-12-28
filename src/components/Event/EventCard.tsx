@@ -45,7 +45,7 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
               projectCommitmentsReport({ projectEventId: event.id }).then(i => {
                 downloadTextFile(`project_commitments_${i.metadata.projectDate}_${i.metadata.timezone}.csv`, jsonToCsv(i.data))
               })
-            }}>Download report</IonButton>
+            }}>Download event report</IonButton>
         )}
         <div className='flex justify-between'>
           <div className="text-lg">

@@ -9,13 +9,16 @@ import { showToast } from '../../domains/ui/toast';
 import { projectPicturePath, getPublicUrl } from '../../queries/image';
 import { useNavigate } from '../../router';
 import UploadImage from '../UploadImage';
+import useDeleteProject from '../../mutations/deleteProject';
 
 type Props = {
-  project: TableInsert['project']
+  project: TableInsert['project'],
+  userId?: string
 }
 
-const ProjectForm = ({ project }: Props) => {
+const ProjectForm = ({ project, userId }: Props) => {
   const navigate = useNavigate();
+  const deleteProject = useDeleteProject({ projectId: project.id, userId });
   const form = useForm({
     defaultValues: {
       name: project.name,
@@ -59,58 +62,59 @@ const ProjectForm = ({ project }: Props) => {
   });
 
   return (
-    <form onSubmit={(e) => {
+    <form className='flex flex-col' onSubmit={(e) => {
       e.preventDefault()
       e.stopPropagation()
       void form.handleSubmit()
     }}>
-      <form.Field name='published'>
-        {(field) => (
-          <IonItem onClick={() => { field.handleChange(!field.state.value) }}>
-            <IonLabel>Publish</IonLabel>
-            <IonCheckbox
-              checked={!!field.state.value}
-              onIonChange={(e) => { field.handleChange(!e.detail.checked) }}
-            />
-          </IonItem>
-        )}
-      </form.Field>
-      <form.Field name='name'>
-        {(field) => (
-          <IonItem>
-            <IonInput label='Name'
-              value={field.state.value}
-              onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
-            />
-          </IonItem>
-        )}
-      </form.Field>
-      {
-        project.id && (
-          <form.Field name='image_url'>
-            {(field) => (
-              <IonItem>
-                <UploadImage
-                  size={IMAGE_SIZE.PROJECT_LARGE}
-                  src={getPublicUrl(projectPicturePath(project.id as string))}
-                  path={projectPicturePath(project.id as string)}
-                  close={() => {
-                    field.handleChange(getPublicUrl(projectPicturePath(project.id as string)))
-                  }} />
-              </IonItem>
-            )}
-          </form.Field>
-        )
-      }
-      {
-        !project.id && (
-          <IonItem disabled>
-            <IonLabel>Image</IonLabel>
-            <span className='p-4'>After creating the project, an image can be attached.</span>
-          </IonItem>
-        )
-      }
-      {/* <form.Field name='owner_id'>
+      <div>
+        <form.Field name='published'>
+          {(field) => (
+            <IonItem onClick={() => { field.handleChange(!field.state.value) }}>
+              <IonLabel>Publish</IonLabel>
+              <IonCheckbox
+                checked={!!field.state.value}
+                onIonChange={(e) => { field.handleChange(!e.detail.checked) }}
+              />
+            </IonItem>
+          )}
+        </form.Field>
+        <form.Field name='name'>
+          {(field) => (
+            <IonItem>
+              <IonInput label='Name'
+                value={field.state.value}
+                onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
+              />
+            </IonItem>
+          )}
+        </form.Field>
+        {
+          project.id && (
+            <form.Field name='image_url'>
+              {(field) => (
+                <IonItem>
+                  <UploadImage
+                    size={IMAGE_SIZE.PROJECT_LARGE}
+                    src={getPublicUrl(projectPicturePath(project.id as string))}
+                    path={projectPicturePath(project.id as string)}
+                    close={() => {
+                      field.handleChange(getPublicUrl(projectPicturePath(project.id as string)))
+                    }} />
+                </IonItem>
+              )}
+            </form.Field>
+          )
+        }
+        {
+          !project.id && (
+            <IonItem disabled>
+              <IonLabel>Image</IonLabel>
+              <span className='p-4'>After creating the project, an image can be attached.</span>
+            </IonItem>
+          )
+        }
+        {/* <form.Field name='owner_id'>
         {(field) => (
           <IonItem>
             <IonInput label='Owner'
@@ -120,24 +124,35 @@ const ProjectForm = ({ project }: Props) => {
           </IonItem>
         )}
       </form.Field> */}
-      <form.Field name='description'>
-        {(field) => (
-          <IonItem>
-            <IonLabel>
-              <div>Description</div>
-              <div className='text-sm'>(First 150 characters used for short)</div>
-            </IonLabel>
-            <IonTextarea
-              value={field.state.value}
-              onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
-              rows={12}
-            />
-          </IonItem>
+        <form.Field name='description'>
+          {(field) => (
+            <IonItem>
+              <IonLabel>
+                <div>Description</div>
+                <div className='text-sm'>(First 150 characters used for short)</div>
+              </IonLabel>
+              <IonTextarea
+                value={field.state.value}
+                onIonChange={(e) => { field.handleChange(e.detail.value || '') }}
+                rows={12}
+              />
+            </IonItem>
+          )}
+        </form.Field>
+      </div>
+      <div className='flex justify-around p-6'>
+        {project.id && (
+          <IonButton expand="block" color="danger" onClick={() => {
+            deleteProject.mutate({ projectId: project.id! });
+            navigate('/home', { replace: true });
+          }}>
+            DELETE
+          </IonButton>
         )}
-      </form.Field>
-      <IonButton type="submit" expand="block" color="secondary">
-        Save
-      </IonButton>
+        <IonButton type="submit" expand="block" color="secondary">
+          Save
+        </IonButton>
+      </div>
     </form>
   );
 };
