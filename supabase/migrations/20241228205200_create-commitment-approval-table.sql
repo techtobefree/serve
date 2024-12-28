@@ -15,7 +15,7 @@ CREATE TABLE public.project_event_commitment_approval (
 ALTER TABLE public.project_event_commitment_approval ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows anyone to read the user table
-CREATE POLICY "project_event_commitment_approval" ON public.project_event_commitment_approval
+CREATE POLICY "read_project_event_commitment_approval" ON public.project_event_commitment_approval
   FOR SELECT TO authenticated, anon
   USING (
     true
@@ -24,7 +24,7 @@ CREATE POLICY "project_event_commitment_approval" ON public.project_event_commit
   );
 
 -- Create a policy that allows users manage their own data
-CREATE POLICY "project_event_commitment_approval" ON public.project_event_commitment_approval
+CREATE POLICY "insert_project_event_commitment_approval" ON public.project_event_commitment_approval
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
@@ -35,7 +35,7 @@ CREATE POLICY "project_event_commitment_approval" ON public.project_event_commit
     )
   );
 
-CREATE POLICY "project_event_commitment_approval" ON public.project_event_commitment_approval
+CREATE POLICY "delete_project_event_commitment_approval" ON public.project_event_commitment_approval
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (

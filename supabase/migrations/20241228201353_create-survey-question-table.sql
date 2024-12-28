@@ -3,7 +3,7 @@ CREATE TABLE public.survey_question (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id uuid NOT NULL,
   survey_id uuid NOT NULL,
-  order int NOT NULL,
+  question_order int NOT NULL,
   question_text text NOT NULL,
   question_type text NOT NULL,
   required boolean NOT NULL,

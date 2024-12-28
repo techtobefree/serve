@@ -19,7 +19,9 @@ ALTER TABLE public.survey_response ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "read_survey_response" ON public.survey_response
   FOR SELECT TO authenticated, anon
   USING (
-    (select auth.uid()) = user_id or (
+    (select auth.uid()) = created_by
+    or
+    (select auth.uid()) = (
       SELECT owner_id
       FROM project
       WHERE project.id = project_id
@@ -31,13 +33,13 @@ CREATE POLICY "read_survey_response" ON public.survey_response
 CREATE POLICY "insert_survey_response" ON public.survey_response
   FOR INSERT TO authenticated
   WITH CHECK (
-    (select auth.uid()) = user_id
+    (select auth.uid()) = created_by
   );
 
 CREATE POLICY "delete_survey_response" ON public.survey_response
   FOR DELETE TO authenticated
   USING (
-    (select auth.uid()) = user_id
+    (select auth.uid()) = created_by
   );
 
 -- Create a trigger to call the update_modified_columns function

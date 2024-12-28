@@ -4,7 +4,6 @@ CREATE TABLE public.survey_question_option (
   project_id uuid NOT NULL,
   survey_id uuid NOT NULL,
   survey_question_id uuid NOT NULL,
-  order int NOT NULL,
   option_text text NOT NULL,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
