@@ -6,6 +6,7 @@ CREATE TABLE public.survey_question (
   question_text text NOT NULL,
   question_type text NOT NULL,
   required boolean NOT NULL,
+  closed_at timestamp with time zone,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
   updated_at timestamp with time zone DEFAULT now(),

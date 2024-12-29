@@ -50,7 +50,7 @@ export default function Timeslot({ canEdit, committed, currentUserId, event, tim
           disabled={timeslotCommit.isPending}
           color='secondary'
           onClick={() => {
-            modals.open('/profile')
+            modals.open('/menu')
           }}
         >Commit</IonButton>}
         {canEdit && (

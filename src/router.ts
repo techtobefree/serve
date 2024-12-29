@@ -28,8 +28,8 @@ export type Params = {
 
 export type ModalPath =
   | `/add`
+  | `/menu`
   | `/messages`
-  | `/profile`
   | `/project/[projectId]/ask`
   | `/project/[projectId]/event`
   | `/search`;

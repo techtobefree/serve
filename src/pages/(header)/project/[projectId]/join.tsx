@@ -24,7 +24,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
   useEffect(() => {
     if (!userId && !modalOpened.current) {
       modalOpened.current = true;
-      modals.open('/profile')
+      modals.open('/menu')
     }
   }, [userId, modals])
 

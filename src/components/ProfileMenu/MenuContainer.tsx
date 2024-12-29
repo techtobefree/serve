@@ -4,7 +4,7 @@ import { userStore } from "../../domains/auth/sessionStore";
 import { LoggedInProfile, loggedInProfileStore } from "../../domains/profile/loggedInProfileStore";
 
 import LoggedIn from "./LoggedIn";
-import Login from "./Login";
+import LoggedOut from "./LoggedOut";
 
 type Props = {
   isLoggedIn: boolean;
@@ -14,7 +14,7 @@ type Props = {
 export function ProfileModalContentComponent({ isLoggedIn, currentProfile }: Props) {
   return (
     <>
-      {(!isLoggedIn || !currentProfile) && <Login />}
+      {(!isLoggedIn || !currentProfile) && <LoggedOut />}
       {isLoggedIn && currentProfile && <LoggedIn currentProfile={currentProfile} />}
     </>
   )

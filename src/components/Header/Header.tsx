@@ -85,7 +85,7 @@ export function HeaderComponent({ userId, isVisible, setIsVisible }: Props) {
 
             {/* Profile */}
             <div className={`flex justify-center items-center cursor-pointer`}
-              onClick={() => { modals.open('/profile') }}>
+              onClick={() => { modals.open('/menu') }}>
               {
                 userId && (
                   <Avatar

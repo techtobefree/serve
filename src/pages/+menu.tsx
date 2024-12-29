@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import ProfileModalContent from "../components/Profile/ProfileModalContent";
+import ProfileMenu from "../components/ProfileMenu/MenuContainer";
 import { useNavigate } from "../router"
 
-export default function Profile() {
+export default function Menu() {
   const navigate = useNavigate();
   const [isOpen, setOpen] = useState(false)
 
@@ -32,7 +32,7 @@ export default function Profile() {
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
           `}
       >
-        <ProfileModalContent />
+        <ProfileMenu />
       </div>
     </div>
   )

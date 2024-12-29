@@ -29,7 +29,7 @@ export default function ProjectEditPage() {
           icon={arrowBack} onClick={() => { navigate(-1) }} />
       </div>
       <div>You must login to create projects.</div>
-      <IonButton color="secondary" onClick={() => { modals.open('/profile') }}>Login</IonButton>
+      <IonButton color="secondary" onClick={() => { modals.open('/menu') }}>Login</IonButton>
     </>
   }
 

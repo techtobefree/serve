@@ -16,7 +16,7 @@ function formatPhoneNumber(phone: string) {
   return `+${phone.length === 10 ? '1' : ''}${phone}`
 }
 
-export default function Login() {
+export default function LoggedOut() {
   const modals = useModals();
   const navigate = useNavigate();
   const [phone, setPhone] = useLocalStorage('login-phone');

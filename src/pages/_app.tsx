@@ -10,12 +10,12 @@ import { useProfileQuery } from '../domains/profile/queryProfileByUserId';
 import { useNavigate } from '../router';
 
 // eslint-disable-next-line import/namespace
-import { UserView } from './(header)/user/[userId]/view';
 import { useLocalAuth } from '../domains/auth/useLocalAuth';
+import { Profile } from '../components/Profile/Profile';
 
 type Props = LoggedInProfile
 
-export function LayoutComponent({ userId, handle, email, firstName, lastName, acceptedAt }: Props) {
+export function LayoutComponent({ userId, handle, acceptedAt }: Props) {
   useLocalAuth();
   useProfileQuery(userId);
   const navigate = useNavigate();
@@ -42,15 +42,12 @@ export function LayoutComponent({ userId, handle, email, firstName, lastName, ac
 
   if (userId && (
     !handle ||
-    !email ||
-    !firstName ||
-    !lastName ||
     !acceptedAt
   )) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>
-        <UserView userId={userId}
+        <Profile userId={userId}
           canEdit={true}
           acceptedAt={acceptedAt}
           initial />

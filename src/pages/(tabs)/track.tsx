@@ -69,7 +69,7 @@ export function TrackComponent({ userId }: Props) {
         <div className="flex flex-col justify-center p-4">
           <div>Login to track projects</div>
           <IonButton color="secondary" onClick={() => {
-            modals.open('/profile');
+            modals.open('/menu');
           }}>Login</IonButton>
         </div>}
     </>

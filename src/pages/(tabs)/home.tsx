@@ -108,7 +108,7 @@ export function HomeComponent({ userId }: Props) {
             <br />
             <div className="flex flex-col justify-center p-4">
               <IonButton color="secondary" onClick={() => {
-                modals.open('/profile');
+                modals.open('/menu');
               }}>Login</IonButton>
             </div>
           </div>

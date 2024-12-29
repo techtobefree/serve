@@ -1,8 +1,9 @@
--- Create the survey_question_hidden_rule table with RLS
-CREATE TABLE public.survey_question_hidden_rule (
+-- Create the survey_question_hiding_rule table with RLS
+CREATE TABLE public.survey_question_hiding_rule (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   survey_id uuid NOT NULL,
   survey_question_id uuid NOT NULL,
+  response_survey_question_id uuid NOT NULL,
   response_text_indicating_to_hide text NOT NULL,
   created_at timestamp with time zone DEFAULT now(),
   created_by uuid NOT NULL,
@@ -11,10 +12,10 @@ CREATE TABLE public.survey_question_hidden_rule (
 );
 
 -- Enable Row Level Security
-ALTER TABLE public.survey_question_hidden_rule ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.survey_question_hiding_rule ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows anyone to read the user table
-CREATE POLICY "read_survey_question_hidden_rule" ON public.survey_question_hidden_rule
+CREATE POLICY "read_survey_question_hiding_rule" ON public.survey_question_hiding_rule
   FOR SELECT TO authenticated, anon
   USING (
     true
@@ -23,7 +24,7 @@ CREATE POLICY "read_survey_question_hidden_rule" ON public.survey_question_hidde
   );
 
 -- Create a policy that allows users manage their own data
-CREATE POLICY "insert_survey_question_hidden_rule" ON public.survey_question_hidden_rule
+CREATE POLICY "insert_survey_question_hiding_rule" ON public.survey_question_hiding_rule
   FOR INSERT TO authenticated
   WITH CHECK (
     (select auth.uid()) = (
@@ -34,7 +35,7 @@ CREATE POLICY "insert_survey_question_hidden_rule" ON public.survey_question_hid
     )
   );
 
-CREATE POLICY "delete_survey_question_hidden_rule" ON public.survey_question_hidden_rule
+CREATE POLICY "delete_survey_question_hiding_rule" ON public.survey_question_hiding_rule
   FOR DELETE TO authenticated
   USING (
     (select auth.uid()) = (
@@ -46,15 +47,19 @@ CREATE POLICY "delete_survey_question_hidden_rule" ON public.survey_question_hid
   );
 
 -- Create a trigger to call the update_modified_columns function
-CREATE TRIGGER update_survey_question_hidden_rule_modtime
-  BEFORE UPDATE ON public.survey_question_hidden_rule
+CREATE TRIGGER update_survey_question_hiding_rule_modtime
+  BEFORE UPDATE ON public.survey_question_hiding_rule
   FOR EACH ROW
   EXECUTE FUNCTION update_modified_columns();
 
-ALTER TABLE public.survey_question_hidden_rule
+ALTER TABLE public.survey_question_hiding_rule
 ADD CONSTRAINT fk_survey_id_to_survey_id
 FOREIGN KEY (survey_id) REFERENCES public.survey(id);
 
-ALTER TABLE public.survey_question_hidden_rule
+ALTER TABLE public.survey_question_hiding_rule
 ADD CONSTRAINT fk_survey_question_id_to_survey_question_id
 FOREIGN KEY (survey_question_id) REFERENCES public.survey_question(id);
+
+ALTER TABLE public.survey_question_hiding_rule
+ADD CONSTRAINT fk_response_survey_question_id_to_survey_question_id
+FOREIGN KEY (response_survey_question_id) REFERENCES public.survey_question(id);

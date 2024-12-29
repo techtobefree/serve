@@ -3268,7 +3268,15 @@ export type Database = {
           updated_at?: string | null
           updated_by?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_commitment_survey_id_to_survey_id"
+            columns: ["commitment_survey_id"]
+            isOneToOne: false
+            referencedRelation: "survey"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       project_event: {
         Row: {
@@ -3769,6 +3777,7 @@ export type Database = {
       }
       survey_question: {
         Row: {
+          closed_at: string | null
           created_at: string | null
           created_by: string
           id: string
@@ -3781,6 +3790,7 @@ export type Database = {
           updated_by: string | null
         }
         Insert: {
+          closed_at?: string | null
           created_at?: string | null
           created_by: string
           id?: string
@@ -3793,6 +3803,7 @@ export type Database = {
           updated_by?: string | null
         }
         Update: {
+          closed_at?: string | null
           created_at?: string | null
           created_by?: string
           id?: string
@@ -3814,11 +3825,12 @@ export type Database = {
           },
         ]
       }
-      survey_question_hidden_rule: {
+      survey_question_hiding_rule: {
         Row: {
           created_at: string | null
           created_by: string
           id: string
+          response_survey_question_id: string
           response_text_indicating_to_hide: string
           survey_id: string
           survey_question_id: string
@@ -3829,6 +3841,7 @@ export type Database = {
           created_at?: string | null
           created_by: string
           id?: string
+          response_survey_question_id: string
           response_text_indicating_to_hide: string
           survey_id: string
           survey_question_id: string
@@ -3839,6 +3852,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string
           id?: string
+          response_survey_question_id?: string
           response_text_indicating_to_hide?: string
           survey_id?: string
           survey_question_id?: string
@@ -3846,6 +3860,13 @@ export type Database = {
           updated_by?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_response_survey_question_id_to_survey_question_id"
+            columns: ["response_survey_question_id"]
+            isOneToOne: false
+            referencedRelation: "survey_question"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "fk_survey_id_to_survey_id"
             columns: ["survey_id"]
