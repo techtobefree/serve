@@ -65,6 +65,37 @@ export function useEventByIdQuery(eventId: string) {
   })
 }
 
+// Only used for the type
+export function useSurveyByIdQuery(surveyId: string) {
+  return useQuery({
+    queryKey: ['get-surveyById', surveyId],
+    queryFn: async () => {
+      const { data, error } = await clientSupabase
+        .from('survey')
+        .select(`
+          *,
+          survey_question (
+            *,
+            survey_question_option (
+              *
+            ),
+            survey_question_hiding_rule (
+              *
+            )
+          )
+          `)
+        .eq('id', surveyId)
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    }
+  })
+}
+
 
 export function useProjectByIdQuery(projectId: string) {
   return useQuery({
@@ -91,10 +122,10 @@ export function useProjectByIdQuery(projectId: string) {
             ),
             project_event_commitment (
               *,
-            profile (
-              user_id,
-              handle
-            )
+              profile (
+                user_id,
+                handle
+              )
             ),
             project_event_item_commitment (
               *
@@ -108,6 +139,9 @@ export function useProjectByIdQuery(projectId: string) {
             survey_question (
               *,
               survey_question_option (
+                *
+              ),
+              survey_question_hiding_rule (
                 *
               )
             )

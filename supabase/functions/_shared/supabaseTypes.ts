@@ -3861,8 +3861,8 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_response_survey_question_id_to_survey_question_id"
-            columns: ["response_survey_question_id"]
+            foreignKeyName: "fk_hiding_rule_survey_question_id_to_survey_question_id"
+            columns: ["survey_question_id"]
             isOneToOne: false
             referencedRelation: "survey_question"
             referencedColumns: ["id"]
@@ -3872,13 +3872,6 @@ export type Database = {
             columns: ["survey_id"]
             isOneToOne: false
             referencedRelation: "survey"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_survey_question_id_to_survey_question_id"
-            columns: ["survey_question_id"]
-            isOneToOne: false
-            referencedRelation: "survey_question"
             referencedColumns: ["id"]
           },
         ]
@@ -3916,17 +3909,17 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_option_survey_question_id_to_survey_question_id"
+            columns: ["survey_question_id"]
+            isOneToOne: false
+            referencedRelation: "survey_question"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "fk_survey_id_to_survey_id"
             columns: ["survey_id"]
             isOneToOne: false
             referencedRelation: "survey"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_survey_question_id_to_survey_question_id"
-            columns: ["survey_question_id"]
-            isOneToOne: false
-            referencedRelation: "survey_question"
             referencedColumns: ["id"]
           },
         ]

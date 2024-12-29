@@ -59,7 +59,3 @@ FOREIGN KEY (survey_id) REFERENCES public.survey(id);
 ALTER TABLE public.survey_question_hiding_rule
 ADD CONSTRAINT fk_survey_question_id_to_survey_question_id
 FOREIGN KEY (survey_question_id) REFERENCES public.survey_question(id);
-
-ALTER TABLE public.survey_question_hiding_rule
-ADD CONSTRAINT fk_response_survey_question_id_to_survey_question_id
-FOREIGN KEY (response_survey_question_id) REFERENCES public.survey_question(id);

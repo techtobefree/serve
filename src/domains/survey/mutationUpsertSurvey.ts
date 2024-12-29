@@ -52,13 +52,13 @@ async function upsertProjectSurvey({
   projectId,
   userId,
   newQuestions,
-  closeQuestionIds,
+  questionIdsToClose,
 }: {
   surveyId?: string, // If ID is provided, then the project already has a survey
   projectId: string,
   userId: string,
   newQuestions: InsertSurveyQuestion[],
-  closeQuestionIds: string[],
+  questionIdsToClose: string[],
 }) {
   const surveyId = await ensureSurveyExists({ projectId, userId, surveyId: maybeSurveyId });
 
@@ -69,7 +69,7 @@ async function upsertProjectSurvey({
       .update({
         closed_at: new Date().toISOString(),
       })
-      .in('id', closeQuestionIds);
+      .in('id', questionIdsToClose);
 
     if (closedError) {
       throw new Error(closedError.message);
