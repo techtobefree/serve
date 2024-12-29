@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
+import { format, subDays } from "date-fns";
 
 export const partialQueryKey = 'get-projectById';
 
@@ -112,6 +113,7 @@ export function useProjectByIdQuery(projectId: string) {
             )
           )
           `)
+        .gte('project_event.project_event_date', format(subDays(new Date(), 5), 'yyyy-MM-dd'))
         .eq('id', projectId)
         .single();
 
