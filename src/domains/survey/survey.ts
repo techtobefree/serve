@@ -2,38 +2,38 @@ import { observable, runInAction } from "mobx";
 
 import { TableInsert } from "../persistence/tables";
 
-export type InsertSurveyQuestion = Omit<TableInsert['survey_question'], 'survey_id' | 'created_by'> & {
-  question_options: Omit<TableInsert['survey_question_option'], 'survey_id' | 'survey_question_id' | 'created_by'>[]
-  question_hiding_rules: Omit<TableInsert['survey_question_hiding_rule'], 'survey_id' | 'survey_question_id' | 'created_by'>[]
+export type InsertSurveyQuestion = Omit<TableInsert['survey_question'], 'survey_id' | 'created_by' | 'question_order'> & {
+  question_options: Omit<TableInsert['survey_question_option'], 'survey_id' | 'survey_question_id' | 'created_by'>[],
+  question_hiding_rules: Omit<TableInsert['survey_question_hiding_rule'], 'survey_id' | 'survey_question_id' | 'created_by'>[],
+  question_type: keyof typeof QUESTION_TYPE,
+  deleted?: boolean,
+  edited?: boolean,
 }
 
 type SurveyStore = {
   current: {
     questions: InsertSurveyQuestion[],
-    newQuestions: InsertSurveyQuestion[],
-    questionIdsToClose: string[],
   }
 }
 
 export const surveyStore = observable<SurveyStore>({
   current: {
     questions: [],
-    newQuestions: [],
-    questionIdsToClose: []
   }
 })
 
 export const QUESTION_TYPE = {
-  TEXT: 'text',
-  FIRST_NAME: 'first_name',
-  LAST_NAME: 'last_name',
-  EMAIL: 'email',
-  PHONE: 'phone',
-  STREET: 'street',
-  CITY: 'city',
-  STATE: 'state',
-  POSTAL_CODE: 'postal_code',
-  COUNTRY: 'country',
+  text: 'text',
+  long_text: 'long_text',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  email: 'email',
+  phone: 'phone',
+  street: 'street',
+  city: 'city',
+  state: 'state',
+  postal_code: 'postal_code',
+  country: 'country',
 
   // RATING: 'rating',
   // CURRENCY: 'currency',
@@ -58,24 +58,39 @@ export const QUESTION_TYPE = {
   // RICH_TEXT: 'rich_text',
   // WEBSITE: 'website',
   // SOCIAL_MEDIA: 'social_media',
-}
+} as const
 
 export function addQuestionToSurvey(question: InsertSurveyQuestion) {
   runInAction(() => {
-    surveyStore.current.newQuestions.push(question)
+    surveyStore.current.questions.push({ ...question, edited: true });
   })
 }
 
-export function closeQuestion(questionId: string) {
+// For now, updates are only before saving
+export function updateSurveyQuestion(questionIndex: number, question: InsertSurveyQuestion) {
   runInAction(() => {
-    surveyStore.current.questionIdsToClose.push(questionId)
+    surveyStore.current.questions[questionIndex] = { ...question, edited: true };
   })
 }
 
-export function syncSurveyStore(questions: InsertSurveyQuestion[]) {
+export function removeQuestion(questionIndex: number) {
+  runInAction(() => {
+    if (surveyStore.current.questions[questionIndex].id) {
+      surveyStore.current.questions[questionIndex].deleted = true;
+    } else {
+      surveyStore.current.questions.splice(questionIndex, 1);
+    }
+  })
+}
+
+export function closeQuestion(questionIndex: number) {
+  runInAction(() => {
+    surveyStore.current.questions[questionIndex].deleted = true;
+  })
+}
+
+export function resetSurveyStore(questions: InsertSurveyQuestion[]) {
   runInAction(() => {
     surveyStore.current.questions = questions
-    surveyStore.current.newQuestions = []
-    surveyStore.current.questionIdsToClose = []
   })
 }

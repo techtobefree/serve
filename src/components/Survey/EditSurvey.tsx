@@ -2,20 +2,23 @@ import { IonButton, IonIcon } from "@ionic/react"
 import { useSurveyByIdQuery } from "../../domains/project/queryProjectById"
 import { add } from "ionicons/icons"
 import { useEffect } from "react"
-import { InsertSurveyQuestion, syncSurveyStore } from "../../domains/survey/survey"
+import { addQuestionToSurvey, InsertSurveyQuestion, QUESTION_TYPE, resetSurveyStore, surveyStore } from "../../domains/survey/survey"
+import { observer } from "mobx-react-lite"
+import EditQuestion from "./EditQuestion"
 
 type Props = {
   survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null,
+  surveyQuestions: InsertSurveyQuestion[],
 }
 
-export default function EditSurvey({ survey }: Props) {
+export function EditSurveyComponent({ survey, surveyQuestions }: Props) {
   useEffect(() => {
     const questions: InsertSurveyQuestion[] = [];
     survey?.survey_question.forEach((question) => {
       questions.push({
+        id: question.id,
         question_text: question.question_text,
-        question_type: question.question_type,
-        question_order: question.question_order,
+        question_type: question.question_type as keyof typeof QUESTION_TYPE,
         question_options: question.survey_question_option.map((option) => ({
           option_text: option.option_text,
         })),
@@ -27,23 +30,34 @@ export default function EditSurvey({ survey }: Props) {
       })
     })
 
-    syncSurveyStore(questions)
+    resetSurveyStore(questions)
   }, [survey])
 
   return (
     <div>
-      <div className='flex justify-center'>
-        <IonButton onClick={() => { }}><IonIcon icon={add} /></IonButton>
+      <div className='flex flex-col justify-center'>
+        {surveyQuestions?.map((question, index) => (
+          <EditQuestion key={index} index={index} {...question} />
+        ))}
+        <IonButton onClick={() => {
+          addQuestionToSurvey({
+            question_type: QUESTION_TYPE.text,
+            question_text: 'What is your favorite color?',
+            required: false,
+            question_hiding_rules: [],
+            question_options: [],
+          })
+        }}><IonIcon icon={add} /></IonButton>
       </div>
     </div>
   )
 }
 
-// newQuestions.push({
-//     question_type: 'text',
-//     question_text: 'What is your favorite color?',
-//     required: false,
-//     question_hiding_rules: [],
-//     question_order: 0,
-//     question_options: [],
-//   })
+const EditSurvey = observer(({ survey }: Omit<Props, 'surveyQuestions'>) => {
+  return <EditSurveyComponent
+    survey={survey}
+    surveyQuestions={[...surveyStore.current.questions.map(i => ({ ...i, deleted: i.deleted }))]}
+  />
+})
+
+export default EditSurvey;

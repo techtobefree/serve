@@ -37,6 +37,23 @@ CREATE POLICY "insert_survey_question" ON public.survey_question
     )
   );
 
+CREATE POLICY "update_survey_question" ON public.survey_question
+  FOR UPDATE TO authenticated
+  USING (
+    (select auth.uid()) = (
+      SELECT owner_id
+      FROM survey
+      WHERE survey.id = survey_id
+      LIMIT 1
+    ) AND (
+      NOT EXISTS (
+        SELECT 1
+        FROM public.survey_question sq
+        WHERE sq.id = id AND sq.question_text <> question_text
+      )
+    )
+  );
+
 CREATE POLICY "delete_survey_question" ON public.survey_question
   FOR DELETE TO authenticated
   USING (

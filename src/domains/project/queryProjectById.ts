@@ -148,6 +148,7 @@ export function useProjectByIdQuery(projectId: string) {
           )
           `)
         .gte('project_event.project_event_date', format(subDays(new Date(), 5), 'yyyy-MM-dd'))
+        .filter('survey.survey_question.closed_at', 'is', null)
         .eq('id', projectId)
         .single();
 

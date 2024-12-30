@@ -6,7 +6,7 @@ import { mayReplace } from "../../../../domains/ui/navigation";
 import { useProjectByIdQuery } from "../../../../domains/project/queryProjectById"
 import { useModals, useNavigate, useParams } from "../../../../router"
 import { userStore } from "../../../../domains/auth/sessionStore";
-import ProjectSurvey from "../../../../components/Project/ProjectSurvey";
+import ProjectSurvey from "../../../../components/Survey/Survey";
 
 export default function ProjectEditPage() {
   const modals = useModals();
@@ -42,7 +42,7 @@ export default function ProjectEditPage() {
             navigate('/project/:projectId/view', { params: { projectId }, replace: mayReplace() })
           }} />
       </div>
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center p-4">
         <div className="max-w-[800px] w-full">
           <ProjectSurvey project={project} userId={userId} />
         </div>

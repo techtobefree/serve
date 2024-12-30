@@ -22,22 +22,23 @@ async function ensureSurveyExists({ projectId, userId, surveyId }:
       created_by: userId,
       owner_id: userId,
     })
-    .select('id');
+    .select('id')
+    .single();
 
   if (surveyError) {
     showToast('Failed to update survey', { duration: 5000, isError: true });
     throw surveyError;
   }
 
-  const actualSurveyId = surveyData?.[0]?.id;
+  const actualSurveyId = surveyData?.id;
 
   const { error: projectError } = await clientSupabase
     .from('project')
     .update({
-      commitment_survey_id: surveyId,
+      commitment_survey_id: actualSurveyId,
     })
     .eq('id', projectId)
-    .select('id');
+    .select('*');
 
   if (projectError) {
     showToast('Failed to update project survey', { duration: 5000, isError: true });
@@ -51,16 +52,17 @@ async function upsertProjectSurvey({
   surveyId: maybeSurveyId,
   projectId,
   userId,
-  newQuestions,
-  questionIdsToClose,
+  questions,
 }: {
   surveyId?: string, // If ID is provided, then the project already has a survey
   projectId: string,
   userId: string,
-  newQuestions: InsertSurveyQuestion[],
-  questionIdsToClose: string[],
+  questions: InsertSurveyQuestion[],
 }) {
   const surveyId = await ensureSurveyExists({ projectId, userId, surveyId: maybeSurveyId });
+
+  const questionsToDelete = questions.filter(i => i.deleted);
+  const questionsToUpdate = questions.filter(i => i.edited && !i.deleted);
 
   // Close questions that are no longer in use
   try {
@@ -69,7 +71,7 @@ async function upsertProjectSurvey({
       .update({
         closed_at: new Date().toISOString(),
       })
-      .in('id', questionIdsToClose);
+      .in('id', questionsToDelete.map(i => i.id));
 
     if (closedError) {
       throw new Error(closedError.message);
@@ -79,25 +81,28 @@ async function upsertProjectSurvey({
   }
 
   // Create new questions
-  for (const question of newQuestions) {
+  for (let index = 0; index < questionsToUpdate.length; index++) {
+    const question = questionsToUpdate[index];
     try {
       const { data: surveyQuestion, error: newQuestionsError } = await clientSupabase
         .from('survey_question')
-        .insert({
-          question_order: question.question_order,
+        .upsert({
+          id: question.id,
+          question_order: index,
           question_text: question.question_text,
           question_type: question.question_type,
           required: question.required,
           created_by: userId,
           survey_id: surveyId,
         })
-        .select('id');
+        .select('id')
+        .single();
 
       if (newQuestionsError) {
         throw new Error(newQuestionsError.message);
       }
 
-      const questionId = surveyQuestion?.[0]?.id;
+      const questionId = surveyQuestion?.id;
 
       if (!questionId) {
         throw new Error('Failed to create new question');
@@ -127,6 +132,7 @@ async function upsertProjectSurvey({
 
       // Create new question hiding options
       if (question.question_hiding_rules) {
+        console.log('question.question_hiding_rules', question.question_hiding_rules);
         for (const hidingRule of question.question_hiding_rules) {
           try {
             const { error: hidingRuleError } = await clientSupabase
