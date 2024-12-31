@@ -4,13 +4,26 @@ import { useLocation } from "react-router-dom";
 import { useModals, useNavigate } from "../router"
 import { useSurveyByIdQuery } from "../domains/project/queryProjectById";
 import SurveyResponse from "../components/Survey/SurveyResponse";
+import { showToast } from "../domains/ui/toast";
+import useCommitToTimeslot from "../domains/project/commitment/mutationCommitToTimeslot";
+import { TZDate } from "@date-fns/tz";
 
-export default function Survey() {
+export default function TimeslotSurvey() {
   const navigate = useNavigate();
   const modals = useModals();
   const location = useLocation();
-  const { survey }: { survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null } = location.state || {};
+  const { survey, timeslotCommitment }:
+    {
+      survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null,
+      timeslotCommitment: {
+        projectId: string,
+        startTime: TZDate,
+        endTime: TZDate,
+        eventId: string,
+      }
+    } = location.state || {};
 
+  const timeslotCommit = useCommitToTimeslot({ projectId: timeslotCommitment.projectId });
 
   const [isOpen, setOpen] = useState(false)
 
@@ -24,7 +37,13 @@ export default function Survey() {
   }, []);
 
   if (!survey) {
-    return null;
+    showToast('Missing survey', { duration: 5000, isError: true });
+    return;
+  }
+
+  if (!timeslotCommitment) {
+    showToast('Missing timeslot commitment', { duration: 5000, isError: true });
+    return;
   }
 
   return (
@@ -45,7 +64,16 @@ export default function Survey() {
       >
         <div className='rounded-2xl bg-white flex flex-col gap-4
           pointer-events-auto'>
-          <SurveyResponse survey={survey} onComplete={() => modals.close()} />
+          <SurveyResponse
+            projectId={timeslotCommitment.projectId}
+            survey={survey}
+            onCancel={() => {
+              modals.close()
+            }}
+            onComplete={() => {
+              timeslotCommit.mutate(timeslotCommitment)
+              modals.close()
+            }} />
         </div>
       </div>
     </div>

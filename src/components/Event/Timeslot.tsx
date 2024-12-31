@@ -42,13 +42,21 @@ export default function Timeslot({ canEdit, committed, currentUserId, event, sur
               modals.open('/menu')
             } else {
               if (survey) {
-                modals.open('/survey', { state: { survey } });
+                modals.open('/timeslotSurvey', {
+                  state: {
+                    survey, projectId: event.project_id, timeslotCommitment: {
+                      projectId: event.project_id,
+                      startTime,
+                      endTime,
+                      eventId: event.id,
+                    }
+                  }
+                });
               } else {
                 timeslotCommit.mutate({
                   projectId: event.project_id,
                   startTime,
                   endTime,
-                  currentUserId,
                   eventId: event.id,
                 })
               }

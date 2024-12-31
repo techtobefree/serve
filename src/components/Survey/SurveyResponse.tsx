@@ -4,13 +4,17 @@ import { useEffect, useMemo } from "react";
 import { useSurveyByIdQuery } from "../../domains/project/queryProjectById";
 import { IonButton } from "@ionic/react";
 import { TextResponse } from "./TextQuestion";
-import { toJS } from "mobx";
 import { showToast } from "../../domains/ui/toast";
+import useAnswerSurvey from "../../domains/survey/mutationAnswerSurvey";
+import { userStore } from "../../domains/auth/sessionStore";
 
 type Props = {
-  survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
-  responses: InsertResponse[];
+  onCancel: () => void;
   onComplete: () => void;
+  projectId: string;
+  responses: InsertResponse[];
+  survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
+  userId?: string;
 }
 
 function isValidResponse(responses: InsertResponse[]) {
@@ -23,7 +27,13 @@ function isValidResponse(responses: InsertResponse[]) {
   return true;
 }
 
-export function SurveyResponseComponent({ survey, responses, onComplete }: Props) {
+export function SurveyResponseComponent({ onCancel, onComplete, projectId, responses, survey, userId }: Props) {
+  const answerSurvey = useAnswerSurvey({ projectId }, (error?: Error) => {
+    if (!error) {
+      onComplete();
+    }
+  });
+
   return (
     <div className='flex flex-col gap-6 p-4 overflow-auto'>
       <div className='text-2xl'>{survey?.name}</div>
@@ -40,15 +50,18 @@ export function SurveyResponseComponent({ survey, responses, onComplete }: Props
           <IonButton
             color='danger'
             onClick={() => {
-              onComplete();
+              onCancel();
             }}>
             Cancel
           </IonButton>
           <IonButton
             onClick={() => {
+              if (!userId) {
+                showToast('Missing user info', { duration: 5000, isError: true });
+                return;
+              }
               if (isValidResponse(responses)) {
-                console.log('TODO Submit response', toJS(surveyStore.current.responses));
-                onComplete();
+                answerSurvey.mutate({ responses, userId });
               }
             }}>
             Submit
@@ -59,7 +72,7 @@ export function SurveyResponseComponent({ survey, responses, onComplete }: Props
   );
 }
 
-const SurveyResponse = observer(({ onComplete, survey }: Omit<Props, 'responses' | 'surveyMap'>) => {
+const SurveyResponse = observer(({ onCancel, onComplete, projectId, survey }: Omit<Props, 'responses' | 'surveyMap'>) => {
   const surveyMap = useMemo(() => {
     const map = new Map();
     survey?.survey_question.forEach((question) => {
@@ -84,9 +97,12 @@ const SurveyResponse = observer(({ onComplete, survey }: Omit<Props, 'responses'
   }, [survey])
 
   return <SurveyResponseComponent
-    survey={survey}
-    responses={[...surveyStore.current.responses.map(i => ({ ...i, response_text: i.response_text }))]}
+    onCancel={onCancel}
     onComplete={onComplete}
+    projectId={projectId}
+    responses={[...surveyStore.current.responses.map(i => ({ ...i, response_text: i.response_text }))]}
+    survey={survey}
+    userId={userStore.current?.id}
   />
 })
 

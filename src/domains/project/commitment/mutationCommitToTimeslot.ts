@@ -6,20 +6,24 @@ import { clientSupabase } from "../../persistence/clientSupabase";
 import { showToast } from "../../ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queryProjectById";
 import { queryClient } from "../../persistence/queryClient";
+import { userStore } from "../../auth/sessionStore";
 
-export async function commitToTimeslot({ currentUserId, eventId, projectId, startTime, endTime }:
+export async function commitToTimeslot({ eventId, projectId, startTime, endTime }:
   {
-    currentUserId: string,
     eventId: string,
     projectId: string,
     startTime: TZDate,
     endTime: TZDate
   }) {
 
+  if (!userStore.current) {
+    throw new Error('Missing user info');
+  }
+
   const { error } = await clientSupabase
     .from('project_event_commitment')
     .insert({
-      created_by: currentUserId,
+      created_by: userStore.current?.id,
       project_id: projectId,
       commitment_start: tzDateToDB(startTime),
       commitment_end: tzDateToDB(endTime),
