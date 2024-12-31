@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
 import { queryClient } from "../persistence/queryClient";
+import { TableInsert } from "../persistence/tables";
 import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
 import { showToast } from "../ui/toast";
 
@@ -82,7 +83,7 @@ async function upsertProjectSurvey({
     console.log('Failed to close questions:', error);
   }
 
-  // Create new questions
+  // Create/update questions
   for (let index = 0; index < questionsToUpdate.length; index++) {
     const question = questionsToUpdate[index];
     try {
@@ -96,7 +97,7 @@ async function upsertProjectSurvey({
           required: question.required,
           created_by: userId,
           survey_id: surveyId,
-        })
+        } as TableInsert['survey_question'])
         .select('id')
         .single();
 
