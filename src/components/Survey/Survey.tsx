@@ -2,7 +2,7 @@ import { IonButton } from '@ionic/react';
 
 import { useProjectByIdQuery } from '../../domains/project/queryProjectById';
 import useUpsertProjectSurvey from '../../domains/survey/mutationUpsertSurvey';
-import { InsertSurveyQuestion, surveyStore } from '../../domains/survey/survey';
+import { InsertSurveyQuestion, QUESTION_MAP, surveyStore } from '../../domains/survey/survey';
 
 import { showToast } from '../../domains/ui/toast';
 import { useNavigate } from '../../router';
@@ -19,6 +19,12 @@ function isValidSurvey(survey: InsertSurveyQuestion[] | null) {
     showToast('Survey is empty', { duration: 5000, isError: true });
     return false;
   }
+
+  survey.forEach((question) => {
+    if (question.question_text === undefined && question.question_type) {
+      question.question_text = QUESTION_MAP[question.question_type].label;
+    }
+  });
 
   if (survey.some((question) => !question.question_text)) {
     showToast('Question text is empty', { duration: 5000, isError: true });

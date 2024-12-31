@@ -53,8 +53,6 @@ export function EditSurveyComponent({ survey, surveyQuestions }: Props) {
         ))}
         <IonButton onClick={() => {
           addQuestionToSurvey({
-            question_type: QUESTION_TYPE.text,
-            question_text: 'Favorite color',
             required: false,
             question_hiding_rules: [],
             question_options: [],

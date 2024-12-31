@@ -1,11 +1,30 @@
 import { observable, runInAction } from "mobx";
 
+import { QuestionProps } from "../../components/Survey/QuestionProps";
+import TextQuestion from "../../components/Survey/TextQuestion";
 import { TableInsert, TableRows } from "../persistence/tables";
+
+export const QUESTION_MAP: {
+  [key in keyof typeof QUESTION_TYPE]:
+  { label: string, component: (props: QuestionProps) => React.JSX.Element };
+} = {
+  text: { label: 'Text', component: TextQuestion },
+  long_text: { label: 'Long Text', component: TextQuestion },
+  first_name: { label: 'First Name', component: TextQuestion },
+  last_name: { label: 'Last Name', component: TextQuestion },
+  email: { label: 'Email', component: TextQuestion },
+  phone: { label: 'Phone', component: TextQuestion },
+  street: { label: 'Street', component: TextQuestion },
+  city: { label: 'City', component: TextQuestion },
+  state: { label: 'State', component: TextQuestion },
+  postal_code: { label: 'Postal Code', component: TextQuestion },
+  country: { label: 'Country', component: TextQuestion },
+}
 
 export type InsertSurveyQuestion =
   Omit<
     TableInsert['survey_question'],
-    'survey_id' | 'created_by' | 'question_order'
+    'survey_id' | 'created_by' | 'question_order' | 'question_text' | 'question_type'
   > & {
     question_options:
     Omit<
@@ -17,7 +36,8 @@ export type InsertSurveyQuestion =
       TableInsert['survey_question_hiding_rule'],
       'survey_id' | 'survey_question_id' | 'created_by'
     >[],
-    question_type: keyof typeof QUESTION_TYPE,
+    question_text?: string,
+    question_type?: keyof typeof QUESTION_TYPE,
     deleted?: boolean,
     edited?: boolean,
   }

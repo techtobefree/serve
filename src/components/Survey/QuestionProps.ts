@@ -6,5 +6,5 @@ export type QuestionProps = {
     label: string,
     canEdit: boolean,
     question_type: keyof typeof QUESTION_TYPE,
-    question_text: string,
+    question_text?: string,
 }

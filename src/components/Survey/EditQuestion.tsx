@@ -12,30 +12,11 @@ import { trash } from "ionicons/icons";
 
 import {
   InsertSurveyQuestion,
-  QUESTION_TYPE,
+  QUESTION_MAP,
   removeQuestion,
   updateSurveyQuestion
 } from "../../domains/survey/survey";
 
-import { QuestionProps } from "./QuestionProps";
-import TextQuestion from "./TextQuestion";
-
-const QUESTION_MAP: {
-  [key in keyof typeof QUESTION_TYPE]:
-  { label: string, component: (props: QuestionProps) => React.JSX.Element };
-} = {
-  text: { label: 'Text', component: TextQuestion },
-  long_text: { label: 'Long Text', component: TextQuestion },
-  first_name: { label: 'First Name', component: TextQuestion },
-  last_name: { label: 'Last Name', component: TextQuestion },
-  email: { label: 'Email', component: TextQuestion },
-  phone: { label: 'Phone', component: TextQuestion },
-  street: { label: 'Street', component: TextQuestion },
-  city: { label: 'City', component: TextQuestion },
-  state: { label: 'State', component: TextQuestion },
-  postal_code: { label: 'Postal Code', component: TextQuestion },
-  country: { label: 'Country', component: TextQuestion },
-}
 
 export default function EditQuestion(question: InsertSurveyQuestion & { index: number }) {
   const { id, index, question_type, question_text } = question;
@@ -60,7 +41,7 @@ export default function EditQuestion(question: InsertSurveyQuestion & { index: n
               aria-label="Prompt type"
               interface="popover"
               placeholder='Type'
-              defaultValue={undefined}
+              value={question.question_type}
               onIonChange={(event) => {
                 updateSurveyQuestion(index, { ...question, question_type: event.target.value });
               }}>
@@ -79,20 +60,26 @@ export default function EditQuestion(question: InsertSurveyQuestion & { index: n
             onClick={() => { removeQuestion(index); }}
           ><IonIcon icon={trash} /></IonButton>
         </div>
+        {question.deleted &&
+          <div className='text-red-500'>Will be deleted</div>
+        }
         {
-          question.deleted ?
-            <div className='text-red-500'>Will be deleted</div> :
-            <div className='w-full'>
-              {
-                QUESTION_MAP[question_type]
-                  .component({
-                    id,
-                    index,
-                    canEdit,
-                    label: QUESTION_MAP[question_type].label, question_type, question_text
-                  })
-              }
-            </div>
+          !question.deleted && (
+            question_type ?
+              <div className='w-full'>
+                {
+                  QUESTION_MAP[question_type]
+                    .component({
+                      id,
+                      index,
+                      canEdit,
+                      label: QUESTION_MAP[question_type].label,
+                      question_type,
+                      question_text
+                    })
+                }
+              </div> : null
+          )
         }
       </div>
     </IonItem>

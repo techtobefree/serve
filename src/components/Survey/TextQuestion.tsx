@@ -6,13 +6,18 @@ import { setResponseText, surveyStore, updateSurveyQuestion } from "../../domain
 
 import { QuestionProps } from "./QuestionProps";
 
-export default function TextQuestion({ index, canEdit, question_text }: QuestionProps) {
+export default function TextQuestion({
+  index,
+  canEdit,
+  label,
+  question_text
+}: QuestionProps) {
   return (
     <IonInput
       disabled={!canEdit}
       label='Prompt'
       type="text"
-      value={question_text}
+      value={question_text || label}
       onIonChange={(event) => {
         updateSurveyQuestion(index, {
           ...surveyStore.current.questions[index],
