@@ -4,8 +4,8 @@ import { cameraOutline, closeOutline, cube } from 'ionicons/icons';
 import { useState } from "react";
 
 import { IMAGE_SIZE, IMAGE_SIZE_MAP } from '../../domains/image';
-import { showToast } from '../../domains/ui/toast';
 import { uploadImage } from '../../domains/image/image';
+import { showToast } from '../../domains/ui/toast';
 
 type Props = {
   path: string;

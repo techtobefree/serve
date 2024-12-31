@@ -3,15 +3,15 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
+import { Profile } from '../components/Profile/Profile';
 import Toast from '../components/Toast';
 import { userStore } from '../domains/auth/sessionStore';
+import { useLocalAuth } from '../domains/auth/useLocalAuth';
 import { LoggedInProfile, loggedInProfileStore } from '../domains/profile/loggedInProfileStore';
 import { useProfileQuery } from '../domains/profile/queryProfileByUserId';
 import { useNavigate } from '../router';
 
-// eslint-disable-next-line import/namespace
-import { useLocalAuth } from '../domains/auth/useLocalAuth';
-import { Profile } from '../components/Profile/Profile';
+ 
 
 type Props = LoggedInProfile
 

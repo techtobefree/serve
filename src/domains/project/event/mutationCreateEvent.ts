@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 
 import { Address } from "../../address/addressComponents";
 import { clientSupabase } from "../../persistence/clientSupabase";
+import { queryClient } from "../../persistence/queryClient";
 import { showToast } from "../../ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queryProjectById";
-import { queryClient } from "../../persistence/queryClient";
 
 async function createEvent({
   projectId,

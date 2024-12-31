@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
-import { showToast } from "../ui/toast";
-import { partialQueryKey as projectByIdKey } from "./queryProjectById";
 import { queryClient } from "../persistence/queryClient";
+import { showToast } from "../ui/toast";
+
+import { partialQueryKey as projectByIdKey } from "./queryProjectById";
 
 export async function deleteProject({ projectId }: { projectId: string }) {
   const { error } = await clientSupabase
@@ -30,7 +31,7 @@ export default function useDeleteProject(
       void queryClient.invalidateQueries({ queryKey: ['my-admin-projects', userId] });
       void queryClient.invalidateQueries({ queryKey: ['my-attending-projects', userId] });
       void queryClient.invalidateQueries({ queryKey: 'all-projects' });
-      ['my-admin-projects', userId]
+
       showToast('Project deleted', { duration: 3000 })
       callback?.();
     },

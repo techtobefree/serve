@@ -1,11 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
-import { showToast } from "../ui/toast";
-import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
 import { queryClient } from "../persistence/queryClient";
-import { InsertResponse } from "./survey";
 import { TableInsert } from "../persistence/tables";
+import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
+import { showToast } from "../ui/toast";
+
+import { InsertResponse } from "./survey";
+
 
 async function answerSurvey({
   userId,
@@ -33,6 +35,7 @@ async function answerSurvey({
     }
   } catch (error) {
     showToast('Failed to complete survey', { duration: 5000, isError: true });
+    console.log('Error answering survey:', error);
   }
 }
 

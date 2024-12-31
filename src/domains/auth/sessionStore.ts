@@ -11,13 +11,13 @@ export type SupabaseUser = {
 export const userStore = observable<SupabaseUser>({})
 
 // TODO: check this - it should be preferred, but it seems to logout the user every refresh
-clientSupabase.auth.getUser().then(({ data: { user } }) => {
+void clientSupabase.auth.getUser().then(({ data: { user } }) => {
   runInAction(() => {
     userStore.current = user;
   })
 })
 
-clientSupabase.auth.getSession().then(({ data: { session } }) => {
+void clientSupabase.auth.getSession().then(({ data: { session } }) => {
   runInAction(() => {
     userStore.session = session;
   })

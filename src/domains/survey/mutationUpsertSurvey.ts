@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
-import { showToast } from "../ui/toast";
-import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
 import { queryClient } from "../persistence/queryClient";
+import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
+import { showToast } from "../ui/toast";
+
 import { InsertSurveyQuestion } from "./survey";
 
 async function ensureSurveyExists({ projectId, userId, surveyId }:
@@ -30,7 +31,7 @@ async function ensureSurveyExists({ projectId, userId, surveyId }:
     throw surveyError;
   }
 
-  const actualSurveyId = surveyData?.id;
+  const actualSurveyId = surveyData.id;
 
   const { error: projectError } = await clientSupabase
     .from('project')
@@ -78,6 +79,7 @@ async function upsertProjectSurvey({
     }
   } catch (error) {
     showToast('Failed to close questions', { duration: 5000, isError: true });
+    console.log('Failed to close questions:', error);
   }
 
   // Create new questions
@@ -102,59 +104,58 @@ async function upsertProjectSurvey({
         throw new Error(newQuestionsError.message);
       }
 
-      const questionId = surveyQuestion?.id;
+      const questionId = surveyQuestion.id;
 
       if (!questionId) {
         throw new Error('Failed to create new question');
       }
 
       // Create new question options
-      if (question.question_options) {
-        for (const option of question.question_options) {
-          try {
-            const { error: optionError } = await clientSupabase
-              .from('survey_question_option')
-              .insert({
-                option_text: option.option_text,
-                created_by: userId,
-                survey_id: surveyId,
-                survey_question_id: questionId,
-              });
+      for (const option of question.question_options) {
+        try {
+          const { error: optionError } = await clientSupabase
+            .from('survey_question_option')
+            .insert({
+              option_text: option.option_text,
+              created_by: userId,
+              survey_id: surveyId,
+              survey_question_id: questionId,
+            });
 
-            if (optionError) {
-              throw new Error(optionError.message);
-            }
-          } catch (error) {
-            showToast('Failed to create question options', { duration: 5000, isError: true });
+          if (optionError) {
+            throw new Error(optionError.message);
           }
+        } catch (error) {
+          showToast('Failed to create question options', { duration: 5000, isError: true });
+          console.log('Failed to create question options', error);
         }
       }
 
       // Create new question hiding options
-      if (question.question_hiding_rules) {
-        for (const hidingRule of question.question_hiding_rules) {
-          try {
-            const { error: hidingRuleError } = await clientSupabase
-              .from('survey_question_hiding_rule')
-              .insert({
-                response_survey_question_id: hidingRule.response_survey_question_id,
-                response_text_indicating_to_hide: hidingRule.response_text_indicating_to_hide,
-                created_by: userId,
-                survey_id: surveyId,
-                survey_question_id: questionId,
-              });
+      for (const hidingRule of question.question_hiding_rules) {
+        try {
+          const { error: hidingRuleError } = await clientSupabase
+            .from('survey_question_hiding_rule')
+            .insert({
+              response_survey_question_id: hidingRule.response_survey_question_id,
+              response_text_indicating_to_hide: hidingRule.response_text_indicating_to_hide,
+              created_by: userId,
+              survey_id: surveyId,
+              survey_question_id: questionId,
+            });
 
-            if (hidingRuleError) {
-              throw new Error(hidingRuleError.message);
-            }
-          } catch (error) {
-            showToast('Failed to create survey hiding rules', { duration: 5000, isError: true });
+          if (hidingRuleError) {
+            throw new Error(hidingRuleError.message);
           }
+        } catch (error) {
+          showToast('Failed to create survey hiding rules', { duration: 5000, isError: true });
+          console.log('Failed to create survey hiding rules', error);
         }
       }
 
     } catch (error) {
       showToast('Failed to create new questions', { duration: 5000, isError: true });
+      console.log('Failed to create new questions', error);
     }
   }
 }

@@ -1,9 +1,21 @@
 import { IonButton, IonIcon } from "@ionic/react"
-import { useSurveyByIdQuery } from "../../domains/project/queryProjectById"
+
 import { add } from "ionicons/icons"
-import { useEffect } from "react"
-import { addQuestionToSurvey, InsertSurveyQuestion, QUESTION_TYPE, resetSurveyStoreQuestions, surveyStore } from "../../domains/survey/survey"
+
 import { observer } from "mobx-react-lite"
+import { useEffect } from "react"
+
+import { useSurveyByIdQuery } from "../../domains/project/queryProjectById"
+
+import {
+  addQuestionToSurvey,
+  InsertSurveyQuestion,
+  QUESTION_TYPE,
+  resetSurveyStoreQuestions,
+  surveyStore
+} from "../../domains/survey/survey"
+
+
 import EditQuestion from "./EditQuestion"
 
 type Props = {
@@ -36,7 +48,7 @@ export function EditSurveyComponent({ survey, surveyQuestions }: Props) {
   return (
     <div>
       <div className='flex flex-col justify-center'>
-        {surveyQuestions?.map((question, index) => (
+        {surveyQuestions.map((question, index) => (
           <EditQuestion key={index} index={index} {...question} />
         ))}
         <IonButton onClick={() => {

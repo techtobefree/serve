@@ -23,7 +23,9 @@ export function ProfileModalContentComponent({ isLoggedIn, currentProfile }: Pro
 const ProfileModalContent = observer(() => {
   const { current } = userStore;
 
-  return <ProfileModalContentComponent isLoggedIn={!!current} currentProfile={{ ...loggedInProfileStore }} />
+  return <ProfileModalContentComponent
+    isLoggedIn={!!current}
+    currentProfile={{ ...loggedInProfileStore }} />
 });
 
 export default ProfileModalContent;

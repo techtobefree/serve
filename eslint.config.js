@@ -5,10 +5,18 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import react from 'eslint-plugin-react'
 import importPlugin from 'eslint-plugin-import';
-import denoPlugin from 'eslint-plugin-deno'
 
 export default tseslint.config(
-  { ignores: ['dist', 'capacitor.config.ts', 'android', 'ios', 'src/router.ts', 'src/domains/db/supabaseTypes.ts'] },
+  {
+    ignores: [
+      'dist',
+      'capacitor.config.ts',
+      'android',
+      'ios',
+      'src/router.ts',
+      'supabase/functions',
+    ]
+  },
   {
     extends: [
       js.configs.recommended,
@@ -20,7 +28,7 @@ export default tseslint.config(
       ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json', './deno.tsconfig.json'],
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -45,8 +53,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       react,
-      importPlugin,
-      denoPlugin
+      importPlugin
     },
     rules: {
       ...reactHooks.configs.recommended.rules,

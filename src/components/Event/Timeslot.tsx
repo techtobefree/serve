@@ -4,7 +4,11 @@ import { addMinutes, format } from "date-fns";
 import { buildStartTime } from "../../domains/date/timezone";
 import useCommitToTimeslot from "../../domains/project/commitment/mutationCommitToTimeslot";
 import useRemoveTimeslot from "../../domains/project/event/mutationRemoveTimeslot";
-import { useEventByIdQuery, useSurveyByIdQuery, useTimeslotByIdQuery } from "../../domains/project/queryProjectById";
+import {
+  useEventByIdQuery,
+  useSurveyByIdQuery,
+  useTimeslotByIdQuery
+} from "../../domains/project/queryProjectById";
 import { useModals } from "../../router";
 
 type Props = {
@@ -16,7 +20,14 @@ type Props = {
   timeslot: Exclude<ReturnType<typeof useTimeslotByIdQuery>['data'], undefined>;
 }
 
-export default function Timeslot({ canEdit, committed, currentUserId, event, survey, timeslot }: Props) {
+export default function Timeslot({
+  canEdit,
+  committed,
+  currentUserId,
+  event,
+  survey,
+  timeslot
+}: Props) {
   const modals = useModals();
   const startTime = buildStartTime(event.project_event_date, event.timezone, timeslot);
   const endTime = addMinutes(startTime, timeslot.timeslot_duration_minutes);

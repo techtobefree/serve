@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { clientSupabase } from "../../persistence/clientSupabase";
+import { queryClient } from "../../persistence/queryClient";
 import { showToast } from "../../ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queryProjectById";
-import { queryClient } from "../../persistence/queryClient";
 
 export async function removeEvent({ id, projectId }:
   {

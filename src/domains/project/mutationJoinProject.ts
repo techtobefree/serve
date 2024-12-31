@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
-import { showToast } from "../ui/toast";
-import { partialQueryKey as projectByIdKey } from "./queryProjectById";
 import { queryClient } from "../persistence/queryClient";
+import { showToast } from "../ui/toast";
+
+import { partialQueryKey as projectByIdKey } from "./queryProjectById";
 
 export async function joinProject({ projectId, userId }: { projectId: string, userId: string }) {
   const { error } = await clientSupabase

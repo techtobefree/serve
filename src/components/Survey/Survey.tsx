@@ -1,10 +1,13 @@
-import { useNavigate } from '../../router';
-import useUpsertProjectSurvey from '../../domains/survey/mutationUpsertSurvey';
-import { useProjectByIdQuery } from '../../domains/project/queryProjectById';
 import { IonButton } from '@ionic/react';
+
+import { useProjectByIdQuery } from '../../domains/project/queryProjectById';
+import useUpsertProjectSurvey from '../../domains/survey/mutationUpsertSurvey';
 import { InsertSurveyQuestion, surveyStore } from '../../domains/survey/survey';
-import EditSurvey from './EditSurvey';
+
 import { showToast } from '../../domains/ui/toast';
+import { useNavigate } from '../../router';
+
+import EditSurvey from './EditSurvey';
 
 type Props = {
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>,
@@ -22,11 +25,6 @@ function isValidSurvey(survey: InsertSurveyQuestion[] | null) {
     return false;
   }
 
-  if (survey.some((question) => !question.question_type)) {
-    showToast('Question type is missing', { duration: 5000, isError: true });
-    return false;
-  }
-
   return true;
 }
 
@@ -40,14 +38,18 @@ const ProjectSurvey = ({ project, userId }: Props) => {
 
   return (
     <div>
-      <div>This will be presented to everyone committing to the project. The prompt is what you will see in any reports.</div>
+      <div>This will be presented to everyone committing to the project.
+        The prompt is what you will see in any reports.</div>
       <br />
       <EditSurvey survey={project.survey} />
       <div className='flex justify-end'>
         <IonButton
           color='danger'
           onClick={() => {
-            navigate('/project/:projectId/view', { params: { projectId: project.id }, replace: true });
+            navigate(
+              '/project/:projectId/view',
+              { params: { projectId: project.id }, replace: true }
+            );
           }}>
           Cancel
         </IonButton>

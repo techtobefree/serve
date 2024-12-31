@@ -1,6 +1,7 @@
 import { format } from "date-fns";
-import { clientSupabase } from "../../persistence/clientSupabase";
-import { showToast } from "../../ui/toast";
+
+import { clientSupabase } from "../../../src/domains/persistence/clientSupabase";
+import { showToast } from "../../../src/domains/ui/toast";
 
 export async function projectCommitmentsReport({ projectEventId }: { projectEventId: string }) {
   const { data, error } = await clientSupabase.functions.invoke('projectCommitmentsReport', {
@@ -26,7 +27,7 @@ export async function projectCommitmentsReport({ projectEventId }: { projectEven
       last_name: item.profile.sensitive_profile[0].last_name,
       email: item.profile.sensitive_profile[0].email,
     }
-  }) as Object[]
+  }) as object[]
 
   return {
     data: mapped,

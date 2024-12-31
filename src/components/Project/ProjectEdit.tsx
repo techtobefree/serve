@@ -1,15 +1,15 @@
 import { IonButton, IonCheckbox, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
 import { useForm } from '@tanstack/react-form';
 
+import { IMAGE_SIZE } from '../../domains/image';
+import { projectPicturePath, getPublicUrl } from '../../domains/image/image';
 import { clientSupabase } from '../../domains/persistence/clientSupabase';
 import { TableInsert } from '../../domains/persistence/tables';
-import { IMAGE_SIZE } from '../../domains/image';
+import useDeleteProject from '../../domains/project/mutationDeleteProject';
 import { mayReplace } from '../../domains/ui/navigation';
 import { showToast } from '../../domains/ui/toast';
-import { projectPicturePath, getPublicUrl } from '../../domains/image/image';
 import { useNavigate } from '../../router';
 import UploadImage from '../UploadImage';
-import useDeleteProject from '../../domains/project/mutationDeleteProject';
 
 type Props = {
   project: TableInsert['project'],
@@ -150,7 +150,9 @@ const ProjectForm = ({ project, userId }: Props) => {
       <div className='flex justify-around p-6'>
         {project.id && (
           <IonButton expand="block" color="danger" onClick={() => {
-            deleteProject.mutate({ projectId: project.id! });
+            if (project.id) {
+              deleteProject.mutate({ projectId: project.id });
+            }
             navigate('/home', { replace: true });
           }}>
             DELETE

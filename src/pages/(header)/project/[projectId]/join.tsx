@@ -4,10 +4,12 @@ import { observer } from "mobx-react-lite"
 import { useEffect, useRef } from "react"
 
 import { userStore } from "../../../../domains/auth/sessionStore"
-import { mayReplace } from "../../../../domains/ui/navigation"
-import { useJoinProjectByIdQuery } from "../../../../domains/project/queryJoinProject"
-import { partialQueryKey as projectByIdQueryKey } from "../../../../domains/project/queryProjectById"
 import { queryClient } from "../../../../domains/persistence/queryClient"
+import { useJoinProjectByIdQuery } from "../../../../domains/project/queryJoinProject"
+import {
+  partialQueryKey as projectByIdQueryKey
+} from "../../../../domains/project/queryProjectById"
+import { mayReplace } from "../../../../domains/ui/navigation"
 import { useModals, useNavigate, useParams } from "../../../../router"
 
 type Props = {

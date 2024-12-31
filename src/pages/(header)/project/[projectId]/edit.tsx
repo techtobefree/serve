@@ -3,10 +3,10 @@ import { arrowBack } from "ionicons/icons";
 
 import ProjectEdit from "../../../../components/Project/ProjectEdit";
 import ProjectLoader from "../../../../components/Project/ProjectLoader";
-import { mayReplace } from "../../../../domains/ui/navigation";
-import { useProjectByIdQuery } from "../../../../domains/project/queryProjectById"
-import { useNavigate, useParams } from "../../../../router"
 import { userStore } from "../../../../domains/auth/sessionStore";
+import { useProjectByIdQuery } from "../../../../domains/project/queryProjectById"
+import { mayReplace } from "../../../../domains/ui/navigation";
+import { useNavigate, useParams } from "../../../../router"
 
 export default function ProjectEditPage() {
   const { projectId } = useParams('/project/:projectId/view');

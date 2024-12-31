@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 
-import { Category, searchStore } from "../../domains/search/search";
 import { useAllProjectsQuery } from "../../domains/project/queryAllProjects";
+import { Category, searchStore } from "../../domains/search/search";
 import ProjectCard from "../Project/ProjectCard";
 import PulsingCard from "../Project/PulsingCard";
 

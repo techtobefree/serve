@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
-import { partialQueryKey as projectByIdKey } from "./queryProjectById";
 
 import { queryClient } from "../persistence/queryClient";
+
+import { partialQueryKey as projectByIdKey } from "./queryProjectById";
+
 
 export const partialQueryKey = 'join-projectId-user-id';
 

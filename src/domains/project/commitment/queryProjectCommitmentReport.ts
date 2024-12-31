@@ -1,12 +1,20 @@
+// Sorry - I was tired
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { TZDate } from "@date-fns/tz";
 import { useQuery } from "@tanstack/react-query";
 
+import { format } from "date-fns";
+
+import { downloadTextFile } from '../../file';
+import { jsonToCsv } from '../../file/jsonToCsv';
 import { clientSupabase } from "../../persistence/clientSupabase";
 import { showToast } from "../../ui/toast";
-import { jsonToCsv } from '../../file/jsonToCsv';
-import { downloadTextFile } from '../../file';
 import { useEventByIdQuery } from "../queryProjectById";
-import { TZDate } from "@date-fns/tz";
-import { format } from "date-fns";
+
 
 export const partialQueryKey = 'project-commitment';
 
@@ -74,7 +82,7 @@ export function useProjectCommitmentDownloadQuery({
           throw new Error(error.message);
         }
 
-        if (!db_commitments?.length) {
+        if (!db_commitments.length) {
           showToast('No commitments found', { duration: 5000, isError: true });
           throw new Error('No commitments found');
         }
@@ -94,7 +102,7 @@ export function useProjectCommitmentDownloadQuery({
           composite.responses[response.survey_question_id] = response.response_text;
         })
 
-        const commitments = db_commitments?.map((item: any) => {
+        const commitments = db_commitments.map((item: any) => {
           const CommitmentStart = new TZDate(item.commitment_start).withTimeZone(event.timezone);
           const CommitmentEnd = new TZDate(item.commitment_end).withTimeZone(event.timezone);
 

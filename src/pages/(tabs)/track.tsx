@@ -4,9 +4,9 @@ import { observer } from "mobx-react-lite";
 import ProjectCard from "../../components/Project/ProjectCard";
 import PulsingCard from "../../components/Project/PulsingCard";
 import { userStore } from "../../domains/auth/sessionStore";
-import { Category, filterSearchToCategories } from "../../domains/search/search";
 import { useMyAdminProjectsQuery } from "../../domains/project/queryMyAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../domains/project/queryMyAttendingProjects";
+import { Category, filterSearchToCategories } from "../../domains/search/search";
 import { useModals, useNavigate } from "../../router";
 
 type Props = {

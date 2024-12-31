@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { setCurrentProfile } from "./loggedInProfileStore";
 import { clientSupabase } from "../persistence/clientSupabase";
+import { queryClient } from "../persistence/queryClient";
 import { showToast } from "../ui/toast";
 
-import { queryClient } from "../persistence/queryClient";
+import { setCurrentProfile } from "./loggedInProfileStore";
 
 export async function changeHandle(userId: string, handle?: string | null) {
   if (handle === null || handle === undefined) {

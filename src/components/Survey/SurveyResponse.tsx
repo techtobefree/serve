@@ -1,12 +1,17 @@
-import { observer } from "mobx-react-lite";
-import { InsertResponse, resetSurveyStoreResponse, surveyStore } from "../../domains/survey/survey";
-import { useEffect, useMemo } from "react";
-import { useSurveyByIdQuery } from "../../domains/project/queryProjectById";
 import { IonButton } from "@ionic/react";
-import { TextResponse } from "./TextQuestion";
-import { showToast } from "../../domains/ui/toast";
-import useAnswerSurvey from "../../domains/survey/mutationAnswerSurvey";
+import { observer } from "mobx-react-lite";
+
+import { useEffect, useMemo } from "react";
+
 import { userStore } from "../../domains/auth/sessionStore";
+import { useSurveyByIdQuery } from "../../domains/project/queryProjectById";
+import useAnswerSurvey from "../../domains/survey/mutationAnswerSurvey";
+import { InsertResponse, resetSurveyStoreResponse, surveyStore } from "../../domains/survey/survey";
+
+import { showToast } from "../../domains/ui/toast";
+
+import { TextResponse } from "./TextQuestion";
+
 
 type Props = {
   onCancel: () => void;
@@ -18,16 +23,27 @@ type Props = {
 }
 
 function isValidResponse(responses: InsertResponse[]) {
-  const missingResponse = responses.find((response) => response.question.required && !response.response_text);
+  const missingResponse = responses.find((response) =>
+    response.question.required && !response.response_text);
   if (missingResponse) {
-    showToast(`${missingResponse.question.question_text} is required`, { duration: 5000, isError: true });
+    showToast(
+      `${missingResponse.question.question_text} is required`,
+      { duration: 5000, isError: true }
+    );
     return false;
   }
 
   return true;
 }
 
-export function SurveyResponseComponent({ onCancel, onComplete, projectId, responses, survey, userId }: Props) {
+export function SurveyResponseComponent({
+  onCancel,
+  onComplete,
+  projectId,
+  responses,
+  survey,
+  userId
+}: Props) {
   const answerSurvey = useAnswerSurvey({ projectId }, (error?: Error) => {
     if (!error) {
       onComplete();
@@ -41,7 +57,9 @@ export function SurveyResponseComponent({ onCancel, onComplete, projectId, respo
       <div className='flex flex-col gap-4'>
         {responses.map((response, index) => (
           <div key={index}>
-            <TextResponse label={response.question.question_text || 'Missing label'} index={index} />
+            <TextResponse
+              label={response.question.question_text || 'Missing label'}
+              index={index} />
           </div>
         ))}
       </div>
@@ -72,7 +90,12 @@ export function SurveyResponseComponent({ onCancel, onComplete, projectId, respo
   );
 }
 
-const SurveyResponse = observer(({ onCancel, onComplete, projectId, survey }: Omit<Props, 'responses' | 'surveyMap'>) => {
+const SurveyResponse = observer(({
+  onCancel,
+  onComplete,
+  projectId,
+  survey
+}: Omit<Props, 'responses' | 'surveyMap'>) => {
   const surveyMap = useMemo(() => {
     const map = new Map();
     survey?.survey_question.forEach((question) => {
@@ -94,13 +117,14 @@ const SurveyResponse = observer(({ onCancel, onComplete, projectId, survey }: Om
     })
 
     resetSurveyStoreResponse(responses)
-  }, [survey])
+  }, [survey, surveyMap])
 
   return <SurveyResponseComponent
     onCancel={onCancel}
     onComplete={onComplete}
     projectId={projectId}
-    responses={[...surveyStore.current.responses.map(i => ({ ...i, response_text: i.response_text }))]}
+    responses={[...surveyStore.current.responses
+      .map(i => ({ ...i, response_text: i.response_text }))]}
     survey={survey}
     userId={userStore.current?.id}
   />

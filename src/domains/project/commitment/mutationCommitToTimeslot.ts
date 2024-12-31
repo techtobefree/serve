@@ -1,12 +1,12 @@
 import { TZDate } from "@date-fns/tz";
 import { useMutation } from "@tanstack/react-query";
 
+import { userStore } from "../../auth/sessionStore";
 import { tzDateToDB } from "../../date/timezone";
 import { clientSupabase } from "../../persistence/clientSupabase";
+import { queryClient } from "../../persistence/queryClient";
 import { showToast } from "../../ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queryProjectById";
-import { queryClient } from "../../persistence/queryClient";
-import { userStore } from "../../auth/sessionStore";
 
 export async function commitToTimeslot({ eventId, projectId, startTime, endTime }:
   {
@@ -23,7 +23,7 @@ export async function commitToTimeslot({ eventId, projectId, startTime, endTime 
   const { error } = await clientSupabase
     .from('project_event_commitment')
     .insert({
-      created_by: userStore.current?.id,
+      created_by: userStore.current.id,
       project_id: projectId,
       commitment_start: tzDateToDB(startTime),
       commitment_end: tzDateToDB(endTime),

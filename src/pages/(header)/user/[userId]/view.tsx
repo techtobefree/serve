@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
 
+import { Profile } from "../../../../components/Profile/Profile";
 import { userStore } from "../../../../domains/auth/sessionStore";
 import { loggedInProfileStore } from "../../../../domains/profile/loggedInProfileStore";
 import { useParams } from "../../../../router"
-import { Profile } from "../../../../components/Profile/Profile";
 
 export const UserViewPage = observer(() => {
   const { userId } = useParams('/user/:userId/view')

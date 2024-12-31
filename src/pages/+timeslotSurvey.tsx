@@ -1,12 +1,12 @@
+import { TZDate } from "@date-fns/tz";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useModals, useNavigate } from "../router"
-import { useSurveyByIdQuery } from "../domains/project/queryProjectById";
 import SurveyResponse from "../components/Survey/SurveyResponse";
-import { showToast } from "../domains/ui/toast";
 import useCommitToTimeslot from "../domains/project/commitment/mutationCommitToTimeslot";
-import { TZDate } from "@date-fns/tz";
+import { useSurveyByIdQuery } from "../domains/project/queryProjectById";
+import { showToast } from "../domains/ui/toast";
+import { useModals, useNavigate } from "../router"
 
 export default function TimeslotSurvey() {
   const navigate = useNavigate();
@@ -38,11 +38,6 @@ export default function TimeslotSurvey() {
 
   if (!survey) {
     showToast('Missing survey', { duration: 5000, isError: true });
-    return;
-  }
-
-  if (!timeslotCommitment) {
-    showToast('Missing timeslot commitment', { duration: 5000, isError: true });
     return;
   }
 

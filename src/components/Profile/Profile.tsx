@@ -3,12 +3,13 @@
 import { IonButton, IonCheckbox, IonIcon, IonInput, IonItem, IonLabel, IonTextarea } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 import { useState } from "react";
-import { useNavigate } from "../../router";
+
 import { formatDateLLLLddyyyy } from "../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../domains/image";
 import { getPublicUrl, profilePicturePath } from "../../domains/image/image";
 import { useProfileQuery, changeName, changeEmail, changeHandle, changeBio, acceptTerms } from "../../domains/profile/queryProfileByUserId";
 import { showToast } from "../../domains/ui/toast";
+import { useNavigate } from "../../router";
 import Avatar from "../Avatar";
 import UploadImage from "../UploadImage";
 

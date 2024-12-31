@@ -2,21 +2,30 @@ import { IonButton, IonIcon } from '@ionic/react';
 import { format } from 'date-fns';
 import { copy } from 'ionicons/icons';
 
+import { useState } from 'react';
+
 import { getEventAddressAsText } from '../../domains/address';
+import { sortDBTimeslots } from '../../domains/date/sort';
 import { buildTZDateFromDBDayOnly, formatDateLLLLddyyyy } from '../../domains/date/timezone';
 import { IMAGE_SIZE } from '../../domains/image';
-import { showToast } from '../../domains/ui/toast';
-import useRemoveCommitment from '../../domains/project/commitment/mutationRemoveCommitment';
-import useRemoveEvent from '../../domains/project/event/mutationRemoveEvent';
 import { getPublicUrl, profilePicturePath } from '../../domains/image/image';
-import { useEventByIdQuery, useProjectByIdQuery, useSurveyByIdQuery } from "../../domains/project/queryProjectById";
+import useRemoveCommitment from '../../domains/project/commitment/mutationRemoveCommitment';
+import {
+  useProjectCommitmentDownloadQuery
+} from '../../domains/project/commitment/queryProjectCommitmentReport';
+import useRemoveEvent from '../../domains/project/event/mutationRemoveEvent';
+import {
+  useEventByIdQuery,
+  useProjectByIdQuery,
+  useSurveyByIdQuery
+} from "../../domains/project/queryProjectById";
+import { showToast } from '../../domains/ui/toast';
 import { useModals, useNavigate } from "../../router";
 import Avatar from '../Avatar';
 import AddCalendarEventButton from '../Calendar';
+
 import Timeslot from './Timeslot';
-import { useProjectCommitmentDownloadQuery } from '../../domains/project/commitment/queryProjectCommitmentReport';
-import { sortDBTimeslots } from '../../domains/date/sort';
-import { useState } from 'react';
+
 
 type Props = {
   currentUserId?: string;
@@ -38,7 +47,7 @@ export default function EventCard({ currentUserId, survey, event, project, canEd
     event,
     surveyId: survey?.id,
     shouldDownload: downloadCommitmentReport,
-    onComplete: () => setDownloadCommitmentReport(false),
+    onComplete: () => { setDownloadCommitmentReport(false); },
     projectEventId: event.id
   });
 
@@ -57,7 +66,8 @@ export default function EventCard({ currentUserId, survey, event, project, canEd
         )}
         <div className='flex justify-between'>
           <div className="text-lg">
-            {formatDateLLLLddyyyy(buildTZDateFromDBDayOnly(event.project_event_date).toDateString())}
+            {formatDateLLLLddyyyy(buildTZDateFromDBDayOnly(event.project_event_date)
+              .toDateString())}
           </div>
           {canEdit && (
             <IonButton className='whitespace-nowrap'

@@ -2,13 +2,25 @@ import { observable, runInAction } from "mobx";
 
 import { TableInsert, TableRows } from "../persistence/tables";
 
-export type InsertSurveyQuestion = Omit<TableInsert['survey_question'], 'survey_id' | 'created_by' | 'question_order'> & {
-  question_options: Omit<TableInsert['survey_question_option'], 'survey_id' | 'survey_question_id' | 'created_by'>[],
-  question_hiding_rules: Omit<TableInsert['survey_question_hiding_rule'], 'survey_id' | 'survey_question_id' | 'created_by'>[],
-  question_type: keyof typeof QUESTION_TYPE,
-  deleted?: boolean,
-  edited?: boolean,
-}
+export type InsertSurveyQuestion =
+  Omit<
+    TableInsert['survey_question'],
+    'survey_id' | 'created_by' | 'question_order'
+  > & {
+    question_options:
+    Omit<
+      TableInsert['survey_question_option'],
+      'survey_id' | 'survey_question_id' | 'created_by'
+    >[],
+    question_hiding_rules:
+    Omit<
+      TableInsert['survey_question_hiding_rule'],
+      'survey_id' | 'survey_question_id' | 'created_by'
+    >[],
+    question_type: keyof typeof QUESTION_TYPE,
+    deleted?: boolean,
+    edited?: boolean,
+  }
 
 export type InsertResponse = Omit<TableInsert['survey_response'], 'created_by'> & {
   question: TableRows['survey_question']
