@@ -54,3 +54,7 @@ FOREIGN KEY (survey_id) REFERENCES public.survey(id);
 ALTER TABLE public.survey_response
 ADD CONSTRAINT fk_survey_question_id_to_survey_question_id
 FOREIGN KEY (survey_question_id) REFERENCES public.survey_question(id);
+
+ALTER TABLE public.survey_response
+ADD CONSTRAINT fk_created_by_to_profile_id
+FOREIGN KEY (created_by) REFERENCES public.profile(user_id);

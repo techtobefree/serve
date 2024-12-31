@@ -14,10 +14,9 @@ import { useModals, useNavigate } from "../../router";
 import Avatar from '../Avatar';
 import AddCalendarEventButton from '../Calendar';
 import Timeslot from './Timeslot';
-import { downloadTextFile } from '../../domains/file';
-import { projectCommitmentsReport } from '../../domains/project/commitment/projectCommitmentReport';
-import { jsonToCsv } from '../../domains/file/jsonToCsv';
+import { useProjectCommitmentDownloadQuery } from '../../domains/project/commitment/queryProjectCommitmentReport';
 import { sortDBTimeslots } from '../../domains/date/sort';
+import { useState } from 'react';
 
 type Props = {
   currentUserId?: string;
@@ -32,6 +31,16 @@ export default function EventCard({ currentUserId, survey, event, project, canEd
   const modals = useModals();
   const removeCommitment = useRemoveCommitment({ projectId: event.project_id });
   const removeEvent = useRemoveEvent({ projectId: event.project_id });
+  // Note: this should probably not be queried every time, but whatever (optimize later)
+
+  const [downloadCommitmentReport, setDownloadCommitmentReport] = useState(false);
+  useProjectCommitmentDownloadQuery({
+    event,
+    surveyId: survey?.id,
+    shouldDownload: downloadCommitmentReport,
+    onComplete: () => setDownloadCommitmentReport(false),
+    projectEventId: event.id
+  });
 
   const myCommitments = event.project_event_commitment.filter(i => i.created_by === currentUserId);
   const committed = myCommitments.length > 0;
@@ -43,9 +52,7 @@ export default function EventCard({ currentUserId, survey, event, project, canEd
           <IonButton className='whitespace-nowrap'
             color='tertiary'
             onClick={() => {
-              projectCommitmentsReport({ projectEventId: event.id }).then(i => {
-                downloadTextFile(`project_commitments_${i.metadata.projectDate}_${i.metadata.timezone}.csv`, jsonToCsv(i.data))
-              })
+              setDownloadCommitmentReport(true);
             }}>Download event report</IonButton>
         )}
         <div className='flex justify-between'>
