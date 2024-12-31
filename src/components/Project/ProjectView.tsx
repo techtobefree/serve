@@ -148,6 +148,11 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
               canEdit={canEdit} />
           })}
       </div>
+      <br />
+      Note: events that happened more than 5 days ago are hidden.
+      <br />
+      <br />
+      <br />
     </div>
   )
 }
