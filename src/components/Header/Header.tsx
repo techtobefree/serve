@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 
 import { userStore } from "../../domains/auth/sessionStore";
 import { IMAGE_SIZE } from "../../domains/image";
+import { getPublicUrl, profilePicturePath } from "../../domains/image/image";
 import { DEVICE, DEVICE_TYPE } from "../../domains/ui/device";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { mayReplace } from "../../domains/ui/navigation";
-import { useVisibleRef } from "../../hooks/useVisibleRef";
-import { getPublicUrl, profilePicturePath } from "../../queries/image";
+import { useVisibleRef } from "../../domains/ui/useVisibleRef";
 import { useModals, useNavigate } from '../../router'
 
 import Avatar from "../Avatar";
@@ -85,7 +85,7 @@ export function HeaderComponent({ userId, isVisible, setIsVisible }: Props) {
 
             {/* Profile */}
             <div className={`flex justify-center items-center cursor-pointer`}
-              onClick={() => { modals.open('/profile') }}>
+              onClick={() => { modals.open('/menu') }}>
               {
                 userId && (
                   <Avatar

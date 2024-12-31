@@ -4,10 +4,12 @@ import { observer } from "mobx-react-lite"
 import { useEffect, useRef } from "react"
 
 import { userStore } from "../../../../domains/auth/sessionStore"
+import { queryClient } from "../../../../domains/persistence/queryClient"
+import { useJoinProjectByIdQuery } from "../../../../domains/project/queryJoinProject"
+import {
+  partialQueryKey as projectByIdQueryKey
+} from "../../../../domains/project/queryProjectById"
 import { mayReplace } from "../../../../domains/ui/navigation"
-import { useJoinProjectByIdQuery } from "../../../../queries/joinProject"
-import { partialQueryKey as projectByIdQueryKey } from "../../../../queries/projectById"
-import { queryClient } from "../../../../queries/queryClient"
 import { useModals, useNavigate, useParams } from "../../../../router"
 
 type Props = {
@@ -24,7 +26,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
   useEffect(() => {
     if (!userId && !modalOpened.current) {
       modalOpened.current = true;
-      modals.open('/profile')
+      modals.open('/menu')
     }
   }, [userId, modals])
 

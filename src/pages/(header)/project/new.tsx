@@ -14,11 +14,13 @@ export function NewProjectComponent({ userId }: Props) {
   return (
     <div className="flex w-full justify-center">
       <div className="max-w-[800px] w-full">
-        <ProjectEdit project={{
-          owner_id: userId,
-          created_by: userId,
-          name: 'New Project'
-        }} />
+        <ProjectEdit
+          project={{
+            owner_id: userId,
+            created_by: userId,
+            name: 'New Project'
+          }}
+          userId={userId} />
       </div>
     </div>
   )
@@ -36,7 +38,7 @@ const NewProject = observer(() => {
           icon={arrowBack} onClick={() => { navigate(-1) }} />
       </div>
       <div>You must login to create projects.</div>
-      <IonButton color="secondary" onClick={() => { modals.open('/profile') }}>Login</IonButton>
+      <IonButton color="secondary" onClick={() => { modals.open('/menu') }}>Login</IonButton>
     </>
   }
 

@@ -5,9 +5,9 @@ import { observer } from "mobx-react-lite";
 import ProjectCard from "../../components/Project/ProjectCard";
 import PulsingCard from "../../components/Project/PulsingCard";
 import { userStore } from "../../domains/auth/sessionStore";
+import { useMyAdminProjectsQuery } from "../../domains/project/queryMyAdminProjects";
+import { useMyAttendingProjectsQuery } from "../../domains/project/queryMyAttendingProjects";
 import { Category, filterSearchToCategories } from "../../domains/search/search";
-import { useMyAdminProjectsQuery } from "../../queries/myAdminProjects";
-import { useMyAttendingProjectsQuery } from "../../queries/myAttendingProjects";
 import { useModals, useNavigate } from "../../router";
 
 type Props = {
@@ -108,7 +108,7 @@ export function HomeComponent({ userId }: Props) {
             <br />
             <div className="flex flex-col justify-center p-4">
               <IonButton color="secondary" onClick={() => {
-                modals.open('/profile');
+                modals.open('/menu');
               }}>Login</IonButton>
             </div>
           </div>

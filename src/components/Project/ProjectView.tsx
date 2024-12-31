@@ -2,12 +2,12 @@ import { IonButton, IonIcon } from "@ionic/react"
 import { createOutline } from "ionicons/icons"
 
 import { IMAGE_SIZE } from "../../domains/image"
+import { getPublicUrl, projectPicturePath } from "../../domains/image/image"
+import useJoinProject from "../../domains/project/mutationJoinProject"
+import useLeaveProject from "../../domains/project/mutationLeaveProject"
+import { useProjectByIdQuery } from "../../domains/project/queryProjectById"
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
-import useJoinProject from "../../mutations/joinProject"
-import useLeaveProject from "../../mutations/leaveProject"
-import { getPublicUrl, projectPicturePath } from "../../queries/image"
-import { useProjectByIdQuery } from "../../queries/projectById"
-import { useQrCode } from "../../queries/qr"
+import { useQrCode } from "../../domains/ui/useQr"
 import { useModals, useNavigate } from "../../router"
 import EventCard from "../Event/EventCard"
 
@@ -115,6 +115,23 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             userId={project.lead_by || project.owner_id} />
         </div>
       </div>
+      {canEdit && (
+        <div className='flex justify-around'>
+          <IonButton
+            color='tertiary'
+            onClick={() => {
+              navigate(
+                '/project/:projectId/survey',
+                { params: { projectId: project.id }, replace: mayReplace() }
+              )
+            }}>Manage questions</IonButton>
+          <IonButton
+            color='tertiary'
+            onClick={() => {
+              modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
+            }}>Create event</IonButton>
+        </div>
+      )}
       <div className='text-2xl'>When & Where</div>
       {!project.project_event.length && (
         <div>No events</div>
@@ -124,20 +141,13 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           .sort((a, b) => a.project_event_date < b.project_event_date ? -1 : 1)
           .map(event => {
             return <EventCard key={event.id}
+              survey={project.survey}
               project={project}
               event={event}
               currentUserId={currentUserId}
               canEdit={canEdit} />
           })}
       </div>
-      <br />
-      {canEdit && (
-        <IonButton
-          color='tertiary'
-          onClick={() => {
-            modals.open('/project/[projectId]/event', { params: { projectId: project.id } })
-          }}>Create event</IonButton>
-      )}
     </div>
   )
 }

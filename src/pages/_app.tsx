@@ -3,19 +3,19 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
+import { Profile } from '../components/Profile/Profile';
 import Toast from '../components/Toast';
 import { userStore } from '../domains/auth/sessionStore';
+import { useLocalAuth } from '../domains/auth/useLocalAuth';
 import { LoggedInProfile, loggedInProfileStore } from '../domains/profile/loggedInProfileStore';
-import { useProfileQuery } from '../queries/profileByUserId';
+import { useProfileQuery } from '../domains/profile/queryProfileByUserId';
 import { useNavigate } from '../router';
 
-// eslint-disable-next-line import/namespace
-import { UserView } from './(header)/user/[userId]/view';
-import { useLocalAuth } from '../hooks/useLocalAuth';
+ 
 
 type Props = LoggedInProfile
 
-export function LayoutComponent({ userId, handle, email, firstName, lastName, acceptedAt }: Props) {
+export function LayoutComponent({ userId, handle, acceptedAt }: Props) {
   useLocalAuth();
   useProfileQuery(userId);
   const navigate = useNavigate();
@@ -42,15 +42,12 @@ export function LayoutComponent({ userId, handle, email, firstName, lastName, ac
 
   if (userId && (
     !handle ||
-    !email ||
-    !firstName ||
-    !lastName ||
     !acceptedAt
   )) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>
-        <UserView userId={userId}
+        <Profile userId={userId}
           canEdit={true}
           acceptedAt={acceptedAt}
           initial />

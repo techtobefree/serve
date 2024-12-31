@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import ProjectLoader from "../../../../components/Project/ProjectLoader";
 import ProjectView from "../../../../components/Project/ProjectView";
 import { userStore } from "../../../../domains/auth/sessionStore";
-import { useProjectByIdQuery } from "../../../../queries/projectById"
+import { useProjectByIdQuery } from "../../../../domains/project/queryProjectById"
 import { useNavigate, useParams } from "../../../../router"
 
 type Props = {

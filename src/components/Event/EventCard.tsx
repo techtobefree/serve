@@ -2,35 +2,54 @@ import { IonButton, IonIcon } from '@ionic/react';
 import { format } from 'date-fns';
 import { copy } from 'ionicons/icons';
 
+import { useState } from 'react';
+
 import { getEventAddressAsText } from '../../domains/address';
+import { sortDBTimeslots } from '../../domains/date/sort';
 import { buildTZDateFromDBDayOnly, formatDateLLLLddyyyy } from '../../domains/date/timezone';
 import { IMAGE_SIZE } from '../../domains/image';
+import { getPublicUrl, profilePicturePath } from '../../domains/image/image';
+import useRemoveCommitment from '../../domains/project/commitment/mutationRemoveCommitment';
+import {
+  useProjectCommitmentDownloadQuery
+} from '../../domains/project/commitment/queryProjectCommitmentReport';
+import useRemoveEvent from '../../domains/project/event/mutationRemoveEvent';
+import {
+  useEventByIdQuery,
+  useProjectByIdQuery,
+  useSurveyByIdQuery
+} from "../../domains/project/queryProjectById";
 import { showToast } from '../../domains/ui/toast';
-import useRemoveCommitment from '../../mutations/removeCommitment';
-import useRemoveEvent from '../../mutations/removeEvent';
-import { getPublicUrl, profilePicturePath } from '../../queries/image';
-import { useEventByIdQuery, useProjectByIdQuery } from "../../queries/projectById";
 import { useModals, useNavigate } from "../../router";
 import Avatar from '../Avatar';
 import AddCalendarEventButton from '../Calendar';
+
 import Timeslot from './Timeslot';
-import { downloadTextFile } from '../../domains/file';
-import { projectCommitmentsReport } from '../../queries/projectReport';
-import { jsonToCsv } from '../../domains/file/jsonToCsv';
-import { sortDBTimeslots } from '../../domains/date/sort';
+
 
 type Props = {
   currentUserId?: string;
   event: Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>;
+  survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>;
   canEdit: boolean;
 }
 
-export default function EventCard({ currentUserId, event, project, canEdit }: Props) {
+export default function EventCard({ currentUserId, survey, event, project, canEdit }: Props) {
   const navigate = useNavigate();
   const modals = useModals();
   const removeCommitment = useRemoveCommitment({ projectId: event.project_id });
   const removeEvent = useRemoveEvent({ projectId: event.project_id });
+  // Note: this should probably not be queried every time, but whatever (optimize later)
+
+  const [downloadCommitmentReport, setDownloadCommitmentReport] = useState(false);
+  useProjectCommitmentDownloadQuery({
+    event,
+    surveyId: survey?.id,
+    shouldDownload: downloadCommitmentReport,
+    onComplete: () => { setDownloadCommitmentReport(false); },
+    projectEventId: event.id
+  });
 
   const myCommitments = event.project_event_commitment.filter(i => i.created_by === currentUserId);
   const committed = myCommitments.length > 0;
@@ -42,14 +61,13 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
           <IonButton className='whitespace-nowrap'
             color='tertiary'
             onClick={() => {
-              projectCommitmentsReport({ projectEventId: event.id }).then(i => {
-                downloadTextFile(`project_commitments_${i.metadata.projectDate}_${i.metadata.timezone}.csv`, jsonToCsv(i.data))
-              })
-            }}>Download report</IonButton>
+              setDownloadCommitmentReport(true);
+            }}>Download event report</IonButton>
         )}
         <div className='flex justify-between'>
           <div className="text-lg">
-            {formatDateLLLLddyyyy(buildTZDateFromDBDayOnly(event.project_event_date).toDateString())}
+            {formatDateLLLLddyyyy(buildTZDateFromDBDayOnly(event.project_event_date)
+              .toDateString())}
           </div>
           {canEdit && (
             <IonButton className='whitespace-nowrap'
@@ -119,6 +137,7 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
             <Timeslot key={index}
               canEdit={canEdit}
               currentUserId={currentUserId}
+              survey={survey}
               timeslot={timeslot}
               committed={committed}
               event={event} />)}
