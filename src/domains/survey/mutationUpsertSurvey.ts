@@ -17,8 +17,8 @@ async function ensureSurveyExists({ projectId, userId, surveyId }:
     .from('survey')
     .upsert({
       id: surveyId,
-      name: 'Project Survey',
-      description: 'Every commitment requires this survey to be filled out',
+      name: 'Commit to Project',
+      description: 'The project leader has requested information from you.',
       created_by: userId,
       owner_id: userId,
     })
@@ -132,7 +132,6 @@ async function upsertProjectSurvey({
 
       // Create new question hiding options
       if (question.question_hiding_rules) {
-        console.log('question.question_hiding_rules', question.question_hiding_rules);
         for (const hidingRule of question.question_hiding_rules) {
           try {
             const { error: hidingRuleError } = await clientSupabase

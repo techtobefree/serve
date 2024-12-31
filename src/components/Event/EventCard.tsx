@@ -9,7 +9,7 @@ import { showToast } from '../../domains/ui/toast';
 import useRemoveCommitment from '../../domains/project/commitment/mutationRemoveCommitment';
 import useRemoveEvent from '../../domains/project/event/mutationRemoveEvent';
 import { getPublicUrl, profilePicturePath } from '../../domains/image/image';
-import { useEventByIdQuery, useProjectByIdQuery } from "../../domains/project/queryProjectById";
+import { useEventByIdQuery, useProjectByIdQuery, useSurveyByIdQuery } from "../../domains/project/queryProjectById";
 import { useModals, useNavigate } from "../../router";
 import Avatar from '../Avatar';
 import AddCalendarEventButton from '../Calendar';
@@ -22,11 +22,12 @@ import { sortDBTimeslots } from '../../domains/date/sort';
 type Props = {
   currentUserId?: string;
   event: Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>;
+  survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>;
   canEdit: boolean;
 }
 
-export default function EventCard({ currentUserId, event, project, canEdit }: Props) {
+export default function EventCard({ currentUserId, survey, event, project, canEdit }: Props) {
   const navigate = useNavigate();
   const modals = useModals();
   const removeCommitment = useRemoveCommitment({ projectId: event.project_id });
@@ -119,6 +120,7 @@ export default function EventCard({ currentUserId, event, project, canEdit }: Pr
             <Timeslot key={index}
               canEdit={canEdit}
               currentUserId={currentUserId}
+              survey={survey}
               timeslot={timeslot}
               committed={committed}
               event={event} />)}

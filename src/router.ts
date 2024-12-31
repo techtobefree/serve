@@ -32,7 +32,8 @@ export type ModalPath =
   | `/messages`
   | `/project/[projectId]/ask`
   | `/project/[projectId]/event`
-  | `/search`;
+  | `/search`
+  | `/survey`;
 
 export const { Link, Navigate } = components<Path, Params>();
 export const { useModals, useNavigate, useParams } = hooks<

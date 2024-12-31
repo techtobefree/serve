@@ -1,6 +1,6 @@
 import { observable, runInAction } from "mobx";
 
-import { TableInsert } from "../persistence/tables";
+import { TableInsert, TableRows } from "../persistence/tables";
 
 export type InsertSurveyQuestion = Omit<TableInsert['survey_question'], 'survey_id' | 'created_by' | 'question_order'> & {
   question_options: Omit<TableInsert['survey_question_option'], 'survey_id' | 'survey_question_id' | 'created_by'>[],
@@ -10,15 +10,21 @@ export type InsertSurveyQuestion = Omit<TableInsert['survey_question'], 'survey_
   edited?: boolean,
 }
 
+export type InsertResponse = Omit<TableInsert['survey_response'], 'created_by'> & {
+  question: TableRows['survey_question']
+}
+
 type SurveyStore = {
   current: {
     questions: InsertSurveyQuestion[],
+    responses: InsertResponse[],
   }
 }
 
 export const surveyStore = observable<SurveyStore>({
   current: {
     questions: [],
+    responses: [],
   }
 })
 
@@ -89,8 +95,20 @@ export function closeQuestion(questionIndex: number) {
   })
 }
 
-export function resetSurveyStore(questions: InsertSurveyQuestion[]) {
+export function resetSurveyStoreQuestions(questions: InsertSurveyQuestion[]) {
   runInAction(() => {
     surveyStore.current.questions = questions
+  })
+}
+
+export function setResponseText(responseIndex: number, responseText: string) {
+  runInAction(() => {
+    surveyStore.current.responses[responseIndex].response_text = responseText
+  })
+}
+
+export function resetSurveyStoreResponse(responses: InsertResponse[]) {
+  runInAction(() => {
+    surveyStore.current.responses = responses
   })
 }

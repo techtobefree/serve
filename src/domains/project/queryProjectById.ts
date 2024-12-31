@@ -66,6 +66,34 @@ export function useEventByIdQuery(eventId: string) {
 }
 
 // Only used for the type
+export function useSurveyQuestionByIdQuery(surveyId: string) {
+  return useQuery({
+    queryKey: ['get-surveyById', surveyId],
+    queryFn: async () => {
+      const { data, error } = await clientSupabase
+        .from('survey_question')
+        .select(`
+          *,
+          survey_question_option (
+            *
+          ),
+          survey_question_hiding_rule (
+            *
+          )
+          `)
+        .eq('id', surveyId)
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    }
+  })
+}
+
+// Only used for the type
 export function useSurveyByIdQuery(surveyId: string) {
   return useQuery({
     queryKey: ['get-surveyById', surveyId],

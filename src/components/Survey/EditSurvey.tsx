@@ -2,7 +2,7 @@ import { IonButton, IonIcon } from "@ionic/react"
 import { useSurveyByIdQuery } from "../../domains/project/queryProjectById"
 import { add } from "ionicons/icons"
 import { useEffect } from "react"
-import { addQuestionToSurvey, InsertSurveyQuestion, QUESTION_TYPE, resetSurveyStore, surveyStore } from "../../domains/survey/survey"
+import { addQuestionToSurvey, InsertSurveyQuestion, QUESTION_TYPE, resetSurveyStoreQuestions, surveyStore } from "../../domains/survey/survey"
 import { observer } from "mobx-react-lite"
 import EditQuestion from "./EditQuestion"
 
@@ -30,7 +30,7 @@ export function EditSurveyComponent({ survey, surveyQuestions }: Props) {
       })
     })
 
-    resetSurveyStore(questions)
+    resetSurveyStoreQuestions(questions)
   }, [survey])
 
   return (
@@ -42,7 +42,7 @@ export function EditSurveyComponent({ survey, surveyQuestions }: Props) {
         <IonButton onClick={() => {
           addQuestionToSurvey({
             question_type: QUESTION_TYPE.text,
-            question_text: 'What is your favorite color?',
+            question_text: 'Favorite color',
             required: false,
             question_hiding_rules: [],
             question_options: [],

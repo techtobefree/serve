@@ -5,7 +5,6 @@ import { IonButton } from '@ionic/react';
 import { InsertSurveyQuestion, surveyStore } from '../../domains/survey/survey';
 import EditSurvey from './EditSurvey';
 import { showToast } from '../../domains/ui/toast';
-import { toJS } from 'mobx';
 
 type Props = {
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>,
@@ -27,8 +26,6 @@ function isValidSurvey(survey: InsertSurveyQuestion[] | null) {
     showToast('Question type is missing', { duration: 5000, isError: true });
     return false;
   }
-
-  console.log('survey', toJS(survey));
 
   return true;
 }
@@ -67,7 +64,6 @@ const ProjectSurvey = ({ project, userId }: Props) => {
           }}>
           Save Survey
         </IonButton>
-
       </div>
     </div>
   );

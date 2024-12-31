@@ -25,8 +25,6 @@ export default function EditQuestion(question: InsertSurveyQuestion & { index: n
 
   const canEdit = id === undefined;
 
-  console.log('EditQuestion', question.required);
-
   return (
     <IonItem className='cursor-auto'>
       <div className='flex flex-col gap-2 w-full'>
