@@ -121,6 +121,10 @@ const SurveyResponse = observer(({
       })
     })
 
+    if (!surveyStore.current.responses.length) {
+      resetSurveyStoreResponse(responses)
+    }
+
     return () => {
       resetSurveyStoreResponse(responses)
     }
