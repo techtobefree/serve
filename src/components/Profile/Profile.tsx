@@ -7,7 +7,7 @@ import { useState } from "react";
 import { formatDateLLLLddyyyy } from "../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../domains/image";
 import { getPublicUrl, profilePicturePath } from "../../domains/image/image";
-import { useProfileQuery, changeName, changeEmail, changeHandle, changeBio, acceptTerms } from "../../domains/profile/queryProfileByUserId";
+import { useProfileQuery, changeName, changeEmail, changeHandle, changeBio, acceptTerms, changePhone } from "../../domains/profile/queryProfileByUserId";
 import { showToast } from "../../domains/ui/toast";
 import { useNavigate } from "../../router";
 import Avatar from "../Avatar";
@@ -17,11 +17,11 @@ type Props = {
     canEdit?: boolean;
     userId: string;
     initial?: boolean;
-    acceptedAt?: string;
 }
 
-export function Profile({ canEdit, userId, initial, acceptedAt }: Props) {
+export function Profile({ canEdit, userId, initial }: Props) {
     const { data: user, isLoading } = useProfileQuery(userId);
+    const acceptedAt = user?.sensitive_profile[0]?.accepted_at;
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
     const [profilePicture, setProfilePicture] = useState(getPublicUrl(profilePicturePath(userId)));
     const [tempBase64Image, setTempBase64Image] = useState<string | null>(null);
@@ -104,6 +104,12 @@ export function Profile({ canEdit, userId, initial, acceptedAt }: Props) {
                             <IonInput label='Email'
                                 value={user.sensitive_profile[0]?.email}
                                 onIonChange={(e) => { void changeEmail(userId, e.detail.value) }}
+                            />
+                        </IonItem>
+                        <IonItem>
+                            <IonInput label='Phone'
+                                value={user.sensitive_profile[0]?.phone}
+                                onIonChange={(e) => { void changePhone(userId, e.detail.value) }}
                             />
                         </IonItem>
                     </div>

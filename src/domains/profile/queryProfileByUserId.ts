@@ -4,8 +4,6 @@ import { clientSupabase } from "../persistence/clientSupabase";
 import { queryClient } from "../persistence/queryClient";
 import { showToast } from "../ui/toast";
 
-import { setCurrentProfile } from "./loggedInProfileStore";
-
 export async function changeHandle(userId: string, handle?: string | null) {
   if (handle === null || handle === undefined) {
     return
@@ -66,6 +64,28 @@ export async function changeEmail(userId: string, email?: string | null) {
 
   if (error) {
     showToast('Failed to change email', { isError: true, duration: 5000 })
+    throw new Error(error.message);
+  }
+
+  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+}
+
+export async function changePhone(userId: string, phone?: string | null) {
+  if (phone === null || phone === undefined) {
+    return
+  }
+
+  const { error } = await clientSupabase
+    .from('sensitive_profile')
+    .update(
+      {
+        user_id: userId,
+        phone: phone,
+      }
+    ).eq('user_id', userId);
+
+  if (error) {
+    showToast('Failed to change phone', { isError: true, duration: 5000 })
     throw new Error(error.message);
   }
 
@@ -207,15 +227,6 @@ export function useProfileQuery(userId?: string) {
 
         return data
       }
-
-      setCurrentProfile({
-        userId: data.user_id,
-        email: data.sensitive_profile[0]?.email || undefined,
-        handle: data.handle,
-        firstName: data.sensitive_profile[0]?.first_name || undefined,
-        lastName: data.sensitive_profile[0]?.last_name || undefined,
-        acceptedAt: data.sensitive_profile[0]?.accepted_at || undefined,
-      })
 
       return data;
     }

@@ -6,23 +6,28 @@ import { useEffect, useMemo } from "react";
 import { userStore } from "../../domains/auth/sessionStore";
 import { useSurveyByIdQuery } from "../../domains/project/queryProjectById";
 import useAnswerSurvey from "../../domains/survey/mutationAnswerSurvey";
-import { InsertResponse, resetSurveyStoreResponse, surveyStore } from "../../domains/survey/survey";
+import {
+  InsertResponse,
+  MaybeResponse,
+  QUESTION_MAP,
+  QUESTION_TYPE,
+  resetSurveyStoreResponse,
+  surveyStore
+} from "../../domains/survey/survey";
 
 import { showToast } from "../../domains/ui/toast";
-
-import { TextResponse } from "./TextQuestion";
 
 
 type Props = {
   onCancel: () => void;
   onComplete: () => void;
   projectId: string;
-  responses: InsertResponse[];
+  responses: MaybeResponse[];
   survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
   userId?: string;
 }
 
-function isValidResponse(responses: InsertResponse[]) {
+function isValidResponse(responses: MaybeResponse[]) {
   const missingResponse = responses.find((response) =>
     response.question.required && !response.response_text);
   if (missingResponse) {
@@ -55,13 +60,13 @@ export function SurveyResponseComponent({
       <div className='text-2xl'>{survey?.name}</div>
       <div>{survey?.description}</div>
       <div className='flex flex-col gap-4'>
-        {responses.map((response, index) => (
-          <div key={index}>
-            <TextResponse
-              label={response.question.question_text || 'Missing label'}
-              index={index} />
-          </div>
-        ))}
+        {responses.map((response, index) => {
+          const ResponseComponent =
+            QUESTION_MAP[response.question_type as keyof typeof QUESTION_TYPE].response;
+          return (
+            <ResponseComponent key={index} index={index} question={response.question} />
+          )
+        })}
       </div>
       <div>
         <div className='flex justify-end'>
@@ -116,7 +121,9 @@ const SurveyResponse = observer(({
       })
     })
 
-    resetSurveyStoreResponse(responses)
+    return () => {
+      resetSurveyStoreResponse(responses)
+    }
   }, [survey, surveyMap])
 
   return <SurveyResponseComponent

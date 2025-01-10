@@ -7,17 +7,14 @@ import { Profile } from '../components/Profile/Profile';
 import Toast from '../components/Toast';
 import { userStore } from '../domains/auth/sessionStore';
 import { useLocalAuth } from '../domains/auth/useLocalAuth';
-import { LoggedInProfile, loggedInProfileStore } from '../domains/profile/loggedInProfileStore';
 import { useProfileQuery } from '../domains/profile/queryProfileByUserId';
 import { useNavigate } from '../router';
 
- 
+type Props = { userId?: string }
 
-type Props = LoggedInProfile
-
-export function LayoutComponent({ userId, handle, acceptedAt }: Props) {
+export function LayoutComponent({ userId }: Props) {
   useLocalAuth();
-  useProfileQuery(userId);
+  const { data: profile } = useProfileQuery(userStore.current?.id);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,15 +38,14 @@ export function LayoutComponent({ userId, handle, acceptedAt }: Props) {
   }, [navigate, location]);
 
   if (userId && (
-    !handle ||
-    !acceptedAt
+    !profile?.handle ||
+    !profile.sensitive_profile[0].accepted_at
   )) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>
         <Profile userId={userId}
           canEdit={true}
-          acceptedAt={acceptedAt}
           initial />
         <Toast />
       </div>
@@ -66,12 +62,7 @@ export function LayoutComponent({ userId, handle, acceptedAt }: Props) {
 
 const Layout = observer(() => {
   return (
-    <LayoutComponent userId={userStore.current?.id}
-      handle={loggedInProfileStore.handle}
-      email={loggedInProfileStore.email}
-      firstName={loggedInProfileStore.firstName}
-      lastName={loggedInProfileStore.lastName}
-      acceptedAt={loggedInProfileStore.acceptedAt} />
+    <LayoutComponent userId={userStore.current?.id} />
   )
 })
 

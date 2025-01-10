@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import ProfileMenu from "../components/ProfileMenu/MenuContainer";
+import ProfileMenu from "../components/ProfileMenu/ProfileMenu";
 import { useNavigate } from "../router"
 
 export default function Menu() {

@@ -6,15 +6,14 @@ import { TableInsert } from "../persistence/tables";
 import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
 import { showToast } from "../ui/toast";
 
-import { InsertResponse } from "./survey";
-
+import { MaybeResponse } from "./survey";
 
 async function answerSurvey({
   userId,
   responses,
 }: {
   userId: string,
-  responses: InsertResponse[],
+  responses: MaybeResponse[],
 }) {
   try {
     const response_records = responses

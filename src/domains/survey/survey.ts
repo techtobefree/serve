@@ -1,25 +1,45 @@
 import { observable, runInAction } from "mobx";
 
+import CheckboxQuestion, { CheckboxResponse } from "../../components/Survey/Checkbox";
+import InfoQuestion, { InfoResponse } from "../../components/Survey/Info";
 import { QuestionProps } from "../../components/Survey/QuestionProps";
-import TextQuestion from "../../components/Survey/TextQuestion";
+import TextQuestion, { TextResponse } from "../../components/Survey/Text";
+import UrlQuestion, { UrlResponse } from "../../components/Survey/Url";
 import { TableInsert, TableRows } from "../persistence/tables";
 
 export const QUESTION_MAP: {
   [key in keyof typeof QUESTION_TYPE]:
-  { label: string, component: (props: QuestionProps) => React.JSX.Element };
+  {
+    label: string,
+    question: (props: QuestionProps) => React.JSX.Element,
+    response: (props: ResponseProps) => React.JSX.Element,
+  };
 } = {
-  text: { label: 'Text', component: TextQuestion },
-  long_text: { label: 'Long Text', component: TextQuestion },
-  first_name: { label: 'First Name', component: TextQuestion },
-  last_name: { label: 'Last Name', component: TextQuestion },
-  email: { label: 'Email', component: TextQuestion },
-  phone: { label: 'Phone', component: TextQuestion },
-  street: { label: 'Street', component: TextQuestion },
-  city: { label: 'City', component: TextQuestion },
-  state: { label: 'State', component: TextQuestion },
-  postal_code: { label: 'Postal Code', component: TextQuestion },
-  country: { label: 'Country', component: TextQuestion },
+  info: { label: 'Info', question: InfoQuestion, response: InfoResponse },
+  url: { label: 'URL', question: UrlQuestion, response: UrlResponse },
+  checkbox: { label: 'Checkbox', question: CheckboxQuestion, response: CheckboxResponse },
+  text: { label: 'Text', question: TextQuestion, response: TextResponse },
+  long_text: { label: 'Long Text', question: TextQuestion, response: TextResponse },
+  first_name: { label: 'First Name', question: TextQuestion, response: TextResponse },
+  last_name: { label: 'Last Name', question: TextQuestion, response: TextResponse },
+  email: { label: 'Email', question: TextQuestion, response: TextResponse },
+  phone: { label: 'Phone', question: TextQuestion, response: TextResponse },
+  street: { label: 'Street', question: TextQuestion, response: TextResponse },
+  city: { label: 'City', question: TextQuestion, response: TextResponse },
+  state: { label: 'State', question: TextQuestion, response: TextResponse },
+  postal_code: { label: 'Postal Code', question: TextQuestion, response: TextResponse },
+  country: { label: 'Country', question: TextQuestion, response: TextResponse },
 }
+
+export type ResponseProps = {
+  question: TableRows['survey_question'],
+  index: number,
+}
+
+export type SurveyQuestion = Omit<
+  TableInsert['survey_question'],
+  'survey_id' | 'created_by' | 'question_order' | 'question_text' | 'question_type'
+>
 
 export type InsertSurveyQuestion =
   Omit<
@@ -46,10 +66,12 @@ export type InsertResponse = Omit<TableInsert['survey_response'], 'created_by'> 
   question: TableRows['survey_question']
 }
 
+export type MaybeResponse = Omit<InsertResponse, 'response_text'> & { response_text?: string }
+
 type SurveyStore = {
   current: {
     questions: InsertSurveyQuestion[],
-    responses: InsertResponse[],
+    responses: MaybeResponse[],
   }
 }
 
@@ -61,6 +83,9 @@ export const surveyStore = observable<SurveyStore>({
 })
 
 export const QUESTION_TYPE = {
+  info: 'info',
+  checkbox: 'checkbox',
+  url: 'url',
   text: 'text',
   long_text: 'long_text',
   first_name: 'first_name',
@@ -77,7 +102,6 @@ export const QUESTION_TYPE = {
   // CURRENCY: 'currency',
   // PERCENTAGE: 'percentage',
 
-  // CHECKBOX: 'checkbox',
   // DROPDOWN: 'dropdown',
   // MULTIPLE_CHOICE: 'multiple_choice',
 
@@ -89,7 +113,6 @@ export const QUESTION_TYPE = {
   // VIDEO_UPLOAD: 'video_upload',
   // AUDIO_UPLOAD: 'audio_upload',
   // LOCATION: 'location',
-  // URL: 'url',
   // NUMBER: 'number',
   // SIGNATURE: 'signature',
   // LONG_TEXT: 'long_text',
@@ -97,6 +120,11 @@ export const QUESTION_TYPE = {
   // WEBSITE: 'website',
   // SOCIAL_MEDIA: 'social_media',
 } as const
+
+export const READ_ONLY_QUESTION_TYPES = [
+  QUESTION_TYPE.info,
+  QUESTION_TYPE.url,
+] as const
 
 export function addQuestionToSurvey(question: InsertSurveyQuestion) {
   runInAction(() => {
@@ -133,9 +161,13 @@ export function resetSurveyStoreQuestions(questions: InsertSurveyQuestion[]) {
   })
 }
 
-export function setResponseText(responseIndex: number, responseText: string) {
+export function setResponseText(responseIndex: number, responseText: string | undefined) {
   runInAction(() => {
-    surveyStore.current.responses[responseIndex].response_text = responseText
+    if (responseText === undefined) {
+      delete surveyStore.current.responses[responseIndex].response_text
+    } else {
+      surveyStore.current.responses[responseIndex].response_text = responseText
+    }
   })
 }
 

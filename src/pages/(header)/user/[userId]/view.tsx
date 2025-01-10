@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite";
 
 import { Profile } from "../../../../components/Profile/Profile";
 import { userStore } from "../../../../domains/auth/sessionStore";
-import { loggedInProfileStore } from "../../../../domains/profile/loggedInProfileStore";
 import { useParams } from "../../../../router"
 
 export const UserViewPage = observer(() => {
@@ -12,8 +11,7 @@ export const UserViewPage = observer(() => {
   return (
     <Profile
       userId={userId}
-      canEdit={userId === currentUserId}
-      acceptedAt={loggedInProfileStore.acceptedAt} />
+      canEdit={userId === currentUserId} />
   )
 });
 

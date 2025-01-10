@@ -13,13 +13,17 @@ import { trash } from "ionicons/icons";
 import {
   InsertSurveyQuestion,
   QUESTION_MAP,
+  READ_ONLY_QUESTION_TYPES,
   removeQuestion,
   updateSurveyQuestion
 } from "../../domains/survey/survey";
 
 
+
 export default function EditQuestion(question: InsertSurveyQuestion & { index: number }) {
   const { id, index, question_type, question_text } = question;
+  const QuestionComponent = question_type ? QUESTION_MAP[question_type].question : null;
+  const isReadOnly = READ_ONLY_QUESTION_TYPES.includes(question_type as 'url');
 
   const canEdit = id === undefined;
 
@@ -29,10 +33,11 @@ export default function EditQuestion(question: InsertSurveyQuestion & { index: n
         <div className='flex w-full justify-between'>
           <div className="w-30">
             <IonCheckbox
+              disabled={isReadOnly}
               onIonChange={event => {
                 updateSurveyQuestion(index, { ...question, required: event.target.checked });
               }}
-              checked={question.required}
+              checked={isReadOnly ? false : question.required}
             ><IonLabel>Required</IonLabel></IonCheckbox>
           </div>
           <div className='w-30'>
@@ -65,19 +70,16 @@ export default function EditQuestion(question: InsertSurveyQuestion & { index: n
         }
         {
           !question.deleted && (
-            question_type ?
+            question_type && QuestionComponent ?
               <div className='w-full'>
-                {
-                  QUESTION_MAP[question_type]
-                    .component({
-                      id,
-                      index,
-                      canEdit,
-                      label: QUESTION_MAP[question_type].label,
-                      question_type,
-                      question_text
-                    })
-                }
+                <QuestionComponent {...{
+                  id,
+                  index,
+                  canEdit,
+                  label: QUESTION_MAP[question_type].label,
+                  question_type,
+                  question_text
+                }} />
               </div> : null
           )
         }

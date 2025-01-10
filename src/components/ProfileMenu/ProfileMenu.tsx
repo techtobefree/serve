@@ -1,19 +1,25 @@
 import { IonButton, IonIcon } from "@ionic/react";
 import { closeOutline, createOutline } from "ionicons/icons";
 
+import { observer } from "mobx-react-lite";
+
+import { userStore } from "../../domains/auth/sessionStore";
 import { logout } from "../../domains/auth/smsOTP";
-import { LoggedInProfile } from "../../domains/profile/loggedInProfileStore";
+import { useProfileQuery } from "../../domains/profile/queryProfileByUserId";
 import { HEADER_HEIGHT } from "../../domains/ui/header";
 import { useNavigate } from "../../router";
 
-type Props = {
-  currentProfile: LoggedInProfile;
-}
+import LoggedOut from "./LoggedOut";
 
-export default function LoggedIn({ currentProfile }: Props) {
+type Props = { userId?: string }
+
+export function ProfileMenuComponent({ userId }: Props) {
+  const { data: profile } = useProfileQuery(userId);
   const navigate = useNavigate();
 
-  const userId = currentProfile.userId;
+  if (!userId || !profile) {
+    return <LoggedOut />;
+  }
 
   return (
     <>
@@ -27,7 +33,7 @@ export default function LoggedIn({ currentProfile }: Props) {
             <IonIcon icon={createOutline} className='text-4xl p-2 text-blue-500' />
             <div className='flex flex-col p-1'>
               <div className="text-xl font-semibold">
-                {currentProfile.handle}
+                {profile.handle}
               </div>
               <div>
                 Edit Profile
@@ -55,3 +61,9 @@ export default function LoggedIn({ currentProfile }: Props) {
     </>
   )
 }
+
+const ProfileMenu = observer(() => {
+  return <ProfileMenuComponent userId={userStore.current?.id} />
+})
+
+export default ProfileMenu;

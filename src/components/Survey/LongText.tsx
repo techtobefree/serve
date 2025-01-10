@@ -1,12 +1,17 @@
-import { IonInput, IonLabel } from "@ionic/react";
+import { IonInput, IonLabel, IonTextarea } from "@ionic/react";
 
 import { observer } from "mobx-react-lite";
 
-import { setResponseText, surveyStore, updateSurveyQuestion } from "../../domains/survey/survey";
+import {
+  ResponseProps,
+  setResponseText,
+  surveyStore,
+  updateSurveyQuestion
+} from "../../domains/survey/survey";
 
 import { QuestionProps } from "./QuestionProps";
 
-export default function TextQuestion({
+export default function LongTextQuestion({
   index,
   canEdit,
   label,
@@ -27,15 +32,15 @@ export default function TextQuestion({
   );
 }
 
-export const TextResponse = observer(({ label, index }: { label: string, index: number }) => {
+export const LongTextResponse = observer(({ question, index }: ResponseProps) => {
   const response = surveyStore.current.responses[index];
 
   return (
     <div className='border-b-2'>
       <IonLabel
         className={`whitespace-nowrap ${response.question.required ? 'font-bold' : ''}`}
-      >{label}{response.question.required ? '*' : ''}</IonLabel>
-      <IonInput
+      >{question.question_text}{response.question.required ? '*' : ''}</IonLabel>
+      <IonTextarea
         onIonChange={(event) => { setResponseText(index, event.target.value as string || ''); }}
         value={response.response_text}
       />
