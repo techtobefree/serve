@@ -12,7 +12,6 @@ import {
 export default function UrlQuestion({
   index,
   canEdit,
-  label,
   question_text
 }: QuestionProps) {
   return (
@@ -20,7 +19,7 @@ export default function UrlQuestion({
       disabled={!canEdit}
       label='URL'
       type="text"
-      value={question_text || label}
+      value={question_text}
       onIonChange={(event) => {
         updateSurveyQuestion(index, {
           ...surveyStore.current.questions[index],

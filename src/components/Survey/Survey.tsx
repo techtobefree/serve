@@ -4,8 +4,6 @@ import { useProjectByIdQuery } from '../../domains/project/queryProjectById';
 import useUpsertProjectSurvey from '../../domains/survey/mutationUpsertSurvey';
 import {
   InsertSurveyQuestion,
-  QUESTION_MAP,
-  QUESTION_TYPE,
   surveyStore
 } from '../../domains/survey/survey';
 
@@ -24,17 +22,6 @@ function isValidSurvey(survey: InsertSurveyQuestion[] | null) {
     showToast('Survey is empty', { duration: 5000, isError: true });
     return false;
   }
-
-  // Default question_text
-  survey.forEach((question) => {
-    if (question.question_text === undefined && question.question_type) {
-      question.question_text = QUESTION_MAP[question.question_type].label;
-
-      if (question.question_type === QUESTION_TYPE.url) {
-        question.question_text = ''
-      }
-    }
-  });
 
   if (survey.some((question) => !question.question_text)) {
     showToast('Question text is empty', { duration: 5000, isError: true });

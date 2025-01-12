@@ -13,7 +13,6 @@ import {
 export default function CheckboxQuestion({
   index,
   canEdit,
-  label,
   question_text
 }: QuestionProps) {
   return (
@@ -21,7 +20,7 @@ export default function CheckboxQuestion({
       disabled={!canEdit}
       label='Prompt'
       type="text"
-      value={question_text || label}
+      value={question_text}
       onIonChange={(event) => {
         updateSurveyQuestion(index, {
           ...surveyStore.current.questions[index],
@@ -33,7 +32,6 @@ export default function CheckboxQuestion({
 
 export const CheckboxResponse = observer(({ question, index }: ResponseProps) => {
   const response = surveyStore.current.responses[index];
-  console.log('response.response_text', response.response_text)
 
   return (
     <div className='border-b-2 flex items-center p-2 gap-2 cursor-pointer' onClick={() => {

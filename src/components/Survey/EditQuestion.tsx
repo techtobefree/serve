@@ -18,8 +18,6 @@ import {
   updateSurveyQuestion
 } from "../../domains/survey/survey";
 
-
-
 export default function EditQuestion(question: InsertSurveyQuestion & { index: number }) {
   const { id, index, question_type, question_text } = question;
   const QuestionComponent = question_type ? QUESTION_MAP[question_type].question : null;
@@ -48,7 +46,22 @@ export default function EditQuestion(question: InsertSurveyQuestion & { index: n
               placeholder='Type'
               value={question.question_type}
               onIonChange={(event) => {
-                updateSurveyQuestion(index, { ...question, question_type: event.target.value });
+                // Default to label if question_text is empty or equal to another label
+                let questionText = question.question_text
+                if (event.target.value === 'url') {
+                  questionText = ''
+                } else if (!questionText ||
+                  Object.values(QUESTION_MAP).map(i => i.label)
+                    .includes(question.question_text as string)) {
+                  questionText = QUESTION_MAP[event.target.value as keyof typeof QUESTION_MAP].label
+                }
+
+                // set it to blank if the new type is URL
+                updateSurveyQuestion(index, {
+                  ...question,
+                  question_type: event.target.value,
+                  question_text: questionText
+                });
               }}>
               {(Object.keys(QUESTION_MAP) as Array<keyof typeof QUESTION_MAP>)
                 .map((questionType) => (

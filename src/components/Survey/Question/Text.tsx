@@ -18,7 +18,6 @@ import {
 export default function TextQuestion({
   index,
   canEdit,
-  label,
   question_text
 }: QuestionProps) {
   return (
@@ -26,7 +25,7 @@ export default function TextQuestion({
       disabled={!canEdit}
       label='Prompt'
       type="text"
-      value={question_text || label}
+      value={question_text}
       onIonChange={(event) => {
         updateSurveyQuestion(index, {
           ...surveyStore.current.questions[index],

@@ -13,7 +13,6 @@ import {
 export default function LongTextQuestion({
   index,
   canEdit,
-  label,
   question_text
 }: QuestionProps) {
   return (
@@ -21,7 +20,7 @@ export default function LongTextQuestion({
       disabled={!canEdit}
       label='Prompt'
       type="text"
-      value={question_text || label}
+      value={question_text}
       onIonChange={(event) => {
         updateSurveyQuestion(index, {
           ...surveyStore.current.questions[index],
