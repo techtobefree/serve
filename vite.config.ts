@@ -8,6 +8,10 @@ export default defineConfig({
   plugins: [react(), generouted(), VitePWA({
     registerType: 'autoUpdate',
     strategies: 'generateSW',
+    workbox: {
+      skipWaiting: true,
+      clientsClaim: true,
+    },
     manifest: {
       name: 'Serve2free',
       short_name: 'Serve2free',

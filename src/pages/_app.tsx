@@ -1,6 +1,7 @@
 import { App as CapacitorApp } from '@capacitor/app';
+import { IonButton } from '@ionic/react';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom'
 
 import { Profile } from '../components/Profile/Profile';
@@ -8,6 +9,7 @@ import Toast from '../components/Toast';
 import { userStore } from '../domains/auth/sessionStore';
 import { useLocalAuth } from '../domains/auth/useLocalAuth';
 import { useProfileQuery } from '../domains/profile/queryProfileByUserId';
+import { showToast } from '../domains/ui/toast';
 import { useNavigate } from '../router';
 
 type Props = { userId?: string }
@@ -17,6 +19,21 @@ export function LayoutComponent({ userId }: Props) {
   const { data: profile } = useProfileQuery(userStore.current?.id);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const serviceWorkerChangeCallback = useMemo(() => () => {
+    showToast(<div>
+      A new version of the app is available. Please refresh the page.
+      <IonButton onClick={() => { window.location.reload() }}>Refresh</IonButton>
+    </div>, { duration: Infinity });
+  }, [])
+
+  useEffect(() => {
+    navigator.serviceWorker.addEventListener('controllerchange', serviceWorkerChangeCallback);
+
+    return () => {
+      navigator.serviceWorker.removeEventListener('controllerchange', serviceWorkerChangeCallback);
+    }
+  })
 
   /**
    * Mimics browser back navigation behavior for native apps using @capacitor/app
