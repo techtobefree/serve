@@ -3,13 +3,12 @@ import { IonCheckbox, IonInput, IonLabel } from "@ionic/react";
 import { observer } from "mobx-react-lite";
 
 import {
+  QuestionProps,
   ResponseProps,
   setResponseText,
   surveyStore,
   updateSurveyQuestion
-} from "../../domains/survey/survey";
-
-import { QuestionProps } from "./QuestionProps";
+} from "../../../domains/survey/survey";
 
 export default function CheckboxQuestion({
   index,

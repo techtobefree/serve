@@ -4,17 +4,16 @@ import { observer } from "mobx-react-lite";
 
 import { useEffect } from "react";
 
-import { userStore } from "../../domains/auth/sessionStore";
-import { useProfileQuery } from "../../domains/profile/queryProfileByUserId";
+import { userStore } from "../../../domains/auth/sessionStore";
+import { useProfileQuery } from "../../../domains/profile/queryProfileByUserId";
 import {
   QUESTION_TYPE,
+  QuestionProps,
   ResponseProps,
   setResponseText,
   surveyStore,
   updateSurveyQuestion
-} from "../../domains/survey/survey";
-
-import { QuestionProps } from "./QuestionProps";
+} from "../../../domains/survey/survey";
 
 export default function TextQuestion({
   index,

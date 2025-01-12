@@ -2,9 +2,12 @@ import { IonInput, IonLabel } from "@ionic/react";
 
 import { observer } from "mobx-react-lite";
 
-import { ResponseProps, surveyStore, updateSurveyQuestion } from "../../domains/survey/survey";
-
-import { QuestionProps } from "./QuestionProps";
+import {
+  QuestionProps,
+  ResponseProps,
+  surveyStore,
+  updateSurveyQuestion
+} from "../../../domains/survey/survey";
 
 export default function UrlQuestion({
   index,
@@ -33,7 +36,7 @@ export const UrlResponse = observer(({ question, index }: ResponseProps) => {
   return (
     <div className='border-b-2'>
       <IonLabel
-        className={`whitespace-nowrap ${response.question.required ? 'font-bold' : ''}`}
+        className={response.question.required ? 'font-bold' : ''}
       >WARNING this is an external link:</IonLabel>
       <div>
         <a className='text-blue-600' href={question.question_text} target="_blank" rel="noreferrer">

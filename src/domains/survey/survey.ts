@@ -1,10 +1,9 @@
 import { observable, runInAction } from "mobx";
 
-import CheckboxQuestion, { CheckboxResponse } from "../../components/Survey/Checkbox";
-import InfoQuestion, { InfoResponse } from "../../components/Survey/Info";
-import { QuestionProps } from "../../components/Survey/QuestionProps";
-import TextQuestion, { TextResponse } from "../../components/Survey/Text";
-import UrlQuestion, { UrlResponse } from "../../components/Survey/Url";
+import CheckboxQuestion, { CheckboxResponse } from "../../components/Survey/Question/Checkbox";
+import InfoQuestion, { InfoResponse } from "../../components/Survey/Question/Info";
+import TextQuestion, { TextResponse } from "../../components/Survey/Question/Text";
+import UrlQuestion, { UrlResponse } from "../../components/Survey/Question/Url";
 import { TableInsert, TableRows } from "../persistence/tables";
 
 export const QUESTION_MAP: {
@@ -29,6 +28,15 @@ export const QUESTION_MAP: {
   state: { label: 'State', question: TextQuestion, response: TextResponse },
   postal_code: { label: 'Postal Code', question: TextQuestion, response: TextResponse },
   country: { label: 'Country', question: TextQuestion, response: TextResponse },
+}
+
+export type QuestionProps = {
+  id: string | undefined,
+  index: number,
+  label: string,
+  canEdit: boolean,
+  question_type: keyof typeof QUESTION_TYPE,
+  question_text?: string,
 }
 
 export type ResponseProps = {

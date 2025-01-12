@@ -2,9 +2,12 @@ import { IonInput, IonLabel } from "@ionic/react";
 
 import { observer } from "mobx-react-lite";
 
-import { ResponseProps, surveyStore, updateSurveyQuestion } from "../../domains/survey/survey";
-
-import { QuestionProps } from "./QuestionProps";
+import {
+  QuestionProps,
+  ResponseProps,
+  surveyStore,
+  updateSurveyQuestion
+} from "../../../domains/survey/survey";
 
 export default function InfoQuestion({
   index,
