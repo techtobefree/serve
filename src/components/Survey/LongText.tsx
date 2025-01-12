@@ -38,7 +38,7 @@ export const LongTextResponse = observer(({ question, index }: ResponseProps) =>
   return (
     <div className='border-b-2'>
       <IonLabel
-        className={`whitespace-nowrap ${response.question.required ? 'font-bold' : ''}`}
+        className={response.question.required ? 'font-bold' : ''}
       >{question.question_text}{response.question.required ? '*' : ''}</IonLabel>
       <IonTextarea
         onIonChange={(event) => { setResponseText(index, event.target.value as string || ''); }}

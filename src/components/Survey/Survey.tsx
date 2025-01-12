@@ -2,7 +2,12 @@ import { IonButton } from '@ionic/react';
 
 import { useProjectByIdQuery } from '../../domains/project/queryProjectById';
 import useUpsertProjectSurvey from '../../domains/survey/mutationUpsertSurvey';
-import { InsertSurveyQuestion, QUESTION_MAP, surveyStore } from '../../domains/survey/survey';
+import {
+  InsertSurveyQuestion,
+  QUESTION_MAP,
+  QUESTION_TYPE,
+  surveyStore
+} from '../../domains/survey/survey';
 
 import { showToast } from '../../domains/ui/toast';
 import { useNavigate } from '../../router';
@@ -20,9 +25,14 @@ function isValidSurvey(survey: InsertSurveyQuestion[] | null) {
     return false;
   }
 
+  // Default question_text
   survey.forEach((question) => {
     if (question.question_text === undefined && question.question_type) {
       question.question_text = QUESTION_MAP[question.question_type].label;
+
+      if (question.question_type === QUESTION_TYPE.url) {
+        question.question_text = ''
+      }
     }
   });
 
@@ -45,7 +55,7 @@ const ProjectSurvey = ({ project, userId }: Props) => {
   return (
     <div>
       <div>This will be presented to everyone committing to the project.
-        The prompt is what you will see in any reports.</div>
+        The prompt will be used as column headers in reports.</div>
       <br />
       <EditSurvey survey={project.survey} />
       <div className='flex justify-end'>

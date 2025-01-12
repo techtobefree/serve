@@ -44,22 +44,18 @@ export const TextResponse = observer(({ question, index }: ResponseProps) => {
     if (profile?.sensitive_profile[0].first_name &&
       question.question_type === QUESTION_TYPE.first_name) {
       setResponseText(index, profile.sensitive_profile[0].first_name);
-      console.log('first_name', profile.sensitive_profile[0].first_name)
     }
     if (profile?.sensitive_profile[0].last_name &&
       question.question_type === QUESTION_TYPE.last_name) {
       setResponseText(index, profile.sensitive_profile[0].last_name);
-      console.log('last_name', profile.sensitive_profile[0].last_name)
     }
     if (profile?.sensitive_profile[0].email &&
       question.question_type === QUESTION_TYPE.email) {
       setResponseText(index, profile.sensitive_profile[0].email);
-      console.log('email', profile.sensitive_profile[0].email)
     }
     if (profile?.sensitive_profile[0].phone &&
       question.question_type === QUESTION_TYPE.phone) {
-      setResponseText(index, profile.sensitive_profile[0].phone as string);
-      console.log('phone', profile.sensitive_profile[0].phone)
+      setResponseText(index, profile.sensitive_profile[0].phone);
     }
   }, [question.question_type, index, profile]);
 
@@ -68,7 +64,7 @@ export const TextResponse = observer(({ question, index }: ResponseProps) => {
   return (
     <div className='border-b-2'>
       <IonLabel
-        className={`whitespace-nowrap ${response.question.required ? 'font-bold' : ''}`}
+        className={response.question.required ? 'font-bold' : ''}
       >{question.question_text}{response.question.required ? '*' : ''}</IonLabel>
       <IonInput
         onIonChange={(event) => { setResponseText(index, event.target.value as string || ''); }}

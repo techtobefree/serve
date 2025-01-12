@@ -123,7 +123,6 @@ export function useProjectCommitmentDownloadQuery({
           return row;
         })
 
-        console.log('jsonToCsv(commitments)', jsonToCsv(commitments))
         downloadTextFile(`project_commitments_${event.project_event_date}.csv`, jsonToCsv(commitments))
 
       } catch (e) {

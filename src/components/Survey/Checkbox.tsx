@@ -45,7 +45,7 @@ export const CheckboxResponse = observer(({ question, index }: ResponseProps) =>
         checked={response.response_text === 'yes' ? true : false}
       />
       <IonLabel
-        className={`whitespace-nowrap ${response.question.required ? 'font-bold' : ''}`}
+        className={response.question.required ? 'font-bold' : ''}
       >{question.question_text}{response.question.required ? '*' : ''}</IonLabel>
     </div>
   );

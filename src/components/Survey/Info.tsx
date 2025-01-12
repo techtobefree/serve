@@ -33,7 +33,7 @@ export const InfoResponse = observer(({ question, index }: ResponseProps) => {
   return (
     <div className='border-b-2'>
       <IonLabel
-        className={`whitespace-nowrap ${response.question.required ? 'font-bold' : ''}`}
+        className={response.question.required ? 'font-bold' : ''}
       >{question.question_text}</IonLabel>
     </div>
   );
