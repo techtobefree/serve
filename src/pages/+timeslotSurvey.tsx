@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 import SurveyResponse from "../components/Survey/SurveyResponse";
 import useCommitToTimeslot from "../domains/project/commitment/mutationCommitToTimeslot";
-import { useSurveyByIdQuery } from "../domains/project/queryProjectById";
+import { useSurveyByIdQuery } from "../domains/survey/querySurveyById";
 import { showToast } from "../domains/ui/toast";
 import { useModals, useNavigate } from "../router"
 

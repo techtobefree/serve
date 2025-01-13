@@ -83,6 +83,11 @@ type SurveyStore = {
   }
 }
 
+export const SURVEY_TYPE = {
+  attendee: 'attendee',
+  commitment: 'commitment',
+} as const
+
 export const surveyStore = observable<SurveyStore>({
   current: {
     questions: [],

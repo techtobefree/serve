@@ -94,38 +94,6 @@ export function useSurveyQuestionByIdQuery(surveyId: string) {
   })
 }
 
-// Only used for the type
-export function useSurveyByIdQuery(surveyId: string) {
-  return useQuery({
-    queryKey: ['get-surveyById', surveyId],
-    queryFn: async () => {
-      const { data, error } = await clientSupabase
-        .from('survey')
-        .select(`
-          *,
-          survey_question (
-            *,
-            survey_question_option (
-              *
-            ),
-            survey_question_hiding_rule (
-              *
-            )
-          )
-          `)
-        .eq('id', surveyId)
-        .single();
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return data;
-    }
-  })
-}
-
-
 export function useProjectByIdQuery(projectId: string) {
   return useQuery({
     queryKey: [partialQueryKey, projectId],
@@ -163,7 +131,19 @@ export function useProjectByIdQuery(projectId: string) {
           project_role (
             *
           ),
-          survey (
+          attendee_survey:survey!fk_attendee_survey_id_to_survey_id (
+            *,
+            survey_question (
+              *,
+              survey_question_option (
+                *
+              ),
+              survey_question_hiding_rule (
+                *
+              )
+            )
+          ),
+          commitment_survey:survey!fk_commitment_survey_id_to_survey_id (
             *,
             survey_question (
               *,

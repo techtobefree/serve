@@ -6,6 +6,7 @@ import { getPublicUrl, projectPicturePath } from "../../domains/image/image"
 import useJoinProject from "../../domains/project/mutationJoinProject"
 import useLeaveProject from "../../domains/project/mutationLeaveProject"
 import { useProjectByIdQuery } from "../../domains/project/queryProjectById"
+import { useEnsureSurveyExists } from "../../domains/survey/mutationUpsertSurvey"
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
 import { useQrCode } from "../../domains/ui/useQr"
 import { useModals, useNavigate } from "../../router"
@@ -29,6 +30,28 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
   const modals = useModals();
   const { data: projectQrCodeUrl } =
     useQrCode(`${BASE_URL}/project/${project.id || ''}/view`, !project.id);
+  const ensureCommitmentSurveyExists = useEnsureSurveyExists(
+    { projectId: project.id, surveyId: project.commitment_survey_id },
+    (_err, data) => {
+      if (data) {
+        navigate(
+          '/survey/:surveyId/edit',
+          { params: { surveyId: data } }
+        )
+      }
+    }
+  )
+  const ensureAttendeeSurveyExists = useEnsureSurveyExists(
+    { projectId: project.id, surveyId: project.commitment_survey_id },
+    (_err, data) => {
+      if (data) {
+        navigate(
+          '/survey/:surveyId/edit',
+          { params: { surveyId: data } }
+        )
+      }
+    }
+  )
 
   const isUserMember = currentUserId && project.user_project.find(i => i.user_id === currentUserId);
 
@@ -115,16 +138,28 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             userId={project.lead_by || project.owner_id} />
         </div>
       </div>
-      {canEdit && (
+      {canEdit && currentUserId && (
         <div className='flex justify-around'>
           <IonButton
             color='tertiary'
             onClick={() => {
-              navigate(
-                '/project/:projectId/survey',
-                { params: { projectId: project.id }, replace: mayReplace() }
-              )
-            }}>Manage questions</IonButton>
+              ensureCommitmentSurveyExists.mutate({
+                projectId: project.id,
+                surveyId: project.commitment_survey_id,
+                userId: currentUserId,
+                column: 'commitment_survey_id'
+              })
+            }}>Manage commitment survey</IonButton>
+          <IonButton
+            color='tertiary'
+            onClick={() => {
+              ensureAttendeeSurveyExists.mutate({
+                projectId: project.id,
+                surveyId: project.commitment_survey_id,
+                userId: currentUserId,
+                column: 'attendee_survey_id'
+              })
+            }}>Manage attendee survey</IonButton>
           <IonButton
             color='tertiary'
             onClick={() => {
@@ -141,7 +176,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           .sort((a, b) => a.project_event_date < b.project_event_date ? -1 : 1)
           .map(event => {
             return <EventCard key={event.id}
-              survey={project.survey}
+              survey={project.commitment_survey}
               project={project}
               event={event}
               currentUserId={currentUserId}

@@ -6,9 +6,9 @@ import useCommitToTimeslot from "../../domains/project/commitment/mutationCommit
 import useRemoveTimeslot from "../../domains/project/event/mutationRemoveTimeslot";
 import {
   useEventByIdQuery,
-  useSurveyByIdQuery,
   useTimeslotByIdQuery
 } from "../../domains/project/queryProjectById";
+import { useSurveyByIdQuery } from "../../domains/survey/querySurveyById";
 import { useModals } from "../../router";
 
 type Props = {
