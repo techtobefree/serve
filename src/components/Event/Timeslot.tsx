@@ -9,7 +9,7 @@ import {
   useTimeslotByIdQuery
 } from "../../domains/project/queryProjectById";
 import { useSurveyByIdQuery } from "../../domains/survey/querySurveyById";
-import { SURVEY_TYPE } from "../../domains/survey/survey";
+import { resetSurveyStoreResponse, SURVEY_TYPE } from "../../domains/survey/survey";
 import { useModals } from "../../router";
 
 type Props = {
@@ -54,6 +54,7 @@ export default function Timeslot({
               modals.open('/menu')
             } else {
               if (survey) {
+                resetSurveyStoreResponse([])
                 modals.open('/answerSurvey', {
                   state: {
                     survey, projectId: event.project_id, timeslotCommitment: {
