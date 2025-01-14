@@ -48,7 +48,7 @@ function nextTimeBlock(duration: number,
       count: 0,
       minimumCount: 0,
       role: role || 'Volunteer',
-      surveyType: surveyType || SURVEY_TYPE.commitment
+      surveyType: surveyType || SURVEY_TYPE.volunteer
     }
   }
 
@@ -61,7 +61,7 @@ function nextTimeBlock(duration: number,
     count: count || 0,
     minimumCount: minimumCount || 0,
     role: role || 'Volunteer',
-    surveyType: surveyType || SURVEY_TYPE.commitment
+    surveyType: surveyType || SURVEY_TYPE.volunteer
   }
 }
 

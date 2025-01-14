@@ -94,9 +94,9 @@ export default function TimeslotAsk({
                     minimumCount: timeslot.minimumCount,
                     minute: timeslot.minute,
                     role: timeslot.role,
-                    surveyType: timeslot.surveyType === SURVEY_TYPE.commitment ?
+                    surveyType: timeslot.surveyType === SURVEY_TYPE.volunteer ?
                       SURVEY_TYPE.attendee :
-                      SURVEY_TYPE.commitment,
+                      SURVEY_TYPE.volunteer,
                   }
                 ],
                   (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])

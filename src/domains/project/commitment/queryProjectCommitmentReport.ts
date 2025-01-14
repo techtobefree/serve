@@ -42,7 +42,7 @@ export function useProjectCommitmentDownloadQuery({
           showToast('Missing project event ID or survey ID', { duration: 5000, isError: true });
           throw new Error('Missing projectEventId or surveyId');
         }
-        const { data: survey, error: surveyError } = await clientSupabase
+        const { data: surveys, error: surveyError } = await clientSupabase
           .from('survey')
           .select(`
             *,
@@ -50,8 +50,7 @@ export function useProjectCommitmentDownloadQuery({
               *
             )
           `)
-          .in('id', [attendeeSurveyId, commitmentSurveyId])
-          .single();
+          .in('id', [attendeeSurveyId, commitmentSurveyId]);
 
         if (surveyError) {
           showToast('Error getting survey', { duration: 5000, isError: true });
@@ -91,8 +90,10 @@ export function useProjectCommitmentDownloadQuery({
         }
 
         const questionMap = new Map();
-        survey.survey_question.forEach((question: any) => {
-          questionMap.set(question.id, question);
+        surveys.forEach(survey => {
+          survey.survey_question.forEach((question: any) => {
+            questionMap.set(question.id, question);
+          })
         })
 
         const compositeMap = new Map();

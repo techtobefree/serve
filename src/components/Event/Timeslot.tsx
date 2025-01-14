@@ -62,6 +62,7 @@ export default function Timeslot({
                       startTime,
                       endTime,
                       eventId: event.id,
+                      role: timeslot.role,
                     }
                   }
                 });
@@ -71,6 +72,7 @@ export default function Timeslot({
                   startTime,
                   endTime,
                   eventId: event.id,
+                  role: timeslot.role,
                 })
               }
             }

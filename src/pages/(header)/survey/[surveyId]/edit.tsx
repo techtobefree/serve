@@ -18,7 +18,7 @@ const SURVEY_TYPE_MESSAGE: {
 } = {
   [SURVEY_TYPE.attendee]: `This survey will be presented to everyone attending the project.
   The prompt will be used as column headers in reports.`,
-  [SURVEY_TYPE.commitment]: `This survey be presented to everyone committing to the project.
+  [SURVEY_TYPE.volunteer]: `This survey be presented to everyone committing to the project.
   The prompt will be used as column headers in reports.`,
   generic: 'This survey will use the prompts as headers whenever generating a report.',
 }
