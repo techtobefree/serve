@@ -8,12 +8,13 @@ import { queryClient } from "../../persistence/queryClient";
 import { showToast } from "../../ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queryProjectById";
 
-export async function commitToTimeslot({ eventId, projectId, startTime, endTime }:
+export async function commitToTimeslot({ eventId, projectId, startTime, endTime, role }:
   {
     eventId: string,
     projectId: string,
     startTime: TZDate,
-    endTime: TZDate
+    endTime: TZDate,
+    role: string
   }) {
 
   if (!userStore.current) {
@@ -28,7 +29,7 @@ export async function commitToTimeslot({ eventId, projectId, startTime, endTime 
       commitment_start: tzDateToDB(startTime),
       commitment_end: tzDateToDB(endTime),
       project_event_id: eventId,
-      role: 'Volunteer',
+      role,
     })
     .select('*')
 

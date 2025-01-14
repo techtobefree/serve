@@ -4,8 +4,8 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useMemo } from "react";
 
 import { userStore } from "../../domains/auth/sessionStore";
-import { useSurveyByIdQuery } from "../../domains/project/queryProjectById";
 import useAnswerSurvey from "../../domains/survey/mutationAnswerSurvey";
+import { useSurveyByIdQuery } from "../../domains/survey/querySurveyById";
 import {
   InsertResponse,
   MaybeResponse,

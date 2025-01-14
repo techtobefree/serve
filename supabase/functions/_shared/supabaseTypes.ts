@@ -3225,6 +3225,7 @@ export type Database = {
       project: {
         Row: {
           approve_commitments: boolean
+          attendee_survey_id: string | null
           commitment_survey_id: string | null
           created_at: string | null
           created_by: string
@@ -3240,6 +3241,7 @@ export type Database = {
         }
         Insert: {
           approve_commitments?: boolean
+          attendee_survey_id?: string | null
           commitment_survey_id?: string | null
           created_at?: string | null
           created_by: string
@@ -3255,6 +3257,7 @@ export type Database = {
         }
         Update: {
           approve_commitments?: boolean
+          attendee_survey_id?: string | null
           commitment_survey_id?: string | null
           created_at?: string | null
           created_by?: string
@@ -3269,6 +3272,13 @@ export type Database = {
           updated_by?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_attendee_survey_id_to_survey_id"
+            columns: ["attendee_survey_id"]
+            isOneToOne: false
+            referencedRelation: "survey"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "fk_commitment_survey_id_to_survey_id"
             columns: ["commitment_survey_id"]
@@ -3593,6 +3603,7 @@ export type Database = {
           project_event_id: string
           project_id: string
           role: string
+          survey_type: string
           timeslot_count: number
           timeslot_duration_minutes: number
           timeslot_minimum_count: number
@@ -3608,6 +3619,7 @@ export type Database = {
           project_event_id: string
           project_id: string
           role: string
+          survey_type?: string
           timeslot_count: number
           timeslot_duration_minutes: number
           timeslot_minimum_count: number
@@ -3623,6 +3635,7 @@ export type Database = {
           project_event_id?: string
           project_id?: string
           role?: string
+          survey_type?: string
           timeslot_count?: number
           timeslot_duration_minutes?: number
           timeslot_minimum_count?: number

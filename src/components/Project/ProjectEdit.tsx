@@ -53,16 +53,12 @@ const ProjectForm = ({ project, userId }: Props) => {
         console.error(res.error);
         showToast('Failed to save project', { duration: 5000, isError: true })
       } else {
-        if (project.id) {
-          navigate(
-            '/project/:projectId/view',
-            { params: { projectId: res.data.id }, replace: mayReplace() }
-          )
-        } else {
-          navigate(
-            '/project/:projectId/survey',
-            { params: { projectId: res.data.id }, replace: mayReplace() }
-          )
+        navigate(
+          '/project/:projectId/view',
+          { params: { projectId: res.data.id }, replace: mayReplace() }
+        )
+        if (!project.id) {
+          showToast('You can create a survey for attendees and/or volunteers', { duration: 5000 })
         }
       }
     }

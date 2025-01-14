@@ -5,13 +5,15 @@ import {
   IonItem,
   IonLabel,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonToggle
 } from '@ionic/react';
 import { personOutline, trashOutline } from 'ionicons/icons';
 
 import { useState } from 'react';
 
 import { Timeslot } from '../../domains/project/event/mutationCreateTimeslots';
+import { SURVEY_TYPE } from '../../domains/survey/survey';
 import { showToast } from '../../domains/ui/toast';
 
 const hours = [
@@ -81,6 +83,39 @@ export default function TimeslotAsk({
     <div className='flex gap-6 items-center self-center'>
       <div className='flex flex-col gap-2'>
         <IonItem>
+          <div className='flex justify-between w-full cursor-pointer' onClick={() => {
+            setTimeslots(
+              (index === 0 ? [] : timeslots.slice(0, index))
+                .concat([
+                  {
+                    count: timeslot.count,
+                    duration: timeslot.duration,
+                    hour: timeslot.hour,
+                    minimumCount: timeslot.minimumCount,
+                    minute: timeslot.minute,
+                    role: timeslot.role,
+                    surveyType: timeslot.surveyType === SURVEY_TYPE.volunteer ?
+                      SURVEY_TYPE.attendee :
+                      SURVEY_TYPE.volunteer,
+                  }
+                ],
+                  (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
+                ))
+          }}>
+            <div>Volunteer survey</div>
+            <div><IonToggle
+              style={{
+                '--track-background': '#3b82f680',        // off track color
+                '--track-background-checked': '#3b82f680',// on track color
+                '--handle-background': '#fff',       // handle color (both states)
+                '--handle-background-checked': '#fff' // on-knob color
+              }}
+              checked={timeslot.surveyType === SURVEY_TYPE.attendee} />
+            </div>
+            <div className='text-right'>Attendee survey</div>
+          </div>
+        </IonItem>
+        <IonItem>
           <IonLabel className='pr-2'>Role</IonLabel>
           <IonInput
             value={timeslot.role}
@@ -95,6 +130,7 @@ export default function TimeslotAsk({
                       minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
                       role: e.detail.value as string,
+                      surveyType: timeslot.surveyType,
                     }
                   ],
                     (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
@@ -119,6 +155,7 @@ export default function TimeslotAsk({
                       minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
                       role: timeslot.role,
+                      surveyType: timeslot.surveyType,
                     }
                   ],
                     (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
@@ -148,6 +185,7 @@ export default function TimeslotAsk({
                       minimumCount: timeslot.minimumCount,
                       minute: e.detail.value,
                       role: timeslot.role,
+                      surveyType: timeslot.surveyType,
                     }
                   ],
                     (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
@@ -181,6 +219,7 @@ export default function TimeslotAsk({
                       minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
                       role: timeslot.role,
+                      surveyType: timeslot.surveyType,
                     }
                   ],
                     (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
@@ -211,6 +250,7 @@ export default function TimeslotAsk({
                       minimumCount: timeslot.minimumCount,
                       minute: timeslot.minute,
                       role: timeslot.role,
+                      surveyType: timeslot.surveyType,
                     }
                   ],
                     (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
@@ -250,6 +290,7 @@ export default function TimeslotAsk({
                         minimumCount: newInt || 0,
                         minute: timeslot.minute,
                         role: timeslot.role,
+                        surveyType: timeslot.surveyType,
                       }
                     ],
                       (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
@@ -285,6 +326,7 @@ export default function TimeslotAsk({
                         minimumCount: timeslot.minimumCount,
                         minute: timeslot.minute,
                         role: timeslot.role,
+                        surveyType: timeslot.surveyType,
                       }
                     ],
                       (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])

@@ -6,9 +6,10 @@ import useCommitToTimeslot from "../../domains/project/commitment/mutationCommit
 import useRemoveTimeslot from "../../domains/project/event/mutationRemoveTimeslot";
 import {
   useEventByIdQuery,
-  useSurveyByIdQuery,
   useTimeslotByIdQuery
 } from "../../domains/project/queryProjectById";
+import { useSurveyByIdQuery } from "../../domains/survey/querySurveyById";
+import { resetSurveyStoreResponse, SURVEY_TYPE } from "../../domains/survey/survey";
 import { useModals } from "../../router";
 
 type Props = {
@@ -53,13 +54,15 @@ export default function Timeslot({
               modals.open('/menu')
             } else {
               if (survey) {
-                modals.open('/timeslotSurvey', {
+                resetSurveyStoreResponse([])
+                modals.open('/answerSurvey', {
                   state: {
                     survey, projectId: event.project_id, timeslotCommitment: {
                       projectId: event.project_id,
                       startTime,
                       endTime,
                       eventId: event.id,
+                      role: timeslot.role,
                     }
                   }
                 });
@@ -69,11 +72,12 @@ export default function Timeslot({
                   startTime,
                   endTime,
                   eventId: event.id,
+                  role: timeslot.role,
                 })
               }
             }
           }}
-        >Commit</IonButton>}
+        >{timeslot.survey_type === SURVEY_TYPE.attendee ? 'Attend' : 'Commit'}</IonButton>}
         {canEdit && (
           <IonButton
             color='tertiary'

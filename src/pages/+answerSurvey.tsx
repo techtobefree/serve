@@ -4,11 +4,11 @@ import { useLocation } from "react-router-dom";
 
 import SurveyResponse from "../components/Survey/SurveyResponse";
 import useCommitToTimeslot from "../domains/project/commitment/mutationCommitToTimeslot";
-import { useSurveyByIdQuery } from "../domains/project/queryProjectById";
+import { useSurveyByIdQuery } from "../domains/survey/querySurveyById";
 import { showToast } from "../domains/ui/toast";
 import { useModals, useNavigate } from "../router"
 
-export default function TimeslotSurvey() {
+export default function AnswerSurvey() {
   const navigate = useNavigate();
   const modals = useModals();
   const location = useLocation();
@@ -52,13 +52,13 @@ export default function TimeslotSurvey() {
       {/* Modal Content */}
       <div
         className={`
-          pointer-events-none fixed flex justify-center md:items-start p-8
+          pointer-events-none fixed flex justify-center md:items-start pt-8 pb-8
           w-full h-full transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-y-0' : 'translate-y-full md:-translate-y-full'}
           `}
       >
-        <div className='rounded-2xl bg-white flex flex-col gap-4
-          pointer-events-auto'>
+        <div className='w-full h-full max-w-[600px]
+          rounded-2xl bg-white flex flex-col gap-4 pointer-events-auto'>
           <SurveyResponse
             projectId={timeslotCommitment.projectId}
             survey={survey}

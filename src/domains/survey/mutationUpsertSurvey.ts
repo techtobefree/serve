@@ -4,12 +4,18 @@ import { clientSupabase } from "../persistence/clientSupabase";
 import { queryClient } from "../persistence/queryClient";
 import { TableInsert } from "../persistence/tables";
 import { partialQueryKey as projectByIdKey } from "../project/queryProjectById";
+import { partialQueryKey as surveyByIdKey } from "../survey/querySurveyById";
 import { showToast } from "../ui/toast";
 
 import { InsertSurveyQuestion } from "./survey";
 
-async function ensureSurveyExists({ projectId, userId, surveyId }:
-  { projectId: string, userId: string, surveyId?: string }) {
+async function ensureSurveyExists({ column, projectId, userId, surveyId }:
+  {
+    column: 'commitment_survey_id' | 'attendee_survey_id'
+    projectId: string,
+    userId: string,
+    surveyId?: string | null,
+  }) {
 
   if (surveyId) {
     return surveyId;
@@ -18,7 +24,7 @@ async function ensureSurveyExists({ projectId, userId, surveyId }:
   const { data: surveyData, error: surveyError } = await clientSupabase
     .from('survey')
     .upsert({
-      id: surveyId,
+      id: surveyId === null ? undefined : surveyId,
       name: 'Commit to Project',
       description: 'The project leader has requested information from you.',
       created_by: userId,
@@ -37,7 +43,7 @@ async function ensureSurveyExists({ projectId, userId, surveyId }:
   const { error: projectError } = await clientSupabase
     .from('project')
     .update({
-      commitment_survey_id: actualSurveyId,
+      [column]: actualSurveyId,
     })
     .eq('id', projectId)
     .select('*');
@@ -50,18 +56,54 @@ async function ensureSurveyExists({ projectId, userId, surveyId }:
   return actualSurveyId;
 }
 
+export function useEnsureSurveyExists(
+  { projectId, surveyId }: { projectId: string, surveyId: string | null },
+  callback?: (err?: Error, data?: string) => void) {
+  return useMutation({
+    mutationFn: ensureSurveyExists,
+    onSuccess: (data) => {
+      // Invalidate queries to refetch updated data
+      if (projectId) {
+        void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      }
+      if (surveyId) {
+        void queryClient.invalidateQueries({ queryKey: [surveyByIdKey, surveyId] });
+      }
+      callback?.(undefined, data);
+    },
+    onError: (error: Error) => {
+      console.error('Error updating survey:', error);
+      callback?.(error);
+    },
+  });
+}
+
+
 async function upsertProjectSurvey({
   surveyId: maybeSurveyId,
-  projectId,
+  projectId: maybeProjectId,
   userId,
   questions,
+  attendeeSurvey // If true, then the survey is for attendees, otherwise it is for commitments
 }: {
   surveyId?: string, // If ID is provided, then the project already has a survey
-  projectId: string,
+  projectId?: string, // If ID is provided, then the project does not have a survey
   userId: string,
   questions: InsertSurveyQuestion[],
+  attendeeSurvey?: boolean,
 }) {
-  const surveyId = await ensureSurveyExists({ projectId, userId, surveyId: maybeSurveyId });
+  if (!maybeProjectId && !maybeSurveyId) {
+    throw new Error('Project ID or Survey ID is required');
+  }
+  let surveyId = maybeSurveyId as string;
+
+  if (!surveyId && maybeProjectId) {
+    surveyId = await ensureSurveyExists({
+      column: attendeeSurvey ? 'attendee_survey_id' : 'commitment_survey_id',
+      projectId: maybeProjectId,
+      userId
+    });
+  }
 
   const questionsToDelete = questions.filter(i => i.deleted);
   const questionsToUpdate = questions.filter(i => i.edited && !i.deleted);
@@ -161,14 +203,19 @@ async function upsertProjectSurvey({
   }
 }
 
-export default function useUpsertProjectSurvey(
-  { projectId }: { projectId: string },
+export default function useUpsertSurvey(
+  { projectId, surveyId }: { projectId?: string, surveyId?: string },
   callback?: (err?: Error) => void) {
   return useMutation({
     mutationFn: upsertProjectSurvey,
     onSuccess: () => {
       // Invalidate queries to refetch updated data
-      void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      if (projectId) {
+        void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+      }
+      if (surveyId) {
+        void queryClient.invalidateQueries({ queryKey: [surveyByIdKey, surveyId] });
+      }
       showToast('Survey updated', { duration: 3000 })
       callback?.();
     },

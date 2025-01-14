@@ -5,8 +5,8 @@ import { add } from "ionicons/icons"
 import { observer } from "mobx-react-lite"
 import { useEffect } from "react"
 
-import { useSurveyByIdQuery } from "../../domains/project/queryProjectById"
 
+import { useSurveyByIdQuery } from "../../domains/survey/querySurveyById"
 import {
   addQuestionToSurvey,
   InsertSurveyQuestion,
