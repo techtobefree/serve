@@ -20,6 +20,7 @@ export default function AnswerSurvey() {
         startTime: TZDate,
         endTime: TZDate,
         eventId: string,
+        role: string,
       }
     } = location.state || {};
 
