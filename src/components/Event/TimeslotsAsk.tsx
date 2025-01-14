@@ -11,11 +11,11 @@ import { useState } from "react";
 import { userStore } from "../../domains/auth/sessionStore";
 import { sortTimeslots } from '../../domains/date/sort';
 import useCreateTimeslots, { Timeslot } from '../../domains/project/event/mutationCreateTimeslots';
+import { SURVEY_TYPE } from '../../domains/survey/survey';
 import { showToast } from '../../domains/ui/toast';
 import { useNavigate } from "../../router";
 
 import TimeslotAsk from './TimeslotAsk';
-
 
 type Props = {
   eventId: string;
@@ -37,7 +37,8 @@ function nextTimeBlock(duration: number,
   minute?: number,
   count?: number,
   minimumCount?: number,
-  role?: string
+  role?: string,
+  surveyType?: keyof typeof SURVEY_TYPE
 ): Timeslot {
   if (hour === undefined || minute === undefined) {
     return {
@@ -46,7 +47,8 @@ function nextTimeBlock(duration: number,
       minute: 0,
       count: 0,
       minimumCount: 0,
-      role: role || 'Volunteer'
+      role: role || 'Volunteer',
+      surveyType: surveyType || SURVEY_TYPE.commitment
     }
   }
 
@@ -58,7 +60,8 @@ function nextTimeBlock(duration: number,
     minute: nextMinute % 60,
     count: count || 0,
     minimumCount: minimumCount || 0,
-    role: role || 'Volunteer'
+    role: role || 'Volunteer',
+    surveyType: surveyType || SURVEY_TYPE.commitment
   }
 }
 

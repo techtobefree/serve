@@ -17,8 +17,9 @@ import useRemoveEvent from '../../domains/project/event/mutationRemoveEvent';
 import {
   useEventByIdQuery,
   useProjectByIdQuery,
-  useSurveyByIdQuery
 } from "../../domains/project/queryProjectById";
+import { useSurveyByIdQuery } from '../../domains/survey/querySurveyById';
+import { SURVEY_TYPE } from '../../domains/survey/survey';
 import { showToast } from '../../domains/ui/toast';
 import { useModals, useNavigate } from "../../router";
 import Avatar from '../Avatar';
@@ -30,12 +31,20 @@ import Timeslot from './Timeslot';
 type Props = {
   currentUserId?: string;
   event: Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>;
-  survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
+  commitmentSurvey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
+  attendeeSurvey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
   project: Exclude<ReturnType<typeof useProjectByIdQuery>['data'], undefined>;
   canEdit: boolean;
 }
 
-export default function EventCard({ currentUserId, survey, event, project, canEdit }: Props) {
+export default function EventCard({
+  currentUserId,
+  commitmentSurvey,
+  attendeeSurvey,
+  event,
+  project,
+  canEdit
+}: Props) {
   const navigate = useNavigate();
   const modals = useModals();
   const removeCommitment = useRemoveCommitment({ projectId: event.project_id });
@@ -45,7 +54,8 @@ export default function EventCard({ currentUserId, survey, event, project, canEd
   const [downloadCommitmentReport, setDownloadCommitmentReport] = useState(false);
   useProjectCommitmentDownloadQuery({
     event,
-    surveyId: survey?.id,
+    commitmentSurveyId: commitmentSurvey?.id,
+    attendeeSurveyId: attendeeSurvey?.id,
     shouldDownload: downloadCommitmentReport,
     onComplete: () => { setDownloadCommitmentReport(false); },
     projectEventId: event.id
@@ -137,7 +147,8 @@ export default function EventCard({ currentUserId, survey, event, project, canEd
             <Timeslot key={index}
               canEdit={canEdit}
               currentUserId={currentUserId}
-              survey={survey}
+              survey={timeslot.survey_type === SURVEY_TYPE.attendee ?
+                attendeeSurvey : commitmentSurvey}
               timeslot={timeslot}
               committed={committed}
               event={event} />)}

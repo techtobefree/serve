@@ -69,7 +69,6 @@ export function useEnsureSurveyExists(
       if (surveyId) {
         void queryClient.invalidateQueries({ queryKey: [surveyByIdKey, surveyId] });
       }
-      showToast('Project survey updated', { duration: 3000 })
       callback?.(undefined, data);
     },
     onError: (error: Error) => {

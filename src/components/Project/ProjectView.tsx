@@ -155,7 +155,7 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             onClick={() => {
               ensureAttendeeSurveyExists.mutate({
                 projectId: project.id,
-                surveyId: project.commitment_survey_id,
+                surveyId: project.attendee_survey_id,
                 userId: currentUserId,
                 column: 'attendee_survey_id'
               })
@@ -176,7 +176,8 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
           .sort((a, b) => a.project_event_date < b.project_event_date ? -1 : 1)
           .map(event => {
             return <EventCard key={event.id}
-              survey={project.commitment_survey}
+              commitmentSurvey={project.commitment_survey}
+              attendeeSurvey={project.attendee_survey}
               project={project}
               event={event}
               currentUserId={currentUserId}

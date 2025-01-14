@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { clientSupabase } from "../../persistence/clientSupabase";
 import { queryClient } from "../../persistence/queryClient";
+import { SURVEY_TYPE } from "../../survey/survey";
 import { showToast } from "../../ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queryProjectById";
 
@@ -12,6 +13,7 @@ export type Timeslot = {
   count: number;
   minimumCount: number;
   role: string;
+  surveyType: keyof typeof SURVEY_TYPE;
 }
 
 async function createTimeslots({
@@ -36,6 +38,7 @@ async function createTimeslots({
       timeslot_start_minute: timeslot.minute,
       timeslot_count: timeslot.count,
       timeslot_minimum_count: timeslot.minimumCount,
+      survey_type: timeslot.surveyType,
       role: timeslot.role
     })))
     .select('id');

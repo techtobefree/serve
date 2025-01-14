@@ -23,19 +23,22 @@ export function useProjectCommitmentDownloadQuery({
   onComplete,
   event,
   projectEventId,
-  surveyId }: {
-    event: Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>,
-    onComplete: () => void,
-    projectEventId?: string,
-    shouldDownload: boolean,
-    surveyId?: string | null,
-  }) {
+  attendeeSurveyId,
+  commitmentSurveyId,
+}: {
+  event: Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>,
+  onComplete: () => void,
+  projectEventId?: string,
+  shouldDownload: boolean,
+  attendeeSurveyId?: string | null,
+  commitmentSurveyId?: string | null,
+}) {
   return useQuery({
     queryKey: [partialQueryKey, projectEventId],
     enabled: shouldDownload && !!projectEventId,
     queryFn: async () => {
       try {
-        if (!projectEventId || !surveyId) {
+        if (!projectEventId || !attendeeSurveyId || !commitmentSurveyId) {
           showToast('Missing project event ID or survey ID', { duration: 5000, isError: true });
           throw new Error('Missing projectEventId or surveyId');
         }
@@ -47,7 +50,7 @@ export function useProjectCommitmentDownloadQuery({
               *
             )
           `)
-          .eq('id', surveyId)
+          .in('id', [attendeeSurveyId, commitmentSurveyId])
           .single();
 
         if (surveyError) {
@@ -60,7 +63,7 @@ export function useProjectCommitmentDownloadQuery({
           .select(`
             *
           `)
-          .eq('survey_id', surveyId)
+          .in('survey_id', [attendeeSurveyId, commitmentSurveyId])
 
         if (answerError) {
           showToast('Error getting survey', { duration: 5000, isError: true });

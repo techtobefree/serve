@@ -28,12 +28,12 @@ export type Params = {
 
 export type ModalPath =
   | `/add`
+  | `/answerSurvey`
   | `/menu`
   | `/messages`
   | `/project/[projectId]/ask`
   | `/project/[projectId]/event`
-  | `/search`
-  | `/timeslotSurvey`;
+  | `/search`;
 
 export const { Link, Navigate } = components<Path, Params>();
 export const { useModals, useNavigate, useParams } = hooks<
