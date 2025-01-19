@@ -1,5 +1,5 @@
 import { IonButton, IonIcon } from "@ionic/react"
-import { createOutline } from "ionicons/icons"
+import { createOutline, shareSocial } from "ionicons/icons"
 
 import { IMAGE_SIZE } from "../../domains/image"
 import { getPublicUrl, projectPicturePath } from "../../domains/image/image"
@@ -8,6 +8,7 @@ import useLeaveProject from "../../domains/project/mutationLeaveProject"
 import { useProjectByIdQuery } from "../../domains/project/queryProjectById"
 import { useEnsureSurveyExists } from "../../domains/survey/mutationUpsertSurvey"
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation"
+import { showToast } from "../../domains/ui/toast"
 import { useQrCode } from "../../domains/ui/useQr"
 import { useModals, useNavigate } from "../../router"
 import EventCard from "../Event/EventCard"
@@ -24,12 +25,13 @@ type Props = {
 }
 
 export default function ProjectView({ currentUserId, project, canEdit }: Props) {
+  const currentUrl = `${BASE_URL}/project/${project.id || ''}/view`
   const navigate = useNavigate();
   const leaveProject = useLeaveProject({ projectId: project.id || '' });
   const joinProject = useJoinProject({ projectId: project.id || '' });
   const modals = useModals();
   const { data: projectQrCodeUrl } =
-    useQrCode(`${BASE_URL}/project/${project.id || ''}/view`, !project.id);
+    useQrCode(currentUrl, !project.id);
   const ensureCommitmentSurveyExists = useEnsureSurveyExists(
     { projectId: project.id, surveyId: project.commitment_survey_id },
     (_err, data) => {
@@ -85,6 +87,16 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             className="max-w-[60vw] object-cover" />
         </div>
         <div className='w-1/3 flex flex-col justify-center items-center'>
+          <div>
+            <IonIcon
+              className='cursor-pointer'
+              size="large"
+              icon={shareSocial}
+              onClick={() => {
+                void navigator.clipboard.writeText(currentUrl)
+                showToast('Copied project URL to clipboard')
+              }} />
+          </div>
           <QR
             src={projectQrCodeUrl}
             alt='QR Code'
@@ -128,7 +140,6 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
       {/* Description & Leader */}
       <div className='flex'>
         <div className='w-2/3'>
-          <div className='text-2xl'>What</div>
           <div>{project.description}</div>
         </div>
         <div className='w-1/3'>
@@ -167,7 +178,6 @@ export default function ProjectView({ currentUserId, project, canEdit }: Props) 
             }}>Create event</IonButton>
         </div>
       )}
-      <div className='text-2xl'>When & Where</div>
       {!project.project_event.length && (
         <div>No events</div>
       )}
