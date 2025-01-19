@@ -54,10 +54,12 @@ export function LayoutComponent({ userId }: Props) {
     };
   }, [navigate, location]);
 
-  if (userId && (
-    !profile?.handle ||
-    !profile.sensitive_profile[0].accepted_at
-  )) {
+  if (userId &&
+    !location.pathname.startsWith('/terms') &&
+    (
+      !profile?.handle ||
+      !profile.sensitive_profile[0].accepted_at
+    )) {
     // Sorry for this
     return (
       <div className='bg-[#f0f0f0]'>

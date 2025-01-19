@@ -14,6 +14,7 @@ export type Path =
   | `/project/:projectId/view`
   | `/project/new`
   | `/survey/:surveyId/edit`
+  | `/terms`
   | `/track`
   | `/user/:userId/view`;
 
