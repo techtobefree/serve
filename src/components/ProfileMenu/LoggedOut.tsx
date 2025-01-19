@@ -90,8 +90,11 @@ export default function LoggedOut() {
       </div>
 
       {/* Modal Content */}
-      <div className="p-6">
-        <div className="flex flex-col space-y-2 w-50 h-28">
+      <div className="flex flex-col p-6 gap-2">
+        <div>
+          Your phone number will be your login.
+        </div>
+        <div className="flex flex-col space-y-2">
           <label htmlFor="phone">
             Phone Number
           </label>
@@ -116,7 +119,7 @@ export default function LoggedOut() {
               const nextPhoneTime = Date.now() + 30 * 1000;
               setNextCodeAvailableTime(nextPhoneTime.toString()) // 60 seconds from now
             }}
-          >{nextCodeAvailableTimeMS > Date.now() ? 'Password sent' : 'Send password'}
+          >{nextCodeAvailableTimeMS > Date.now() ? 'Code sent' : 'Text code'}
           </IonButton>
         </div>
         <p className="pt-6">
