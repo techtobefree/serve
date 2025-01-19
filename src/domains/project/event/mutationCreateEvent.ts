@@ -14,6 +14,7 @@ async function createEvent({
   location,
   addressName,
   address,
+  description,
 }: {
   projectId: string,
   userId: string,
@@ -22,6 +23,7 @@ async function createEvent({
   location: { lat: number, lng: number },
   addressName: string,
   address: Address,
+  description: string,
 }) {
   const { error } = await clientSupabase
     .from('project_event')
@@ -29,6 +31,7 @@ async function createEvent({
       project_event_date: date,
       project_id: projectId,
       created_by: userId,
+      description,
       timezone,
       location: `POINT(${location.lng.toString()} ${location.lat.toString()})`,
       location_name: addressName,

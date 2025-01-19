@@ -1,5 +1,13 @@
 import { tzOffset } from "@date-fns/tz";
-import { IonButton, IonIcon, IonInput, IonItem, IonSelect, IonSelectOption } from "@ionic/react";
+import {
+  IonButton,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonSelect,
+  IonSelectOption,
+  IonTextarea
+} from "@ionic/react";
 import { format } from "date-fns";
 import { closeOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
@@ -94,6 +102,7 @@ const timezones = [
 export function CreateEventComponent({ projectId, userId }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date().toISOString());
   const [manualDate, setManualDate] = useState('');
   const [manualDateError, setManualDateError] = useState('');
@@ -123,22 +132,29 @@ export function CreateEventComponent({ projectId, userId }: Props) {
           <IonIcon className="text-4xl cursor-pointer"
             icon={closeOutline} onClick={() => { navigate(-1) }} />
         </div>
-        <IonSelect
-          label="Timezone"
-          value={timezone}
-          onIonChange={e => { setTimezone(e.detail.value as string) }}
-        >
-          {timezones.map(tz => {
-            const offset = tzOffset(tz, new Date('2020-01-15T00:00:00Z')) / 60;
-            const sign = offset >= 0 ? '+' : '';
-            return (
-              <IonSelectOption key={tz} value={tz}>
-                {tz.replace(/_/g, ' ')} (UTC{sign}{offset})
-              </IonSelectOption>
-            );
-          })}
-        </IonSelect>
-        <IonItem>
+        <IonItem className="w-full">
+          <IonTextarea label="Description"
+            value={description}
+            onIonChange={e => { setDescription(e.target.value || '') }} />
+        </IonItem>
+        <IonItem className='w-full'>
+          <IonSelect
+            label="Timezone"
+            value={timezone}
+            onIonChange={e => { setTimezone(e.detail.value as string) }}
+          >
+            {timezones.map(tz => {
+              const offset = tzOffset(tz, new Date('2020-01-15T00:00:00Z')) / 60;
+              const sign = offset >= 0 ? '+' : '';
+              return (
+                <IonSelectOption key={tz} value={tz}>
+                  {tz.replace(/_/g, ' ')} (UTC{sign}{offset})
+                </IonSelectOption>
+              );
+            })}
+          </IonSelect>
+        </IonItem>
+        <IonItem className='w-full'>
           <IonInput label='Date'
             labelPlacement="fixed"
             value={manualDate}
@@ -192,7 +208,8 @@ export function CreateEventComponent({ projectId, userId }: Props) {
               location,
               addressName,
               address,
-              timezone
+              timezone,
+              description
             })
           }}>Create event</IonButton>
       </div>

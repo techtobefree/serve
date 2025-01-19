@@ -3294,6 +3294,7 @@ export type Database = {
           country: string | null
           created_at: string | null
           created_by: string
+          description: string | null
           id: string
           location: unknown | null
           location_name: string | null
@@ -3311,6 +3312,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           created_by: string
+          description?: string | null
           id?: string
           location?: unknown | null
           location_name?: string | null
@@ -3328,6 +3330,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           created_by?: string
+          description?: string | null
           id?: string
           location?: unknown | null
           location_name?: string | null

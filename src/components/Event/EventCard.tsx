@@ -87,6 +87,9 @@ export default function EventCard({
               }}>Delete Event</IonButton>
           )}
         </div>
+        <div>
+          {event.description}
+        </div>
         <div className="text-lg">
           {
             (event.location_name || event.street_address) && (
