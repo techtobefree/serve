@@ -38,7 +38,7 @@ export function useProjectCommitmentDownloadQuery({
     enabled: shouldDownload && !!projectEventId,
     queryFn: async () => {
       try {
-        if (!projectEventId || !attendeeSurveyId || !commitmentSurveyId) {
+        if (!projectEventId || (!attendeeSurveyId && !commitmentSurveyId)) {
           showToast('Missing project event ID or survey ID', { duration: 5000, isError: true });
           throw new Error('Missing projectEventId or surveyId');
         }
@@ -50,7 +50,7 @@ export function useProjectCommitmentDownloadQuery({
               *
             )
           `)
-          .in('id', [attendeeSurveyId, commitmentSurveyId]);
+          .in('id', [attendeeSurveyId, commitmentSurveyId].filter(i => !!i));
 
         if (surveyError) {
           showToast('Error getting survey', { duration: 5000, isError: true });
@@ -62,7 +62,7 @@ export function useProjectCommitmentDownloadQuery({
           .select(`
             *
           `)
-          .in('survey_id', [attendeeSurveyId, commitmentSurveyId])
+          .in('survey_id', [attendeeSurveyId, commitmentSurveyId].filter(i => !!i))
 
         if (answerError) {
           showToast('Error getting survey', { duration: 5000, isError: true });
