@@ -23,6 +23,7 @@ export function useSurveyByIdQuery(surveyId: string) {
           )
           `)
         .eq('id', surveyId)
+        .is('survey_question.closed_at', null)
         .single();
 
       if (error) {

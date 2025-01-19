@@ -12,20 +12,23 @@ export default function AnswerSurvey() {
   const navigate = useNavigate();
   const modals = useModals();
   const location = useLocation();
-  const { survey, timeslotCommitment }:
+  const { surveyId, timeslotCommitment }:
     {
-      survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null,
+      surveyId: string,
       timeslotCommitment: {
         projectId: string,
         startTime: TZDate,
         endTime: TZDate,
         eventId: string,
         role: string,
+        timeslotId: string,
       }
     } = location.state || {};
+  const { data: survey, isLoading } = useSurveyByIdQuery(surveyId);
 
-  const timeslotCommit = useCommitToTimeslot({ projectId: timeslotCommitment.projectId });
-
+  const timeslotCommit = useCommitToTimeslot({ projectId: timeslotCommitment.projectId }, () => {
+    modals.close()
+  });
   const [isOpen, setOpen] = useState(false)
 
   useEffect(() => {
@@ -37,9 +40,23 @@ export default function AnswerSurvey() {
     return () => { document.body.classList.remove('backdrop-no-scroll') };
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="h-64 w-full bg-white rounded-2xl shadow-lg
+        overflow-hidden flex justify-center animate-pulse" />
+    )
+  }
+
   if (!survey) {
     showToast('Missing survey', { duration: 5000, isError: true });
     return;
+  }
+
+  if (timeslotCommit.isPending) {
+    return (
+      <div className="h-64 w-full bg-white rounded-2xl shadow-lg
+        overflow-hidden flex justify-center animate-pulse" />
+    )
   }
 
   return (
@@ -68,7 +85,6 @@ export default function AnswerSurvey() {
             }}
             onComplete={() => {
               timeslotCommit.mutate(timeslotCommitment)
-              modals.close()
             }} />
         </div>
       </div>

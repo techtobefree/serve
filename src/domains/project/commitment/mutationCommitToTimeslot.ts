@@ -8,10 +8,18 @@ import { queryClient } from "../../persistence/queryClient";
 import { showToast } from "../../ui/toast";
 import { partialQueryKey as projectByIdKey } from "../queryProjectById";
 
-export async function commitToTimeslot({ eventId, projectId, startTime, endTime, role }:
+export async function commitToTimeslot({
+  eventId,
+  projectId,
+  startTime,
+  endTime,
+  role,
+  timeslotId
+}:
   {
     eventId: string,
     projectId: string,
+    timeslotId: string,
     startTime: TZDate,
     endTime: TZDate,
     role: string
@@ -26,6 +34,7 @@ export async function commitToTimeslot({ eventId, projectId, startTime, endTime,
     .insert({
       created_by: userStore.current.id,
       project_id: projectId,
+      project_event_timeslot_id: timeslotId,
       commitment_start: tzDateToDB(startTime),
       commitment_end: tzDateToDB(endTime),
       project_event_id: eventId,

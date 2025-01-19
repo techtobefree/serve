@@ -57,7 +57,8 @@ export default function Timeslot({
                 resetSurveyStoreResponse([])
                 modals.open('/answerSurvey', {
                   state: {
-                    survey, projectId: event.project_id, timeslotCommitment: {
+                    surveyId: survey.id,
+                    projectId: event.project_id, timeslotCommitment: {
                       projectId: event.project_id,
                       startTime,
                       endTime,
@@ -73,6 +74,7 @@ export default function Timeslot({
                   endTime,
                   eventId: event.id,
                   role: timeslot.role,
+                  timeslotId: timeslot.id
                 })
               }
             }

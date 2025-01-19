@@ -84,57 +84,59 @@ export default function TimeslotAsk({
       <div className='flex flex-col gap-2'>
         <IonItem>
           <div className='flex justify-between w-full cursor-pointer' onClick={() => {
-            setTimeslots(
-              (index === 0 ? [] : timeslots.slice(0, index))
-                .concat([
-                  {
-                    count: timeslot.count,
-                    duration: timeslot.duration,
-                    hour: timeslot.hour,
-                    minimumCount: timeslot.minimumCount,
-                    minute: timeslot.minute,
-                    role: timeslot.role,
-                    surveyType: timeslot.surveyType === SURVEY_TYPE.volunteer ?
-                      SURVEY_TYPE.attendee :
-                      SURVEY_TYPE.volunteer,
-                  }
-                ],
-                  (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                ))
+            const newTimeslots = [...timeslots];
+            newTimeslots[index] = {
+              ...timeslot,
+              surveyType: timeslot.surveyType === SURVEY_TYPE.volunteer ?
+                SURVEY_TYPE.attendee :
+                SURVEY_TYPE.volunteer
+            };
+            setTimeslots(newTimeslots)
           }}>
             <div>Volunteer survey</div>
-            <div><IonToggle
-              style={{
-                '--track-background': '#3b82f680',        // off track color
-                '--track-background-checked': '#3b82f680',// on track color
-                '--handle-background': '#fff',       // handle color (both states)
-                '--handle-background-checked': '#fff' // on-knob color
-              }}
-              checked={timeslot.surveyType === SURVEY_TYPE.attendee} />
+            <div>
+              <IonToggle
+                style={{
+                  '--track-background': '#3b82f680',        // off track color
+                  '--track-background-checked': '#3b82f680',// on track color
+                  '--handle-background': '#fff',       // handle color (both states)
+                  '--handle-background-checked': '#fff' // on-knob color
+                }}
+                checked={timeslot.surveyType === SURVEY_TYPE.attendee} />
             </div>
             <div className='text-right'>Attendee survey</div>
           </div>
+        </IonItem>
+        <IonItem>
+          <IonLabel className='pr-2'>Check-in</IonLabel>
+          <IonToggle
+            checked={timeslot.checkin}
+            onIonChange={e => {
+              const newTimeslots = [...timeslots];
+              newTimeslots[index] = { ...timeslot, checkin: e.detail.checked };
+              setTimeslots(newTimeslots)
+            }}
+          />
+        </IonItem>
+        <IonItem>
+          <IonLabel className='pr-2'>Checkout</IonLabel>
+          <IonToggle
+            checked={timeslot.checkout}
+            onIonChange={e => {
+              const newTimeslots = [...timeslots];
+              newTimeslots[index] = { ...timeslot, checkout: e.detail.checked };
+              setTimeslots(newTimeslots)
+            }}
+          />
         </IonItem>
         <IonItem>
           <IonLabel className='pr-2'>Role</IonLabel>
           <IonInput
             value={timeslot.role}
             onIonChange={e => {
-              setTimeslots(
-                (index === 0 ? [] : timeslots.slice(0, index))
-                  .concat([
-                    {
-                      count: timeslot.count,
-                      duration: timeslot.duration,
-                      hour: timeslot.hour,
-                      minimumCount: timeslot.minimumCount,
-                      minute: timeslot.minute,
-                      role: e.detail.value as string,
-                      surveyType: timeslot.surveyType,
-                    }
-                  ],
-                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                  ))
+              const newTimeslots = [...timeslots];
+              newTimeslots[index] = { ...timeslot, role: e.detail.value as string };
+              setTimeslots(newTimeslots)
             }}
           />
         </IonItem>
@@ -145,21 +147,9 @@ export default function TimeslotAsk({
             onIonChange={e => {
               setEndHour((e.detail.value as number + Math.floor((timeslot.duration) / 60)));
               setEndMinute((timeslot.minute + timeslot.duration) % 60);
-              setTimeslots(
-                (index === 0 ? [] : timeslots.slice(0, index))
-                  .concat([
-                    {
-                      count: timeslot.count,
-                      duration: timeslot.duration,
-                      hour: e.detail.value,
-                      minimumCount: timeslot.minimumCount,
-                      minute: timeslot.minute,
-                      role: timeslot.role,
-                      surveyType: timeslot.surveyType,
-                    }
-                  ],
-                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                  ))
+              const newTimeslots = [...timeslots];
+              newTimeslots[index] = { ...timeslot, hour: e.detail.value };
+              setTimeslots(newTimeslots)
             }}
           >
             {hours.map(hour => {
@@ -174,22 +164,13 @@ export default function TimeslotAsk({
           <IonSelect
             value={timeslot.minute}
             onIonChange={e => {
-              setTimeslots(
-                (index === 0 ? [] : timeslots.slice(0, index))
-                  .concat([
-                    {
-                      count: timeslot.count,
-                      duration: findDuration(timeslot.hour, e.detail.value as number,
-                        endHour, endMinute),
-                      hour: timeslot.hour,
-                      minimumCount: timeslot.minimumCount,
-                      minute: e.detail.value,
-                      role: timeslot.role,
-                      surveyType: timeslot.surveyType,
-                    }
-                  ],
-                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                  ))
+              const newTimeslots = [...timeslots];
+              newTimeslots[index] = {
+                ...timeslot,
+                duration: findDuration(timeslot.hour, e.detail.value as number,
+                  endHour, endMinute),
+              };
+              setTimeslots(newTimeslots)
             }}
           >
             {minutes.map(minute => {
@@ -208,22 +189,13 @@ export default function TimeslotAsk({
             value={endHour}
             onIonChange={e => {
               setEndHour(e.detail.value as number);
-              setTimeslots(
-                (index === 0 ? [] : timeslots.slice(0, index))
-                  .concat([
-                    {
-                      count: timeslot.count,
-                      duration: findDuration(timeslot.hour, timeslot.minute,
-                        e.detail.value as number, endMinute),
-                      hour: timeslot.hour,
-                      minimumCount: timeslot.minimumCount,
-                      minute: timeslot.minute,
-                      role: timeslot.role,
-                      surveyType: timeslot.surveyType,
-                    }
-                  ],
-                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                  ))
+              const newTimeslots = [...timeslots];
+              newTimeslots[index] = {
+                ...timeslot,
+                duration: findDuration(timeslot.hour, timeslot.minute,
+                  e.detail.value as number, endMinute),
+              };
+              setTimeslots(newTimeslots)
             }}
           >
             {hours.map(hour => {
@@ -239,22 +211,13 @@ export default function TimeslotAsk({
             value={endMinute}
             onIonChange={e => {
               setEndMinute(e.detail.value as number);
-              setTimeslots(
-                (index === 0 ? [] : timeslots.slice(0, index))
-                  .concat([
-                    {
-                      count: timeslot.count,
-                      duration: findDuration(timeslot.hour, timeslot.minute,
-                        endHour, e.detail.value as number),
-                      hour: timeslot.hour,
-                      minimumCount: timeslot.minimumCount,
-                      minute: timeslot.minute,
-                      role: timeslot.role,
-                      surveyType: timeslot.surveyType,
-                    }
-                  ],
-                    (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                  ))
+              const newTimeslots = [...timeslots];
+              newTimeslots[index] = {
+                ...timeslot,
+                duration: findDuration(timeslot.hour, timeslot.minute,
+                  endHour, e.detail.value as number),
+              };
+              setTimeslots(newTimeslots)
             }}
           >
             {minutes.map(minute => {
@@ -280,21 +243,9 @@ export default function TimeslotAsk({
                     { duration: 5000, isError: true })
                   return
                 }
-                setTimeslots(
-                  (index === 0 ? [] : timeslots.slice(0, index))
-                    .concat([
-                      {
-                        count: timeslot.count,
-                        duration: timeslot.duration,
-                        hour: timeslot.hour,
-                        minimumCount: newInt || 0,
-                        minute: timeslot.minute,
-                        role: timeslot.role,
-                        surveyType: timeslot.surveyType,
-                      }
-                    ],
-                      (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                    ))
+                const newTimeslots = [...timeslots];
+                newTimeslots[index] = { ...timeslot, minimumCount: newInt || 0 };
+                setTimeslots(newTimeslots)
               } catch (e) {
                 console.log('Error parsing int', e)
               }
@@ -316,21 +267,9 @@ export default function TimeslotAsk({
                     { duration: 5000, isError: true })
                   return
                 }
-                setTimeslots(
-                  (index === 0 ? [] : timeslots.slice(0, index))
-                    .concat([
-                      {
-                        count: newInt || 0,
-                        duration: timeslot.duration,
-                        hour: timeslot.hour,
-                        minimumCount: timeslot.minimumCount,
-                        minute: timeslot.minute,
-                        role: timeslot.role,
-                        surveyType: timeslot.surveyType,
-                      }
-                    ],
-                      (timeslots.length > index + 1 ? timeslots.slice(index + 1) : [])
-                    ))
+                const newTimeslots = [...timeslots];
+                newTimeslots[index] = { ...timeslot, count: newInt || 0 };
+                setTimeslots(newTimeslots)
               } catch (e) {
                 console.log('Error parsing int', e)
               }

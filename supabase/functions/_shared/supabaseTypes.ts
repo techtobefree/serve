@@ -3361,6 +3361,7 @@ export type Database = {
           created_by: string
           id: string
           project_event_id: string
+          project_event_timeslot_id: string | null
           project_id: string
           role: string
           updated_at: string | null
@@ -3373,6 +3374,7 @@ export type Database = {
           created_by: string
           id?: string
           project_event_id: string
+          project_event_timeslot_id?: string | null
           project_id: string
           role: string
           updated_at?: string | null
@@ -3385,6 +3387,7 @@ export type Database = {
           created_by?: string
           id?: string
           project_event_id?: string
+          project_event_timeslot_id?: string | null
           project_id?: string
           role?: string
           updated_at?: string | null
@@ -3403,6 +3406,13 @@ export type Database = {
             columns: ["project_event_id"]
             isOneToOne: false
             referencedRelation: "project_event"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_project_event_timeslot_id_to_project_event_timeslot_id"
+            columns: ["project_event_timeslot_id"]
+            isOneToOne: false
+            referencedRelation: "project_event_timeslot"
             referencedColumns: ["id"]
           },
           {
@@ -3600,6 +3610,8 @@ export type Database = {
       }
       project_event_timeslot: {
         Row: {
+          checkin: boolean
+          checkout: boolean
           created_at: string | null
           created_by: string
           id: string
@@ -3616,6 +3628,8 @@ export type Database = {
           updated_by: string | null
         }
         Insert: {
+          checkin?: boolean
+          checkout?: boolean
           created_at?: string | null
           created_by: string
           id?: string
@@ -3632,6 +3646,8 @@ export type Database = {
           updated_by?: string | null
         }
         Update: {
+          checkin?: boolean
+          checkout?: boolean
           created_at?: string | null
           created_by?: string
           id?: string
@@ -4138,6 +4154,60 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      witness: {
+        Row: {
+          checkin: boolean
+          checkout: boolean
+          commitment_id: string | null
+          created_at: string | null
+          created_by: string
+          id: string
+          project_id: string | null
+          updated_at: string | null
+          updated_by: string | null
+          witnessed_user_id: string | null
+        }
+        Insert: {
+          checkin?: boolean
+          checkout?: boolean
+          commitment_id?: string | null
+          created_at?: string | null
+          created_by: string
+          id?: string
+          project_id?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          witnessed_user_id?: string | null
+        }
+        Update: {
+          checkin?: boolean
+          checkout?: boolean
+          commitment_id?: string | null
+          created_at?: string | null
+          created_by?: string
+          id?: string
+          project_id?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          witnessed_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_commitment_id_to_commitment_id"
+            columns: ["commitment_id"]
+            isOneToOne: false
+            referencedRelation: "project_event_commitment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_project_id_to_project_id"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

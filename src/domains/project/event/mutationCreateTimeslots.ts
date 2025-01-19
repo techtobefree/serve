@@ -14,6 +14,8 @@ export type Timeslot = {
   minimumCount: number;
   role: string;
   surveyType: keyof typeof SURVEY_TYPE;
+  checkin: boolean;
+  checkout: boolean;
 }
 
 async function createTimeslots({
@@ -33,6 +35,8 @@ async function createTimeslots({
       project_event_id: eventId,
       project_id: projectId,
       created_by: userId,
+      checkin: timeslot.checkin,
+      checkout: timeslot.checkout,
       timeslot_duration_minutes: timeslot.duration,
       timeslot_start_hour: timeslot.hour,
       timeslot_start_minute: timeslot.minute,

@@ -71,6 +71,7 @@ export function SurveyResponseComponent({
       <div>
         <div className='flex justify-end'>
           <IonButton
+            disabled={answerSurvey.isPending || answerSurvey.isSuccess}
             color='danger'
             onClick={() => {
               onCancel();
@@ -78,6 +79,7 @@ export function SurveyResponseComponent({
             Cancel
           </IonButton>
           <IonButton
+            disabled={answerSurvey.isPending || answerSurvey.isSuccess}
             onClick={() => {
               if (!userId) {
                 showToast('Missing user info', { duration: 5000, isError: true });

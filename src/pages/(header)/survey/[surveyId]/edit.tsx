@@ -43,7 +43,7 @@ export default function SurveyEditPage() {
   const { surveyId } = useParams('/survey/:surveyId/edit');
   const location = useLocation();
   const { surveyType }: { surveyType?: keyof typeof SURVEY_TYPE } = location.state || {};
-  const { data: survey, isLoading, isError } = useSurveyByIdQuery(surveyId as string);
+  const { data: survey, isLoading, isError } = useSurveyByIdQuery(surveyId);
   const upsertSurvey = useUpsertSurvey({ surveyId: survey?.id }, (error?: Error) => {
     if (!error) {
       navigate(-1);

@@ -38,10 +38,14 @@ function nextTimeBlock(duration: number,
   count?: number,
   minimumCount?: number,
   role?: string,
-  surveyType?: keyof typeof SURVEY_TYPE
+  surveyType?: keyof typeof SURVEY_TYPE,
+  checkin: boolean = false,
+  checkout: boolean = false,
 ): Timeslot {
   if (hour === undefined || minute === undefined) {
     return {
+      checkin,
+      checkout,
       duration,
       hour: 18,
       minute: 0,
@@ -55,6 +59,8 @@ function nextTimeBlock(duration: number,
   const nextMinute = minute + duration;
   const nextHour = hour + Math.floor(nextMinute / 60);
   return {
+    checkin,
+    checkout,
     duration,
     hour: nextHour % 24,
     minute: nextMinute % 60,

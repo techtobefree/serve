@@ -113,17 +113,21 @@ export default function EventCard({
               'MISSING STATE'} ${event.postal_code || ''}`}
           </div>
         </div>
-        {committed && <div className='border-2 p-2 mb-6'>
-          <div className='text-2xl'>{`I'm going`}</div>
+        {committed &&
           <div>{myCommitments.map(commitment => {
-            return <div key={commitment.id} className='flex justify-between items-center gap-2'>
-              <div>
-                <AddCalendarEventButton
-                  start={commitment.commitment_start}
-                  end={commitment.commitment_end}
-                  title={project.name}
-                  location={getEventAddressAsText(event)}
-                  details={project.description || ''} />
+            return <div key={commitment.id}
+              className='flex flex-col gap-2 border-2 p-2 mb-6'>
+              <div className="flex justify-between relative">
+                <div className='text-2xl'>{`My time`}</div>
+                <div className='absolute right-0'>
+                  <IonButton
+                    disabled={removeCommitment.isPending}
+                    color='danger'
+                    onClick={() => {
+                      removeCommitment.mutate({ id: commitment.id, projectId: event.project_id })
+                    }}
+                  >X</IonButton>
+                </div>
               </div>
               <div>
                 <div>{commitment.role}</div>
@@ -134,17 +138,33 @@ export default function EventCard({
                 </div>
               </div>
               <div>
-                <IonButton
-                  disabled={removeCommitment.isPending}
-                  color='danger'
-                  onClick={() => {
-                    removeCommitment.mutate({ id: commitment.id, projectId: event.project_id })
-                  }}
-                >X</IonButton>
+                <AddCalendarEventButton
+                  start={commitment.commitment_start}
+                  end={commitment.commitment_end}
+                  title={project.name}
+                  location={getEventAddressAsText(event)}
+                  details={project.description || ''} />
               </div>
+              {/* 
+                TODO add logic to show the checkin/checkout if commitment demands it (or user asks for it)
+                This can be done by linking to the user's profile, along with a query string for the commitment id
+                Really, the project leader should be able to go to anyone's profile, and see projects the user
+                is committed to, and then checkin/checkout for any projects they are the admin of.
+                Having the commitment id in the query string will enable the "non-manual flag" to be set.
+                With the commitment id, it should also show a different UI.
+                It should check that the commitment id is valid, and is for today.
+                EG: big green button for checkin, big red button for checkout (with some indication of the role)
+                Otherwise it would list the projects in a table, with the checkin/checkout buttons in the table.
+              */}
+              {/* <div>
+                Check in
+              </div>
+              <div>
+                Check out
+              </div> */}
             </div>
-          })}</div>
-        </div>}
+          })}
+          </div>}
         <div>
           {event.project_event_timeslot.sort(sortDBTimeslots).map((timeslot, index) =>
             <Timeslot key={index}

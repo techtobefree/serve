@@ -46,7 +46,6 @@ export default function useAnswerSurvey(
     onSuccess: () => {
       // Invalidate queries to refetch updated data
       void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
-      showToast('Survey updated', { duration: 3000 })
       callback?.();
     },
     onError: (error: Error) => {
