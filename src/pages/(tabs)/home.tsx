@@ -1,5 +1,5 @@
 import { IonButton, IonIcon } from "@ionic/react";
-import { add, heartOutline, search, starOutline } from "ionicons/icons";
+import { add, search } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 
 import ProjectCard from "../../components/Project/ProjectCard";

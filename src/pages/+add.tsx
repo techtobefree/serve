@@ -1,5 +1,5 @@
 import { IonIcon } from "@ionic/react";
-import { search, starOutline, heartOutline, add } from "ionicons/icons";
+import { search, add } from "ionicons/icons";
 import { useEffect, useState } from "react";
 
 import { Category, filterSearchToCategories } from "../domains/search/search";
