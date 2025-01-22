@@ -87,7 +87,7 @@ export function HomeComponent({ userId }: Props) {
               <IonIcon className='absolute left-2 text-2xl text-[#f50057]' icon={add} />
               Create a Project
             </div>
-            <div className='w-60 border-2 border-black p-2 shadow-lg
+            {/* <div className='w-60 border-2 border-black p-2 shadow-lg
           rounded-full flex justify-center items-center relative cursor-pointer'
               onClick={() => {
                 filterSearchToCategories([Category.project])
@@ -104,7 +104,7 @@ export function HomeComponent({ userId }: Props) {
               }}>
               <IonIcon className='absolute left-2 text-2xl text-[#ffcb1e]' icon={heartOutline} />
               Sponsor a Project
-            </div>
+            </div> */}
             <br />
             <div className="flex flex-col justify-center p-4">
               <IonButton color="secondary" onClick={() => {
