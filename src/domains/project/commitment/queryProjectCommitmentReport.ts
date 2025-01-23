@@ -141,9 +141,9 @@ export function useProjectCommitmentDownloadQuery({
 
         downloadTextFile(`project_commitments_${event.project_event_date}.csv`, jsonToCsv(commitments))
 
-      } catch (e) {
+      } catch (e: any) {
         console.error('Error creating commitment report:', e);
-        showToast('Error creating commitment report', { duration: 5000, isError: true });
+        showToast(`Error creating commitment report. ${e.message as string}`, { duration: 5000, isError: true });
       }
       onComplete()
 
