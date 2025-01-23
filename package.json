@@ -19,6 +19,7 @@
     "generate:pwa-assets": "pwa-assets-generator --preset minimal-2023 public/logo.svg",
     "db:new": "npx supabase migration new",
     "db:start": "npx supabase start",
+    "db:stop": "npx supabase stop",
     "db:restart": "npx supabase stop && npx supabase start",
     "db:push": "npx supabase db push",
     "db:reset": "npx supabase db reset && pnpm db:types",

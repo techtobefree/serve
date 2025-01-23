@@ -102,8 +102,14 @@ export function useProjectCommitmentDownloadQuery({
         })
 
         responses.forEach((response: any) => {
-          const composite = compositeMap.get(response.created_by);
-          composite.responses[response.survey_question_id] = response.response_text;
+          try {
+            const composite = compositeMap.get(response.created_by);
+            composite.responses[response.survey_question_id] = response.response_text;
+          } catch (err) {
+            console.log('Error mapping response', err)
+            showToast(`Error mapping response questionID: ${response.survey_question_id as string}`,
+              { duration: 5000, isError: true })
+          }
         })
 
         const commitments = db_commitments.map((item: any) => {
@@ -120,8 +126,14 @@ export function useProjectCommitmentDownloadQuery({
           }
 
           Object.entries(compositeMap.get(item.created_by).responses).forEach(([questionId, response]) => {
-            const question = questionMap.get(questionId);
-            row[question.question_text] = response;
+            try {
+              const question = questionMap.get(questionId);
+              row[question.question_text] = response;
+            } catch (err) {
+              console.log('Error mapping question', err)
+              showToast(`Error mapping questionID: ${questionId}`,
+                { duration: 5000, isError: true })
+            }
           })
 
           return row;
