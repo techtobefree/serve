@@ -47,11 +47,6 @@ export function Profile({ canEdit, userId, initial }: Props) {
 
   const copyNameRef = useRef("");
 
-  const handleNameCopy = () => {
-    void changeHandle(userId, copyNameRef.current);
-    console.log("copyNameRef.current", copyNameRef.current);
-  };
-
   if (isLoading || !user) {
     return <div>Loading...</div>;
   }
@@ -154,7 +149,9 @@ export function Profile({ canEdit, userId, initial }: Props) {
                   <IonButton
                     color="secondary"
                     className="whitespace-nowrap"
-                    onClick={handleNameCopy}
+                    onClick={() => {
+                      void changeHandle(userId, copyNameRef.current);
+                    }}
                   >
                     Copy name
                   </IonButton>
