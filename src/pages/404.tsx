@@ -10,5 +10,5 @@ export default function NotFound() {
       <Header isVisible={headerIsVisible} setIsVisible={setHeaderIsVisible} />
       <div>Missing page</div>
     </>
-  )
+  );
 }

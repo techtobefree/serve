@@ -2,15 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
 
-export const partialQueryKey = 'get-surveyById';
+export const partialQueryKey = "get-surveyById";
 
 export function useSurveyByIdQuery(surveyId: string) {
   return useQuery({
     queryKey: [partialQueryKey, surveyId],
     queryFn: async () => {
       const { data, error } = await clientSupabase
-        .from('survey')
-        .select(`
+        .from("survey")
+        .select(
+          `
           *,
           survey_question (
             *,
@@ -21,9 +22,10 @@ export function useSurveyByIdQuery(surveyId: string) {
               *
             )
           )
-          `)
-        .eq('id', surveyId)
-        .is('survey_question.closed_at', null)
+          `
+        )
+        .eq("id", surveyId)
+        .is("survey_question.closed_at", null)
         .single();
 
       if (error) {
@@ -31,6 +33,6 @@ export function useSurveyByIdQuery(surveyId: string) {
       }
 
       return data;
-    }
-  })
+    },
+  });
 }

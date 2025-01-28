@@ -7,41 +7,47 @@ import {
   ResponseProps,
   setResponseText,
   surveyStore,
-  updateSurveyQuestion
+  updateSurveyQuestion,
 } from "../../../domains/survey/survey";
 
 export default function LongTextQuestion({
   index,
   canEdit,
-  question_text
+  question_text,
 }: QuestionProps) {
   return (
     <IonInput
       disabled={!canEdit}
-      label='Prompt'
+      label="Prompt"
       type="text"
       value={question_text}
       onIonChange={(event) => {
         updateSurveyQuestion(index, {
           ...surveyStore.current.questions[index],
-          question_text: event.target.value as string || ''
-        })
-      }} />
+          question_text: (event.target.value as string) || "",
+        });
+      }}
+    />
   );
 }
 
-export const LongTextResponse = observer(({ question, index }: ResponseProps) => {
-  const response = surveyStore.current.responses[index];
+export const LongTextResponse = observer(
+  ({ question, index }: ResponseProps) => {
+    const response = surveyStore.current.responses[index];
 
-  return (
-    <div className='border-b-2'>
-      <IonLabel
-        className={response.question.required ? 'font-bold' : ''}
-      >{question.question_text}{response.question.required ? '*' : ''}</IonLabel>
-      <IonTextarea
-        onIonChange={(event) => { setResponseText(index, event.target.value as string || ''); }}
-        value={response.response_text}
-      />
-    </div>
-  );
-})
+    return (
+      <div className="border-b-2">
+        <IonLabel className={response.question.required ? "font-bold" : ""}>
+          {question.question_text}
+          {response.question.required ? "*" : ""}
+        </IonLabel>
+        <IonTextarea
+          onIonChange={(event) => {
+            setResponseText(index, (event.target.value as string) || "");
+          }}
+          value={response.response_text}
+        />
+      </div>
+    );
+  }
+);

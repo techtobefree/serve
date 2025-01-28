@@ -6,20 +6,23 @@ import useCommitToTimeslot from "../../domains/project/commitment/mutationCommit
 import useRemoveTimeslot from "../../domains/project/event/mutationRemoveTimeslot";
 import {
   useEventByIdQuery,
-  useTimeslotByIdQuery
+  useTimeslotByIdQuery,
 } from "../../domains/project/queryProjectById";
 import { useSurveyByIdQuery } from "../../domains/survey/querySurveyById";
-import { resetSurveyStoreResponse, SURVEY_TYPE } from "../../domains/survey/survey";
+import {
+  resetSurveyStoreResponse,
+  SURVEY_TYPE,
+} from "../../domains/survey/survey";
 import { useModals } from "../../router";
 
 type Props = {
   canEdit: boolean;
   committed: boolean;
   currentUserId?: string;
-  event: Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>;
-  survey: ReturnType<typeof useSurveyByIdQuery>['data'] | null;
-  timeslot: Exclude<ReturnType<typeof useTimeslotByIdQuery>['data'], undefined>;
-}
+  event: Exclude<ReturnType<typeof useEventByIdQuery>["data"], undefined>;
+  survey: ReturnType<typeof useSurveyByIdQuery>["data"] | null;
+  timeslot: Exclude<ReturnType<typeof useTimeslotByIdQuery>["data"], undefined>;
+};
 
 export default function Timeslot({
   canEdit,
@@ -27,16 +30,23 @@ export default function Timeslot({
   currentUserId,
   event,
   survey,
-  timeslot
+  timeslot,
 }: Props) {
   const modals = useModals();
-  const startTime = buildStartTime(event.project_event_date, event.timezone, timeslot);
+  const startTime = buildStartTime(
+    event.project_event_date,
+    event.timezone,
+    timeslot
+  );
   const endTime = addMinutes(startTime, timeslot.timeslot_duration_minutes);
-  const span = `${format(startTime, 'h:mm bbb')} - ${format(endTime, 'h:mm bbb')}`;
+  const span = `${format(startTime, "h:mm bbb")} - ${format(
+    endTime,
+    "h:mm bbb"
+  )}`;
   const deleteTimeslot = useRemoveTimeslot({ projectId: event.project_id });
 
   const timeslotCommit = useCommitToTimeslot({
-    projectId: event.project_id
+    projectId: event.project_id,
   });
 
   return (
@@ -45,50 +55,62 @@ export default function Timeslot({
         <div>{timeslot.role}</div>
         <div>{span}</div>
       </div>
-      <div className='flex'>
-        {!committed && <IonButton
-          disabled={timeslotCommit.isPending}
-          color='secondary'
-          onClick={() => {
-            if (!currentUserId) {
-              modals.open('/menu')
-            } else {
-              if (survey) {
-                resetSurveyStoreResponse([])
-                modals.open('/answerSurvey', {
-                  state: {
-                    surveyId: survey.id,
-                    projectId: event.project_id, timeslotCommitment: {
-                      projectId: event.project_id,
-                      startTime,
-                      endTime,
-                      eventId: event.id,
-                      role: timeslot.role,
-                    }
-                  }
-                });
+      <div className="flex">
+        {!committed && (
+          <IonButton
+            disabled={timeslotCommit.isPending}
+            color="secondary"
+            onClick={() => {
+              if (!currentUserId) {
+                modals.open("/menu");
               } else {
-                timeslotCommit.mutate({
-                  projectId: event.project_id,
-                  startTime,
-                  endTime,
-                  eventId: event.id,
-                  role: timeslot.role,
-                  timeslotId: timeslot.id
-                })
+                if (survey) {
+                  resetSurveyStoreResponse([]);
+                  modals.open("/answerSurvey", {
+                    state: {
+                      surveyId: survey.id,
+                      projectId: event.project_id,
+                      timeslotCommitment: {
+                        projectId: event.project_id,
+                        startTime,
+                        endTime,
+                        eventId: event.id,
+                        role: timeslot.role,
+                      },
+                    },
+                  });
+                } else {
+                  timeslotCommit.mutate({
+                    projectId: event.project_id,
+                    startTime,
+                    endTime,
+                    eventId: event.id,
+                    role: timeslot.role,
+                    timeslotId: timeslot.id,
+                  });
+                }
               }
-            }
-          }}
-        >{timeslot.survey_type === SURVEY_TYPE.attendee ? 'Attend' : 'Commit'}</IonButton>}
+            }}
+          >
+            {timeslot.survey_type === SURVEY_TYPE.attendee
+              ? "Attend"
+              : "Commit"}
+          </IonButton>
+        )}
         {canEdit && (
           <IonButton
-            color='tertiary'
+            color="tertiary"
             onClick={() => {
-              deleteTimeslot.mutate({ id: timeslot.id, projectId: event.project_id });
+              deleteTimeslot.mutate({
+                id: timeslot.id,
+                projectId: event.project_id,
+              });
             }}
-          >Delete</IonButton>
+          >
+            Delete
+          </IonButton>
         )}
       </div>
     </div>
-  )
+  );
 }

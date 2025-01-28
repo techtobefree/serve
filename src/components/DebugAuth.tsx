@@ -6,10 +6,8 @@ const DebugAuth = observer(() => {
   const { current } = userStore;
 
   return (
-    <div className="flex bg-red-600">
-      {current ? current.id : 'No current'}
-    </div>
-  )
+    <div className="flex bg-red-600">{current ? current.id : "No current"}</div>
+  );
 });
 
 export default DebugAuth;

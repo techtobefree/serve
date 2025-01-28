@@ -2,7 +2,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
   },
-  "deno.enablePaths": [
-    "./supabase"
-  ]
+  "deno.enablePaths": ["./supabase"]
 }

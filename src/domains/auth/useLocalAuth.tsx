@@ -21,13 +21,13 @@ export function useLocalAuth() {
           const auth = async () => {
             await clientSupabase.auth.signInWithPassword({
               email: LOCAL_AUTH_EMAIL,
-              password: LOCAL_AUTH_PASSWORD
-            })
-            navigate('/home')
-          }
+              password: LOCAL_AUTH_PASSWORD,
+            });
+            navigate("/home");
+          };
           void auth();
         }
-      })
+      });
     }
-  }, [navigate])
+  }, [navigate]);
 }

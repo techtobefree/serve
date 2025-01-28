@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 
 export function useLocalStorage(key: string) {
-  const [local, setLocal] = useState<string>("")
+  const [local, setLocal] = useState<string>("");
 
   useEffect(() => {
-    const current = localStorage.getItem(key)
+    const current = localStorage.getItem(key);
     if (current) {
-      setLocal(current)
+      setLocal(current);
     }
-  }, [key])
+  }, [key]);
 
   return [
     local,
     (newValue: string) => {
       localStorage.setItem(key, newValue);
       setLocal(newValue);
-    }
-  ] as [string, (newValue: string) => void]
+    },
+  ] as [string, (newValue: string) => void];
 }

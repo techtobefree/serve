@@ -3,23 +3,23 @@ import { getUserFromReq } from "../_shared/clientSupabase.ts";
 import { serverSupabase } from "../_shared/serverSupabase.ts";
 
 Deno.serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
   }
 
   const user = await getUserFromReq(req);
   if (!user) {
-    throw new Error('Missing user information')
+    throw new Error("Missing user information");
   }
 
-  const { projectEventId } = await req.json()
+  const { projectEventId } = await req.json();
   if (!projectEventId) {
-    throw new Error('Missing projectEventId')
+    throw new Error("Missing projectEventId");
   }
 
-  return new Response(JSON.stringify({ status: 'API DECOMMISSIONED' }), {
+  return new Response(JSON.stringify({ status: "API DECOMMISSIONED" }), {
     status: 200,
-    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
   /*
     // Verify user is an admin of the project

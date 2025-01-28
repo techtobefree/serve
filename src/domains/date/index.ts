@@ -3,19 +3,19 @@ import { Calendar } from "@awesome-cordova-plugins/calendar";
 import { showToast } from "../ui/toast";
 
 export type CalendarEvent = {
-  startDate: Date,
-  endDate: Date,
-  title: string,
-  location: string,
-  details: string,
-}
+  startDate: Date;
+  endDate: Date;
+  title: string;
+  location: string;
+  details: string;
+};
 
 export async function addEventNative({
   startDate,
   endDate,
   title,
   location,
-  details
+  details,
 }: CalendarEvent) {
   try {
     await Calendar.createEventInteractively(
@@ -25,10 +25,10 @@ export async function addEventNative({
       startDate,
       endDate
     );
-    console.log('Event created successfully.');
+    console.log("Event created successfully.");
   } catch (error) {
-    console.error('Failed to create event:', error);
-    showToast('Failed to create event', { duration: 5000, isError: true });
+    console.error("Failed to create event:", error);
+    showToast("Failed to create event", { duration: 5000, isError: true });
   }
 }
 
@@ -37,31 +37,32 @@ export function addEventWeb({
   endDate,
   title,
   location,
-  details
+  details,
 }: CalendarEvent) {
-  const start = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  const end = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const start =
+    startDate.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  const end = endDate.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
 
   const icsContent = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'BEGIN:VEVENT',
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "BEGIN:VEVENT",
     `DTSTAMP:${start}`,
     `DTSTART:${start}`,
     `DTEND:${end}`,
     `SUMMARY:${title}`,
     `DESCRIPTION:${details}`,
     `LOCATION:${location}`,
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ].join('\n');
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
 
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
 
-  const tempLink = document.createElement('a');
+  const tempLink = document.createElement("a");
   tempLink.href = url;
-  tempLink.download = 'event.ics';
+  tempLink.download = "event.ics";
   document.body.appendChild(tempLink);
   tempLink.click();
   document.body.removeChild(tempLink);
@@ -72,15 +73,16 @@ export function addEventToGoogleCalendar({
   endDate,
   title,
   location,
-  details
+  details,
 }: CalendarEvent) {
-  const start = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  const end = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const start =
+    startDate.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  const end = endDate.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
 
   const url = `https://calendar.google.com/calendar/u/0/r/eventedit?
 text=${encodeURIComponent(title)}&
 dates=${start}/${end}&
 location=${encodeURIComponent(location)}&
 details=${encodeURIComponent(details)}`;
-  window.open(url, '_blank');
+  window.open(url, "_blank");
 }

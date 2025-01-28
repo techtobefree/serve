@@ -4,13 +4,13 @@ import { format, formatISO } from "date-fns";
 import { TableInsert } from "../persistence/tables";
 
 export function buildTZDateFromDBDayOnly(date: string) {
-  return new TZDate(date, 'UTC');
+  return new TZDate(date, "UTC");
 }
 
 export function buildStartTime(
   eventDateUTC: string,
   timezone: string,
-  timeslot: TableInsert['project_event_timeslot'],
+  timeslot: TableInsert["project_event_timeslot"]
 ) {
   const date = new Date(eventDateUTC);
   const year = date.getUTCFullYear();
@@ -26,9 +26,9 @@ export function buildStartTime(
 }
 
 export function tzDateToDB(date: TZDate) {
-  return formatISO(date.withTimeZone('UTC'));
+  return formatISO(date.withTimeZone("UTC"));
 }
 
 export function formatDateLLLLddyyyy(date: string) {
-  return format(new Date(date), 'LLLL dd, yyyy');
+  return format(new Date(date), "LLLL dd, yyyy");
 }

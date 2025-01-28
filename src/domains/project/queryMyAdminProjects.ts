@@ -4,16 +4,16 @@ import { clientSupabase } from "../persistence/clientSupabase";
 
 export function useMyAdminProjectsQuery(userId?: string) {
   return useQuery({
-    queryKey: ['my-admin-projects', userId],
+    queryKey: ["my-admin-projects", userId],
     enabled: !!userId,
     queryFn: async () => {
       if (!userId) {
-        return
+        return;
       }
       const { data, error } = await clientSupabase
-        .from('project')
-        .select('*')
-        .eq('owner_id', userId);
+        .from("project")
+        .select("*")
+        .eq("owner_id", userId);
 
       if (error) {
         throw new Error(error.message);
@@ -21,5 +21,5 @@ export function useMyAdminProjectsQuery(userId?: string) {
 
       return data;
     },
-  })
+  });
 }

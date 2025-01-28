@@ -3,27 +3,31 @@ import { search, add } from "ionicons/icons";
 import { useEffect, useState } from "react";
 
 import { Category, filterSearchToCategories } from "../domains/search/search";
-import { useModals, useNavigate } from "../router"
+import { useModals, useNavigate } from "../router";
 
 export default function Add() {
   const navigate = useNavigate();
   const modals = useModals();
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     // Toggle the backdrop-no-scroll class on the body when modal opens/closes
-    document.body.classList.add('backdrop-no-scroll');
-    setOpen(true)
+    document.body.classList.add("backdrop-no-scroll");
+    setOpen(true);
 
     // Clean up the class when the component unmounts
-    return () => { document.body.classList.remove('backdrop-no-scroll') };
+    return () => {
+      document.body.classList.remove("backdrop-no-scroll");
+    };
   }, []);
 
   return (
     <div className={`fixed inset-0 z-10 flex`}>
       {/* Backdrop */}
       <div
-        onClick={() => { navigate(-1) }}
+        onClick={() => {
+          navigate(-1);
+        }}
         className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-100`}
       ></div>
 
@@ -32,26 +36,38 @@ export default function Add() {
         className={`
           pointer-events-none fixed flex justify-center items-end md:items-start overflow-auto
           left-0 top-0 h-full w-full transform transition-transform duration-300 ease-in-out
-          ${isOpen ? 'translate-y-0' : 'translate-y-full md:-translate-y-full'}
+          ${isOpen ? "translate-y-0" : "translate-y-full md:-translate-y-full"}
           `}
       >
-        <div className='rounded-2xl bg-white flex flex-col gap-4 p-4
-          pointer-events-auto h-fit m-16'>
-          <div className='w-60 border-2 border-black p-2 shadow-lg
-          rounded-full flex justify-center items-center relative cursor-pointer'
+        <div
+          className="rounded-2xl bg-white flex flex-col gap-4 p-4
+          pointer-events-auto h-fit m-16"
+        >
+          <div
+            className="w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer"
             onClick={() => {
-              filterSearchToCategories([Category.project])
-              modals.open('/search', { replace: true })
-            }} >
-            <IonIcon className='absolute left-2 text-2xl text-[#1a237e]' icon={search} />
+              filterSearchToCategories([Category.project]);
+              modals.open("/search", { replace: true });
+            }}
+          >
+            <IonIcon
+              className="absolute left-2 text-2xl text-[#1a237e]"
+              icon={search}
+            />
             Find a Project
           </div>
-          <div className='w-60 border-2 border-black p-2 shadow-lg
-          rounded-full flex justify-center items-center relative cursor-pointer'
+          <div
+            className="w-60 border-2 border-black p-2 shadow-lg
+          rounded-full flex justify-center items-center relative cursor-pointer"
             onClick={() => {
-              navigate('/project/new', { replace: true })
-            }} >
-            <IonIcon className='absolute left-2 text-2xl text-[#f50057]' icon={add} />
+              navigate("/project/new", { replace: true });
+            }}
+          >
+            <IonIcon
+              className="absolute left-2 text-2xl text-[#f50057]"
+              icon={add}
+            />
             Create a Project
           </div>
           {/* <div className='w-60 border-2 border-black p-2 shadow-lg
@@ -75,5 +91,5 @@ export default function Add() {
         </div>
       </div>
     </div>
-  )
+  );
 }

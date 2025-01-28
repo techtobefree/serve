@@ -9,14 +9,9 @@ type Props = {
   alt: string;
   className?: string;
   size: IMAGE_SIZE;
-}
+};
 
-export default function Avatar({
-  src,
-  alt,
-  size,
-  className
-}: Props) {
+export default function Avatar({ src, alt, size, className }: Props) {
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -25,20 +20,22 @@ export default function Avatar({
     }
   }, [src]);
 
-  const classes = [IMAGE_SIZE_MAP[size], className].join(' ');
+  const classes = [IMAGE_SIZE_MAP[size], className].join(" ");
 
   return (
-    <div className='overflow-hidden'>
+    <div className="overflow-hidden">
       {!failed ? (
         <IonImg
           alt={alt}
           src={src}
           className={classes}
-          onIonError={() => { setFailed(true) }}
+          onIonError={() => {
+            setFailed(true);
+          }}
         />
       ) : (
         <IonIcon icon={person} className={classes} />
       )}
     </div>
-  )
+  );
 }

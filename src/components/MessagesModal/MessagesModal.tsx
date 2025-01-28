@@ -12,15 +12,21 @@ export function MessagesModalContentComponent() {
       {/* Modal Header */}
       <div className="flex justify-between items-center border-b border-gray-200 p-4">
         <div>
-          <IonIcon className='cursor-pointer text-4xl'
+          <IonIcon
+            className="cursor-pointer text-4xl"
             icon={arrowBack}
-            onClick={() => { navigate(-1) }} />
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
         </div>
         <h2 className="text-lg font-semibold">Messages</h2>
 
         {/* Close Button */}
         <button
-          onClick={() => { navigate(-1) }}
+          onClick={() => {
+            navigate(-1);
+          }}
         >
           <IonIcon className="text-4xl" icon={closeOutline} />
         </button>
@@ -32,11 +38,11 @@ export function MessagesModalContentComponent() {
       <div className="p-6">Group messages</div>
       <div className="p-6">Project messages</div>
     </>
-  )
+  );
 }
 
 const MessagesModalContent = observer(() => {
-  return <MessagesModalContentComponent />
+  return <MessagesModalContentComponent />;
 });
 
 export default MessagesModalContent;

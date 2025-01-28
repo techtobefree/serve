@@ -1,7 +1,8 @@
 import { useEventByIdQuery } from "../project/queryProjectById";
 
-export function getEventAddressAsText(event:
-  Exclude<ReturnType<typeof useEventByIdQuery>['data'], undefined>) {
+export function getEventAddressAsText(
+  event: Exclude<ReturnType<typeof useEventByIdQuery>["data"], undefined>
+) {
   const parts = [];
 
   if (event.location_name) {
@@ -12,6 +13,10 @@ export function getEventAddressAsText(event:
     parts.push(event.street_address);
   }
 
-  return `${parts.join(' ')} ${event.city ?
-    event.city + ', ' : ''}${[event.state, event.postal_code].filter(Boolean).join(' ')}`;
+  return `${parts.join(" ")} ${event.city ? event.city + ", " : ""}${[
+    event.state,
+    event.postal_code,
+  ]
+    .filter(Boolean)
+    .join(" ")}`;
 }

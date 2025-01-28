@@ -8,7 +8,7 @@ import { useModals, useNavigate } from "../../../router";
 
 type Props = {
   userId: string;
-}
+};
 
 export function NewProjectComponent({ userId }: Props) {
   return (
@@ -18,12 +18,13 @@ export function NewProjectComponent({ userId }: Props) {
           project={{
             owner_id: userId,
             created_by: userId,
-            name: 'New Project'
+            name: "New Project",
           }}
-          userId={userId} />
+          userId={userId}
+        />
       </div>
     </div>
-  )
+  );
 }
 
 const NewProject = observer(() => {
@@ -32,25 +33,44 @@ const NewProject = observer(() => {
   const currentUserId = userStore.current?.id;
 
   if (!currentUserId) {
-    return <>
-      <div>
-        <IonIcon className='cursor-pointer text-4xl'
-          icon={arrowBack} onClick={() => { navigate(-1) }} />
-      </div>
-      <div>You must login to create projects.</div>
-      <IonButton color="secondary" onClick={() => { modals.open('/menu') }}>Login</IonButton>
-    </>
+    return (
+      <>
+        <div>
+          <IonIcon
+            className="cursor-pointer text-4xl"
+            icon={arrowBack}
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+        </div>
+        <div>You must login to create projects.</div>
+        <IonButton
+          color="secondary"
+          onClick={() => {
+            modals.open("/menu");
+          }}
+        >
+          Login
+        </IonButton>
+      </>
+    );
   }
 
   return (
     <>
       <div>
-        <IonIcon className='cursor-pointer text-4xl'
-          icon={arrowBack} onClick={() => { navigate(-1) }} />
+        <IonIcon
+          className="cursor-pointer text-4xl"
+          icon={arrowBack}
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
       </div>
       <NewProjectComponent userId={currentUserId} />
     </>
-  )
-})
+  );
+});
 
 export default NewProject;

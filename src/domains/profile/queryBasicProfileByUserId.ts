@@ -2,15 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 
 import { clientSupabase } from "../persistence/clientSupabase";
 
-export const partialQueryKey = 'basic-profile';
+export const partialQueryKey = "basic-profile";
 
 async function fetchUserProfile(userId: string) {
   return clientSupabase
-    .from('profile')
-    .select(`
+    .from("profile")
+    .select(
+      `
       *
-    `)
-    .eq('user_id', userId)
+    `
+    )
+    .eq("user_id", userId)
     .single();
 }
 
@@ -20,7 +22,7 @@ export function useBasicProfileQuery(userId?: string) {
     enabled: !!userId,
     queryFn: async () => {
       if (!userId) {
-        return
+        return;
       }
 
       const { data, error } = await fetchUserProfile(userId);
@@ -29,8 +31,7 @@ export function useBasicProfileQuery(userId?: string) {
         throw new Error(error.message);
       }
 
-      return data
-
-    }
-  })
+      return data;
+    },
+  });
 }

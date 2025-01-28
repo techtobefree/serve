@@ -14,23 +14,21 @@ export async function commitToTimeslot({
   startTime,
   endTime,
   role,
-  timeslotId
-}:
-  {
-    eventId: string,
-    projectId: string,
-    timeslotId: string,
-    startTime: TZDate,
-    endTime: TZDate,
-    role: string
-  }) {
-
+  timeslotId,
+}: {
+  eventId: string;
+  projectId: string;
+  timeslotId: string;
+  startTime: TZDate;
+  endTime: TZDate;
+  role: string;
+}) {
   if (!userStore.current) {
-    throw new Error('Missing user info');
+    throw new Error("Missing user info");
   }
 
   const { error } = await clientSupabase
-    .from('project_event_commitment')
+    .from("project_event_commitment")
     .insert({
       created_by: userStore.current.id,
       project_id: projectId,
@@ -40,29 +38,37 @@ export async function commitToTimeslot({
       project_event_id: eventId,
       role,
     })
-    .select('*')
+    .select("*");
 
   if (error) {
-    showToast('Failed to commit to timeslot', { duration: 5000, isError: true });
+    showToast("Failed to commit to timeslot", {
+      duration: 5000,
+      isError: true,
+    });
     throw error;
   }
 
-  await queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
+  await queryClient.invalidateQueries({
+    queryKey: [projectByIdKey, projectId],
+  });
 }
 
 export default function useCommitToTimeslot(
   { projectId }: { projectId?: string },
-  callback?: (err?: Error) => void) {
+  callback?: (err?: Error) => void
+) {
   return useMutation({
     mutationFn: commitToTimeslot,
     onSuccess: () => {
       // Invalidate queries to refetch updated data
-      void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
-      showToast('Committed to serve')
+      void queryClient.invalidateQueries({
+        queryKey: [projectByIdKey, projectId],
+      });
+      showToast("Committed to serve");
       callback?.();
     },
     onError: (error: Error) => {
-      console.error('Error creating commitment:', error);
+      console.error("Error creating commitment:", error);
       callback?.(error);
     },
   });

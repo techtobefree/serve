@@ -6,12 +6,12 @@ import { Category, searchStore } from "../../domains/search/search";
 type Props = {
   displayResults: boolean;
   searchText: string;
-}
+};
 
 export function GroupResultsComponent({ displayResults, searchText }: Props) {
   // const { data: groups, isLoading, isError } = useAllGroupQuery();
   if (!displayResults) {
-    return null
+    return null;
   }
 
   return (
@@ -21,15 +21,19 @@ export function GroupResultsComponent({ displayResults, searchText }: Props) {
         (Coming soon) No people found searching for {`"${searchText}"`}
       </div>
     </>
-  )
+  );
 }
 
 const GroupResults = observer(() => {
-  return <GroupResultsComponent
-    displayResults={!searchStore.categoriesToShow.length ||
-      searchStore.categoriesToShow.includes(Category.group)}
-    searchText={searchStore.text}
-  />
-})
+  return (
+    <GroupResultsComponent
+      displayResults={
+        !searchStore.categoriesToShow.length ||
+        searchStore.categoriesToShow.includes(Category.group)
+      }
+      searchText={searchStore.text}
+    />
+  );
+});
 
 export default GroupResults;

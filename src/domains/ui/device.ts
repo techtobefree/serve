@@ -1,7 +1,7 @@
-import { Device } from '@capacitor/device';
+import { Device } from "@capacitor/device";
 
 export const DEVICE: {
-  PLATFORM?: DEVICE_TYPE
+  PLATFORM?: DEVICE_TYPE;
 } = {};
 
 void Device.getInfo().then((deviceInfo) => {
@@ -9,7 +9,7 @@ void Device.getInfo().then((deviceInfo) => {
 });
 
 export enum DEVICE_TYPE {
-  ios = 'ios',
-  android = 'android',
-  web = 'web'
+  ios = "ios",
+  android = "android",
+  web = "web",
 }

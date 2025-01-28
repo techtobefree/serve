@@ -4,19 +4,21 @@ import { format, subDays } from "date-fns";
 
 import { clientSupabase } from "../persistence/clientSupabase";
 
-export const partialQueryKey = 'get-projectById';
+export const partialQueryKey = "get-projectById";
 
 // Only used for the type
 export function useTimeslotByIdQuery(eventId: string) {
   return useQuery({
-    queryKey: ['get-eventById', eventId],
+    queryKey: ["get-eventById", eventId],
     queryFn: async () => {
       const { data, error } = await clientSupabase
-        .from('project_event_timeslot')
-        .select(`
+        .from("project_event_timeslot")
+        .select(
+          `
           *
-          `)
-        .eq('id', eventId)
+          `
+        )
+        .eq("id", eventId)
         .single();
 
       if (error) {
@@ -24,18 +26,19 @@ export function useTimeslotByIdQuery(eventId: string) {
       }
 
       return data;
-    }
-  })
+    },
+  });
 }
 
 // Only used for the type
 export function useEventByIdQuery(eventId: string) {
   return useQuery({
-    queryKey: ['get-eventById', eventId],
+    queryKey: ["get-eventById", eventId],
     queryFn: async () => {
       const { data, error } = await clientSupabase
-        .from('project_event')
-        .select(`
+        .from("project_event")
+        .select(
+          `
           *,
           project_event_timeslot (
             *
@@ -53,8 +56,9 @@ export function useEventByIdQuery(eventId: string) {
           project_event_item_commitment (
             *
           )
-          `)
-        .eq('id', eventId)
+          `
+        )
+        .eq("id", eventId)
         .single();
 
       if (error) {
@@ -62,18 +66,19 @@ export function useEventByIdQuery(eventId: string) {
       }
 
       return data;
-    }
-  })
+    },
+  });
 }
 
 // Only used for the type
 export function useSurveyQuestionByIdQuery(surveyId: string) {
   return useQuery({
-    queryKey: ['get-surveyById', surveyId],
+    queryKey: ["get-surveyById", surveyId],
     queryFn: async () => {
       const { data, error } = await clientSupabase
-        .from('survey_question')
-        .select(`
+        .from("survey_question")
+        .select(
+          `
           *,
           survey_question_option (
             *
@@ -81,8 +86,9 @@ export function useSurveyQuestionByIdQuery(surveyId: string) {
           survey_question_hiding_rule (
             *
           )
-          `)
-        .eq('id', surveyId)
+          `
+        )
+        .eq("id", surveyId)
         .single();
 
       if (error) {
@@ -90,8 +96,8 @@ export function useSurveyQuestionByIdQuery(surveyId: string) {
       }
 
       return data;
-    }
-  })
+    },
+  });
 }
 
 export function useProjectByIdQuery(projectId: string) {
@@ -99,8 +105,9 @@ export function useProjectByIdQuery(projectId: string) {
     queryKey: [partialQueryKey, projectId],
     queryFn: async () => {
       const { data, error } = await clientSupabase
-        .from('project')
-        .select(`
+        .from("project")
+        .select(
+          `
           *,
           user_project (
             user_id,
@@ -155,10 +162,14 @@ export function useProjectByIdQuery(projectId: string) {
               )
             )
           )
-          `)
-        .gte('project_event.project_event_date', format(subDays(new Date(), 15), 'yyyy-MM-dd'))
-        .filter('survey.survey_question.closed_at', 'is', null)
-        .eq('id', projectId)
+          `
+        )
+        .gte(
+          "project_event.project_event_date",
+          format(subDays(new Date(), 15), "yyyy-MM-dd")
+        )
+        .filter("survey.survey_question.closed_at", "is", null)
+        .eq("id", projectId)
         .single();
 
       if (error) {
@@ -166,6 +177,6 @@ export function useProjectByIdQuery(projectId: string) {
       }
 
       return data;
-    }
-  })
+    },
+  });
 }

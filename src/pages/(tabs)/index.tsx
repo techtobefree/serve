@@ -11,13 +11,11 @@ import Home from "./home";
 
 export default function App() {
   useEffect(() => {
-    shouldReplaceHistory(false)
+    shouldReplaceHistory(false);
     return () => {
-      shouldReplaceHistory(true)
-    }
-  }, [])
+      shouldReplaceHistory(true);
+    };
+  }, []);
 
-  return (
-    <Home />
-  )
+  return <Home />;
 }

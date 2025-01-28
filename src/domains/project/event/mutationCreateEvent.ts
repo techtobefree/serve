@@ -16,17 +16,17 @@ async function createEvent({
   address,
   description,
 }: {
-  projectId: string,
-  userId: string,
-  date: string,
-  timezone: string,
-  location: { lat: number, lng: number },
-  addressName: string,
-  address: Address,
-  description: string,
+  projectId: string;
+  userId: string;
+  date: string;
+  timezone: string;
+  location: { lat: number; lng: number };
+  addressName: string;
+  address: Address;
+  description: string;
 }) {
   const { error } = await clientSupabase
-    .from('project_event')
+    .from("project_event")
     .insert({
       project_event_date: date,
       project_id: projectId,
@@ -41,28 +41,34 @@ async function createEvent({
       postal_code: address.postalCode,
       country: address.country,
     })
-    .select('id')
+    .select("id")
     .single();
 
   if (error) {
-    showToast('Failed to create project event', { duration: 5000, isError: true });
+    showToast("Failed to create project event", {
+      duration: 5000,
+      isError: true,
+    });
     throw error;
   }
 }
 
 export default function useCreateEvent(
   { projectId }: { projectId: string },
-  callback: (err?: Error) => void) {
+  callback: (err?: Error) => void
+) {
   return useMutation({
     mutationFn: createEvent,
     onSuccess: () => {
       // Invalidate queries to refetch updated data
-      void queryClient.invalidateQueries({ queryKey: [projectByIdKey, projectId] });
-      showToast('Event created', { duration: 3000 })
+      void queryClient.invalidateQueries({
+        queryKey: [projectByIdKey, projectId],
+      });
+      showToast("Event created", { duration: 3000 });
       callback();
     },
     onError: (error: Error) => {
-      console.error('Error creating event:', error);
+      console.error("Error creating event:", error);
       callback(error);
     },
   });

@@ -4,9 +4,14 @@ import { clientSupabase } from "../persistence/clientSupabase";
 import { showToast } from "../ui/toast";
 
 export async function requestOTP(phoneNumber: string) {
-  const { error } = await clientSupabase.auth.signInWithOtp({ phone: phoneNumber });
+  const { error } = await clientSupabase.auth.signInWithOtp({
+    phone: phoneNumber,
+  });
   if (error) {
-    showToast("Failed to send one-time password", { isError: true, duration: 5000 });
+    showToast("Failed to send one-time password", {
+      isError: true,
+      duration: 5000,
+    });
   } else {
     showToast("One-time password sent", { duration: 3000 });
   }
@@ -20,7 +25,7 @@ export async function verifyOTP(
   const { error } = await clientSupabase.auth.verifyOtp({
     phone: phoneNumber,
     token: otp,
-    type: 'sms',
+    type: "sms",
   });
 
   if (error) {
@@ -31,7 +36,7 @@ export async function verifyOTP(
 }
 
 export async function logout() {
-  const { error } = await clientSupabase.auth.signOut()
+  const { error } = await clientSupabase.auth.signOut();
 
   if (error) {
     showToast("Error logging out", { isError: true, duration: 5000 });
