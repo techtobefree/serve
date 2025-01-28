@@ -187,7 +187,7 @@ export function Profile({ canEdit, userId, initial }: Props) {
               <IonInput
                 label="Email"
                 value={profile.email}
-                onIonChange={(e) => {
+                onIonInput={(e) => {
                   void changeEmail(userId, e.detail.value, Boolean(user.email));
                 }}
               />
@@ -204,7 +204,7 @@ export function Profile({ canEdit, userId, initial }: Props) {
               <IonInput
                 label="Phone"
                 value={profile.phone}
-                onIonChange={(e) => {
+                onIonInput={(e) => {
                   void changePhone(userId, e.detail.value, Boolean(user.phone));
                 }}
               />
