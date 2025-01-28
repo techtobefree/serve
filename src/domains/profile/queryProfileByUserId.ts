@@ -6,184 +6,209 @@ import { showToast } from "../ui/toast";
 
 export async function changeHandle(userId: string, handle?: string | null) {
   if (handle === null || handle === undefined) {
-    return
+    return;
   }
 
   const { error } = await clientSupabase
-    .from('profile')
-    .update(
-      {
-        user_id: userId,
-        handle,
-      }
-    ).eq('user_id', userId);
+    .from("profile")
+    .update({
+      handle,
+    })
+    .eq("user_id", userId);
 
   if (error) {
-    showToast('Failed to update bio', { isError: true, duration: 5000 })
+    showToast("Failed to update bio", { isError: true, duration: 5000 });
     throw new Error(error.message);
   }
 
-  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+  await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
 }
 
 export async function changeBio(userId: string, bio?: string | null) {
   if (bio === null || bio === undefined) {
-    return
+    return;
   }
 
   const { error } = await clientSupabase
-    .from('profile')
-    .update(
-      {
-        user_id: userId,
-        bio,
-      }
-    ).eq('user_id', userId);
+    .from("profile")
+    .update({
+      bio,
+    })
+    .eq("user_id", userId);
 
   if (error) {
-    showToast('Failed to update bio', { isError: true, duration: 5000 })
+    showToast("Failed to update bio", { isError: true, duration: 5000 });
     throw new Error(error.message);
   }
 
-  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+  await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
 }
 
-export async function changeEmail(userId: string, email?: string | null) {
+export async function changeEmail(
+  userId: string,
+  email?: string | null,
+  nonSensitive?: boolean
+) {
   if (email === null || email === undefined) {
-    return
+    return;
   }
 
   const { error } = await clientSupabase
-    .from('sensitive_profile')
-    .update(
-      {
-        user_id: userId,
-        email: email,
-      }
-    ).eq('user_id', userId);
+    .from("sensitive_profile")
+    .update({
+      email: email,
+    })
+    .eq("user_id", userId);
+
+  const { error: profileError } = await clientSupabase
+    .from("profile")
+    .update({
+      email: nonSensitive ? email : null,
+    })
+    .eq("user_id", userId);
+
+  if (profileError) {
+    showToast("Failed to change profile email", {
+      isError: true,
+      duration: 5000,
+    });
+    throw new Error(profileError.message);
+  }
 
   if (error) {
-    showToast('Failed to change email', { isError: true, duration: 5000 })
+    showToast("Failed to change email", { isError: true, duration: 5000 });
     throw new Error(error.message);
   }
 
-  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+  await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
 }
 
-export async function changePhone(userId: string, phone?: string | null) {
+export async function changePhone(
+  userId: string,
+  phone?: string | null,
+  nonSensitive?: boolean
+) {
   if (phone === null || phone === undefined) {
-    return
+    return;
   }
 
   const { error } = await clientSupabase
-    .from('sensitive_profile')
-    .update(
-      {
-        user_id: userId,
-        phone: phone,
-      }
-    ).eq('user_id', userId);
+    .from("sensitive_profile")
+    .update({
+      phone: phone,
+    })
+    .eq("user_id", userId);
+
+  const { error: profileError } = await clientSupabase
+    .from("profile")
+    .update({
+      phone: nonSensitive ? phone : null,
+    })
+    .eq("user_id", userId);
+
+  if (profileError) {
+    showToast("Failed to change profile email", {
+      isError: true,
+      duration: 5000,
+    });
+    throw new Error(profileError.message);
+  }
 
   if (error) {
-    showToast('Failed to change phone', { isError: true, duration: 5000 })
+    showToast("Failed to change phone", { isError: true, duration: 5000 });
     throw new Error(error.message);
   }
 
-  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+  await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
 }
 
 type ChangeableProfile = {
-  firstName?: string | null,
-  lastName?: string | null,
-}
+  firstName?: string | null;
+  lastName?: string | null;
+};
 type ChangeableProfileDB = {
-  first_name?: string,
-  last_name?: string,
-}
+  first_name?: string;
+  last_name?: string;
+};
 
-export async function changeName(userId: string,
-  { firstName, lastName }: ChangeableProfile) {
-  const toChange: ChangeableProfileDB = {}
+export async function changeName(
+  userId: string,
+  { firstName, lastName }: ChangeableProfile
+) {
+  const toChange: ChangeableProfileDB = {};
 
   if (firstName !== undefined && firstName !== null) {
-    toChange.first_name = firstName
+    toChange.first_name = firstName;
   }
   if (lastName !== undefined && lastName !== null) {
-    toChange.last_name = lastName
+    toChange.last_name = lastName;
   }
 
   if (Object.keys(toChange).length === 0) {
-    throw new Error('No changes to make')
+    throw new Error("No changes to make");
   }
 
   const { error } = await clientSupabase
-    .from('sensitive_profile')
-    .update(
-      {
-        user_id: userId,
-        ...toChange
-      }
-    ).eq('user_id', userId);
+    .from("sensitive_profile")
+    .update({
+      ...toChange,
+    })
+    .eq("user_id", userId);
 
   if (error) {
-    showToast('Failed to change name', { isError: true, duration: 5000 })
+    showToast("Failed to change name", { isError: true, duration: 5000 });
     throw new Error(error.message);
   }
 
-  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+  await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
 }
 
 export async function acceptTerms(userId: string) {
   const { error } = await clientSupabase
-    .from('sensitive_profile')
-    .update(
-      {
-        user_id: userId,
-        accepted_at: new Date().toISOString(),
-      }
-    ).eq('user_id', userId);
+    .from("sensitive_profile")
+    .update({
+      accepted_at: new Date().toISOString(),
+    })
+    .eq("user_id", userId);
 
   if (error) {
-    showToast('Failed to update terms', { isError: true, duration: 5000 })
+    showToast("Failed to update terms", { isError: true, duration: 5000 });
     throw new Error(error.message);
   }
 
-  await queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+  await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
 }
 
 async function fetchUserProfile(userId: string) {
   return clientSupabase
-    .from('profile')
-    .select(`
+    .from("profile")
+    .select(
+      `
       *,
       sensitive_profile (
         *
       )
-    `)
-    .eq('user_id', userId)
+    `
+    )
+    .eq("user_id", userId)
     .single();
 }
 
-
 async function createProfile(userId: string) {
-  await clientSupabase
-    .from('profile')
-    .insert([
-      {
-        user_id: userId,
-        handle: '',
-        created_by: userId
-      }
-    ]);
+  await clientSupabase.from("profile").insert([
+    {
+      user_id: userId,
+      handle: "",
+      created_by: userId,
+    },
+  ]);
 
-  await clientSupabase
-    .from('sensitive_profile')
-    .insert([
-      {
-        user_id: userId,
-        created_by: userId
-      }
-    ]);
+  await clientSupabase.from("sensitive_profile").insert([
+    {
+      user_id: userId,
+      created_by: userId,
+    },
+  ]);
 
   const { data, error } = await fetchUserProfile(userId);
 
@@ -191,44 +216,42 @@ async function createProfile(userId: string) {
     throw new Error(error.message);
   }
 
-  return data
+  return data;
 }
 
 export function useProfileQuery(userId?: string) {
   return useQuery({
-    queryKey: ['profile', userId],
+    queryKey: ["profile", userId],
     enabled: !!userId,
     queryFn: async () => {
       if (!userId) {
-        return
+        return;
       }
 
       const { data } = await fetchUserProfile(userId);
 
       if (!data) {
-        return createProfile(userId)
+        return createProfile(userId);
       }
 
       if (data.sensitive_profile.length === 0) {
-        await clientSupabase
-          .from('sensitive_profile')
-          .insert([
-            {
-              user_id: userId,
-              created_by: userId
-            }
-          ]);
+        await clientSupabase.from("sensitive_profile").insert([
+          {
+            user_id: userId,
+            created_by: userId,
+          },
+        ]);
 
-        const { data, error } = await fetchUserProfile(userId)
+        const { data, error } = await fetchUserProfile(userId);
 
         if (error) {
           throw new Error(error.message);
         }
 
-        return data
+        return data;
       }
 
       return data;
-    }
-  })
+    },
+  });
 }

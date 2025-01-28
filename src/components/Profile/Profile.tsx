@@ -188,18 +188,34 @@ export function Profile({ canEdit, userId, initial }: Props) {
                 label="Email"
                 value={profile.email}
                 onIonChange={(e) => {
-                  void changeEmail(userId, e.detail.value);
+                  void changeEmail(userId, e.detail.value, Boolean(user.email));
                 }}
               />
+              <div
+                className="absolute top-0 right-0 text-blue-500 cursor-pointer"
+                onClick={() => {
+                  void changeEmail(userId, profile.email, Boolean(!user.email));
+                }}
+              >
+                <PublicIcon off={Boolean(!user.email)} />
+              </div>
             </IonItem>
             <IonItem>
               <IonInput
                 label="Phone"
                 value={profile.phone}
                 onIonChange={(e) => {
-                  void changePhone(userId, e.detail.value);
+                  void changePhone(userId, e.detail.value, Boolean(user.phone));
                 }}
               />
+              <div
+                className="absolute top-0 right-0 text-blue-500 cursor-pointer"
+                onClick={() => {
+                  void changePhone(userId, profile.phone, Boolean(!user.phone));
+                }}
+              >
+                <PublicIcon off={Boolean(!user.phone)} />
+              </div>
             </IonItem>
           </div>
           <div className="flex flex-col gap-4 p-2">
@@ -285,10 +301,24 @@ export function Profile({ canEdit, userId, initial }: Props) {
           />
           <div>Display name: {user.handle}</div>
         </div>
-        <div>
-          <div className="text-2xl">Bio</div>
-          <div>{user.bio}</div>
-        </div>
+        {user.bio && (
+          <div>
+            <div className="text-2xl">Bio</div>
+            <div>{user.bio}</div>
+          </div>
+        )}
+        {user.email && (
+          <div>
+            <div className="text-2xl">Email</div>
+            <div>{user.email}</div>
+          </div>
+        )}
+        {user.phone && (
+          <div>
+            <div className="text-2xl">Phone</div>
+            <div>{user.phone}</div>
+          </div>
+        )}
       </div>
     </div>
   );

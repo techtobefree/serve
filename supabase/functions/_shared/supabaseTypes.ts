@@ -3197,7 +3197,9 @@ export type Database = {
           bio: string | null
           created_at: string | null
           created_by: string
+          email: string | null
           handle: string
+          phone: string | null
           updated_at: string | null
           updated_by: string | null
           user_id: string
@@ -3206,7 +3208,9 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           created_by: string
+          email?: string | null
           handle: string
+          phone?: string | null
           updated_at?: string | null
           updated_by?: string | null
           user_id: string
@@ -3215,7 +3219,9 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           created_by?: string
+          email?: string | null
           handle?: string
+          phone?: string | null
           updated_at?: string | null
           updated_by?: string | null
           user_id?: string

@@ -1,11 +1,16 @@
 import { IonIcon } from "@ionic/react";
-import { eye } from "ionicons/icons";
+import { eye, eyeOff } from "ionicons/icons";
 
-export default function PublicIcon() {
-  return <div className="relative group inline-block z-10">
-    <IonIcon size="large" icon={eye} />
-    <div
-      className="
+type Props = {
+  off?: boolean;
+};
+
+export default function PublicIcon({ off }: Props) {
+  return (
+    <div className="relative group inline-block z-10">
+      <IonIcon size="large" icon={off ? eyeOff : eye} />
+      <div
+        className="
           absolute
           hidden
           group-hover:block
@@ -21,8 +26,9 @@ export default function PublicIcon() {
           rounded
           whitespace-nowrap
         "
-    >
-      This is publicly visible
+      >
+        {`This is${off ? " not" : ""} publicly visible`}
+      </div>
     </div>
-  </div>
+  );
 }
