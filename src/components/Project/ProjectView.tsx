@@ -230,7 +230,7 @@ export default function ProjectView({
           })}
       </div>
       <br />
-      Note: events that happened more than 15 days ago are hidden.
+      Note: events that happened more than 5 days ago are hidden.
       <br />
       <br />
       <br />
