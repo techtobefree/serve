@@ -177,7 +177,7 @@ export default function EventCard({
                       details={project.description || ""}
                     />
                   </div>
-                  {/* 
+                  {/*
                 TODO add logic to show the checkin/checkout if commitment demands it (or user asks for it)
                 This can be done by linking to the user's profile, along with a query string for the commitment id
                 Really, the project leader should be able to go to anyone's profile, and see projects the user
@@ -233,53 +233,55 @@ export default function EventCard({
             Add Timeslot
           </IonButton>
         )}
-        <div className="border-rounded p-2">
-          <div className="text-2xl">{`Who`}</div>
-          <div>
-            {event.project_event_commitment.length === 0 &&
-              "No one is going yet"}
-            {event.project_event_commitment.map((commitment, index) => {
-              return (
-                <div
-                  key={commitment.id}
-                  className={`flex justify-between items-center gap-2 pl-2 pr-2 -ml-2 -mr-2
-                  ${index % 2 === 0 ? "bg-[#ddd]" : ""}`}
-                >
+        {currentUserId && (
+          <div className="border-rounded p-2">
+            <div className="text-2xl">{`Who`}</div>
+            <div>
+              {event.project_event_commitment.length === 0 &&
+                "No one is going yet"}
+              {event.project_event_commitment.map((commitment, index) => {
+                return (
                   <div
-                    className="cursor-pointer"
-                    onClick={() => {
-                      navigate("/user/:userId/view", {
-                        params: { userId: commitment.created_by },
-                      });
-                    }}
+                    key={commitment.id}
+                    className={`flex justify-between items-center gap-2 pl-2 pr-2 -ml-2 -mr-2
+                  ${index % 2 === 0 ? "bg-[#ddd]" : ""}`}
                   >
-                    <Avatar
-                      size={IMAGE_SIZE.AVATAR_SMALL}
-                      alt={commitment.profile?.handle || "Volunteer Photo"}
-                      src={getPublicUrl(
-                        profilePicturePath(commitment.created_by)
-                      )}
-                    />
-                  </div>
-                  <div>
-                    {
-                      (commitment.profile as unknown as { handle: string })
-                        .handle
-                    }
-                  </div>
-                  <div>
-                    <div>{commitment.role}</div>
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => {
+                        navigate("/user/:userId/view", {
+                          params: { userId: commitment.created_by },
+                        });
+                      }}
+                    >
+                      <Avatar
+                        size={IMAGE_SIZE.AVATAR_SMALL}
+                        alt={commitment.profile?.handle || "Volunteer Photo"}
+                        src={getPublicUrl(
+                          profilePicturePath(commitment.created_by)
+                        )}
+                      />
+                    </div>
                     <div>
-                      {format(commitment.commitment_start, "h:mm bbb")}
-                      {" - "}
-                      {format(commitment.commitment_end, "h:mm bbb")}
+                      {
+                        (commitment.profile as unknown as { handle: string })
+                          .handle
+                      }
+                    </div>
+                    <div>
+                      <div>{commitment.role}</div>
+                      <div>
+                        {format(commitment.commitment_start, "h:mm bbb")}
+                        {" - "}
+                        {format(commitment.commitment_end, "h:mm bbb")}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

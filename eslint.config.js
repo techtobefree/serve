@@ -87,7 +87,6 @@ export default tseslint.config(
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
-      "max-len": ["error", { code: 100, tabWidth: 2, ignoreComments: true }],
     },
   }
 );

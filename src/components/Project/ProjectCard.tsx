@@ -9,11 +9,18 @@ import { useNavigate } from "../../router";
 import ProjectImage from "./ProjectImage";
 
 type Props = {
+  following?: boolean;
   project: TableRows["project"];
+  isOwner?: boolean;
   joinable?: boolean;
 };
 
-export default function ProjectCard({ project, joinable }: Props) {
+export default function ProjectCard({
+  following,
+  project,
+  isOwner,
+  joinable,
+}: Props) {
   const navigate = useNavigate();
 
   return (
@@ -50,6 +57,7 @@ export default function ProjectCard({ project, joinable }: Props) {
           </p>
         </div>
 
+        {following && <div>Following</div>}
         {joinable && (
           <IonButton
             color="secondary"
@@ -61,7 +69,21 @@ export default function ProjectCard({ project, joinable }: Props) {
               });
             }}
           >
-            Join
+            Follow
+          </IonButton>
+        )}
+        {isOwner && (
+          <IonButton
+            color="secondary"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/project/:projectId/edit", {
+                params: { projectId: project.id },
+                replace: mayReplace(),
+              });
+            }}
+          >
+            Edit
           </IonButton>
         )}
       </div>

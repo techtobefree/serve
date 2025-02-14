@@ -49,7 +49,7 @@ export function HomeComponent({ userId }: Props) {
               )}
               {Array.isArray(adminProjects) &&
                 adminProjects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
+                  <ProjectCard key={project.id} project={project} isOwner />
                 ))}
               {adminProjects?.length === 0 && (
                 <div>

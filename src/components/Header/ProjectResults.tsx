@@ -1,16 +1,25 @@
 import { observer } from "mobx-react-lite";
 
+import { userStore } from "../../domains/auth/sessionStore";
 import { useAllProjectsQuery } from "../../domains/project/queryAllProjects";
+import { useMyJoinedProjectsQuery } from "../../domains/project/queryJoinedProjects";
 import { Category, searchStore } from "../../domains/search/search";
 import ProjectCard from "../Project/ProjectCard";
 import PulsingCard from "../Project/PulsingCard";
 
 type Props = {
+  currentUserId: string | undefined;
   displayResults: boolean;
 };
 
-export function ProjectResultsComponent({ displayResults }: Props) {
+export function ProjectResultsComponent({
+  currentUserId,
+  displayResults,
+}: Props) {
   const { data: projects, isLoading, isError } = useAllProjectsQuery();
+  const { data: joinedProjectMap = {} } =
+    useMyJoinedProjectsQuery(currentUserId);
+
   if (!displayResults) {
     return null;
   }
@@ -28,7 +37,12 @@ export function ProjectResultsComponent({ displayResults }: Props) {
           </>
         )}
         {projects?.map((project) => (
-          <ProjectCard key={project.id} project={project} joinable />
+          <ProjectCard
+            key={project.id}
+            project={project}
+            joinable={!joinedProjectMap[project.id]}
+            following={joinedProjectMap[project.id]}
+          />
         ))}
       </div>
     </>
@@ -42,6 +56,7 @@ const ProjectResults = observer(() => {
         !searchStore.categoriesToShow.length ||
         searchStore.categoriesToShow.includes(Category.project)
       }
+      currentUserId={userStore.current?.id}
     />
   );
 });
