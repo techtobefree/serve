@@ -8,7 +8,7 @@ import ProjectCard from "../Project/ProjectCard";
 import PulsingCard from "../Project/PulsingCard";
 
 type Props = {
-  currentUserId: string | undefined;
+  currentUserId?: string;
   displayResults: boolean;
 };
 
@@ -17,10 +17,10 @@ export function ProjectResultsComponent({
   displayResults,
 }: Props) {
   const { data: projects, isLoading, isError } = useAllProjectsQuery();
-  const { data: joinedProjectMap = {} } =
+  const { data: joinedProjectMap } =
     useMyJoinedProjectsQuery(currentUserId);
 
-  if (!displayResults) {
+  if (!displayResults || !joinedProjectMap) {
     return null;
   }
 
