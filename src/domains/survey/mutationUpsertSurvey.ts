@@ -127,7 +127,7 @@ async function upsertProjectSurvey({
       })
       .in(
         "id",
-        questionsToDelete.map((i) => i.id)
+        questionsToDelete.map((i) => i.id).filter(i => !!i) as string[]
       );
 
     if (closedError) {
