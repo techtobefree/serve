@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 
 import { userStore } from "../../domains/auth/sessionStore";
 import { useAllProjectsQuery } from "../../domains/project/queryAllProjects";
-import { useMyJoinedProjectsQuery } from "../../domains/project/queryJoinedProjects";
+// import { useMyJoinedProjectsQuery } from "../../domains/project/queryJoinedProjects";
 import { Category, searchStore } from "../../domains/search/search";
 import ProjectCard from "../Project/ProjectCard";
 import PulsingCard from "../Project/PulsingCard";
@@ -13,14 +13,14 @@ type Props = {
 };
 
 export function ProjectResultsComponent({
-  currentUserId,
+  // currentUserId,
   displayResults,
 }: Props) {
   const { data: projects, isLoading, isError } = useAllProjectsQuery();
-  const { data: joinedProjectMap } =
-    useMyJoinedProjectsQuery(currentUserId);
+  // const { data: joinedProjectMap = {} } =
+  //   useMyJoinedProjectsQuery(currentUserId);
 
-  if (!displayResults || !joinedProjectMap) {
+  if (!displayResults) {
     return null;
   }
 
@@ -40,8 +40,8 @@ export function ProjectResultsComponent({
           <ProjectCard
             key={project.id}
             project={project}
-            joinable={!joinedProjectMap[project.id]}
-            following={joinedProjectMap[project.id]}
+          // joinable={!joinedProjectMap[project.id]}
+          // following={joinedProjectMap[project.id]}
           />
         ))}
       </div>
