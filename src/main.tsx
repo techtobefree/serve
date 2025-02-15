@@ -8,6 +8,7 @@ import { createRoot } from "react-dom/client";
 
 import "@ionic/react/css/core.css";
 import "./index.css";
+
 import { queryClient } from "./domains/persistence/queryClient";
 
 void defineCustomElements(window);

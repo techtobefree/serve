@@ -1,5 +1,5 @@
 import { IonButton, IonIcon, IonInput } from "@ionic/react";
-import { arrowBack, arrowUpRightBox, filter, search } from "ionicons/icons";
+import { arrowBack, closeOutline, filter, search } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 
@@ -84,7 +84,7 @@ export function SearchResultsComponent({
                 <IonButton fill="clear" slot="end" aria-label="Show/hide">
                   <IonIcon
                     slot="icon-only"
-                    name={arrowUpRightBox}
+                    icon={closeOutline}
                     aria-hidden="true"
                   ></IonIcon>
                 </IonButton>

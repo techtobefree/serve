@@ -16,7 +16,8 @@ export function useMyJoinedProjectsQuery(userId?: string) {
         .eq("user_id", userId);
 
       if (error) {
-        throw new Error(error.message);
+        console.log(new Error(error.message))
+        return {}
       }
 
       return data.reduce(

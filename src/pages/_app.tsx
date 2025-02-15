@@ -99,3 +99,17 @@ const Layout = observer(() => {
 });
 
 export default Layout;
+
+export const Catch = () => (
+  <div className='w-full flex justify-center'>
+    <div className='bg-white p-10 m-10'>
+      <div>Unrecoverable error</div>
+      <br />
+      <div>Sorry</div>
+      <br />
+      <div>
+        <IonButton onClick={() => { window.location.reload(); }}>Reload</IonButton>
+      </div>
+    </div>
+  </div>
+);
