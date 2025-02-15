@@ -8,7 +8,7 @@ export function useMyJoinedProjectsQuery(userId?: string) {
     enabled: !!userId,
     queryFn: async () => {
       if (!userId) {
-        return;
+        return {};
       }
       const { data, error } = await clientSupabase
         .from("user_project")
