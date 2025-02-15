@@ -63,7 +63,7 @@ export function Profile({ canEdit, userId, initial }: Props) {
                 className="cursor-pointer text-4xl"
                 icon={arrowBack}
                 onClick={() => {
-                  navigate("/home");
+                  void navigate("/home");
                 }}
               />
             </div>
@@ -120,9 +120,8 @@ export function Profile({ canEdit, userId, initial }: Props) {
                 label="First name"
                 value={profile.first_name}
                 onIonInput={(e) => {
-                  copyNameRef.current = `${(e.target.value as string) || ""} ${
-                    profile.first_name || ""
-                  }`;
+                  copyNameRef.current = `${(e.target.value as string) || ""} ${profile.first_name || ""
+                    }`;
                 }}
                 onIonChange={(e) => {
                   void changeName(userId, { firstName: e.detail.value });
@@ -134,9 +133,8 @@ export function Profile({ canEdit, userId, initial }: Props) {
                 label="Last name"
                 value={profile.last_name}
                 onIonInput={(e) => {
-                  copyNameRef.current = `${profile.first_name || ""} ${
-                    (e.target.value as string) || ""
-                  }`;
+                  copyNameRef.current = `${profile.first_name || ""} ${(e.target.value as string) || ""
+                    }`;
                 }}
                 onIonChange={(e) => {
                   void changeName(userId, { lastName: e.detail.value });
@@ -267,7 +265,7 @@ export function Profile({ canEdit, userId, initial }: Props) {
               <IonButton
                 className="p-4 self-end"
                 onClick={() => {
-                  navigate("/home");
+                  void navigate("/home");
                 }}
               >
                 Home
@@ -288,7 +286,7 @@ export function Profile({ canEdit, userId, initial }: Props) {
             className="cursor-pointer text-4xl"
             icon={arrowBack}
             onClick={() => {
-              navigate("/home");
+              void navigate("/home");
             }}
           />
         </div>

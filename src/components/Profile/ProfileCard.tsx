@@ -17,7 +17,7 @@ export default function ProfileCard({ size, userId }: Props) {
     <div
       className="flex items-center justify-center flex-wrap cursor-pointer"
       onClick={() => {
-        navigate("/user/:userId/view", { params: { userId } });
+        void navigate("/user/:userId/view", { params: { userId } });
       }}
     >
       <Avatar

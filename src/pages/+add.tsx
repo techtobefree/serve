@@ -26,9 +26,9 @@ export default function Add() {
       {/* Backdrop */}
       <div
         onClick={() => {
-          navigate(-1);
+          void navigate(-1);
         }}
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-100`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-50`}
       ></div>
 
       {/* Modal Content */}
@@ -61,7 +61,7 @@ export default function Add() {
             className="w-60 border-2 border-black p-2 shadow-lg
           rounded-full flex justify-center items-center relative cursor-pointer"
             onClick={() => {
-              navigate("/project/new", { replace: true });
+              void navigate("/project/new", { replace: true });
             }}
           >
             <IonIcon

@@ -28,7 +28,7 @@ export default function ProjectCard({
       className="h-32 w-full bg-white rounded-2xl shadow-md text-black
       overflow-hidden flex justify-center cursor-pointer"
       onClick={() => {
-        navigate("/project/:projectId/view", {
+        void navigate("/project/:projectId/view", {
           params: { projectId: project.id },
           replace: mayReplace(),
         });
@@ -63,7 +63,7 @@ export default function ProjectCard({
             color="secondary"
             onClick={(e) => {
               e.stopPropagation();
-              navigate("/project/:projectId/join", {
+              void navigate("/project/:projectId/join", {
                 params: { projectId: project.id },
                 replace: mayReplace(),
               });
@@ -77,7 +77,7 @@ export default function ProjectCard({
             color="secondary"
             onClick={(e) => {
               e.stopPropagation();
-              navigate("/project/:projectId/edit", {
+              void navigate("/project/:projectId/edit", {
                 params: { projectId: project.id },
                 replace: mayReplace(),
               });

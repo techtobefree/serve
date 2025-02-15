@@ -23,7 +23,7 @@ export function useLocalAuth() {
               email: LOCAL_AUTH_EMAIL,
               password: LOCAL_AUTH_PASSWORD,
             });
-            navigate("/home");
+            void navigate("/home");
           };
           void auth();
         }

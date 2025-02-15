@@ -40,7 +40,7 @@ const NewProject = observer(() => {
             className="cursor-pointer text-4xl"
             icon={arrowBack}
             onClick={() => {
-              navigate(-1);
+              void navigate(-1);
             }}
           />
         </div>
@@ -64,7 +64,7 @@ const NewProject = observer(() => {
           className="cursor-pointer text-4xl"
           icon={arrowBack}
           onClick={() => {
-            navigate(-1);
+            void navigate(-1);
           }}
         />
       </div>

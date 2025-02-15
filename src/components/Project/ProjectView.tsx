@@ -39,7 +39,7 @@ export default function ProjectView({
     { projectId: project.id, surveyId: project.commitment_survey_id },
     (_err, data) => {
       if (data) {
-        navigate("/survey/:surveyId/edit", { params: { surveyId: data } });
+        void navigate("/survey/:surveyId/edit", { params: { surveyId: data } });
       }
     }
   );
@@ -47,7 +47,7 @@ export default function ProjectView({
     { projectId: project.id, surveyId: project.commitment_survey_id },
     (_err, data) => {
       if (data) {
-        navigate("/survey/:surveyId/edit", { params: { surveyId: data } });
+        void navigate("/survey/:surveyId/edit", { params: { surveyId: data } });
       }
     }
   );
@@ -65,7 +65,7 @@ export default function ProjectView({
             <IonButton
               color="tertiary"
               onClick={() => {
-                navigate("/project/:projectId/edit", {
+                void navigate("/project/:projectId/edit", {
                   params: { projectId: project.id },
                   replace: mayReplace(),
                 });
@@ -120,7 +120,7 @@ export default function ProjectView({
                       userId: currentUserId,
                     });
                   } else {
-                    navigate("/project/:projectId/join", {
+                    void navigate("/project/:projectId/join", {
                       params: { projectId: project.id },
                       replace: true,
                     });

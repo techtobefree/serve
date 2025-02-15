@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable react/no-unescaped-entities */
 
 export default function Terms() {

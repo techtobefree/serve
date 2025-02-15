@@ -16,7 +16,7 @@ export function MessagesModalContentComponent() {
             className="cursor-pointer text-4xl"
             icon={arrowBack}
             onClick={() => {
-              navigate(-1);
+              void navigate(-1);
             }}
           />
         </div>
@@ -25,7 +25,7 @@ export function MessagesModalContentComponent() {
         {/* Close Button */}
         <button
           onClick={() => {
-            navigate(-1);
+            void navigate(-1);
           }}
         >
           <IonIcon className="text-4xl" icon={closeOutline} />

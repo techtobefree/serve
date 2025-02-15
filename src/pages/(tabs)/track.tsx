@@ -56,7 +56,7 @@ export function TrackComponent({ userId }: Props) {
                   <IonButton
                     color="secondary"
                     onClick={() => {
-                      navigate("/project/new");
+                      void navigate("/project/new");
                     }}
                   >
                     Create one!

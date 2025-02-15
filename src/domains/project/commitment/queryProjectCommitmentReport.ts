@@ -1,6 +1,6 @@
 // Sorry - I was tired
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable max-len */
+
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -56,7 +56,7 @@ export function useProjectCommitmentDownloadQuery({
           )
           .in(
             "id",
-            [attendeeSurveyId, commitmentSurveyId].filter((i) => !!i)
+            [attendeeSurveyId, commitmentSurveyId].filter((i) => !!i) as string[]
           );
 
         if (surveyError) {
@@ -73,7 +73,7 @@ export function useProjectCommitmentDownloadQuery({
           )
           .in(
             "survey_id",
-            [attendeeSurveyId, commitmentSurveyId].filter((i) => !!i)
+            [attendeeSurveyId, commitmentSurveyId].filter((i) => !!i) as string[]
           );
 
         if (answerError) {
@@ -129,8 +129,7 @@ export function useProjectCommitmentDownloadQuery({
           } catch (err) {
             console.log("Error mapping response", err);
             showToast(
-              `Error mapping response questionID: ${
-                response.survey_question_id as string
+              `Error mapping response questionID: ${response.survey_question_id as string
               }`,
               { duration: 5000, isError: true }
             );

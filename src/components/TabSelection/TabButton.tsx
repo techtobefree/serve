@@ -1,12 +1,11 @@
 import { IonIcon } from "@ionic/react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import { mayReplace } from "../../domains/ui/navigation";
 import { Path, useNavigate } from "../../router";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function checkIfActive(location: any, path?: Path) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+function checkIfActive(location: ReturnType<typeof useLocation>, path?: Path) {
+
   return (
     location.pathname === path || (path === "/home" && location.pathname == "/")
   );
@@ -34,10 +33,10 @@ export default function TabButton({ path, icon, activeIcon, onClick }: Props) {
         onClick
           ? onClick
           : () => {
-              if (path) {
-                navigate(path, { replace: mayReplace() });
-              }
+            if (path) {
+              void navigate(path, { replace: mayReplace() });
             }
+          }
       }
     >
       <IonIcon className="w-full h-full" icon={isActive ? activeIcon : icon} />

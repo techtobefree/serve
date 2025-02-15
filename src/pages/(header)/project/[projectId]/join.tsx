@@ -36,7 +36,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
       void queryClient.invalidateQueries({
         queryKey: [projectByIdQueryKey, projectId],
       });
-      navigate("/project/:projectId/view", {
+      void navigate("/project/:projectId/view", {
         params: { projectId },
         replace: mayReplace(),
       });
@@ -50,7 +50,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
           className="cursor-pointer text-4xl"
           icon={arrowBack}
           onClick={() => {
-            navigate(-1);
+            void navigate(-1);
           }}
         />
       </div>
@@ -69,7 +69,7 @@ export function ProjectJoinPageComponent({ userId }: Props) {
         <IonButton
           color="secondary"
           onClick={() => {
-            navigate("/project/:projectId/view", {
+            void navigate("/project/:projectId/view", {
               params: { projectId },
               replace: true,
             });

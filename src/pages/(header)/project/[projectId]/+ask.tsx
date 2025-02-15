@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import TimeslotsAsk from "../../../../components/Event/TimeslotsAsk";
 import { useNavigate, useParams } from "../../../../router";
@@ -28,9 +28,9 @@ export default function AskModal() {
       {/* Backdrop */}
       <div
         onClick={() => {
-          navigate(-1);
+          void navigate(-1);
         }}
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-100`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-50`}
       ></div>
 
       {/* Modal Content */}

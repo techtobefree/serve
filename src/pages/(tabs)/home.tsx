@@ -57,7 +57,7 @@ export function HomeComponent({ userId }: Props) {
                   <IonButton
                     color="secondary"
                     onClick={() => {
-                      navigate("/project/new");
+                      void navigate("/project/new");
                     }}
                   >
                     Create one!
@@ -119,7 +119,7 @@ export function HomeComponent({ userId }: Props) {
               className="w-60 border-2 border-black p-2 shadow-lg
           rounded-full flex justify-center items-center relative cursor-pointer"
               onClick={() => {
-                navigate("/project/new");
+                void navigate("/project/new");
               }}
             >
               <IonIcon

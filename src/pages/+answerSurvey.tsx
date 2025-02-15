@@ -1,16 +1,15 @@
 import { TZDate } from "@date-fns/tz";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import SurveyResponse from "../components/Survey/SurveyResponse";
 import useCommitToTimeslot from "../domains/project/commitment/mutationCommitToTimeslot";
 import { useSurveyByIdQuery } from "../domains/survey/querySurveyById";
 import { showToast } from "../domains/ui/toast";
-import { useModals, useNavigate } from "../router";
+import { useNavigate } from "../router";
 
 export default function AnswerSurvey() {
   const navigate = useNavigate();
-  const modals = useModals();
   const location = useLocation();
   const {
     surveyId,
@@ -31,7 +30,7 @@ export default function AnswerSurvey() {
   const timeslotCommit = useCommitToTimeslot(
     { projectId: timeslotCommitment.projectId },
     () => {
-      modals.close();
+      void navigate(-1);
     }
   );
   const [isOpen, setOpen] = useState(false);
@@ -75,9 +74,9 @@ export default function AnswerSurvey() {
       {/* Backdrop */}
       <div
         onClick={() => {
-          navigate(-1);
+          void navigate(-1);
         }}
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-100`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-50`}
       ></div>
 
       {/* Modal Content */}
@@ -96,7 +95,7 @@ export default function AnswerSurvey() {
             projectId={timeslotCommitment.projectId}
             survey={survey}
             onCancel={() => {
-              modals.close();
+              void navigate(-1);
             }}
             onComplete={() => {
               timeslotCommit.mutate(timeslotCommitment);

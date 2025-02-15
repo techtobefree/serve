@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Timeslot } from "../project/event/mutationCreateTimeslots";
 
 export function sortTimeslots(a: Timeslot, b: Timeslot) {
@@ -6,12 +5,12 @@ export function sortTimeslots(a: Timeslot, b: Timeslot) {
   return a.hour < b.hour
     ? -1
     : a.hour > b.hour
-    ? 1
-    : a.minute < b.minute
-    ? -1
-    : a.minute > b.minute
-    ? 1
-    : 0;
+      ? 1
+      : a.minute < b.minute
+        ? -1
+        : a.minute > b.minute
+          ? 1
+          : 0;
 }
 
 export function sortDBTimeslots(
@@ -22,10 +21,10 @@ export function sortDBTimeslots(
   return a.timeslot_start_hour < b.timeslot_start_hour
     ? -1
     : a.timeslot_start_hour > b.timeslot_start_hour
-    ? 1
-    : a.timeslot_start_minute < b.timeslot_start_minute
-    ? -1
-    : a.timeslot_start_minute > b.timeslot_start_minute
-    ? 1
-    : 0;
+      ? 1
+      : a.timeslot_start_minute < b.timeslot_start_minute
+        ? -1
+        : a.timeslot_start_minute > b.timeslot_start_minute
+          ? 1
+          : 0;
 }

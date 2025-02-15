@@ -33,7 +33,7 @@ export default function ProjectEditPage() {
           className="cursor-pointer text-4xl"
           icon={arrowBack}
           onClick={() => {
-            navigate("/project/:projectId/view", {
+            void navigate("/project/:projectId/view", {
               params: { projectId },
               replace: mayReplace(),
             });

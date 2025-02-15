@@ -1,7 +1,7 @@
 import { IonButton, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import EditSurvey from "../../../../components/Survey/EditSurvey";
 import { userStore } from "../../../../domains/auth/sessionStore";
@@ -54,7 +54,7 @@ export default function SurveyEditPage() {
     { surveyId: survey?.id },
     (error?: Error) => {
       if (!error) {
-        navigate(-1);
+        void navigate(-1);
       }
     }
   );
@@ -83,7 +83,7 @@ export default function SurveyEditPage() {
             className="cursor-pointer text-4xl"
             icon={arrowBack}
             onClick={() => {
-              navigate(-1);
+              void navigate(-1);
             }}
           />
         </div>
@@ -107,7 +107,7 @@ export default function SurveyEditPage() {
           className="cursor-pointer text-4xl"
           icon={arrowBack}
           onClick={() => {
-            navigate(-1);
+            void navigate(-1);
           }}
         />
       </div>
@@ -124,7 +124,7 @@ export default function SurveyEditPage() {
             <IonButton
               color="danger"
               onClick={() => {
-                navigate(-1);
+                void navigate(-1);
               }}
             >
               Cancel

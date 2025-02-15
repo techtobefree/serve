@@ -63,7 +63,7 @@ const ProjectForm = ({ project, userId }: Props) => {
         console.error(res.error);
         showToast("Failed to save project", { duration: 5000, isError: true });
       } else {
-        navigate("/project/:projectId/view", {
+        void navigate("/project/:projectId/view", {
           params: { projectId: res.data.id },
           replace: mayReplace(),
         });
@@ -181,7 +181,7 @@ const ProjectForm = ({ project, userId }: Props) => {
               if (project.id) {
                 deleteProject.mutate({ projectId: project.id });
               }
-              navigate("/home", { replace: true });
+              void navigate("/home", { replace: true });
             }}
           >
             DELETE

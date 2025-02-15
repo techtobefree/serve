@@ -8,7 +8,7 @@ import PeopleResults from "../components/Header/PeopleResults";
 import ProjectResults from "../components/Header/ProjectResults";
 import { Category, searchStore, setSearchText } from "../domains/search/search";
 import { mayReplace } from "../domains/ui/navigation";
-import { useModals, useNavigate } from "../router";
+import { useNavigate } from "../router";
 
 type Props = {
   searchText: string;
@@ -19,7 +19,6 @@ export function SearchResultsComponent({
   searchText,
   categoriesToShow,
 }: Props) {
-  const modals = useModals();
   const navigate = useNavigate();
   const [isOpen, setOpen] = useState(false);
 
@@ -39,9 +38,9 @@ export function SearchResultsComponent({
       {/* Backdrop */}
       <div
         onClick={() => {
-          navigate(-1);
+          void navigate(-1);
         }}
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-100`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-50`}
       ></div>
 
       {/* Modal Content */}
@@ -61,7 +60,7 @@ export function SearchResultsComponent({
                   className="cursor-pointer text-4xl"
                   icon={arrowBack}
                   onClick={() => {
-                    modals.close();
+                    void navigate(-1);
                   }}
                 />
               </div>
@@ -104,7 +103,7 @@ export function SearchResultsComponent({
               className="self-center"
               color="secondary"
               onClick={() => {
-                navigate("/project/new", { replace: mayReplace() });
+                void navigate("/project/new", { replace: mayReplace() });
               }}
             >
               Create a Project

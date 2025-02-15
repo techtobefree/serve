@@ -130,9 +130,8 @@ export default function EventCard({
               : ""}
           </div>
           <div>
-            {`${event.city || "MISSING CITY"}, ${
-              event.state || "MISSING STATE"
-            } ${event.postal_code || ""}`}
+            {`${event.city || "MISSING CITY"}, ${event.state || "MISSING STATE"
+              } ${event.postal_code || ""}`}
           </div>
         </div>
         {committed && (
@@ -249,14 +248,14 @@ export default function EventCard({
                     <div
                       className="cursor-pointer"
                       onClick={() => {
-                        navigate("/user/:userId/view", {
+                        void navigate("/user/:userId/view", {
                           params: { userId: commitment.created_by },
                         });
                       }}
                     >
                       <Avatar
                         size={IMAGE_SIZE.AVATAR_SMALL}
-                        alt={commitment.profile?.handle || "Volunteer Photo"}
+                        alt={commitment.profile.handle || "Volunteer Photo"}
                         src={getPublicUrl(
                           profilePicturePath(commitment.created_by)
                         )}

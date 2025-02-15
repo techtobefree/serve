@@ -63,7 +63,7 @@ export function HeaderComponent({ userId, isVisible, setIsVisible }: Props) {
           <div
             className="flex items-center gap-2 p-2 cursor-pointer"
             onClick={() => {
-              navigate("/home", { replace: mayReplace() });
+              void navigate("/home", { replace: mayReplace() });
             }}
           >
             <IonImg

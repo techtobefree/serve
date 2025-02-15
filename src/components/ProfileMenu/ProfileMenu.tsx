@@ -29,7 +29,7 @@ export function ProfileMenuComponent({ userId }: Props) {
           <div
             className={`flex items-center cursor-pointer pt-[${HEADER_HEIGHT}px]`}
             onClick={() => {
-              navigate("/user/:userId/view", {
+              void navigate("/user/:userId/view", {
                 params: { userId },
                 replace: true,
               });
@@ -49,7 +49,7 @@ export function ProfileMenuComponent({ userId }: Props) {
         {/* Close Button */}
         <button
           onClick={() => {
-            navigate(-1);
+            void navigate(-1);
           }}
         >
           <IonIcon className="text-4xl" icon={closeOutline} />

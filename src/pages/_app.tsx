@@ -2,7 +2,7 @@ import { App as CapacitorApp } from "@capacitor/app";
 import { IonButton } from "@ionic/react";
 import { observer } from "mobx-react-lite";
 import { useEffect, useMemo } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router";
 
 import { Profile } from "../components/Profile/Profile";
 import Toast from "../components/Toast";
@@ -59,7 +59,7 @@ export function LayoutComponent({ userId }: Props) {
   useEffect(() => {
     const handleBackButton = () => {
       if (location.pathname !== "/") {
-        navigate(-1);
+        void navigate(-1);
       } else {
         void CapacitorApp.exitApp();
       }

@@ -24,9 +24,9 @@ export default function NewEvent() {
       {/* Backdrop */}
       <div
         onClick={() => {
-          navigate(-1);
+          void navigate(-1);
         }}
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-100`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity opacity-50`}
       ></div>
 
       {/* Modal Content */}

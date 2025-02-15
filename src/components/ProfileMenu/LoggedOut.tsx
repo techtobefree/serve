@@ -84,7 +84,7 @@ export default function LoggedOut() {
         {/* Close Button */}
         <button
           onClick={() => {
-            navigate(-1);
+            void navigate(-1);
           }}
         >
           <IonIcon className="text-4xl" icon={closeOutline} />
@@ -111,10 +111,10 @@ export default function LoggedOut() {
               {isError
                 ? phoneInfo
                 : remainder
-                ? `Please wait ${Math.ceil(
+                  ? `Please wait ${Math.ceil(
                     remainder / 1000
                   ).toString()} seconds`
-                : phoneInfo}
+                  : phoneInfo}
             </p>
           }
         </div>

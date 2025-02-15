@@ -111,7 +111,7 @@ export function CreateEventComponent({ projectId, userId }: Props) {
   const [address, setAddress] = useState(blankAddress());
   const [timezone, setTimezone] = useState("America/Denver");
   const { mutate, isPending } = useCreateEvent({ projectId }, () => {
-    navigate(-1);
+    void navigate(-1);
   });
 
   useEffect(() => {
@@ -135,7 +135,7 @@ export function CreateEventComponent({ projectId, userId }: Props) {
             className="text-4xl cursor-pointer"
             icon={closeOutline}
             onClick={() => {
-              navigate(-1);
+              void navigate(-1);
             }}
           />
         </div>

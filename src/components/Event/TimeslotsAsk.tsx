@@ -74,7 +74,7 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
   const navigate = useNavigate();
   const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
   const createTimeslots = useCreateTimeslots({ projectId }, () => {
-    navigate(-1);
+    void navigate(-1);
   });
 
   if (!userId) {
@@ -95,7 +95,7 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
               className="text-4xl cursor-pointer"
               icon={closeOutline}
               onClick={() => {
-                navigate(-1);
+                void navigate(-1);
               }}
             />
           </div>

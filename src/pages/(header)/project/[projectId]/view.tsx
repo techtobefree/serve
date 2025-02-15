@@ -34,7 +34,7 @@ export function ProjectViewComponent({ currentUserId }: Props) {
           className="cursor-pointer text-4xl"
           icon={arrowBack}
           onClick={() => {
-            navigate("/home");
+            void navigate("/home");
           }}
         />
       </div>
