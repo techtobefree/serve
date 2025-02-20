@@ -1,10 +1,13 @@
 import { IonButton, IonIcon } from "@ionic/react";
 import { createOutline, shareSocial } from "ionicons/icons";
 
+import { useState } from "react";
+
 import { IMAGE_SIZE } from "../../domains/image";
 import { getPublicUrl, projectPicturePath } from "../../domains/image/image";
 import useJoinProject from "../../domains/project/mutationJoinProject";
 import useLeaveProject from "../../domains/project/mutationLeaveProject";
+import { useQueryEventsByProjectId } from "../../domains/project/queryEventsByProjectId";
 import { useProjectByIdQuery } from "../../domains/project/queryProjectById";
 import { useEnsureSurveyExists } from "../../domains/survey/mutationUpsertSurvey";
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation";
@@ -13,6 +16,7 @@ import { useQrCode } from "../../domains/ui/useQr";
 import { useModals, useNavigate } from "../../router";
 import EventCard from "../Event/EventCard";
 
+import HistoricalEventCard from "../Event/HistoricalEventCard";
 import ProfileCard from "../Profile/ProfileCard";
 import QR from "../QR";
 
@@ -35,6 +39,12 @@ export default function ProjectView({
   const joinProject = useJoinProject({ projectId: project.id || "" });
   const modals = useModals();
   const { data: projectQrCodeUrl } = useQrCode(currentUrl, !project.id);
+  const [pastEventCount, setPastEventCount] = useState(0);
+  const { data: historicalEvents } = useQueryEventsByProjectId(
+    project.id,
+    pastEventCount > 0
+  );
+
   const ensureCommitmentSurveyExists = useEnsureSurveyExists(
     { projectId: project.id, surveyId: project.commitment_survey_id },
     (_err, data) => {
@@ -210,6 +220,49 @@ export default function ProjectView({
         </div>
       )}
       {!project.project_event.length && <div>No events</div>}
+      {pastEventCount === 0 && (
+        <IonButton
+          color="secondary"
+          onClick={() => {
+            setPastEventCount((prev) => prev + 4);
+          }}
+        >
+          View past events
+        </IonButton>
+      )}
+      {historicalEvents && historicalEvents.length > pastEventCount && (
+        <IonButton
+          color="secondary"
+          onClick={() => {
+            setPastEventCount((prev) => prev + 4);
+          }}
+        >
+          Load more past events
+        </IonButton>
+      )}
+      {pastEventCount > 0 &&
+        historicalEvents &&
+        historicalEvents.length === 0 && (
+          <div className="p-2">No past events</div>
+        )}
+      <div className="flex flex-wrap">
+        {historicalEvents &&
+          historicalEvents.length > 0 &&
+          historicalEvents
+            .sort((a, b) =>
+              a.project_event_date < b.project_event_date ? -1 : 1
+            )
+            .slice(historicalEvents.length - pastEventCount)
+            .map((event) => {
+              return (
+                <HistoricalEventCard
+                  key={event.id}
+                  event={event}
+                  currentUserId={currentUserId}
+                />
+              );
+            })}
+      </div>
       <div className="flex flex-wrap">
         {project.project_event
           .sort((a, b) =>
@@ -229,9 +282,6 @@ export default function ProjectView({
             );
           })}
       </div>
-      <br />
-      Note: events that happened more than 5 days ago are hidden.
-      <br />
       <br />
       <br />
     </div>

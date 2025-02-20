@@ -130,8 +130,9 @@ export default function EventCard({
               : ""}
           </div>
           <div>
-            {`${event.city || "MISSING CITY"}, ${event.state || "MISSING STATE"
-              } ${event.postal_code || ""}`}
+            {`${event.city || "MISSING CITY"}, ${
+              event.state || "MISSING STATE"
+            } ${event.postal_code || ""}`}
           </div>
         </div>
         {committed && (
