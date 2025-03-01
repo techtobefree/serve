@@ -13,15 +13,21 @@ import { closeOutline } from "ionicons/icons";
 import { observer } from "mobx-react-lite";
 import { useEffect, useRef, useState } from "react";
 
+import { dbLocationToLatLng } from "../../domains/address";
 import { blankAddress } from "../../domains/address/addressComponents";
 import { userStore } from "../../domains/auth/sessionStore";
 import useCreateEvent from "../../domains/project/event/mutationCreateEvent";
+import { useQueryLastEventByProjectId } from "../../domains/project/event/queryLastEventByProjectId";
 import { showToast } from "../../domains/ui/toast";
 import { useNavigate } from "../../router";
 import FutureDatePicker from "../Picker/FutureDatePicker";
 import LocationPicker from "../Picker/LocationPicker";
 
 type Props = {
+  lastEvent?: Exclude<
+    ReturnType<typeof useQueryLastEventByProjectId>["data"],
+    undefined
+  >[number];
   projectId: string;
   userId?: string;
 };
@@ -99,7 +105,7 @@ const timezones = [
   "Pacific/Kiritimati", // UTC+14
 ];
 
-export function CreateEventComponent({ projectId, userId }: Props) {
+export function CreateEventComponent({ lastEvent, projectId, userId }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
@@ -139,6 +145,41 @@ export function CreateEventComponent({ projectId, userId }: Props) {
             }}
           />
         </div>
+        {lastEvent && (
+          <IonItem className="w-full">
+            <IonButton
+              color="secondary"
+              onClick={() => {
+                if (lastEvent.description)
+                  setDescription(lastEvent.description);
+
+                setTimezone(lastEvent.timezone);
+
+                if (lastEvent.location_name)
+                  setAddressName(lastEvent.location_name);
+
+                if (lastEvent.location) {
+                  const lastLocation = dbLocationToLatLng(
+                    lastEvent.location as string
+                  );
+                  setLocation(lastLocation);
+                }
+
+                const newAddress = { ...address };
+                if (lastEvent.street_address)
+                  newAddress.street = lastEvent.street_address;
+                if (lastEvent.city) newAddress.city = lastEvent.city;
+                if (lastEvent.state) newAddress.state = lastEvent.state;
+                if (lastEvent.postal_code)
+                  newAddress.postalCode = lastEvent.postal_code;
+                if (lastEvent.country) newAddress.country = lastEvent.country;
+                setAddress(newAddress);
+              }}
+            >
+              Copy previous event
+            </IonButton>
+          </IonItem>
+        )}
         <IonItem className="w-full">
           <IonTextarea
             label="Description"
@@ -244,13 +285,16 @@ export function CreateEventComponent({ projectId, userId }: Props) {
   );
 }
 
-const CreateEvent = observer(({ projectId }: Omit<Props, "userId">) => {
-  return (
-    <CreateEventComponent
-      projectId={projectId}
-      userId={userStore.current?.id}
-    />
-  );
-});
+const CreateEvent = observer(
+  ({ lastEvent, projectId }: Omit<Props, "userId">) => {
+    return (
+      <CreateEventComponent
+        projectId={projectId}
+        lastEvent={lastEvent}
+        userId={userStore.current?.id}
+      />
+    );
+  }
+);
 
 export default CreateEvent;

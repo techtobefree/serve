@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 
 import CreateEvent from "../../../../components/Event/CreateEvent";
+import { useQueryLastEventByProjectId } from "../../../../domains/project/event/queryLastEventByProjectId";
 import { useNavigate, useParams } from "../../../../router";
 
 export default function NewEvent() {
   const navigate = useNavigate();
   const { projectId } = useParams("/project/:projectId/view");
   const [isOpen, setOpen] = useState(false);
+
+  const { data: lastEvents } = useQueryLastEventByProjectId(projectId);
 
   useEffect(() => {
     // Toggle the backdrop-no-scroll class on the body when modal opens/closes
@@ -37,7 +40,10 @@ export default function NewEvent() {
           ${isOpen ? "opacity-100" : "opacity-0"}
           `}
       >
-        <CreateEvent projectId={projectId} />
+        <CreateEvent
+          projectId={projectId}
+          lastEvent={lastEvents ? lastEvents[0] : undefined}
+        />
       </div>
     </div>
   );

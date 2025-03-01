@@ -1,3 +1,9 @@
+// eslint-disable-next-line import/no-nodejs-modules
+import { Buffer } from "buffer";
+
+import WKB from "ol/format/WKB";
+import Point from "ol/geom/Point";
+
 import { useEventByIdQuery } from "../project/queryProjectById";
 
 export function getEventAddressAsText(
@@ -19,4 +25,16 @@ export function getEventAddressAsText(
   ]
     .filter(Boolean)
     .join(" ")}`;
+}
+
+export function dbLocationToLatLng(location: string): {
+  lat: number;
+  lng: number;
+} {
+  const wkbBuffer = new Uint8Array(Buffer.from(location, "hex"));
+  const format = new WKB();
+  const geometry = format.readGeometry(wkbBuffer) as Point;
+  const [lng, lat] = geometry.getCoordinates();
+
+  return { lat, lng };
 }

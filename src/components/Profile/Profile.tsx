@@ -8,7 +8,7 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { formatDateLLLLddyyyy } from "../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../domains/image";
@@ -34,6 +34,22 @@ type Props = {
   initial?: boolean;
 };
 
+function fullName(firstName?: string | null, lastName?: string | null) {
+  if (!firstName && !lastName) {
+    return "";
+  }
+
+  if (!firstName) {
+    return lastName || "";
+  }
+
+  if (!lastName) {
+    return firstName || "";
+  }
+
+  return `${firstName || ""} ${lastName || ""}`;
+}
+
 export function Profile({ canEdit, userId, initial }: Props) {
   const { data: user, isLoading } = useProfileQuery(userId);
   const acceptedAt = user?.sensitive_profile[0]?.accepted_at;
@@ -46,6 +62,16 @@ export function Profile({ canEdit, userId, initial }: Props) {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const copyNameRef = useRef("");
+  const displayNameActualRef = useRef<string | undefined>(null);
+  const displayNameComponentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const profile = user?.sensitive_profile[0];
+    if (profile) {
+      copyNameRef.current = fullName(profile.first_name, profile.last_name);
+    }
+    displayNameActualRef.current = user?.handle;
+  }, [user]);
 
   if (isLoading || !user) {
     return <div>Loading...</div>;
@@ -120,8 +146,10 @@ export function Profile({ canEdit, userId, initial }: Props) {
                 label="First name"
                 value={profile.first_name}
                 onIonInput={(e) => {
-                  copyNameRef.current = `${(e.target.value as string) || ""} ${profile.first_name || ""
-                    }`;
+                  copyNameRef.current = fullName(
+                    e.target.value as string,
+                    profile.last_name
+                  );
                 }}
                 onIonChange={(e) => {
                   void changeName(userId, { firstName: e.detail.value });
@@ -133,8 +161,10 @@ export function Profile({ canEdit, userId, initial }: Props) {
                 label="Last name"
                 value={profile.last_name}
                 onIonInput={(e) => {
-                  copyNameRef.current = `${profile.first_name || ""} ${(e.target.value as string) || ""
-                    }`;
+                  copyNameRef.current = fullName(
+                    profile.first_name,
+                    e.target.value as string
+                  );
                 }}
                 onIonChange={(e) => {
                   void changeName(userId, { lastName: e.detail.value });
@@ -154,11 +184,12 @@ export function Profile({ canEdit, userId, initial }: Props) {
                     Copy name
                   </IonButton>
                 </div>
-                <div>
+                <div ref={displayNameComponentRef}>
                   <IonInput
                     label="Display name*"
                     value={user.handle}
                     onIonChange={(e) => {
+                      displayNameActualRef.current = e.detail.value;
                       void changeHandle(userId, e.detail.value);
                     }}
                   />
@@ -265,7 +296,18 @@ export function Profile({ canEdit, userId, initial }: Props) {
               <IonButton
                 className="p-4 self-end"
                 onClick={() => {
-                  void navigate("/home");
+                  if (displayNameActualRef.current) {
+                    void navigate("/home");
+                  } else {
+                    showToast("Please fill out display name", {
+                      duration: 5000,
+                      isError: true,
+                    });
+                    displayNameComponentRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                    });
+                  }
                 }}
               >
                 Home

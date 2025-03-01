@@ -68,7 +68,7 @@ type Props = {
   index: number;
 };
 
-export default function TimeslotAsk({
+export default function EditTimeslot({
   timeslot,
   index,
   timeslots,

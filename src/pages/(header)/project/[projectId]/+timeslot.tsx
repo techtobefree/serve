@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useLocation } from "react-router";
 
-import TimeslotsAsk from "../../../../components/Event/TimeslotsAsk";
+import EditTimeslots from "../../../../components/Event/EditTimeslots";
 import { useNavigate, useParams } from "../../../../router";
 
 export default function AskModal() {
@@ -41,7 +41,7 @@ export default function AskModal() {
           ${isOpen ? "opacity-100" : "opacity-0"}
           `}
       >
-        <TimeslotsAsk projectId={projectId} eventId={eventId} />
+        <EditTimeslots projectId={projectId} eventId={eventId} />
       </div>
     </div>
   );

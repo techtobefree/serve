@@ -222,7 +222,7 @@ export default function EventCard({
           <IonButton
             color="tertiary"
             onClick={() => {
-              modals.open("/project/[projectId]/ask", {
+              modals.open("/project/[projectId]/timeslot", {
                 params: { projectId: event.project_id },
                 state: {
                   eventId: event.id,

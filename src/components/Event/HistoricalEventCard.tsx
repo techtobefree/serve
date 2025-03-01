@@ -6,7 +6,7 @@ import {
 } from "../../domains/date/timezone";
 import { IMAGE_SIZE } from "../../domains/image";
 import { getPublicUrl, profilePicturePath } from "../../domains/image/image";
-import { useQueryEventsByProjectId } from "../../domains/project/queryEventsByProjectId";
+import { useQueryEventsByProjectId } from "../../domains/project/event/queryEventsByProjectId";
 import { useNavigate } from "../../router";
 import Avatar from "../Avatar";
 

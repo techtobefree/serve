@@ -56,6 +56,14 @@ export default function LocationPicker({
     }
   }, [map, changeLocation]);
 
+  useEffect(() => {
+    if (location.lat && location.lng) {
+      map?.panTo(location);
+      setLocation(location);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, location.lat, location.lng]);
+
   return (
     <>
       {error && <div className="text-sm">{error}</div>}

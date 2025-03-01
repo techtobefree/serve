@@ -8,11 +8,12 @@ import { sortTimeslots } from "../../domains/date/sort";
 import useCreateTimeslots, {
   Timeslot,
 } from "../../domains/project/event/mutationCreateTimeslots";
+import { useQueryLastEventTimeslotsByProjectId } from "../../domains/project/timeslot/queryLastEventTimeslotsByProjectId";
 import { SURVEY_TYPE } from "../../domains/survey/survey";
 import { showToast } from "../../domains/ui/toast";
 import { useNavigate } from "../../router";
 
-import TimeslotAsk from "./TimeslotAsk";
+import EditTimeslot from "./EditTimeslot";
 
 type Props = {
   eventId: string;
@@ -69,13 +70,16 @@ function nextTimeBlock(
   };
 }
 
-export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
+export function EditTimeslotsComponent({ eventId, projectId, userId }: Props) {
   const [activeValue, setActiveValue] = useState<number>(60); // Default active value
   const navigate = useNavigate();
   const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
   const createTimeslots = useCreateTimeslots({ projectId }, () => {
     void navigate(-1);
   });
+
+  const { data: lastTimeslots } =
+    useQueryLastEventTimeslotsByProjectId(projectId);
 
   if (!userId) {
     return <div>You must login to create events.</div>;
@@ -99,6 +103,32 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
               }}
             />
           </div>
+          {lastTimeslots && lastTimeslots.length > 0 && (
+            <IonItem style={{ marginLeft: "-16px" }}>
+              <IonButton
+                className="p-4"
+                color="secondary"
+                onClick={() => {
+                  const cleanTimeslots = lastTimeslots.map((timeslot) => {
+                    return {
+                      hour: timeslot.timeslot_start_hour,
+                      minute: timeslot.timeslot_start_minute,
+                      duration: timeslot.timeslot_duration_minutes,
+                      count: timeslot.timeslot_count,
+                      minimumCount: timeslot.timeslot_minimum_count,
+                      role: timeslot.role,
+                      surveyType: timeslot.survey_type,
+                      checkin: timeslot.checkin,
+                      checkout: timeslot.checkout,
+                    } as Timeslot;
+                  });
+                  setTimeslots([...timeslots, ...cleanTimeslots]);
+                }}
+              >
+                Copy previous timeslots
+              </IonButton>
+            </IonItem>
+          )}
           <IonItem style={{ marginLeft: "-16px" }}>
             <IonInput
               label="Duration"
@@ -168,7 +198,7 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
               const minuteString = timeslot.hour.toString();
               const id = `${index.toString()}${hourString}${minuteString}`;
               return (
-                <TimeslotAsk
+                <EditTimeslot
                   key={id}
                   timeslot={timeslot}
                   index={index}
@@ -215,10 +245,10 @@ export function TimeslotsAskComponent({ eventId, projectId, userId }: Props) {
   );
 }
 
-const TimeslotsAsk = observer(
+const EditTimeslots = observer(
   ({ projectId, eventId }: Omit<Props, "userId">) => {
     return (
-      <TimeslotsAskComponent
+      <EditTimeslotsComponent
         projectId={projectId}
         eventId={eventId}
         userId={userStore.current?.id}
@@ -227,4 +257,4 @@ const TimeslotsAsk = observer(
   }
 );
 
-export default TimeslotsAsk;
+export default EditTimeslots;

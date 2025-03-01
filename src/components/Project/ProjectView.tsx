@@ -5,9 +5,9 @@ import { useState } from "react";
 
 import { IMAGE_SIZE } from "../../domains/image";
 import { getPublicUrl, projectPicturePath } from "../../domains/image/image";
+import { useQueryEventsByProjectId } from "../../domains/project/event/queryEventsByProjectId";
 import useJoinProject from "../../domains/project/mutationJoinProject";
 import useLeaveProject from "../../domains/project/mutationLeaveProject";
-import { useQueryEventsByProjectId } from "../../domains/project/queryEventsByProjectId";
 import { useProjectByIdQuery } from "../../domains/project/queryProjectById";
 import { useEnsureSurveyExists } from "../../domains/survey/mutationUpsertSurvey";
 import { BASE_URL, mayReplace } from "../../domains/ui/navigation";
@@ -219,17 +219,19 @@ export default function ProjectView({
           </IonButton>
         </div>
       )}
-      {historicalEvents && historicalEvents.length > 0 && pastEventCount > 0 && (
-        <IonButton
-          className="p-4"
-          color="secondary"
-          onClick={() => {
-            setPastEventCount(0);
-          }}
-        >
-          Hide past events
-        </IonButton>
-      )}
+      {historicalEvents &&
+        historicalEvents.length > 0 &&
+        pastEventCount > 0 && (
+          <IonButton
+            className="p-4"
+            color="secondary"
+            onClick={() => {
+              setPastEventCount(0);
+            }}
+          >
+            Hide past events
+          </IonButton>
+        )}
       {!project.project_event.length && <div>No events</div>}
       {pastEventCount === 0 && (
         <IonButton
@@ -242,16 +244,19 @@ export default function ProjectView({
           View past events
         </IonButton>
       )}
-      {historicalEvents && historicalEvents.length > 0 && pastEventCount > 0 && historicalEvents.length > pastEventCount && (
-        <IonButton
-          color="secondary"
-          onClick={() => {
-            setPastEventCount((prev) => prev + 4);
-          }}
-        >
-          Load more past events
-        </IonButton>
-      )}
+      {historicalEvents &&
+        historicalEvents.length > 0 &&
+        pastEventCount > 0 &&
+        historicalEvents.length > pastEventCount && (
+          <IonButton
+            color="secondary"
+            onClick={() => {
+              setPastEventCount((prev) => prev + 4);
+            }}
+          >
+            Load more past events
+          </IonButton>
+        )}
       {pastEventCount > 0 &&
         historicalEvents &&
         historicalEvents.length === 0 && (

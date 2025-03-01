@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { format, subDays } from "date-fns";
 
-import { clientSupabase } from "../persistence/clientSupabase";
+import { clientSupabase } from "../../persistence/clientSupabase";
 
 export const partialQueryKey = "get-past-events";
 
