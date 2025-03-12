@@ -21,7 +21,7 @@ syncs all migrations and seeds.
 2. Put the email, and password into your local `.env` file, and add
    VITE_LOCAL=true
 3. Create a storage bucket named "public-images"
-4. Make it public, and allow MIME types image/*
+4. Make it public, and allow MIME types image/\*
 
 ##### New migrations
 
@@ -29,6 +29,7 @@ syncs all migrations and seeds.
 - Push to local db `db:push --local`
 - Generate new type definitions `db:types`
 - To push migrations to production, will require linking.
+- `npx supabase functions deploy`
 
 #### Local functions
 
@@ -39,6 +40,13 @@ syncs all migrations and seeds.
 ### Original setup
 
 Generated ios and android directories `npx cap add ios` `npx cap add android`
+
+### Configure supabase
+
+#### Secrets
+
+- MEDUSA_API_KEY
+- MEDUSA_URL
 
 ### Shipping
 
