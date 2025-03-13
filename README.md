@@ -43,6 +43,11 @@ Generated ios and android directories `npx cap add ios` `npx cap add android`
 
 ### Configure supabase
 
+#### Initial setup
+
+- `pnpm db:push`
+- `pnpm db:seed`
+
 #### Secrets
 
 - MEDUSA_API_KEY

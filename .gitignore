@@ -29,3 +29,6 @@ dist-ssr
 
 # Local login
 /src/pages/local.tsx
+
+# Postgres
+/medusa/pg_data

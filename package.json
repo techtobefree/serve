@@ -23,6 +23,7 @@
     "db:restart": "npx supabase stop && npx supabase start",
     "db:push": "npx supabase db push",
     "db:reset": "npx supabase db reset && pnpm db:types",
+    "db:seed": "node ./supabase/concat-seeds.cjs > ./supabase/concated-seeds.sql",
     "db:types": "npx supabase gen types typescript --schema public,gis > supabase/functions/_shared/supabaseTypes.ts --local",
     "func:new": "npx supabase functions new",
     "func:debug": "npx supabase functions logs",
@@ -30,7 +31,7 @@
     "func:serve": "npx supabase functions serve",
     "icon:gen": "npx @capacitor/assets generate --iconBackgroundColor '#eeeeee' --iconBackgroundColorDark '#222222' --splashBackgroundColor '#eeeeee' --splashBackgroundColorDark '#111111'",
     "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
-    "medusa:migrations": "sh ./medusa/medusa_migrations.sh"
+    "medusa:init": "cd medusa && npx medusa db:migrate"
   },
   "dependencies": {
     "@awesome-cordova-plugins/calendar": "^6.14.0",

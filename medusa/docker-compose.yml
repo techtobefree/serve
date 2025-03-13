@@ -1,20 +1,20 @@
 services:
-  medusa:
-    image: medusajs/medusa:latest
-    container_name: medusa
-    restart: always
-    depends_on:
-      - redis
-    environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=medusa
-      REDIS_URL: redis://redis:6379
-      JWT_SECRET: ${MEDUSA_API_KEY}
-    ports:
-      - "${MEDUSA_PORT}:9000"
-    networks:
-      - medusa_net
-    volumes:
-      - .:/app
+  # medusa:
+  #   image: medusajs/medusa:latest
+  #   container_name: medusa
+  #   restart: always
+  #   depends_on:
+  #     - redis
+  #   environment:
+  #     DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=medusa
+  #     REDIS_URL: redis://redis:6379
+  #     JWT_SECRET: ${MEDUSA_API_KEY}
+  #   ports:
+  #     - "${MEDUSA_PORT}:9000"
+  #   networks:
+  #     - medusa_net
+  #   volumes:
+  #     - .:/app
 
   redis:
     image: redis:alpine
@@ -24,6 +24,21 @@ services:
       - "6379:6379"
     networks:
       - medusa_net
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: unless-stopped
+    networks:
+      - exist
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 networks:
   medusa_net:
