@@ -13,8 +13,7 @@
 
 ##### Create a local user
 
-All of these steps will likely need to be performed after a `db:reset` which
-syncs all migrations and seeds.
+Steps 1 & 2 will need to be performed after a `db:reset` which syncs all migrations and seeds the data.
 
 1. Create a user using local supabase UI http://localhost:54323/ ->
    Authentication -> Add User
