@@ -13,14 +13,23 @@
 
 ##### Create a local user
 
-Steps 1 & 2 will need to be performed after a `db:reset` which syncs all migrations and seeds the data.
+Steps 1 through 5 will need to be performed after a `db:reset` which syncs all migrations and seeds the data.
 
 1. Create a user using local supabase UI http://localhost:54323/ ->
    Authentication -> Add User
 2. Put the email, and password into your local `.env` file, and add
    VITE_LOCAL=true
-3. Create a storage bucket named "public-images"
-4. Make it public, and allow MIME types image/*
+3. Create a user for Vendure to use
+
+```
+CREATE USER vendure_user WITH PASSWORD 'change_to_super_secure_password';
+GRANT vendure_role TO vendure_user;
+```
+
+4. Put the password into the vendure `.env` file.
+5. Run `npx vendure migrate` and select `Run pending migrations`
+6. Create a storage bucket named "public-images"
+7. Make it public, and allow MIME types image/\*
 
 ##### New migrations
 
