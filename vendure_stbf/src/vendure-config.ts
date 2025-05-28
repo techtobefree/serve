@@ -1,4 +1,9 @@
+/* eslint-disable import/no-nodejs-modules */
+import path from "path";
+
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
+import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
+import { AssetServerPlugin } from "@vendure/asset-server-plugin";
 import {
   dummyPaymentHandler,
   DefaultJobQueuePlugin,
@@ -10,13 +15,12 @@ import {
   EmailPlugin,
   FileBasedTemplateLoader,
 } from "@vendure/email-plugin";
-import { AssetServerPlugin } from "@vendure/asset-server-plugin";
-import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
+
 import "dotenv/config";
-import path from "path";
+// import { SupabaseAuthStrategy } from "./auth";
 
 const IS_DEV = process.env.APP_ENV === "dev";
-const serverPort = +process.env.PORT || 3000;
+const serverPort = +process.env.PORT || 3030;
 
 export const config: VendureConfig = {
   apiOptions: {
@@ -43,6 +47,13 @@ export const config: VendureConfig = {
     cookieOptions: {
       secret: process.env.COOKIE_SECRET,
     },
+    // shopAuthenticationStrategy: [
+    //   new SupabaseAuthStrategy({
+    //     supabaseUrl: process.env.VITE_SUPABASE_URL,
+    //     supabaseAnonKey: process.env.VITE_SUPABASE_ANON_KEY,
+    //     supabaseJwtSecret: process.env.SUPABASE_JWT_SECRET,
+    //   }),
+    // ],
   },
   dbConnectionOptions: {
     type: "postgres",

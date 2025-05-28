@@ -26,7 +26,7 @@ CREATE USER vendure_user WITH PASSWORD 'change_to_super_secure_password';
 GRANT vendure_role TO vendure_user;
 ```
 
-4. Put the password into the vendure `.env` file.
+4. `cd` into `/vendure_stbf`, copy the .env.example to `.env` and put the password into the vendure `.env` file.
 5. Run `npx vendure migrate` and select `Run pending migrations`
 6. Create a storage bucket named "public-images"
 7. Make it public, and allow MIME types image/\*

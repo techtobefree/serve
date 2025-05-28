@@ -1,3 +1,4 @@
+import { ApolloProvider } from "@apollo/client";
 import { Routes } from "@generouted/react-router";
 import { defineCustomElements } from "@ionic/pwa-elements/loader";
 import { setupIonicReact } from "@ionic/react";
@@ -9,6 +10,7 @@ import { createRoot } from "react-dom/client";
 import "@ionic/react/css/core.css";
 import "./index.css";
 
+import { apolloClient } from "./domains/persistence/apolloClient";
 import { queryClient } from "./domains/persistence/queryClient";
 
 void defineCustomElements(window);
@@ -23,10 +25,12 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <APIProvider apiKey={API_KEY} libraries={["places"]}>
-      <QueryClientProvider client={queryClient}>
-        <Routes />
-      </QueryClientProvider>
-    </APIProvider>
+    <ApolloProvider client={apolloClient}>
+      <APIProvider apiKey={API_KEY} libraries={["places"]}>
+        <QueryClientProvider client={queryClient}>
+          <Routes />
+        </QueryClientProvider>
+      </APIProvider>
+    </ApolloProvider>
   </StrictMode>
 );
