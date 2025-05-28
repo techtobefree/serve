@@ -47,6 +47,7 @@ export const config: VendureConfig = {
     cookieOptions: {
       secret: process.env.COOKIE_SECRET,
     },
+    // TODO: turn this on
     // shopAuthenticationStrategy: [
     //   new SupabaseAuthStrategy({
     //     supabaseUrl: process.env.VITE_SUPABASE_URL,
