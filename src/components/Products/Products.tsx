@@ -1,14 +1,15 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+
+import { IonIcon } from "@ionic/react";
+
+import { cart } from "ionicons/icons";
 
 import { formatPrice } from "../../domains/text/format";
 import { Link } from "../../router";
+import AddToCartButton from "../ShoppingCart/AddToCartButton";
 import { WalletBalance } from "../Wallet/WalletBalance";
 
-import {
-  PRODUCTS_QUERY,
-  ADD_TO_CART_MUTATION,
-  ACTIVE_ORDER_QUERY,
-} from "./queries";
+import { PRODUCTS_QUERY } from "./queries";
 
 // Environment-based API endpoint
 const API_ENDPOINT = import.meta.env.VITE_VENDURE_SHOP_API_URL;
@@ -46,30 +47,9 @@ const Products: React.FC = () => {
     },
   });
 
-  const [addToCart, { loading: addingToCart }] = useMutation(
-    ADD_TO_CART_MUTATION,
-    {
-      context: { uri: API_ENDPOINT },
-      refetchQueries: [{ query: ACTIVE_ORDER_QUERY }],
-    }
-  );
-
   // Helper function to get the first image asset
   const getFirstImageAsset = (assets: Product["assets"]) => {
     return assets.find((asset) => asset.mimeType.startsWith("image"));
-  };
-
-  const handleAddToCart = async (productVariantId: string) => {
-    try {
-      await addToCart({
-        variables: {
-          productVariantId,
-          quantity: 1,
-        },
-      });
-    } catch (err) {
-      console.error("Error adding to cart:", err);
-    }
   };
 
   if (loading) {
@@ -89,7 +69,16 @@ const Products: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <WalletBalance extended />
+      <div className="flex justify-between items-center">
+        <div>
+          <WalletBalance extended />
+        </div>
+        <div>
+          <Link to={"/cart"} className="text-blue-500 hover:text-blue-700">
+            <IonIcon icon={cart} size="large" />
+          </Link>
+        </div>
+      </div>
       <br />
       <br />
       <h1 className="text-3xl font-bold mb-6">Catalog</h1>
@@ -132,13 +121,7 @@ const Products: React.FC = () => {
                   >
                     View Details
                   </Link>
-                  <button
-                    onClick={() => void handleAddToCart(defaultVariant.id)}
-                    disabled={addingToCart}
-                    className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white py-2 px-4 rounded transition-colors"
-                  >
-                    {addingToCart ? "Adding..." : "Add to Cart"}
-                  </button>
+                  <AddToCartButton productVariantId={defaultVariant.id} />
                 </div>
               </div>
             );
