@@ -282,6 +282,21 @@ export default function EventCard({
             </div>
           </div>
         )}
+        {canEdit && (
+          <IonButton
+            color="tertiary"
+            onClick={() => {
+              modals.open("/project/[projectId]/review", {
+                params: { projectId: event.project_id },
+                state: {
+                  eventId: event.id,
+                },
+              });
+            }}
+          >
+            Review Commitments
+          </IonButton>
+        )}
       </div>
     </div>
   );
