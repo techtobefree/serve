@@ -67,6 +67,7 @@ export default tseslint.config(
       ],
       ...react.configs.recommended.rules,
       ...react.configs["jsx-runtime"].rules,
+      "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-call": "off",

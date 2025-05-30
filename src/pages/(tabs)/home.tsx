@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import ProjectCard from "../../components/Project/ProjectCard";
 import PulsingCard from "../../components/Project/PulsingCard";
+import { WalletBalance } from "../../components/Wallet/WalletBalance";
 import { userStore } from "../../domains/auth/sessionStore";
 import { useMyAdminProjectsQuery } from "../../domains/project/queryMyAdminProjects";
 import { useMyAttendingProjectsQuery } from "../../domains/project/queryMyAttendingProjects";
@@ -38,7 +39,7 @@ export function HomeComponent({ userId }: Props) {
         <>
           <div className="flex w-full justify-between">
             <div className="text-2xl">{`My Active Projects`}</div>
-            <div>0 points</div>
+            <WalletBalance />
           </div>
           <div className="flex justify-center m-1">
             <div className="max-w-[600px] flex-1 flex-col gap-2 flex">

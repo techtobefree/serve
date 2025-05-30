@@ -3,8 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import { userStore } from "../../auth/sessionStore";
 import { clientSupabase } from "../../persistence/clientSupabase";
 import { queryClient } from "../../persistence/queryClient";
+import { partialQueryKey as walletBalanceQueryKey } from "../../profile/queryWalletBalance";
 import { showToast } from "../../ui/toast";
-// import { partialQueryKey as projectByIdKey } from "../queryProjectById";
 
 export async function witnessCommitments({
   projectId,
@@ -43,19 +43,19 @@ export async function witnessCommitments({
   }
 
   await queryClient.invalidateQueries({
-    // queryKey: [projectByIdKey, actualProjectId],
+    queryKey: [walletBalanceQueryKey, userId],
   });
 }
 
 export default function useWitnessCommitments(
+  { userId }: { userId?: string },
   callback?: (err?: Error) => void
 ) {
   return useMutation({
     mutationFn: witnessCommitments,
     onSuccess: () => {
       void queryClient.invalidateQueries({
-        // queryKey: [projectByIdKey, projectId],
-        // invalidate the "wallet" query to refresh user data
+        queryKey: [walletBalanceQueryKey, userId],
       });
       showToast("Commitment witnessed successfully");
       callback?.();

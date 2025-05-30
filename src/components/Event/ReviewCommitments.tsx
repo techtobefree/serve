@@ -25,7 +25,7 @@ export function ReviewCommitmentsComponent({
   userId,
 }: Props) {
   const navigate = useNavigate();
-  const createTimeslots = useWitnessCommitments(() => {
+  const createTimeslots = useWitnessCommitments({ userId }, () => {
     void navigate(-1);
   });
 
