@@ -9,6 +9,7 @@ export type Path =
   | `/group/:groupId/view`
   | `/home`
   | `/map`
+  | `/product/:productId/view`
   | `/project/:projectId/edit`
   | `/project/:projectId/join`
   | `/project/:projectId/view`
@@ -20,6 +21,7 @@ export type Path =
 
 export type Params = {
   "/group/:groupId/view": { groupId: string };
+  "/product/:productId/view": { productId: string };
   "/project/:projectId/edit": { projectId: string };
   "/project/:projectId/join": { projectId: string };
   "/project/:projectId/view": { projectId: string };
@@ -33,6 +35,7 @@ export type ModalPath =
   | `/menu`
   | `/messages`
   | `/project/[projectId]/event`
+  | `/project/[projectId]/review`
   | `/project/[projectId]/timeslot`
   | `/search`;
 

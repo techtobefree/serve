@@ -158,7 +158,7 @@ const ProjectForm = ({ project, userId }: Props) => {
               <IonLabel>
                 <div>Description</div>
                 <div className="text-sm">
-                  (First 150 characters used for short)
+                  (First 100 characters used for short)
                 </div>
               </IonLabel>
               <IonTextarea

@@ -36,7 +36,10 @@ export function HomeComponent({ userId }: Props) {
     <>
       {userId && (
         <>
-          <div className="text-2xl">{`My Active Projects`}</div>
+          <div className="flex w-full justify-between">
+            <div className="text-2xl">{`My Active Projects`}</div>
+            <div>0 points</div>
+          </div>
           <div className="flex justify-center m-1">
             <div className="max-w-[600px] flex-1 flex-col gap-2 flex">
               {isAdminError && (

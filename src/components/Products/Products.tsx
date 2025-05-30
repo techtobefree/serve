@@ -1,5 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 
+import { formatPrice } from "../../domains/text/format";
+import { Link } from "../../router";
+
 // GraphQL query for products
 const PRODUCTS_QUERY = gql`
   query Products {
@@ -7,7 +10,6 @@ const PRODUCTS_QUERY = gql`
       items {
         id
         name
-        description
         assets {
           mimeType
           source
@@ -33,7 +35,6 @@ const API_ENDPOINT = import.meta.env.VITE_VENDURE_SHOP_API_URL;
 interface Product {
   id: string;
   name: string;
-  description: string;
   assets: {
     mimeType: string;
     source: string;
@@ -84,14 +85,20 @@ const Products: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Products</h1>
-
+      Prosperity points: 0 Attend or lead service projects to earn points and
+      redeem them for products.
+      <br />
+      <br />
+      <h1 className="text-3xl font-bold mb-6">Catalog</h1>
       {products.length === 0 ? (
         <p className="text-gray-500 text-center py-8">No products available</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => {
             const imageAsset = getFirstImageAsset(product.assets);
+            const lowestPrice = Math.min(
+              ...product.variants.map((v) => v.price)
+            );
 
             return (
               <div
@@ -108,10 +115,18 @@ const Products: React.FC = () => {
                   </div>
                 )}
                 <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-                <p className="text-gray-600 mb-4">{product.description}</p>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors">
-                  View Details
-                </button>
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-bold text-green-600">
+                    From {formatPrice(lowestPrice)}
+                  </span>
+                  <Link
+                    to={`/product/:productId/view`}
+                    params={{ productId: product.id }}
+                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
+                  >
+                    View Details
+                  </Link>
+                </div>
               </div>
             );
           })}

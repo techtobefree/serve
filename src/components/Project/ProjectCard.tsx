@@ -3,6 +3,7 @@ import { IonButton } from "@ionic/react";
 import { IMAGE_SIZE } from "../../domains/image";
 import { getPublicUrl, projectPicturePath } from "../../domains/image/image";
 import { TableRows } from "../../domains/persistence/tables";
+import { truncateDescription } from "../../domains/text/format";
 import { mayReplace } from "../../domains/ui/navigation";
 import { useNavigate } from "../../router";
 
@@ -49,11 +50,10 @@ export default function ProjectCard({
           >
             {project.name}
           </h2>
-          <p
-            className="mt-2 overflow-hidden
-            text-ellipsis line-clamp-3"
-          >
-            {project.description}
+          <p className="mt-2 overflow-hidden">
+            {truncateDescription(
+              project.description || "No description provided"
+            )}
           </p>
         </div>
 
