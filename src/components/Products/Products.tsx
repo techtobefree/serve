@@ -1,33 +1,14 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 
 import { formatPrice } from "../../domains/text/format";
 import { Link } from "../../router";
 import { WalletBalance } from "../Wallet/WalletBalance";
 
-// GraphQL query for products
-const PRODUCTS_QUERY = gql`
-  query Products {
-    products {
-      items {
-        id
-        name
-        assets {
-          mimeType
-          source
-        }
-        variants {
-          price
-          options {
-            name
-            group {
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import {
+  PRODUCTS_QUERY,
+  ADD_TO_CART_MUTATION,
+  ACTIVE_ORDER_QUERY,
+} from "./queries";
 
 // Environment-based API endpoint
 const API_ENDPOINT = import.meta.env.VITE_VENDURE_SHOP_API_URL;
@@ -41,6 +22,7 @@ interface Product {
     source: string;
   }[];
   variants: {
+    id: string;
     price: number;
     options: {
       name: string;
@@ -64,9 +46,30 @@ const Products: React.FC = () => {
     },
   });
 
+  const [addToCart, { loading: addingToCart }] = useMutation(
+    ADD_TO_CART_MUTATION,
+    {
+      context: { uri: API_ENDPOINT },
+      refetchQueries: [{ query: ACTIVE_ORDER_QUERY }],
+    }
+  );
+
   // Helper function to get the first image asset
   const getFirstImageAsset = (assets: Product["assets"]) => {
     return assets.find((asset) => asset.mimeType.startsWith("image"));
+  };
+
+  const handleAddToCart = async (productVariantId: string) => {
+    try {
+      await addToCart({
+        variables: {
+          productVariantId,
+          quantity: 1,
+        },
+      });
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+    }
   };
 
   if (loading) {
@@ -99,6 +102,7 @@ const Products: React.FC = () => {
             const lowestPrice = Math.min(
               ...product.variants.map((v) => v.price)
             );
+            const defaultVariant = product.variants[0];
 
             return (
               <div
@@ -115,17 +119,26 @@ const Products: React.FC = () => {
                   </div>
                 )}
                 <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mb-3">
                   <span className="text-lg font-bold text-green-600">
                     From {formatPrice(lowestPrice)}
                   </span>
+                </div>
+                <div className="flex gap-2">
                   <Link
                     to={`/product/:productId/view`}
                     params={{ productId: product.id }}
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
+                    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors text-center"
                   >
                     View Details
                   </Link>
+                  <button
+                    onClick={() => void handleAddToCart(defaultVariant.id)}
+                    disabled={addingToCart}
+                    className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white py-2 px-4 rounded transition-colors"
+                  >
+                    {addingToCart ? "Adding..." : "Add to Cart"}
+                  </button>
                 </div>
               </div>
             );
