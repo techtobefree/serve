@@ -7,9 +7,6 @@ import { Link } from "../../router";
 
 import { ADD_TO_CART_MUTATION, ACTIVE_ORDER_QUERY } from "./queries";
 
-// Environment-based API endpoint
-const API_ENDPOINT = import.meta.env.VITE_VENDURE_SHOP_API_URL;
-
 type AddToCartButtonProps = {
   productVariantId: string;
   quantity?: number;
@@ -28,31 +25,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const [isAdding, setIsAdding] = useState(false);
 
   const [addToCart] = useMutation(ADD_TO_CART_MUTATION, {
-    context: {
-      uri: API_ENDPOINT,
-      headers: {
-        // Use the user ID from your STBF app instead of generating a session ID
-        "x-stbf-user-id":
-          userStore.current?.id ||
-          `guest-${
-            localStorage.getItem("guestUserId") || Date.now().toString()
-          }`,
-      },
-    },
     refetchQueries: [
       {
         query: ACTIVE_ORDER_QUERY,
-        context: {
-          uri: API_ENDPOINT,
-          headers: {
-            // Ensure consistent user ID across requests
-            "x-stbf-user-id":
-              userStore.current?.id ||
-              `guest-${
-                localStorage.getItem("guestUserId") || Date.now().toString()
-              }`,
-          },
-        },
       },
     ],
   });

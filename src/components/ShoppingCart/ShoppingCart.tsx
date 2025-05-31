@@ -1,15 +1,10 @@
 import { useQuery, useMutation } from "@apollo/client";
 
-import { userStore } from "../../domains/auth/sessionStore";
-
 import {
   ACTIVE_ORDER_QUERY,
   UPDATE_ORDER_LINE_MUTATION,
   REMOVE_ORDER_LINE_MUTATION,
 } from "./queries";
-
-// Environment-based API endpoint - same as AddToCartButton
-const API_ENDPOINT = import.meta.env.VITE_VENDURE_SHOP_API_URL;
 
 interface OrderLine {
   id: string;
@@ -41,47 +36,9 @@ interface ActiveOrder {
 }
 
 export const ShoppingCart: React.FC = () => {
-  console.log("ShoppingCart userStore.current?.id", userStore.current?.id);
-
-  const { data, loading, error, refetch } = useQuery(ACTIVE_ORDER_QUERY, {
-    context: {
-      uri: API_ENDPOINT,
-      headers: {
-        // Use the user ID from your STBF app instead of generating a session ID
-        "x-stbf-user-id":
-          userStore.current?.id ||
-          `guest-${
-            localStorage.getItem("guestUserId") || Date.now().toString()
-          }`,
-      },
-    },
-  });
-  const [updateOrderLine] = useMutation(UPDATE_ORDER_LINE_MUTATION, {
-    context: {
-      uri: API_ENDPOINT,
-      headers: {
-        // Use the user ID from your STBF app instead of generating a session ID
-        "x-stbf-user-id":
-          userStore.current?.id ||
-          `guest-${
-            localStorage.getItem("guestUserId") || Date.now().toString()
-          }`,
-      },
-    },
-  });
-  const [removeOrderLine] = useMutation(REMOVE_ORDER_LINE_MUTATION, {
-    context: {
-      uri: API_ENDPOINT,
-      headers: {
-        // Use the user ID from your STBF app instead of generating a session ID
-        "x-stbf-user-id":
-          userStore.current?.id ||
-          `guest-${
-            localStorage.getItem("guestUserId") || Date.now().toString()
-          }`,
-      },
-    },
-  });
+  const { data, loading, error, refetch } = useQuery(ACTIVE_ORDER_QUERY);
+  const [updateOrderLine] = useMutation(UPDATE_ORDER_LINE_MUTATION);
+  const [removeOrderLine] = useMutation(REMOVE_ORDER_LINE_MUTATION);
 
   const activeOrder: ActiveOrder | null = data?.activeOrder;
 
