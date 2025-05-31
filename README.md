@@ -63,6 +63,16 @@ Generated ios and android directories `npx cap add ios` `npx cap add android`
 
 Figure out how to allow someone to pass admin to another user. (Maybe doesn't
 matter) update buttons to use links so hover and ctrl+click works.
+Note: implement the party system.
+
+Filter out commitments that have already been verified (witnessed) when reviewing commitments.
+
+Add points payment method to vendure.
+
+Add 2 server side functions:
+
+1. Identify un-rewarded verified service, add transactions (debiting user accounts), and update the wallet_balance of the effect users. (Perhaps triggered after creating witness records specifically for the witnessed records, and a batch process to monitor if any fall through).
+2. Create a "buy" function. Verifies the authenticated userId has the required wallet_balance, then create a credit transaction, and lowers the wallet_balance, and completing the purchase.
 
 #### Native
 

@@ -44,6 +44,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
       if (newToken) {
         authToken = newToken;
         localStorage.setItem("vendureSessionToken", newToken);
+        // Option to persist in STBF profile/user table to share cart across devices
       }
     }
 
