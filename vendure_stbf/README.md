@@ -1,5 +1,14 @@
 # vendure_stbf
 
+# On docker host
+- Build new image with tag "vendure"
+- `docker build -t vendure .`
+- Run container with port bindings
+- `docker run -p 3030:3030 vendure`
+
+
+
+
 This project was generated with [`@vendure/create`](https://github.com/vendure-ecommerce/vendure/tree/master/packages/create).
 
 Useful links:
